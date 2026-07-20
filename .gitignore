@@ -5,3 +5,6 @@ Thumbs.db
 *.log
 .env
 .env.local
+
+# thiet lap rieng cua Claude Code, khong lien quan den website
+.claude/
