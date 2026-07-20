@@ -36,51 +36,76 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  /* ---------- Slider hero ---------- */
+  /* ---------- Slider hero (chỉ có ở trang chủ) ---------- */
   var slides = Array.prototype.slice.call(document.querySelectorAll('.hero__slide'));
   var dotsWrap = document.getElementById('heroDots');
-  var current = 0;
-  var timer = null;
-  var DELAY = 6000;
 
-  var dots = slides.map(function (_, i) {
-    var b = document.createElement('button');
-    b.type = 'button';
-    b.setAttribute('aria-label', 'Slide ' + (i + 1));
-    if (i === 0) b.classList.add('is-active');
-    b.addEventListener('click', function () { go(i); });
-    dotsWrap.appendChild(b);
-    return b;
-  });
+  if (slides.length && dotsWrap) {
+    var current = 0;
+    var timer = null;
+    var DELAY = 6000;
 
-  function go(i) {
-    current = (i + slides.length) % slides.length;
-    slides.forEach(function (s, k) { s.classList.toggle('is-active', k === current); });
-    dots.forEach(function (d, k) { d.classList.toggle('is-active', k === current); });
+    var dots = slides.map(function (_, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', 'Slide ' + (i + 1));
+      if (i === 0) b.classList.add('is-active');
+      b.addEventListener('click', function () { go(i); });
+      dotsWrap.appendChild(b);
+      return b;
+    });
+
+    var go = function (i) {
+      current = (i + slides.length) % slides.length;
+      slides.forEach(function (s, k) { s.classList.toggle('is-active', k === current); });
+      dots.forEach(function (d, k) { d.classList.toggle('is-active', k === current); });
+      restart();
+    };
+
+    var restart = function () {
+      clearInterval(timer);
+      timer = setInterval(function () { go(current + 1); }, DELAY);
+    };
+
+    document.querySelector('.hero__nav--next').addEventListener('click', function () { go(current + 1); });
+    document.querySelector('.hero__nav--prev').addEventListener('click', function () { go(current - 1); });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') go(current + 1);
+      if (e.key === 'ArrowLeft') go(current - 1);
+    });
+
+    var hero = document.getElementById('hero');
+    hero.addEventListener('mouseenter', function () { clearInterval(timer); });
+    hero.addEventListener('mouseleave', restart);
     restart();
   }
 
-  function restart() {
-    clearInterval(timer);
-    timer = setInterval(function () { go(current + 1); }, DELAY);
+  /* ---------- Mục lục dính: tô sáng mục đang xem ---------- */
+  var subnav = document.getElementById('subnav');
+  if (subnav) {
+    var subLinks = Array.prototype.slice.call(subnav.querySelectorAll('a'));
+    var sections = subLinks
+      .map(function (a) { return document.querySelector(a.getAttribute('href')); })
+      .filter(Boolean);
+
+    var syncSubnav = function () {
+      var offset = subnav.getBoundingClientRect().bottom + 20;
+      var activeIndex = 0;
+      sections.forEach(function (sec, i) {
+        if (sec.getBoundingClientRect().top <= offset) activeIndex = i;
+      });
+      subLinks.forEach(function (a, i) { a.classList.toggle('is-active', i === activeIndex); });
+    };
+
+    window.addEventListener('scroll', syncSubnav, { passive: true });
+    syncSubnav();
   }
-
-  document.querySelector('.hero__nav--next').addEventListener('click', function () { go(current + 1); });
-  document.querySelector('.hero__nav--prev').addEventListener('click', function () { go(current - 1); });
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowRight') go(current + 1);
-    if (e.key === 'ArrowLeft') go(current - 1);
-  });
-
-  var hero = document.getElementById('hero');
-  hero.addEventListener('mouseenter', function () { clearInterval(timer); });
-  hero.addEventListener('mouseleave', restart);
-  restart();
 
   /* ---------- Hiệu ứng xuất hiện khi cuộn ---------- */
   var targets = document.querySelectorAll(
-    '.sched, .artist, .news__lead, .news__item, .about__media, .about__text, .quickinfo__item'
+    '.sched, .artist, .news__lead, .news__item, .about__media, .about__text, .quickinfo__item,' +
+    '.mission, .value, .capa, .award, .tl, .factbox, .honorbox, .decree'
   );
   Array.prototype.forEach.call(targets, function (el) { el.classList.add('reveal'); });
 
