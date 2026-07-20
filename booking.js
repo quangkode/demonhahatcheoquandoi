@@ -36,7 +36,6 @@
   var ROWS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
   var PER_ROW = 16;
   var AISLES = [4, 12];              // chèn lối đi sau ghế số 4 và 12
-  var CENTER_ROWS = ['D', 'E', 'F', 'G'];
   var MAX_SEATS = 6;
 
   /* ---------- Tiện ích ---------- */
@@ -56,8 +55,7 @@
     ROWS.forEach(function (r) {
       for (var n = 1; n <= PER_ROW; n++) {
         if (show.fill >= 1) { taken[r + n] = true; continue; }   // suất đã kín chỗ
-        var weight = CENTER_ROWS.indexOf(r) > -1 ? 1.25 : 0.85;
-        if (rand() < show.fill * weight) taken[r + n] = true;
+        if (rand() < show.fill) taken[r + n] = true;
       }
     });
     return taken;
@@ -225,11 +223,10 @@
       for (var n = 1; n <= PER_ROW; n++) {
         var id = r + n;
         var cls = 'seat';
-        if (CENTER_ROWS.indexOf(r) > -1) cls += ' seat--center';
         if (self.taken[id]) cls += ' is-taken';
         if (self.selected.indexOf(id) > -1) cls += ' is-picked';
         cells += '<button type="button" class="' + cls + '" data-seat="' + id + '" ' +
-                 (self.taken[id] ? 'disabled aria-label="' + id + ' đã có người đặt"' : 'aria-label="Ghế ' + id + '"') +
+                 (self.taken[id] ? 'disabled aria-label="Ghế ' + id + ' đã có người đặt"' : 'aria-label="Ghế ' + id + '"') +
                  '>' + n + '</button>';
         if (AISLES.indexOf(n) > -1) cells += '<span class="seat-aisle" aria-hidden="true"></span>';
       }
@@ -244,11 +241,10 @@
     return '' +
       '<div class="bk__panel bk__panel--seats">' +
         '<div class="bk__main">' +
-          '<div class="stage">SÂN KHẤU</div>' +
+          '<div class="stage"><span>SÂN KHẤU</span></div>' +
           '<div class="seatmap-wrap"><div class="seatmap">' + rowsHtml + '</div></div>' +
           '<div class="legend">' +
             '<span><i class="legend__box"></i> Còn trống</span>' +
-            '<span><i class="legend__box legend__box--center"></i> Khu trung tâm</span>' +
             '<span><i class="legend__box legend__box--picked"></i> Bạn đang chọn</span>' +
             '<span><i class="legend__box legend__box--taken"></i> Đã có người</span>' +
           '</div>' +
