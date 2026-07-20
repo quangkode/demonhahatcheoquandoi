@@ -41,9 +41,11 @@ Không cần cài gì thêm — Vercel phục vụ file tĩnh trực tiếp.
 
 ## Các phần trên trang
 
-Top bar → Header + menu → Slider hero (3 slide, tự chạy) → Thông tin nhanh →
-Lịch biểu diễn → Vở diễn → Giới thiệu + số liệu → Tin tức & Sự kiện →
-Nghệ sĩ tiêu biểu → Thư viện ảnh/video → CTA đặt vé → Footer.
+Top bar → Header (một tab Trang chủ + nút Đặt vé) → Slider hero (3 slide, tự chạy) →
+Thông tin nhanh → Lịch biểu diễn → Nghệ sĩ tiêu biểu → Giới thiệu + số liệu →
+Tin tức & Sự kiện → CTA đặt vé → Footer.
+
+Các khối Vở diễn và Thư viện ảnh/video tạm thời bỏ, sẽ bổ sung sau.
 
 ## Ghi chú
 

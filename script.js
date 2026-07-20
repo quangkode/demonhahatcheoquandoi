@@ -80,7 +80,7 @@
 
   /* ---------- Hiệu ứng xuất hiện khi cuộn ---------- */
   var targets = document.querySelectorAll(
-    '.sched, .card, .artist, .news__lead, .news__item, .about__media, .about__text, .media__grid, .quickinfo__item'
+    '.sched, .artist, .news__lead, .news__item, .about__media, .about__text, .quickinfo__item'
   );
   Array.prototype.forEach.call(targets, function (el) { el.classList.add('reveal'); });
 
