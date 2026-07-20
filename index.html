@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nhà hát Chèo Quân đội</title>
+<meta name="description" content="Nhà hát Chèo Quân đội - Giữ gìn và phát huy nghệ thuật chèo truyền thống, phục vụ bộ đội và nhân dân." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./styles.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎭</text></svg>" />
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<div class="topbar">
+  <div class="container topbar__inner">
+    <div class="topbar__left">
+      <span>📍 Số 3 Nguyễn Tri Phương, Ba Đình, Hà Nội</span>
+      <span class="hide-sm">✉ lienhe@nhahatcheoquandoi.vn</span>
+    </div>
+    <div class="topbar__right">
+      <a href="tel:02438457583">☎ Hotline: 024 3845 7583</a>
+      <span class="topbar__socials">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="YouTube">▶</a>
+        <a href="#" aria-label="TikTok">♪</a>
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a class="brand" href="#">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" stroke="currentColor" stroke-width="2"/><path d="M32 12l4.6 9.4 10.4 1.5-7.5 7.3 1.8 10.3L32 35.6l-9.3 4.9 1.8-10.3-7.5-7.3 10.4-1.5L32 12z" fill="currentColor"/><path d="M18 46c4 4 9 6 14 6s10-2 14-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+      </span>
+      <span class="brand__text">
+        <strong>NHÀ HÁT CHÈO QUÂN ĐỘI</strong>
+        <em>Tổng cục Chính trị Quân đội nhân dân Việt Nam</em>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Mở menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="nav">
+      <a href="#" class="is-active">Trang chủ</a>
+      <a href="#gioi-thieu">Giới thiệu</a>
+      <a href="#vo-dien">Vở diễn</a>
+      <a href="#tin-tuc">Tin tức &amp; Sự kiện</a>
+      <a href="#nghe-si">Nghệ sĩ</a>
+      <a href="#thu-vien">Thư viện</a>
+      <a href="#lien-he">Liên hệ</a>
+      <a href="#lich-dien" class="nav__cta">Đặt vé</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO SLIDER ============ -->
+<section class="hero" id="hero">
+  <div class="hero__slides">
+    <article class="hero__slide is-active" data-bg="1">
+      <div class="container hero__content">
+        <p class="hero__eyebrow">Mùa diễn 2026</p>
+        <h1 class="hero__title">Hồn chèo <span>giữa lòng người lính</span></h1>
+        <p class="hero__desc">Nửa thế kỷ gìn giữ chiếu chèo truyền thống, mang lời ca tiếng hát đến với cán bộ, chiến sĩ và nhân dân trên mọi miền Tổ quốc.</p>
+        <div class="hero__actions">
+          <a href="#lich-dien" class="btn btn--primary">Lịch biểu diễn</a>
+          <a href="#gioi-thieu" class="btn btn--ghost">Tìm hiểu thêm</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="hero__slide" data-bg="2">
+      <div class="container hero__content">
+        <p class="hero__eyebrow">Vở diễn mới</p>
+        <h1 class="hero__title">Bến nước <span>Trường Sơn</span></h1>
+        <p class="hero__desc">Câu chuyện về những người lính và hậu phương, kể bằng ngôn ngữ chèo đương đại. Công diễn từ 15/08/2026.</p>
+        <div class="hero__actions">
+          <a href="#vo-dien" class="btn btn--primary">Xem chi tiết</a>
+          <a href="#thu-vien" class="btn btn--ghost">Trailer</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="hero__slide" data-bg="3">
+      <div class="container hero__content">
+        <p class="hero__eyebrow">Đào tạo &amp; Truyền nghề</p>
+        <h1 class="hero__title">Chiếu chèo <span>cho thế hệ sau</span></h1>
+        <p class="hero__desc">Lớp học hát chèo miễn phí dành cho thanh thiếu niên, khai giảng mỗi quý tại Nhà hát.</p>
+        <div class="hero__actions">
+          <a href="#lien-he" class="btn btn--primary">Đăng ký học</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <button class="hero__nav hero__nav--prev" aria-label="Slide trước">‹</button>
+  <button class="hero__nav hero__nav--next" aria-label="Slide sau">›</button>
+  <div class="hero__dots" id="heroDots"></div>
+</section>
+
+<!-- ============ QUICK INFO ============ -->
+<section class="quickinfo">
+  <div class="container quickinfo__grid">
+    <div class="quickinfo__item">
+      <span class="quickinfo__ico">🎫</span>
+      <div><h4>Đặt vé trực tuyến</h4><p>Giữ chỗ nhanh trong 2 phút</p></div>
+    </div>
+    <div class="quickinfo__item">
+      <span class="quickinfo__ico">🕗</span>
+      <div><h4>Suất diễn định kỳ</h4><p>20:00 các tối thứ 6 &amp; thứ 7</p></div>
+    </div>
+    <div class="quickinfo__item">
+      <span class="quickinfo__ico">🚌</span>
+      <div><h4>Lưu diễn phục vụ</h4><p>Đơn vị, đảo xa, vùng biên giới</p></div>
+    </div>
+    <div class="quickinfo__item">
+      <span class="quickinfo__ico">🎓</span>
+      <div><h4>Lớp truyền nghề</h4><p>Hát chèo &amp; nhạc cụ dân tộc</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LỊCH BIỂU DIỄN ============ -->
+<section class="section" id="lich-dien">
+  <div class="container">
+    <div class="section__head">
+      <div>
+        <p class="section__eyebrow">Sân khấu tháng này</p>
+        <h2 class="section__title">Lịch biểu diễn</h2>
+      </div>
+      <a href="#" class="link-more">Xem toàn bộ lịch →</a>
+    </div>
+
+    <div class="schedule">
+      <article class="sched">
+        <div class="sched__date"><strong>08</strong><span>TH.8</span></div>
+        <div class="sched__body">
+          <h3>Quan Âm Thị Kính</h3>
+          <p class="sched__meta">20:00 · Rạp Nhà hát Chèo Quân đội · Chèo cổ</p>
+        </div>
+        <div class="sched__act"><span class="tag tag--green">Còn vé</span><a href="#" class="btn btn--sm">Đặt vé</a></div>
+      </article>
+
+      <article class="sched">
+        <div class="sched__date"><strong>15</strong><span>TH.8</span></div>
+        <div class="sched__body">
+          <h3>Bến nước Trường Sơn <span class="badge">Công diễn</span></h3>
+          <p class="sched__meta">20:00 · Rạp Nhà hát Chèo Quân đội · Chèo hiện đại</p>
+        </div>
+        <div class="sched__act"><span class="tag tag--amber">Sắp hết</span><a href="#" class="btn btn--sm">Đặt vé</a></div>
+      </article>
+
+      <article class="sched">
+        <div class="sched__date"><strong>22</strong><span>TH.8</span></div>
+        <div class="sched__body">
+          <h3>Lưu Bình - Dương Lễ</h3>
+          <p class="sched__meta">20:00 · Nhà văn hóa Quân khu 3 · Chèo cổ</p>
+        </div>
+        <div class="sched__act"><span class="tag tag--green">Còn vé</span><a href="#" class="btn btn--sm">Đặt vé</a></div>
+      </article>
+
+      <article class="sched">
+        <div class="sched__date"><strong>29</strong><span>TH.8</span></div>
+        <div class="sched__body">
+          <h3>Đêm nhạc: Điệu chèo người lính</h3>
+          <p class="sched__meta">19:30 · Rạp Nhà hát Chèo Quân đội · Chương trình nghệ thuật</p>
+        </div>
+        <div class="sched__act"><span class="tag tag--red">Hết vé</span><a href="#" class="btn btn--sm btn--muted">Chờ vé</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VỞ DIỄN ============ -->
+<section class="section section--alt" id="vo-dien">
+  <div class="container">
+    <div class="section__head">
+      <div>
+        <p class="section__eyebrow">Tác phẩm tiêu biểu</p>
+        <h2 class="section__title">Vở diễn</h2>
+      </div>
+      <a href="#" class="link-more">Tất cả vở diễn →</a>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <div class="card__img" data-art="1"><span class="card__tag">Chèo cổ</span></div>
+        <div class="card__body">
+          <h3>Quan Âm Thị Kính</h3>
+          <p>Kiệt tác chèo cổ với những lớp diễn Thị Mầu lên chùa, Xã trưởng - Mẹ Đốp đã đi vào lòng nhiều thế hệ khán giả.</p>
+          <a href="#" class="link-more">Chi tiết →</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__img" data-art="2"><span class="card__tag">Chèo hiện đại</span></div>
+        <div class="card__body">
+          <h3>Bến nước Trường Sơn</h3>
+          <p>Vở diễn mới nhất năm 2026, tái hiện tình đồng đội và khát vọng hòa bình qua làn điệu chèo đương đại.</p>
+          <a href="#" class="link-more">Chi tiết →</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__img" data-art="3"><span class="card__tag">Chèo cổ</span></div>
+        <div class="card__body">
+          <h3>Lưu Bình - Dương Lễ</h3>
+          <p>Câu chuyện nghĩa bạn tình bằng hữu, một trong bảy vở chèo cổ kinh điển của sân khấu dân tộc.</p>
+          <a href="#" class="link-more">Chi tiết →</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__img" data-art="4"><span class="card__tag">Đề tài LLVT</span></div>
+        <div class="card__body">
+          <h3>Người con của núi</h3>
+          <p>Hình tượng người chiến sĩ biên phòng bám bản, bám dân được khắc họa bằng ngôn ngữ chèo giàu cảm xúc.</p>
+          <a href="#" class="link-more">Chi tiết →</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__img" data-art="5"><span class="card__tag">Chèo cổ</span></div>
+        <div class="card__body">
+          <h3>Súy Vân</h3>
+          <p>Lớp diễn "Súy Vân giả dại" - đỉnh cao của nghệ thuật biểu diễn chèo truyền thống Việt Nam.</p>
+          <a href="#" class="link-more">Chi tiết →</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__img" data-art="6"><span class="card__tag">Chương trình</span></div>
+        <div class="card__body">
+          <h3>Điệu chèo người lính</h3>
+          <p>Chương trình nghệ thuật tổng hợp gồm hát chèo, hòa tấu nhạc cụ dân tộc và múa truyền thống.</p>
+          <a href="#" class="link-more">Chi tiết →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GIỚI THIỆU ============ -->
+<section class="section about" id="gioi-thieu">
+  <div class="container about__grid">
+    <div class="about__media">
+      <div class="about__img"></div>
+      <div class="about__badge"><strong>1954</strong><span>Năm thành lập</span></div>
+    </div>
+    <div class="about__text">
+      <p class="section__eyebrow">Về chúng tôi</p>
+      <h2 class="section__title">Bảy thập kỷ giữ lửa chiếu chèo</h2>
+      <p>Nhà hát Chèo Quân đội là đơn vị nghệ thuật trực thuộc Tổng cục Chính trị Quân đội nhân dân Việt Nam, có nhiệm vụ biểu diễn phục vụ bộ đội và nhân dân, đồng thời bảo tồn, phát huy giá trị nghệ thuật chèo truyền thống.</p>
+      <p>Từ những chiếu chèo giữa rừng Trường Sơn đến sân khấu hiện đại hôm nay, các thế hệ nghệ sĩ của Nhà hát luôn mang tiếng hát đến với chiến sĩ nơi biên cương, hải đảo và khán giả trong, ngoài nước.</p>
+
+      <div class="stats">
+        <div class="stat"><strong data-count="70">0</strong><span>Năm truyền thống</span></div>
+        <div class="stat"><strong data-count="120">0</strong><span>Vở diễn dàn dựng</span></div>
+        <div class="stat"><strong data-count="35">0</strong><span>NSND &amp; NSƯT</span></div>
+        <div class="stat"><strong data-count="4500">0</strong><span>Buổi biểu diễn</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TIN TỨC ============ -->
+<section class="section section--alt" id="tin-tuc">
+  <div class="container">
+    <div class="section__head">
+      <div>
+        <p class="section__eyebrow">Cập nhật</p>
+        <h2 class="section__title">Tin tức &amp; Sự kiện</h2>
+      </div>
+      <a href="#" class="link-more">Xem tất cả →</a>
+    </div>
+
+    <div class="news">
+      <article class="news__lead">
+        <div class="news__img" data-art="7"></div>
+        <div class="news__body">
+          <p class="news__meta">18/07/2026 · Hoạt động</p>
+          <h3>Nhà hát Chèo Quân đội lưu diễn phục vụ cán bộ, chiến sĩ Trường Sa</h3>
+          <p>Đoàn công tác gồm 32 nghệ sĩ đã thực hiện 12 buổi biểu diễn tại các điểm đảo, mang lời ca tiếng hát động viên cán bộ, chiến sĩ đang làm nhiệm vụ nơi đầu sóng ngọn gió.</p>
+          <a href="#" class="link-more">Đọc tiếp →</a>
+        </div>
+      </article>
+
+      <div class="news__list">
+        <article class="news__item">
+          <div class="news__thumb" data-art="8"></div>
+          <div>
+            <p class="news__meta">12/07/2026 · Sự kiện</p>
+            <h4>Khởi công dàn dựng vở chèo "Bến nước Trường Sơn"</h4>
+          </div>
+        </article>
+        <article class="news__item">
+          <div class="news__thumb" data-art="9"></div>
+          <div>
+            <p class="news__meta">05/07/2026 · Giải thưởng</p>
+            <h4>3 nghệ sĩ của Nhà hát đoạt Huy chương Vàng Liên hoan Chèo toàn quốc</h4>
+          </div>
+        </article>
+        <article class="news__item">
+          <div class="news__thumb" data-art="10"></div>
+          <div>
+            <p class="news__meta">28/06/2026 · Đào tạo</p>
+            <h4>Khai giảng lớp truyền dạy hát chèo cho thanh thiếu niên quý III</h4>
+          </div>
+        </article>
+        <article class="news__item">
+          <div class="news__thumb" data-art="11"></div>
+          <div>
+            <p class="news__meta">20/06/2026 · Hợp tác</p>
+            <h4>Giao lưu nghệ thuật với đoàn văn công Quân đội nhân dân Lào</h4>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NGHỆ SĨ ============ -->
+<section class="section" id="nghe-si">
+  <div class="container">
+    <div class="section__head">
+      <div>
+        <p class="section__eyebrow">Gương mặt sân khấu</p>
+        <h2 class="section__title">Nghệ sĩ tiêu biểu</h2>
+      </div>
+      <a href="#" class="link-more">Toàn bộ nghệ sĩ →</a>
+    </div>
+
+    <div class="artists">
+      <figure class="artist"><div class="artist__img" data-art="12"></div><figcaption><h4>NSND Nguyễn Văn Hưng</h4><p>Giám đốc Nhà hát</p></figcaption></figure>
+      <figure class="artist"><div class="artist__img" data-art="13"></div><figcaption><h4>NSƯT Lê Thị Hồng Vân</h4><p>Diễn viên chính</p></figcaption></figure>
+      <figure class="artist"><div class="artist__img" data-art="14"></div><figcaption><h4>NSƯT Trần Quốc Bảo</h4><p>Đạo diễn sân khấu</p></figcaption></figure>
+      <figure class="artist"><div class="artist__img" data-art="15"></div><figcaption><h4>NSƯT Phạm Minh Châu</h4><p>Nhạc công đàn nhị</p></figcaption></figure>
+      <figure class="artist"><div class="artist__img" data-art="16"></div><figcaption><h4>Nghệ sĩ Đỗ Thu Hà</h4><p>Diễn viên</p></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THƯ VIỆN / VIDEO ============ -->
+<section class="section media" id="thu-vien">
+  <div class="container">
+    <div class="section__head section__head--light">
+      <div>
+        <p class="section__eyebrow">Thư viện</p>
+        <h2 class="section__title">Hình ảnh &amp; Video</h2>
+      </div>
+      <a href="#" class="link-more">Xem thêm →</a>
+    </div>
+
+    <div class="media__grid">
+      <a href="#" class="media__main" data-art="17">
+        <span class="media__play">▶</span>
+        <span class="media__label">Trích đoạn "Thị Mầu lên chùa" - NSƯT Lê Thị Hồng Vân</span>
+      </a>
+      <div class="media__side">
+        <a href="#" class="media__thumb" data-art="18"><span class="media__play media__play--sm">▶</span></a>
+        <a href="#" class="media__thumb" data-art="19"><span class="media__play media__play--sm">▶</span></a>
+        <a href="#" class="media__thumb" data-art="20"><span class="media__play media__play--sm">▶</span></a>
+        <a href="#" class="media__thumb" data-art="21"><span class="media__play media__play--sm">▶</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ĐẶT VÉ ============ -->
+<section class="cta">
+  <div class="container cta__inner">
+    <div>
+      <h2>Đặt vé xem chèo cùng gia đình</h2>
+      <p>Liên hệ phòng vé để được tư vấn suất diễn, sơ đồ chỗ ngồi và ưu đãi dành cho đoàn thể, đơn vị quân đội.</p>
+    </div>
+    <div class="cta__actions">
+      <a href="tel:02438457583" class="btn btn--primary btn--lg">☎ 024 3845 7583</a>
+      <a href="#lien-he" class="btn btn--ghost btn--lg">Gửi yêu cầu</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer" id="lien-he">
+  <div class="container footer__grid">
+    <div class="footer__col footer__col--brand">
+      <div class="brand brand--footer">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" stroke="currentColor" stroke-width="2"/><path d="M32 12l4.6 9.4 10.4 1.5-7.5 7.3 1.8 10.3L32 35.6l-9.3 4.9 1.8-10.3-7.5-7.3 10.4-1.5L32 12z" fill="currentColor"/><path d="M18 46c4 4 9 6 14 6s10-2 14-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </span>
+        <span class="brand__text"><strong>NHÀ HÁT CHÈO QUÂN ĐỘI</strong></span>
+      </div>
+      <p>Đơn vị nghệ thuật trực thuộc Tổng cục Chính trị Quân đội nhân dân Việt Nam. Bảo tồn và phát huy nghệ thuật chèo truyền thống, phục vụ bộ đội và nhân dân.</p>
+      <div class="footer__socials">
+        <a href="#" aria-label="Facebook">f</a>
+        <a href="#" aria-label="YouTube">▶</a>
+        <a href="#" aria-label="TikTok">♪</a>
+        <a href="#" aria-label="Zalo">Z</a>
+      </div>
+    </div>
+
+    <div class="footer__col">
+      <h4>Liên kết</h4>
+      <ul>
+        <li><a href="#gioi-thieu">Giới thiệu</a></li>
+        <li><a href="#vo-dien">Vở diễn</a></li>
+        <li><a href="#lich-dien">Lịch biểu diễn</a></li>
+        <li><a href="#nghe-si">Nghệ sĩ</a></li>
+        <li><a href="#tin-tuc">Tin tức</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4>Liên hệ</h4>
+      <ul class="footer__contact">
+        <li>📍 Số 3 Nguyễn Tri Phương, Ba Đình, Hà Nội</li>
+        <li>☎ 024 3845 7583</li>
+        <li>✉ lienhe@nhahatcheoquandoi.vn</li>
+        <li>🕗 Phòng vé: 8:00 - 21:00 hằng ngày</li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4>Nhận bản tin</h4>
+      <p>Cập nhật lịch diễn và vở mới hằng tháng.</p>
+      <form class="subscribe" onsubmit="return false;">
+        <input type="email" placeholder="Email của bạn" aria-label="Email" required />
+        <button type="submit" class="btn btn--primary">Đăng ký</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <div class="container">
+      <p>© 2026 Nhà hát Chèo Quân đội. Trang demo phục vụ mục đích trình bày.</p>
+    </div>
+  </div>
+</footer>
+
+<button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
+
+<script src="./script.js"></script>
+</body>
+</html>
