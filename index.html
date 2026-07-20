@@ -57,7 +57,7 @@
     <nav class="nav" id="nav">
       <a href="./index.html" class="is-active">Trang chủ</a>
       <a href="./gioi-thieu.html">Giới thiệu</a>
-      <a href="#lich-dien" class="nav__cta">Đặt vé</a>
+      <a href="./dat-cho.html" class="nav__cta">Đặt chỗ</a>
     </nav>
   </div>
 </header>
@@ -113,7 +113,7 @@
       <span class="quickinfo__ico" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 8.5A2 2 0 0 0 5 6.5h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 3v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-3v-2z"/><path d="M14 6.5v11" stroke-dasharray="2 2.4"/></svg>
       </span>
-      <div><h4>Đặt vé trực tuyến</h4><p>Giữ chỗ nhanh trong 2 phút</p></div>
+      <div><h4>Đặt chỗ trực tuyến</h4><p>Miễn phí, giữ chỗ trong 2 phút</p></div>
     </div>
     <div class="quickinfo__item">
       <span class="quickinfo__ico" aria-hidden="true">
@@ -154,7 +154,7 @@
           <h3>Quan Âm Thị Kính</h3>
           <p class="sched__meta">20:00 · Rạp Nhà hát Chèo Quân đội · Chèo cổ</p>
         </div>
-        <div class="sched__act"><span class="tag tag--green">Còn vé</span><a href="#" class="btn btn--sm">Đặt vé</a></div>
+        <div class="sched__act"><span class="tag tag--green">Còn chỗ</span><button type="button" class="btn btn--sm" data-book="nhc-0808">Đặt chỗ</button></div>
       </article>
 
       <article class="sched">
@@ -163,7 +163,7 @@
           <h3>Bến nước Trường Sơn <span class="badge">Công diễn</span></h3>
           <p class="sched__meta">20:00 · Rạp Nhà hát Chèo Quân đội · Chèo hiện đại</p>
         </div>
-        <div class="sched__act"><span class="tag tag--amber">Sắp hết</span><a href="#" class="btn btn--sm">Đặt vé</a></div>
+        <div class="sched__act"><span class="tag tag--amber">Sắp hết chỗ</span><button type="button" class="btn btn--sm" data-book="nhc-1508">Đặt chỗ</button></div>
       </article>
 
       <article class="sched">
@@ -172,7 +172,7 @@
           <h3>Lưu Bình - Dương Lễ</h3>
           <p class="sched__meta">20:00 · Nhà văn hóa Quân khu 3 · Chèo cổ</p>
         </div>
-        <div class="sched__act"><span class="tag tag--green">Còn vé</span><a href="#" class="btn btn--sm">Đặt vé</a></div>
+        <div class="sched__act"><span class="tag tag--green">Còn chỗ</span><button type="button" class="btn btn--sm" data-book="nhc-2208">Đặt chỗ</button></div>
       </article>
 
       <article class="sched">
@@ -181,7 +181,7 @@
           <h3>Đêm nhạc: Điệu chèo người lính</h3>
           <p class="sched__meta">19:30 · Rạp Nhà hát Chèo Quân đội · Chương trình nghệ thuật</p>
         </div>
-        <div class="sched__act"><span class="tag tag--red">Hết vé</span><a href="#" class="btn btn--sm btn--muted">Chờ vé</a></div>
+        <div class="sched__act"><span class="tag tag--red">Hết chỗ</span><button type="button" class="btn btn--sm btn--muted" disabled>Đã kín chỗ</button></div>
       </article>
     </div>
   </div>
@@ -293,12 +293,12 @@
 <section class="cta">
   <div class="container cta__inner">
     <div>
-      <h2>Đặt vé xem chèo cùng gia đình</h2>
-      <p>Liên hệ phòng vé để được tư vấn suất diễn, sơ đồ chỗ ngồi và ưu đãi dành cho đoàn thể, đơn vị quân đội.</p>
+      <h2>Đặt chỗ xem chèo cùng gia đình</h2>
+      <p>Toàn bộ suất diễn đều miễn phí. Chọn suất, chọn chỗ ngồi và giữ chỗ trực tuyến chỉ trong hai phút.</p>
     </div>
     <div class="cta__actions">
       <a href="tel:02438457583" class="btn btn--primary btn--lg">024 3845 7583</a>
-      <a href="#lien-he" class="btn btn--ghost btn--lg">Gửi yêu cầu</a>
+      <a href="./dat-cho.html" class="btn btn--ghost btn--lg">Đặt chỗ trực tuyến</a>
     </div>
   </div>
 </section>
@@ -331,6 +331,7 @@
       <h4>Liên kết</h4>
       <ul>
         <li><a href="./gioi-thieu.html">Giới thiệu</a></li>
+        <li><a href="./dat-cho.html">Đặt chỗ</a></li>
         <li><a href="#lich-dien">Lịch biểu diễn</a></li>
         <li><a href="#nghe-si">Nghệ sĩ</a></li>
         <li><a href="#tin-tuc">Tin tức</a></li>
@@ -344,7 +345,7 @@
         <li><span>Địa chỉ</span> Số 3 Nguyễn Tri Phương, Ba Đình, Hà Nội</li>
         <li><span>Điện thoại</span> 024 3845 7583</li>
         <li><span>Email</span> lienhe@nhahatcheoquandoi.vn</li>
-        <li><span>Phòng vé</span> 8:00 - 21:00 hằng ngày</li>
+        <li><span>Quầy đón tiếp</span> 8:00 - 21:00 hằng ngày</li>
       </ul>
     </div>
 
@@ -367,6 +368,7 @@
 
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
+<script src="./booking.js"></script>
 <script src="./script.js"></script>
 </body>
 </html>

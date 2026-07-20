@@ -81,6 +81,14 @@
     restart();
   }
 
+  /* ---------- Mở popup đặt chỗ từ lịch biểu diễn ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-book]'), function (btn) {
+    btn.addEventListener('click', function () {
+      if (window.Booking) window.Booking.openModal(btn.getAttribute('data-book'));
+      else window.location.href = './dat-cho.html?suat=' + btn.getAttribute('data-book');
+    });
+  });
+
   /* ---------- Mục lục dính: tô sáng mục đang xem ---------- */
   var subnav = document.getElementById('subnav');
   if (subnav) {
