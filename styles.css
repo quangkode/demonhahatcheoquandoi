@@ -1079,6 +1079,221 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .bkshow__date strong { font-size: 26px; }
 }
 
+/* ==========================================================
+   TRANG TRẢI NGHIỆM (trai-nghiem.html)
+   ========================================================== */
+.pagehero--exp { background: linear-gradient(120deg, #1b1230 0%, #6d1218 48%, #b8862c 100%); }
+
+/* ---------- Chọn điểm dừng tham quan ---------- */
+.scenes { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+.scene {
+  padding: 10px 20px; min-height: 44px;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: var(--white); color: var(--ink-soft);
+  font-family: inherit; font-size: 14.5px; font-weight: 600; cursor: pointer;
+  transition: var(--t); touch-action: manipulation; white-space: nowrap;
+}
+.scene.is-active {
+  background: var(--red); border-color: var(--red); color: #fff;
+  box-shadow: 0 6px 18px rgba(165, 28, 38, .26);
+}
+
+/* ---------- Khung xem 360° ----------
+   Hình trụ do pano.js dựng: mỗi .pano__seg là một dải dọc của ảnh toàn cảnh,
+   được xoay quanh trục rồi đẩy ra đúng bán kính. Kích thước và transform của
+   từng dải đều do JS tính theo bề ngang khung, ở đây chỉ lo phần trình bày.  */
+.pano {
+  position: relative; overflow: hidden;
+  height: clamp(300px, 52vh, 540px);
+  border-radius: var(--r); background: #0d0b0a;
+  box-shadow: var(--shadow-lg); cursor: grab;
+  user-select: none; -webkit-user-select: none;
+  /* vuốt dọc vẫn cuộn trang được, kéo ngang thì xoay cảnh — nếu đặt none
+     thì người dùng chạm trúng khung là không cuộn tiếp trang được nữa */
+  touch-action: pan-y;
+}
+.pano:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.pano.is-dragging { cursor: grabbing; }
+
+/* Mặt ảnh: pano.js chỉ việc dời background-position khi người dùng kéo.
+   repeat-x là mấu chốt để quay hết một vòng 360° thì khớp lại liền mạch. */
+.pano__view {
+  position: absolute; inset: 0;
+  background-image: var(--pano);
+  background-repeat: repeat-x;
+  will-change: background-position;
+}
+.pano__vignette {
+  position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background: radial-gradient(125% 92% at 50% 50%, transparent 42%, rgba(0, 0, 0, .5) 100%);
+}
+
+.pano__badge {
+  position: absolute; left: 14px; top: 14px; z-index: 3; margin: 0;
+  padding: 6px 13px; border-radius: 999px; pointer-events: none;
+  background: rgba(12, 10, 9, .6); backdrop-filter: blur(6px);
+  color: #fff; font-size: 12.5px; font-weight: 600; letter-spacing: .4px;
+}
+.pano__hint {
+  position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+  z-index: 3; margin: 0; padding: 9px 18px; border-radius: 999px;
+  background: rgba(12, 10, 9, .58); backdrop-filter: blur(6px);
+  color: #fff; font-size: 13px; white-space: nowrap;
+  transition: opacity .4s ease;
+}
+.pano.has-moved .pano__hint { opacity: 0; }
+
+.pano__hud { position: absolute; right: 12px; bottom: 12px; z-index: 4; display: flex; gap: 8px; }
+.pano__hud button {
+  width: 44px; height: 44px; flex: none; display: grid; place-items: center;
+  border: 1px solid rgba(255, 255, 255, .22); border-radius: 12px;
+  background: rgba(12, 10, 9, .55); backdrop-filter: blur(6px);
+  color: #fff; font-family: inherit; font-size: 21px; line-height: 1;
+  cursor: pointer; transition: var(--t); touch-action: manipulation;
+}
+.pano__hud svg { width: 20px; height: 20px; }
+.pano__hud button[aria-pressed="true"] { background: var(--red); border-color: var(--red); }
+
+/* toàn màn hình bằng CSS chứ không dùng Fullscreen API — iPhone không cho
+   phần tử thường vào fullscreen, làm thế này mới chạy đồng nhất mọi máy */
+.pano.is-immersive {
+  position: fixed; inset: 0; z-index: 200;
+  width: 100vw; height: 100dvh; border-radius: 0;
+  touch-action: none;      /* đã chiếm trọn màn hình thì kéo dọc cũng là nhìn quanh */
+}
+.pano.is-immersive .pano__hud { right: calc(12px + var(--safe-r)); bottom: calc(12px + var(--safe-b)); }
+.pano.is-immersive .pano__badge { left: calc(14px + var(--safe-l)); top: calc(14px + env(safe-area-inset-top, 0px)); }
+
+.pano__note {
+  margin: 16px 0 0; padding: 12px 16px;
+  background: #fdf6e6; border: 1px solid #ecd9a8; border-left: 4px solid var(--gold);
+  border-radius: var(--r); font-size: 14px; color: #6b5313;
+}
+
+/* ---------- Ảnh toàn cảnh mô phỏng ----------
+   Mỗi cảnh là một chồng gradient được cắt trải đều quanh hình trụ.
+
+   Hai điều chi phối cách vẽ ở đây:
+   1. Người xem chỉ thấy một dải ngang hẹp quanh đường CHÂN TRỜI (khoảng 45-58%
+      chiều cao ảnh), nên mọi chi tiết đáng nhìn phải nằm trong dải đó — trải
+      đều khắp chiều cao thì lúc nào cũng chỉ thấy một mảng màu phẳng.
+   2. Chu kỳ của repeating-gradient phải chia hết cho 100% (ở đây 1.25%, tức 80
+      nhịp) để chỗ khép vòng 360° không lộ mối nối. Nhịp nhỏ thì trong một khung
+      hình thấy được nhiều nếp rủ, thay vì vài vệt sọc to.
+
+   THAY ẢNH THẬT: đổi giá trị --pano thành url("./anh/<tên>.jpg").
+   Ảnh cần theo chuẩn equirectangular tỉ lệ 2:1 (vd 4096x2048).              */
+.pano[data-scene="khan-phong"] {
+  --pano:
+    radial-gradient(22% 16% at 26% 47%, rgba(240, 205, 124, .42), transparent 70%),
+    radial-gradient(18% 14% at 61% 46%, rgba(240, 205, 124, .32), transparent 72%),
+    radial-gradient(20% 15% at 88% 48%, rgba(240, 205, 124, .26), transparent 72%),
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, .30) 0 .45%, rgba(255, 255, 255, .07) .45% .95%, rgba(0, 0, 0, .14) .95% 1.25%),
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, .26) 0, transparent 1.5625%, rgba(0, 0, 0, .26) 3.125%),
+    linear-gradient(180deg,
+      #0d0908 0%, #1a100e 26%, #43181a 40%, #7c1119 47%, #a51c26 52%,
+      #6d1218 58%, #2a1512 70%, #140d0b 100%);
+}
+.pano[data-scene="san-khau"] {
+  --pano:
+    radial-gradient(30% 20% at 50% 46%, rgba(240, 205, 124, .55), transparent 70%),
+    radial-gradient(12% 10% at 22% 44%, rgba(255, 235, 190, .35), transparent 70%),
+    radial-gradient(12% 10% at 78% 44%, rgba(255, 235, 190, .35), transparent 70%),
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, .34) 0 .6%, rgba(255, 255, 255, .06) .6% 1.25%),
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, .30) 0, transparent 1.5625%, rgba(0, 0, 0, .30) 3.125%),
+    linear-gradient(180deg,
+      #08080a 0%, #14100e 30%, #3a2412 44%, #8a6a24 51%, #4a2c12 60%, #16100c 78%, #0a0808 100%);
+}
+.pano[data-scene="tien-sanh"] {
+  --pano:
+    radial-gradient(24% 18% at 30% 45%, rgba(255, 255, 255, .42), transparent 72%),
+    radial-gradient(20% 15% at 72% 46%, rgba(255, 248, 230, .34), transparent 72%),
+    repeating-linear-gradient(90deg,
+      rgba(47, 64, 50, .26) 0 .5%, rgba(250, 246, 238, .14) .5% 1%, rgba(0, 0, 0, .12) 1% 1.25%),
+    repeating-linear-gradient(90deg,
+      rgba(20, 26, 21, .22) 0, transparent 1.5625%, rgba(20, 26, 21, .22) 3.125%),
+    linear-gradient(180deg,
+      #141a15 0%, #223026 26%, #5c6b52 44%, #cbbfa4 51%, #8a8168 58%, #3a3a2e 74%, #14150f 100%);
+}
+.pano[data-scene="hau-truong"] {
+  --pano:
+    radial-gradient(16% 13% at 74% 44%, rgba(212, 160, 60, .34), transparent 72%),
+    radial-gradient(14% 11% at 30% 46%, rgba(180, 200, 220, .20), transparent 72%),
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, .40) 0 .4%, rgba(255, 255, 255, .06) .4% .8%, rgba(0, 0, 0, .20) .8% 1.25%),
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, .32) 0, transparent 1.5625%, rgba(0, 0, 0, .32) 3.125%),
+    linear-gradient(180deg,
+      #070809 0%, #12171d 28%, #27313c 45%, #46545f 51%, #2b333a 62%, #12161a 80%, #08090b 100%);
+}
+
+/* ---------- Số liệu nhanh ---------- */
+.expfacts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-top: 24px; }
+.expfact {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 18px 20px; text-align: center;
+}
+.expfact strong {
+  display: block; font-family: "Playfair Display", serif;
+  font-size: 30px; color: var(--red); line-height: 1; margin-bottom: 4px;
+}
+.expfact span { font-size: 13.5px; color: var(--ink-soft); }
+
+/* ---------- Thẻ nhạc cụ / tác phẩm ---------- */
+.expgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); gap: 22px; }
+.expgrid--wide { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+
+.expcard {
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--r); transition: var(--t);
+}
+.expcard__art {
+  aspect-ratio: 4 / 3; position: relative; overflow: hidden;
+  background: linear-gradient(140deg, var(--c1, #7c1119), var(--c2, #d4a03c));
+}
+.expcard--work .expcard__art { aspect-ratio: 16 / 10; }
+.expcard__art::after {
+  content: ""; position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 28% 26%, rgba(255, 255, 255, .28) 0, transparent 46%),
+    radial-gradient(circle at 74% 78%, rgba(0, 0, 0, .3) 0, transparent 50%);
+}
+.expcard__body { flex: 1; display: flex; flex-direction: column; align-items: flex-start; padding: 20px; }
+.expcard h3 { font-size: 18px; margin: 0 0 8px; }
+.expcard--work h3 { font-family: "Playfair Display", serif; font-size: 21px; }
+.expcard p { margin: 0 0 16px; font-size: 14.5px; color: var(--ink-soft); }
+.expcard__kind {
+  margin: 0 0 6px !important; font-size: 11.5px; text-transform: uppercase;
+  letter-spacing: 1.2px; font-weight: 700; color: var(--gold) !important;
+}
+.expcard__soon {
+  margin-top: auto; padding: 5px 13px; border-radius: 999px;
+  background: var(--cream-2); color: var(--ink-soft);
+  font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+}
+
+[data-inst="nhi"]      .expcard__art { --c1: #5a2a18; --c2: #c8934f; }
+[data-inst="trong-de"] .expcard__art { --c1: #7c1119; --c2: #e0b357; }
+[data-inst="nguyet"]   .expcard__art { --c1: #3d2a20; --c2: #b08856; }
+[data-inst="sao"]      .expcard__art { --c1: #2b3a45; --c2: #9fbfa8; }
+[data-inst="phach"]    .expcard__art { --c1: #3f3216; --c2: #c3a45e; }
+[data-inst="thanh-la"] .expcard__art { --c1: #23343f; --c2: #cbb27a; }
+[data-work="quan-am"]  .expcard__art { --c1: #6a2030; --c2: #d99a86; }
+[data-work="luu-binh"] .expcard__art { --c1: #3a4a2c; --c2: #c3b26a; }
+[data-work="ben-nuoc"] .expcard__art { --c1: #1f2f24; --c2: #8a6a24; }
+
+@media (hover: hover) and (pointer: fine) {
+  .scene:hover { border-color: var(--red); color: var(--red); }
+  .scene.is-active:hover { color: #fff; }
+  .pano__hud button:hover { background: var(--red); border-color: var(--red); }
+  .expcard:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+}
+
 /* ---------- Back to top ---------- */
 .totop {
   position: fixed; z-index: 70;
@@ -1238,6 +1453,19 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .subscribe input { flex: 1 1 100%; }
   .subscribe .btn { flex: 1 1 100%; }
 
+  .pano { height: clamp(260px, 44vh, 400px); }
+  .pano__hud { right: 10px; bottom: 10px; gap: 6px; }
+  .pano__hud button { width: 42px; height: 42px; font-size: 19px; }
+  .pano__hint { font-size: 12.5px; bottom: 14px; }
+  /* các điểm dừng trượt ngang thay vì xuống dòng, tràn hết bề ngang cho dễ vuốt */
+  .scenes {
+    flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+    margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter) 4px;
+    overscroll-behavior-x: contain;
+  }
+  .scenes::-webkit-scrollbar { display: none; }
+  .expcard__body { padding: 18px; }
+
   .totop { width: 44px; height: 44px; }
 }
 
@@ -1277,6 +1505,10 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 
   .bk__side--seats .bkcard { max-height: 62dvh; }
   .bkmodal__body .bk__side--seats .bkcard { max-height: 50dvh; }
+
+  /* khung 360 bám theo chiều cao màn chứ không theo clamp cố định,
+     nếu không nó cao hơn cả màn hình khi xoay ngang */
+  .pano { height: min(84dvh, 380px); }
 }
 
 /* ==========================================================

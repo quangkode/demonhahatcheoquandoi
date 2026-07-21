@@ -7,8 +7,25 @@
   var header = document.getElementById('header');
   var toTop = document.getElementById('toTop');
 
-  var lock = window.ScrollLock || { on: function () {}, off: function () {} };
   var DESKTOP_NAV = 861;   // khớp với breakpoint 860px trong styles.css
+
+  /* ---------- Khoá cuộn nền ----------
+     Dùng chung cho menu mobile, popup đặt chỗ và chế độ toàn màn hình của khung
+     360. Có bộ đếm để khi hai lớp chồng nhau thì lớp đóng trước không mở khoá sớm.
+     Cố ý KHÔNG dùng mẹo "position:fixed cho body": cách đó chặn cuộn triệt để hơn
+     nhưng lại đẩy header dính ra khỏi màn hình, mà nút đóng menu nằm ngay trên
+     header. Thay vào đó dùng overflow:hidden kèm overscroll-behavior:contain
+     trên chính lớp phủ (xem .nav và .bkmodal__body trong styles.css).            */
+  var lockDepth = 0;
+  var lock = {
+    on: function () {
+      if (lockDepth++ === 0) document.body.classList.add('is-locked');
+    },
+    off: function () {
+      if (lockDepth > 0 && --lockDepth === 0) document.body.classList.remove('is-locked');
+    }
+  };
+  window.ScrollLock = lock;
 
   /* ---------- Neo menu mobile vào đáy header thật ----------
      Header dính ở top:0 còn thanh trên cùng thì cuộn mất, nên khoảng cách từ mép

@@ -93,23 +93,11 @@
     return 'NHC-' + out;
   }
 
-  /* ---------- Khoá cuộn nền ----------
-     Dùng chung cho popup đặt chỗ và menu mobile. Có bộ đếm để khi menu và popup
-     chồng lên nhau thì lớp đóng trước không mở khoá sớm.
-     Cố ý KHÔNG dùng mẹo "position:fixed cho body": cách đó chặn cuộn triệt để hơn
-     nhưng lại làm header dính bị đẩy khỏi màn hình, mà nút đóng menu nằm ngay trên
-     header. Thay vào đó dùng overflow:hidden kết hợp overscroll-behavior:contain
-     trên chính lớp phủ (xem .nav và .bkmodal__body trong styles.css).              */
-  var lockDepth = 0;
-
-  var ScrollLock = {
-    on: function () {
-      if (lockDepth++ === 0) document.body.classList.add('is-locked');
-    },
-    off: function () {
-      if (lockDepth > 0 && --lockDepth === 0) document.body.classList.remove('is-locked');
-    }
-  };
+  // Khoá cuộn nền dùng chung, định nghĩa trong script.js (tệp mọi trang đều nạp).
+  // Lấy ở thời điểm gọi chứ không phải lúc nạp tệp, vì script.js nạp sau booking.js.
+  function scrollLock() {
+    return global.ScrollLock || { on: function () {}, off: function () {} };
+  }
 
   /* ==========================================================
      Engine
@@ -495,7 +483,7 @@
   /* ==========================================================
      API công khai
      ========================================================== */
-  global.ScrollLock = ScrollLock;
+
 
   global.Booking = {
     shows: SHOWS,
@@ -525,13 +513,13 @@
           '<div class="bkmodal__body"></div>' +
         '</div>';
       document.body.appendChild(wrap);
-      ScrollLock.on();
+      scrollLock().on();
 
       var instance = null;
       var close = function () {
         if (instance) instance.destroy();
         wrap.remove();
-        ScrollLock.off();
+        scrollLock().off();
         document.removeEventListener('keydown', onKey);
       };
       var onKey = function (e) { if (e.key === 'Escape') close(); };
