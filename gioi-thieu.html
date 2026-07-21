@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=3" />
+<link rel="stylesheet" href="./styles.css?v=4" />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='%23a51c26'/><path d='M32 12l4.6 9.4 10.4 1.5-7.5 7.3 1.8 10.3L32 35.6l-9.3 4.9 1.8-10.3-7.5-7.3 10.4-1.5z' fill='%23f0cd7c'/></svg>" />
 </head>
 <body>
@@ -77,14 +77,27 @@
 
 <!-- ============ SUB NAV ============ -->
 <nav class="subnav" id="subnav" aria-label="Mục lục trang">
-  <div class="container subnav__inner">
-    <a href="#tong-quan" class="is-active">Tổng quan</a>
-    <a href="#su-menh">Sứ mệnh</a>
-    <a href="#tam-nhin">Tầm nhìn</a>
-    <a href="#gia-tri">Giá trị cốt lõi</a>
-    <a href="#chuc-nang">Chức năng &amp; Năng lực</a>
-    <a href="#khen-thuong">Khen thưởng</a>
-    <a href="#lich-su">Lịch sử phát triển</a>
+  <div class="container subnav__bar">
+    <!-- bọc nút và bảng vào một khối để bảng xổ ra neo đúng theo nút,
+         thay vì neo theo mép .container (sẽ lệch ra ngoài màn hình) -->
+    <div class="subnav__wrap">
+    <button type="button" class="subnav__toggle" id="subnavToggle"
+            aria-expanded="false" aria-controls="subnavMenu">
+      <span class="subnav__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span class="subnav__label">Mục lục</span>
+      <span class="subnav__current" id="subnavCurrent">Tổng quan</span>
+      <span class="subnav__caret" aria-hidden="true"></span>
+    </button>
+    <div class="subnav__inner" id="subnavMenu">
+      <a href="#tong-quan" class="is-active">Tổng quan</a>
+      <a href="#su-menh">Sứ mệnh</a>
+      <a href="#tam-nhin">Tầm nhìn</a>
+      <a href="#gia-tri">Giá trị cốt lõi</a>
+      <a href="#chuc-nang">Chức năng &amp; Năng lực</a>
+      <a href="#khen-thuong">Khen thưởng</a>
+      <a href="#lich-su">Lịch sử phát triển</a>
+    </div>
+    </div>
   </div>
 </nav>
 
@@ -411,6 +424,6 @@
 
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
-<script src="./script.js?v=3"></script>
+<script src="./script.js?v=4"></script>
 </body>
 </html>

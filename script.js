@@ -173,21 +173,64 @@
     });
   });
 
-  /* ---------- Mục lục dính: tô sáng mục đang xem ---------- */
+  /* ---------- Mục lục dính: nút hamburger + tô sáng mục đang xem ---------- */
   var subnav = document.getElementById('subnav');
   if (subnav) {
-    var subLinks = Array.prototype.slice.call(subnav.querySelectorAll('a'));
+    var subToggle = document.getElementById('subnavToggle');
+    var subMenu = document.getElementById('subnavMenu');
+    var subCurrent = document.getElementById('subnavCurrent');
+    var subLinks = Array.prototype.slice.call(subMenu.querySelectorAll('a'));
     var sections = subLinks
       .map(function (a) { return document.querySelector(a.getAttribute('href')); })
       .filter(Boolean);
 
+    var isSubOpen = function () { return subToggle.getAttribute('aria-expanded') === 'true'; };
+
+    var setSubnav = function (open) {
+      if (open) {
+        // Giới hạn chiều cao theo khoảng trống thật còn lại bên dưới thanh mục lục.
+        // Thanh này dính, nhưng khi trang chưa cuộn tới thì nó vẫn nằm giữa màn hình,
+        // lúc đó bảng xổ ra sẽ thò xuống dưới mép dưới nếu cứ để chiều cao cố định.
+        var space = window.innerHeight - subnav.getBoundingClientRect().bottom - 12;
+        subMenu.style.maxHeight = Math.max(180, space) + 'px';
+      }
+      subMenu.classList.toggle('is-open', open);
+      subToggle.setAttribute('aria-expanded', String(open));
+    };
+
+    subToggle.addEventListener('click', function (e) {
+      // chặn nổi bọt để chính cú bấm này không rơi vào handler "bấm ra ngoài" bên dưới
+      e.stopPropagation();
+      setSubnav(!isSubOpen());
+    });
+
+    subMenu.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setSubnav(false);
+    });
+
+    document.addEventListener('click', function (e) {
+      if (isSubOpen() && !subnav.contains(e.target)) setSubnav(false);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && isSubOpen()) {
+        setSubnav(false);
+        subToggle.focus();
+      }
+    });
+
     var syncSubnav = function () {
-      var offset = subnav.getBoundingClientRect().bottom + 20;
+      // Ngưỡng cũ (đáy thanh + 20px) đòi mép trên của mục phải gần chạm thanh
+      // mới tính là "đang xem", nên tên mục trên nút hay chạy sau mắt người đọc
+      // gần một màn hình. Lấy thêm khoảng 28% chiều cao khung nhìn cho khớp hơn.
+      var offset = subnav.getBoundingClientRect().bottom + Math.min(240, window.innerHeight * 0.28);
       var activeIndex = 0;
       sections.forEach(function (sec, i) {
         if (sec.getBoundingClientRect().top <= offset) activeIndex = i;
       });
       subLinks.forEach(function (a, i) { a.classList.toggle('is-active', i === activeIndex); });
+      // mục lục đã thu gọn nên tên mục đang xem hiện ngay trên nút bấm
+      if (subCurrent) subCurrent.textContent = subLinks[activeIndex].textContent;
     };
 
     window.addEventListener('scroll', syncSubnav, { passive: true });
