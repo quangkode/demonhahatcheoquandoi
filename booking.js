@@ -93,6 +93,24 @@
     return 'NHC-' + out;
   }
 
+  /* ---------- Khoá cuộn nền ----------
+     Dùng chung cho popup đặt chỗ và menu mobile. Có bộ đếm để khi menu và popup
+     chồng lên nhau thì lớp đóng trước không mở khoá sớm.
+     Cố ý KHÔNG dùng mẹo "position:fixed cho body": cách đó chặn cuộn triệt để hơn
+     nhưng lại làm header dính bị đẩy khỏi màn hình, mà nút đóng menu nằm ngay trên
+     header. Thay vào đó dùng overflow:hidden kết hợp overscroll-behavior:contain
+     trên chính lớp phủ (xem .nav và .bkmodal__body trong styles.css).              */
+  var lockDepth = 0;
+
+  var ScrollLock = {
+    on: function () {
+      if (lockDepth++ === 0) document.body.classList.add('is-locked');
+    },
+    off: function () {
+      if (lockDepth > 0 && --lockDepth === 0) document.body.classList.remove('is-locked');
+    }
+  };
+
   /* ==========================================================
      Engine
      ========================================================== */
@@ -106,8 +124,34 @@
     this.selected = [];
     this.taken = this.show ? occupiedSeats(this.show) : {};
     this.code = null;
+
+    // đăng ký một lần cho cả vòng đời: xoay ngang/dọc hay đổi cỡ cửa sổ
+    // đều phải tính lại xem sơ đồ ghế còn cuộn được về phía nào
+    var self = this;
+    this._onResize = function () { self.syncFade(); };
+    window.addEventListener('resize', this._onResize, { passive: true });
+    window.addEventListener('orientationchange', this._onResize, { passive: true });
+
     this.render();
   }
+
+  // cập nhật hai dải mờ báo hiệu sơ đồ ghế còn cuộn được sang trái/phải
+  Booking.prototype.syncFade = function () {
+    var outer = this.root.querySelector('.seatmap-outer');
+    var wrap = this.root.querySelector('.seatmap-wrap');
+    if (!outer || !wrap) return;
+    var max = wrap.scrollWidth - wrap.clientWidth;
+    // câu "vuốt ngang" chỉ hiện khi sơ đồ thật sự rộng hơn khung — trên tablet
+    // và desktop sơ đồ lọt trọn thì nhắc vuốt là thừa và gây hiểu nhầm
+    outer.classList.toggle('is-scrollable', max > 4);
+    outer.classList.toggle('can-scroll-left', wrap.scrollLeft > 4);
+    outer.classList.toggle('can-scroll-right', wrap.scrollLeft < max - 4);
+  };
+
+  Booking.prototype.destroy = function () {
+    window.removeEventListener('resize', this._onResize);
+    window.removeEventListener('orientationchange', this._onResize);
+  };
 
   function findShow(id) {
     for (var i = 0; i < SHOWS.length; i++) if (SHOWS[i].id === id) return SHOWS[i];
@@ -160,6 +204,12 @@
 
   /* ---------- Render ---------- */
   Booking.prototype.render = function () {
+    // Mỗi lần chạm vào ghế là dựng lại toàn bộ HTML. Trên điện thoại sơ đồ ghế
+    // phải cuộn ngang, nên nếu không giữ lại scrollLeft thì cứ chọn một ghế là
+    // sơ đồ lại nhảy về mép trái — gần như không thể chọn ghế ở dãy bên phải.
+    var prevWrap = this.root.querySelector('.seatmap-wrap');
+    var prevScroll = prevWrap ? prevWrap.scrollLeft : -1;
+
     var html = '';
     html += this.renderSteps();
     if (this.step === 1) html += this.renderStepShows();
@@ -167,6 +217,17 @@
     if (this.step === 3) html += this.renderStepForm();
     if (this.step === 4) html += this.renderStepDone();
     this.root.innerHTML = html;
+
+    var wrap = this.root.querySelector('.seatmap-wrap');
+    if (wrap) {
+      if (prevScroll >= 0) {
+        wrap.scrollLeft = prevScroll;
+      } else {
+        // lần đầu mở sơ đồ: căn giữa để thấy ngay khu ghế trung tâm
+        wrap.scrollLeft = Math.max(0, (wrap.scrollWidth - wrap.clientWidth) / 2);
+      }
+    }
+
     this.bind();
   };
 
@@ -241,8 +302,16 @@
     return '' +
       '<div class="bk__panel bk__panel--seats">' +
         '<div class="bk__main">' +
-          '<div class="stage"><span>SÂN KHẤU</span></div>' +
-          '<div class="seatmap-wrap"><div class="seatmap">' + rowsHtml + '</div></div>' +
+          // sân khấu nằm chung khung cuộn với sơ đồ nên luôn thẳng hàng với dãy ghế
+          '<div class="seatmap-outer">' +
+            '<div class="seatmap-wrap">' +
+              '<div class="seatmap-inner">' +
+                '<div class="stage"><span>SÂN KHẤU</span></div>' +
+                '<div class="seatmap">' + rowsHtml + '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+          '<p class="seatmap-hint">Vuốt ngang để xem toàn bộ sơ đồ ghế</p>' +
           '<div class="legend">' +
             '<span><i class="legend__box"></i> Còn trống</span>' +
             '<span><i class="legend__box legend__box--picked"></i> Bạn đang chọn</span>' +
@@ -251,7 +320,7 @@
           (this.notice ? '<p class="bk__warn">' + esc(this.notice) + '</p>' : '') +
         '</div>' +
 
-        '<aside class="bk__side">' +
+        '<aside class="bk__side bk__side--seats">' +
           '<div class="bkcard">' +
             '<h3>' + esc(s.title) + '</h3>' +
             '<dl class="bkcard__list">' +
@@ -301,7 +370,7 @@
           '</form>' +
         '</div>' +
 
-        '<aside class="bk__side">' +
+        '<aside class="bk__side bk__side--form">' +
           '<div class="bkcard">' +
             '<h3>' + esc(s.title) + '</h3>' +
             '<dl class="bkcard__list">' +
@@ -367,6 +436,16 @@
     var self = this;
     var r = this.root;
 
+    // Hai dải mờ hai bên sơ đồ ghế, chỉ hiện khi thực sự còn cuộn được.
+    // Listener 'scroll' gắn vào phần tử mới sau mỗi lần render nên tự mất theo node;
+    // listener 'resize'/'orientationchange' thì chỉ đăng ký một lần trong constructor
+    // để không dồn lại sau mỗi lần chọn ghế.
+    var wrap = r.querySelector('.seatmap-wrap');
+    if (wrap) {
+      wrap.addEventListener('scroll', function () { self.syncFade(); }, { passive: true });
+    }
+    this.syncFade();
+
     r.querySelectorAll('[data-pick]').forEach(function (b) {
       b.addEventListener('click', function () { self.pickShow(b.getAttribute('data-pick')); });
     });
@@ -416,6 +495,8 @@
   /* ==========================================================
      API công khai
      ========================================================== */
+  global.ScrollLock = ScrollLock;
+
   global.Booking = {
     shows: SHOWS,
     statusOf: statusOf,
@@ -444,11 +525,13 @@
           '<div class="bkmodal__body"></div>' +
         '</div>';
       document.body.appendChild(wrap);
-      document.body.style.overflow = 'hidden';
+      ScrollLock.on();
 
+      var instance = null;
       var close = function () {
+        if (instance) instance.destroy();
         wrap.remove();
-        document.body.style.overflow = '';
+        ScrollLock.off();
         document.removeEventListener('keydown', onKey);
       };
       var onKey = function (e) { if (e.key === 'Escape') close(); };
@@ -458,7 +541,7 @@
       });
       document.addEventListener('keydown', onKey);
 
-      new Booking(wrap.querySelector('.bkmodal__body'), {
+      instance = new Booking(wrap.querySelector('.bkmodal__body'), {
         showId: showId, embedded: true, onClose: close
       });
       return close;

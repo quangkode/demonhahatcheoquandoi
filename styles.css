@@ -21,13 +21,42 @@
   --shadow: 0 6px 24px rgba(28, 26, 23, .08);
   --shadow-lg: 0 16px 48px rgba(28, 26, 23, .14);
   --t: .25s ease;
+
+  /* --- Kích thước khung dính: mọi phép tính offset đều dựa vào đây,
+         đổi giá trị theo breakpoint là toàn trang tự khớp --- */
+  --header-h: 78px;
+  --subnav-h: 54px;
+  --gutter: 20px;
+
+  /* --- Lề an toàn cho máy có tai thỏ / thanh home (iPhone, Android cử chỉ) --- */
+  --safe-l: env(safe-area-inset-left, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+
+  /* --- Sơ đồ ghế: đổi --seat-* thì bề rộng sơ đồ tự tính lại --- */
+  --seat-w: 28px;
+  --seat-h: 26px;
+  --seat-gap: 6px;
+  --seat-label: 22px;
+  --seat-aisle: 18px;
+  --seat-cols: 16;
+  --map-w: calc(
+    2 * var(--seat-label) + var(--seat-cols) * var(--seat-w) +
+    2 * var(--seat-aisle) + 19 * var(--seat-gap)
+  );
 }
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+  /* iOS không tự phóng to chữ khi xoay ngang */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 /* trang có thanh mục lục dính thì chừa thêm chỗ khi nhảy tới anchor */
-html:has(.subnav) { scroll-padding-top: 148px; }
+html:has(.subnav) { scroll-padding-top: calc(var(--header-h) + var(--subnav-h) + 16px); }
 
 body {
   margin: 0;
@@ -36,15 +65,31 @@ body {
   background: var(--cream);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  /* chặn mọi hiện tượng cuộn ngang ngoài ý muốn; clip không phá position:sticky */
+  overflow-x: clip;
+  -webkit-tap-highlight-color: rgba(165, 28, 38, .12);
 }
+
+/* khoá cuộn nền khi mở menu / popup */
+body.is-locked { overflow: hidden; }
 
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; margin: 0; padding: 0; }
 h1, h2, h3, h4 { margin: 0 0 .5em; line-height: 1.25; }
+/* tiêu đề dài tiếng Việt không phá khung trên màn hẹp */
+h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 
-.container { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 20px; }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
+
+.container {
+  width: 100%; max-width: var(--wrap); margin: 0 auto;
+  padding-left: max(var(--gutter), var(--safe-l));
+  padding-right: max(var(--gutter), var(--safe-r));
+}
 .hide-sm { display: inline; }
+/* chỉ hiện trên màn nhỏ */
+.only-sm { display: none; }
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -392,10 +437,13 @@ h1, h2, h3, h4 { margin: 0 0 .5em; line-height: 1.25; }
 
 /* ---------- Sub nav ---------- */
 .subnav {
-  position: sticky; top: 78px; z-index: 50;
+  position: sticky; top: var(--header-h); z-index: 50;
   background: var(--white); border-bottom: 1px solid var(--line); box-shadow: var(--shadow);
 }
-.subnav__inner { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.subnav__inner {
+  display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none;
+  -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain;
+}
 .subnav__inner::-webkit-scrollbar { display: none; }
 .subnav a {
   padding: 16px 16px; font-size: 14.5px; font-weight: 500; white-space: nowrap;
@@ -550,7 +598,9 @@ h1, h2, h3, h4 { margin: 0 0 .5em; line-height: 1.25; }
 }
 
 @media (max-width: 860px) {
-  .subnav { top: 78px; }
+  /* KHÔNG ghi cứng top ở đây: .subnav đã dùng top: var(--header-h), mà header
+     trên mobile chỉ cao 62-66px. Đặt 78px cố định sẽ hở một khe ngay dưới
+     header, nội dung trang lộ ra giữa hai thanh dính. */
   .missions, .capabilities { grid-template-columns: 1fr; }
   .tl { grid-template-columns: 1fr; gap: 20px; }
   .tl::before { display: none; }
@@ -631,14 +681,19 @@ h1, h2, h3, h4 { margin: 0 0 .5em; line-height: 1.25; }
 
 /* ---------- Bước 2-3: bố cục 2 cột ---------- */
 .bk__panel--seats { display: grid; grid-template-columns: 1fr 330px; gap: 26px; align-items: start; }
+/* Bắt buộc: ô lưới mặc định có min-width:auto nên không co xuống dưới bề rộng
+   min-content của nội dung. Thiếu dòng này thì sơ đồ ghế 639px sẽ nong toàn bộ
+   khung nhìn của điện thoại ra 721px — cả trang bị thu nhỏ và cuộn ngang. */
+.bk__panel--seats > * { min-width: 0; }
 .bk__main {
   background: var(--white); border: 1px solid var(--line);
-  border-radius: var(--r); padding: 26px;
+  border-radius: var(--r); padding: 26px; min-width: 0;
 }
 .bk__side { position: sticky; top: 100px; }
 
 /* ---------- Sân khấu + sơ đồ ghế ---------- */
-.stage { position: relative; margin: 6px auto 44px; max-width: 620px; text-align: center; }
+/* sân khấu nằm trong cùng khung cuộn với sơ đồ ghế nên luôn thẳng hàng với dãy ghế */
+.stage { position: relative; margin: 6px auto 40px; max-width: none; text-align: center; }
 .stage::before {
   content: ""; display: block; height: 46px;
   border-radius: 50% 50% 0 0 / 100% 100% 0 0;
@@ -655,20 +710,58 @@ h1, h2, h3, h4 { margin: 0 0 .5em; line-height: 1.25; }
   font-size: 12px; font-weight: 700; letter-spacing: 6px; color: var(--cream);
 }
 
-.seatmap-wrap { overflow-x: auto; padding: 4px 0 8px; }
-.seatmap { display: flex; flex-direction: column; gap: 8px; min-width: 620px; }
-.seatrow { display: flex; align-items: center; gap: 6px; justify-content: center; }
+/* Nền phía sau sơ đồ ghế. Dải mờ hai bên và chữ cái đầu hàng đều phải trùng
+   màu nền này; trong popup nền là kem chứ không phải trắng nên cần đổi lại. */
+.bk__main { --map-bg: var(--white); }
+.bkmodal__body .bk__main { --map-bg: var(--cream); }
+
+/* khung ngoài: tạo chỗ neo cho hai dải mờ báo hiệu "còn cuộn được" */
+.seatmap-outer { position: relative; min-width: 0; max-width: 100%; }
+.seatmap-outer::before, .seatmap-outer::after {
+  content: ""; position: absolute; top: 0; bottom: 0; width: 26px;
+  pointer-events: none; z-index: 2; opacity: 0; transition: opacity .2s ease;
+}
+.seatmap-outer::before { left: 0; background: linear-gradient(90deg, var(--map-bg), transparent); }
+.seatmap-outer::after { right: 0; background: linear-gradient(270deg, var(--map-bg), transparent); }
+.seatmap-outer.can-scroll-left::before, .seatmap-outer.can-scroll-right::after { opacity: 1; }
+
+.seatmap-wrap {
+  overflow-x: auto; padding: 4px 0 8px;
+  -webkit-overflow-scrolling: touch;
+  /* vuốt ngang trong sơ đồ không kích hoạt cử chỉ "lùi trang" của trình duyệt */
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+.seatmap-wrap::-webkit-scrollbar { height: 6px; }
+.seatmap-wrap::-webkit-scrollbar-thumb { background: var(--line); border-radius: 999px; }
+
+.seatmap-inner { min-width: var(--map-w); }
+.seatmap { display: flex; flex-direction: column; gap: var(--seat-gap); }
+.seatrow { display: flex; align-items: center; gap: var(--seat-gap); justify-content: center; }
 .seatrow__label {
-  width: 22px; flex: none; text-align: center; font-size: 12px;
+  width: var(--seat-label); flex: none; text-align: center; font-size: 12px;
   font-weight: 700; color: #a9a196; letter-spacing: .5px;
 }
-.seat-aisle { width: 18px; flex: none; }
+/* khi sơ đồ phải cuộn ngang trên điện thoại, chữ cái đầu hàng bám lại mép trái
+   để lúc nào cũng biết mình đang chọn ghế ở hàng nào */
+.seatrow__label:first-child {
+  position: sticky; left: 0; z-index: 1;
+  background: var(--map-bg, var(--white)); color: var(--red);
+}
+.seat-aisle { width: var(--seat-aisle); flex: none; }
+
+/* chỉ hiện khi booking.js xác nhận sơ đồ thực sự rộng hơn khung nhìn */
+.seatmap-hint { display: none; margin: 10px 0 0; text-align: center; font-size: 13px; color: var(--ink-soft); }
+.seatmap-outer.is-scrollable ~ .seatmap-hint { display: block; }
+.seatmap-hint::before { content: "↔ "; color: var(--gold); font-weight: 700; }
 
 .seat {
-  width: 28px; height: 26px; flex: none; padding: 0; cursor: pointer;
+  width: var(--seat-w); height: var(--seat-h); flex: none; padding: 0; cursor: pointer;
   border: 1.5px solid #cfc7ba; border-radius: 7px 7px 4px 4px;
   background: var(--white); color: #8d8579; font-size: 10.5px; font-family: inherit;
   position: relative; transition: transform .12s ease, background .14s, border-color .14s, color .14s;
+  /* chạm vào ghế là chọn ngay, không chờ 300ms để xét double-tap */
+  touch-action: manipulation;
 }
 /* tay vịn hai bên cho giống ghế rạp */
 .seat::before, .seat::after {
@@ -678,10 +771,15 @@ h1, h2, h3, h4 { margin: 0 0 .5em; line-height: 1.25; }
 .seat::before { left: -0.5px; }
 .seat::after { right: -0.5px; }
 
-.seat:hover:not(:disabled) {
-  border-color: var(--red); color: var(--red);
-  background: #fdf1f2; transform: translateY(-2px);
+/* chỉ áp dụng cho chuột thật — trên cảm ứng :hover hay bị "kẹt" sau khi chạm */
+@media (hover: hover) and (pointer: fine) {
+  .seat:hover:not(:disabled) {
+    border-color: var(--red); color: var(--red);
+    background: #fdf1f2; transform: translateY(-2px);
+  }
 }
+/* phản hồi lúc nhấn, thay cho hover trên điện thoại */
+.seat:active:not(:disabled) { transform: scale(.92); border-color: var(--red); }
 .seat.is-taken {
   background: #ddd8d0; border-color: #ddd8d0; color: #b3aca1;
   cursor: not-allowed; transform: none;
@@ -798,7 +896,11 @@ h1, h2, h3, h4 { margin: 0 0 .5em; line-height: 1.25; }
 
 /* ---------- Popup ---------- */
 .bkmodal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; }
-.bkmodal__backdrop { position: absolute; inset: 0; background: rgba(20, 14, 12, .68); backdrop-filter: blur(3px); }
+.bkmodal__backdrop {
+  position: absolute; inset: 0; background: rgba(20, 14, 12, .68); backdrop-filter: blur(3px);
+  /* vuốt trên nền tối không kéo theo trang phía sau */
+  touch-action: none;
+}
 .bkmodal__dialog {
   position: relative; z-index: 2; width: 100%; max-width: 1060px; max-height: 92vh;
   display: flex; flex-direction: column; background: var(--cream);
@@ -820,7 +922,10 @@ h1, h2, h3, h4 { margin: 0 0 .5em; line-height: 1.25; }
   background: var(--cream-2); color: var(--ink); font-size: 26px; line-height: 1; transition: var(--t);
 }
 .bkmodal__close:hover { background: var(--red); color: #fff; }
-.bkmodal__body { padding: 24px 26px 28px; overflow-y: auto; }
+.bkmodal__body {
+  padding: 24px 26px 28px; overflow-y: auto;
+  -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+}
 .bkmodal__body .bk__panel--seats { grid-template-columns: 1fr 300px; }
 .bkmodal__body .bk__side { position: static; }
 .bkmodal__body .bk__main { border: 0; padding: 0; background: transparent; }
@@ -840,26 +945,95 @@ h1, h2, h3, h4 { margin: 0 0 .5em; line-height: 1.25; }
   .bk__side { position: static; }
 }
 
+/* Từ tablet dọc trở xuống: thẻ tóm tắt biến thành THANH HÀNH ĐỘNG DÍNH ĐÁY.
+   Đã thử cho nó dính lên đỉnh, nhưng thanh đó che mất chính những dãy ghế
+   người dùng đang với tới. Dính đáy là bố cục quen thuộc của các trang đặt vé:
+   ghế đã chọn và nút "Tiếp tục" luôn trong tầm tay mà không chắn đường cuộn. */
+@media (max-width: 900px) {
+  .bk__side--seats {
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
+    margin: 0 calc(-1 * var(--gutter));   /* tràn hết bề ngang cho giống thanh công cụ */
+  }
+  .bk__side--seats .bkcard {
+    padding: 12px max(var(--gutter), var(--safe-l)) calc(12px + var(--safe-b));
+    border-radius: 0;
+    border-left: 0; border-right: 0; border-bottom: 0;
+    border-top: 3px solid var(--red);
+    box-shadow: 0 -6px 20px rgba(28, 26, 23, .12);
+  }
+  /* tên vở và thông tin suất đã hiển thị ở bước trước, thanh này chỉ cần
+     trả lời hai câu: "đang chọn ghế nào" và "đi tiếp bằng nút nào" */
+  .bk__side--seats .bkcard h3,
+  .bk__side--seats .bkcard__list,
+  .bk__side--seats .bkcard__free { display: none; }
+  .bk__side--seats .bkcard__picked { padding-top: 0; border-top: 0; }
+  .bk__side--seats .bkcard__label { margin-bottom: 6px; }
+  .bk__side--seats .chips { min-height: 26px; }
+  .bk__side--seats .bk__actions { margin-top: 10px; }
+  .bk__side--seats .bk__actions .btn { flex: 1 1 auto; }
+
+  /* chừa chỗ để hàng ghế cuối cùng vẫn cuộn lên trên được thanh dính */
+  .bk__panel--seats .bk__main { padding-bottom: 24px; }
+  .bk__panel--seats { gap: 0; }
+
+  /* bước nhập thông tin: đưa phần tóm tắt lên trước để soát lại rồi mới điền */
+  .bk__side--form { order: -1; }
+}
+
 @media (max-width: 860px) {
-  .bk__steps li { flex: 1 1 100%; }
-  .bkshow { flex-wrap: wrap; gap: 14px; }
-  .bkshow__act { width: 100%; flex-direction: row; align-items: center; justify-content: space-between; }
+  /* thanh bước chuyển thành dải ngang cuộn được thay vì 4 dòng chiếm hết màn hình */
+  .bk__steps {
+    flex-wrap: nowrap; overflow-x: auto; gap: 6px; margin-bottom: 22px;
+    padding-bottom: 4px; scrollbar-width: none; overscroll-behavior-x: contain;
+  }
+  .bk__steps::-webkit-scrollbar { display: none; }
+  .bk__steps li { flex: 0 0 auto; padding: 10px 14px; font-size: 13.5px; }
+  .bk__steps li .bk__steplabel { display: none; }
+  .bk__steps li.is-active .bk__steplabel { display: inline; }
+
+  .bkshow { flex-wrap: wrap; gap: 14px; padding: 16px 18px; }
+  .bkshow__act { width: 100%; flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
   .bkform__grid { grid-template-columns: 1fr; }
   .bkmodal { padding: 0; }
-  .bkmodal__dialog { max-width: 100%; max-height: 100vh; height: 100%; border-radius: 0; }
+  .bkmodal__dialog {
+    max-width: 100%; border-radius: 0;
+    /* dvh bám theo chiều cao thật khi thanh địa chỉ trình duyệt thu/giãn */
+    height: 100dvh; max-height: 100dvh;
+  }
+  .bkmodal__head { padding: 14px 18px; padding-left: max(18px, var(--safe-l)); padding-right: max(18px, var(--safe-r)); }
+  .bkmodal__head h2 { font-size: 19px; }
+  .bkmodal__body {
+    padding: 18px;
+    padding-left: max(18px, var(--safe-l));
+    padding-right: max(18px, var(--safe-r));
+    padding-bottom: calc(24px + var(--safe-b));
+  }
 }
 
 @media (max-width: 640px) {
-  .bk__main { padding: 18px; }
-  .seat { width: 25px; height: 23px; font-size: 9.5px; }
+  .bk__main { padding: 16px; }
+  /* ghế TO HƠN trên điện thoại: sơ đồ vốn đã phải cuộn ngang,
+     nên ưu tiên vùng chạm dễ trúng thay vì cố nhồi cho vừa màn hình */
+  :root { --seat-w: 30px; --seat-h: 30px; --seat-gap: 5px; --seat-label: 18px; --seat-aisle: 14px; }
+  .seat { font-size: 11px; border-radius: 8px 8px 4px 4px; }
+  .stage::before { height: 38px; }
+  .stage span { top: 10px; letter-spacing: 4px; font-size: 11px; }
+  .legend { gap: 12px 18px; margin-top: 20px; padding-top: 16px; font-size: 12.5px; }
   .ticket__body dl { grid-template-columns: 1fr; gap: 2px; }
   .ticket__body dd { margin-bottom: 12px; }
   .ticket__head { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .bkdone__notes { padding: 16px 18px; }
+  .bkshow__date { width: 68px; padding-right: 12px; }
+  .bkshow__date strong { font-size: 26px; }
 }
 
 /* ---------- Back to top ---------- */
 .totop {
-  position: fixed; right: 22px; bottom: 22px; z-index: 70;
+  position: fixed; z-index: 70;
+  right: calc(18px + var(--safe-r));
+  bottom: calc(18px + var(--safe-b));
   width: 46px; height: 46px; border-radius: 50%; border: 0; cursor: pointer;
   background: var(--red); color: #fff; font-size: 20px; box-shadow: var(--shadow-lg);
   opacity: 0; visibility: hidden; transform: translateY(12px); transition: var(--t);
@@ -873,48 +1047,230 @@ h1, h2, h3, h4 { margin: 0 0 .5em; line-height: 1.25; }
 
 /* ==========================================================
    RESPONSIVE
+   Thang breakpoint:
+     1200  desktop hẹp / tablet ngang lớn
+     1024  iPad ngang, iPad Pro dọc
+      900  iPad dọc
+      860  chuyển sang menu mobile
+      640  điện thoại dọc
+      420  điện thoại nhỏ
+     + quy tắc riêng cho màn thấp (điện thoại xoay ngang)
    ========================================================== */
+
+/* ---------- Tablet ngang / desktop hẹp ---------- */
+@media (max-width: 1200px) {
+  .container { --gutter: 24px; }
+  .about__badge { right: 0; }
+}
+
 @media (max-width: 1024px) {
+  :root { --header-h: 72px; }
+  .header__inner { min-height: 72px; }
   .artists { grid-template-columns: repeat(3, 1fr); }
   .about__grid { grid-template-columns: 1fr; gap: 40px; }
   .news { grid-template-columns: 1fr; }
   .quickinfo__grid { grid-template-columns: repeat(2, 1fr); }
   .quickinfo__item:nth-child(2) { border-right: 0; }
   .footer__grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .news__lead .news__img { aspect-ratio: 21 / 9; }
 }
 
+/* ---------- iPad dọc ---------- */
+@media (max-width: 900px) {
+  .section { padding: 64px 0; }
+  .artists { grid-template-columns: repeat(4, 1fr); }
+  .hero__slides { height: min(64vh, 520px); min-height: 400px; }
+}
+
+/* ---------- Chuyển sang menu mobile ---------- */
 @media (max-width: 860px) {
-  .nav-toggle { display: flex; }
+  :root { --header-h: 66px; }
+  .header__inner { min-height: 66px; gap: 12px; }
+  .brand__mark { width: 40px; height: 40px; }
+
+  .nav-toggle { display: flex; width: 44px; height: 44px; align-items: center; justify-content: center; }
+
   .nav {
-    position: fixed; top: 120px; left: 0; right: 0; bottom: 0;
+    position: fixed;
+    /* --nav-top do script.js cập nhật theo đáy header thật;
+       calc() là giá trị dự phòng khi JS chưa chạy */
+    top: var(--nav-top, calc(var(--header-h) + 42px));
+    left: 0; right: 0;
+    /* KHÔNG dùng bottom:0 — cũng do .header là khối chứa (backdrop-filter),
+       bottom:0 sẽ tính theo đáy header nên panel chỉ còn cao vài chục pixel.
+       Chiều cao do script.js đo và truyền vào qua --nav-h. */
+    bottom: auto;
+    height: var(--nav-h, calc(100dvh - var(--header-h) - 42px));
     flex-direction: column; align-items: stretch; gap: 0;
-    background: var(--cream); padding: 18px 20px; overflow-y: auto;
-    transform: translateX(100%); transition: transform .3s ease; z-index: 55;
+    background: var(--cream);
+    padding: 18px max(20px, var(--safe-l)) calc(24px + var(--safe-b));
+    overflow-y: auto; overscroll-behavior: contain;
+    z-index: 55;
+
+    /* Chỉ mờ dần, KHÔNG dùng transform.
+       - translateX(100%) như trước làm cả trang cuộn ngang được: phần tử
+         position:fixed không bị overflow của body cắt nên nó nong chiều rộng
+         tài liệu thêm đúng một màn hình.
+       - Mọi transform khác cũng phá phép đo trong syncNavTop(): lúc đo thì
+         hiệu ứng đang chạy dở, toạ độ trả về là toạ độ giữa chừng. */
+    opacity: 0; visibility: hidden;
+    transition: opacity .24s ease, visibility .24s;
   }
-  .nav.is-open { transform: none; }
-  .nav a { padding: 15px 8px; border-bottom: 1px solid var(--line); border-radius: 0; font-size: 16px; }
-  .nav__cta { margin: 16px 0 0; text-align: center; border-bottom: 0 !important; }
+  .nav.is-open { opacity: 1; visibility: visible; }
+  .nav a {
+    padding: 15px 8px; border-bottom: 1px solid var(--line);
+    border-radius: 0; font-size: 16px; min-height: 52px; display: flex; align-items: center;
+  }
+  /* .nav a đặt border-radius:0 và thắng về độ ưu tiên, nên phải trả lại
+     dáng viên thuốc cho nút kêu gọi hành động */
+  .nav__cta {
+    margin: 16px 0 0; justify-content: center;
+    border-bottom: 0 !important; border-radius: 999px;
+  }
+
   .hero__nav { display: none; }
   .sched { flex-wrap: wrap; gap: 14px; }
   .sched__act { width: 100%; justify-content: space-between; }
+  .subnav a { padding: 14px 14px; }
 }
 
+/* ---------- Điện thoại dọc ---------- */
 @media (max-width: 640px) {
-  .section { padding: 52px 0; }
+  :root { --header-h: 62px; --gutter: 16px; }
+  .header__inner { min-height: 62px; }
+  .section { padding: 48px 0; }
   .hide-sm { display: none; }
-  .topbar__inner { height: auto; padding-top: 8px; padding-bottom: 8px; flex-direction: column; gap: 4px; font-size: 12.5px; }
-  .brand__text strong { font-size: 14.5px; }
-  .brand__text em { font-size: 10.5px; }
+  .only-sm { display: inline; }
+
+  /* thanh trên cùng: chỉ giữ hotline, địa chỉ đã có ở chân trang */
+  .topbar__inner { height: 40px; gap: 10px; font-size: 12.5px; }
+  .topbar__left { display: none; }
+  .topbar__right { width: 100%; justify-content: space-between; gap: 10px; }
+  .topbar__socials { gap: 6px; }
+
+  .brand__text strong { font-size: 14px; letter-spacing: .2px; }
+  .brand__text em { display: none; }
+  .brand__mark { width: 36px; height: 36px; }
+
+  .hero__slides { height: min(72dvh, 560px); min-height: 380px; }
+  .hero__content { max-width: 100%; }
+  .hero__desc { margin-bottom: 24px; }
+  .hero__actions .btn { flex: 1 1 auto; }
+  .hero__dots { bottom: 18px; }
+
   .artists { grid-template-columns: repeat(2, 1fr); }
-  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .stat strong { font-size: 28px; }
   .quickinfo__grid { grid-template-columns: 1fr; }
-  .quickinfo__item { border-right: 0; border-bottom: 1px solid var(--line); }
-  .footer__grid { grid-template-columns: 1fr; }
-  .about__badge { right: 12px; bottom: 12px; }
-  .cta__inner { flex-direction: column; align-items: flex-start; }
+  .quickinfo__item { border-right: 0; border-bottom: 1px solid var(--line); padding: 18px 4px; }
+  .footer__grid { grid-template-columns: 1fr; gap: 28px; padding-bottom: 36px; }
+  .footer { padding-top: 44px; }
+  .about__badge { right: 10px; bottom: 10px; padding: 14px 18px; }
+  .about__badge strong { font-size: 24px; }
+  .cta { padding: 42px 0; }
+  .cta__inner { flex-direction: column; align-items: stretch; }
+  .cta__actions .btn { flex: 1 1 auto; }
+
+  .section__head { margin-bottom: 28px; }
+  .sched { padding: 16px 18px; gap: 16px; }
+  .sched__date { width: 56px; padding-right: 12px; }
+  .sched__date strong { font-size: 26px; }
+  .news__body { padding: 20px; }
+  .news__body h3 { font-size: 20px; }
+  .news__thumb { width: 84px; height: 62px; }
+  .news__item h4 { font-size: 15px; }
+
+  .subscribe { flex-wrap: wrap; }
+  .subscribe input { flex: 1 1 100%; }
+  .subscribe .btn { flex: 1 1 100%; }
+
+  .totop { width: 44px; height: 44px; }
+}
+
+/* ---------- Điện thoại nhỏ ---------- */
+@media (max-width: 420px) {
+  .artists { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .btn { padding: 12px 20px; }
+  .btn--lg { padding: 14px 24px; font-size: 15px; }
+  .sched__act { flex-wrap: wrap; gap: 10px; }
+  .news__item { flex-direction: column; align-items: flex-start; }
+  .news__thumb { width: 100%; height: 140px; }
+  .bkshow__act .btn { flex: 1 1 100%; }
+}
+
+/* ==========================================================
+   ĐIỆN THOẠI / TABLET XOAY NGANG (màn thấp)
+   Ở tư thế này chiều cao mới là thứ khan hiếm, không phải chiều rộng.
+   ========================================================== */
+@media (orientation: landscape) and (max-height: 560px) {
+  /* giữ nguyên kiểu chồng lớp tuyệt đối của slide (để hiệu ứng mờ dần không vỡ),
+     chỉ hạ chiều cao xuống cho vừa màn ngang */
+  .hero__slides { height: min(92dvh, 420px); min-height: 240px; }
+  .hero__title { font-size: clamp(28px, 4.4vw, 40px); margin-bottom: 12px; }
+  .hero__desc { font-size: 14.5px; margin-bottom: 18px; }
+  .hero__eyebrow { margin-bottom: 8px; }
+  .hero__dots { bottom: 12px; }
+
+  .section { padding: 40px 0; }
+  .pagehero { padding: 36px 0 32px; }
+  .vision { padding: 44px 0; }
+  .topbar { display: none; }
+
+  /* menu mobile phải cuộn được vì màn hình rất thấp */
+  .nav { padding-top: 12px; padding-bottom: calc(16px + var(--safe-b)); }
+  .nav a { min-height: 44px; padding: 10px 8px; }
+  .nav__cta { margin-top: 10px; }
+
+  .bk__side--seats .bkcard { max-height: 62dvh; }
+  .bkmodal__body .bk__side--seats .bkcard { max-height: 50dvh; }
+}
+
+/* ==========================================================
+   THIẾT BỊ CẢM ỨNG
+   ========================================================== */
+/* Tablet & điện thoại xoay ngang: ghế to hơn cho dễ chạm.
+   Kích thước chọn sao cho sơ đồ (≈643px) vẫn lọt trọn bề ngang iPad dọc,
+   không phải cuộn ngang. Màn ≤640px đã có bộ số riêng ở trên nên loại trừ. */
+@media (pointer: coarse) and (min-width: 641px) {
+  :root { --seat-w: 30px; --seat-h: 30px; --seat-gap: 5px; --seat-label: 20px; --seat-aisle: 14px; }
+  .seat { font-size: 11px; border-radius: 8px 8px 4px 4px; }
+}
+
+@media (pointer: coarse) {
+  /* iOS tự phóng to trang khi focus vào ô nhập có cỡ chữ < 16px */
+  .field input, .field textarea, .subscribe input { font-size: 16px; }
+
+  /* vùng chạm tối thiểu 44px theo khuyến nghị của Apple/Google */
+  .topbar__socials a { width: 32px; height: 32px; }
+  .footer__socials a { width: 42px; height: 42px; }
+  .bkmodal__close { width: 44px; height: 44px; }
+  .topbar__right > a { display: inline-flex; align-items: center; min-height: 34px; }
+
+  /* danh sách liên kết ở chân trang vốn chỉ cao ~21px, rất khó bấm trúng */
+  .footer__col ul a,
+  .crumb a {
+    display: inline-flex; align-items: center; min-height: 40px;
+  }
+  .footer__col li { margin-bottom: 2px; }
+  .link-more { display: inline-flex; align-items: center; min-height: 40px; }
+  .section__head .link-more { margin-top: -4px; }
+  .hero__dots { gap: 6px; }
+  .hero__dots button {
+    height: 30px; background-clip: content-box;
+    padding: 13px 0; /* nới vùng chạm mà vạch nhìn vẫn mảnh */
+  }
+  .btn, .nav a, .subnav a, .link-more { touch-action: manipulation; }
+}
+
+@media (hover: none) {
+  /* trên cảm ứng, :hover kẹt lại sau khi chạm khiến thẻ bị đẩy lệch */
+  .btn--primary:hover, .sched:hover, .news__item:hover, .bkshow:hover,
+  .mission:hover, .value:hover, .award:hover, .capa:hover,
+  .news__lead:hover, .tl__body:hover, .artist:hover .artist__img { transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition-duration: .01ms !important; }
+  html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }
 }

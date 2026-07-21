@@ -2,35 +2,83 @@
 (function () {
   'use strict';
 
-  /* ---------- Menu mobile ---------- */
   var navToggle = document.getElementById('navToggle');
   var nav = document.getElementById('nav');
+  var header = document.getElementById('header');
+  var toTop = document.getElementById('toTop');
+
+  var lock = window.ScrollLock || { on: function () {}, off: function () {} };
+  var DESKTOP_NAV = 861;   // khớp với breakpoint 860px trong styles.css
+
+  /* ---------- Neo menu mobile vào đáy header thật ----------
+     Header dính ở top:0 còn thanh trên cùng thì cuộn mất, nên khoảng cách từ mép
+     màn hình tới đáy header thay đổi theo vị trí cuộn — trước đây giá trị này bị
+     ghi cứng 120px nên menu lúc hở một khoảng, lúc đè lên header.
+
+     Thêm một điểm dễ sập bẫy: .header có backdrop-filter, mà backdrop-filter thì
+     biến phần tử thành KHỐI CHỨA của mọi con position:fixed. Nghĩa là top của
+     panel được tính từ mép trên header chứ không phải từ mép trên khung nhìn —
+     và điều này lại không đúng ở trình duyệt nào không dựng backdrop-filter.
+     Nên ở đây đo thẳng gốc toạ độ thực tế thay vì phỏng đoán.                    */
+  function syncNavTop() {
+    // ở bố cục desktop .nav nằm trong dòng header, đo lúc đó là vô nghĩa
+    if (window.innerWidth >= DESKTOP_NAV) return;
+    var root = document.documentElement;
+    root.style.setProperty('--nav-top', '0px');
+    var origin = nav.getBoundingClientRect().top;         // gốc của khối chứa
+    var target = header.getBoundingClientRect().bottom;   // chỗ cần neo tới
+    root.style.setProperty('--nav-top', Math.round(target - origin) + 'px');
+    // chiều cao cũng phải tự tính vì bottom:0 sẽ bám đáy header chứ không phải
+    // đáy màn hình; innerHeight bám theo thanh địa chỉ co giãn trên di động
+    root.style.setProperty('--nav-h', Math.round(window.innerHeight - target) + 'px');
+  }
+
+  /* ---------- Menu mobile ---------- */
+  function setNav(open) {
+    nav.classList.toggle('is-open', open);
+    navToggle.setAttribute('aria-expanded', String(open));
+    navToggle.setAttribute('aria-label', open ? 'Đóng menu' : 'Mở menu');
+    if (open) { syncNavTop(); lock.on(); } else { lock.off(); }
+  }
 
   navToggle.addEventListener('click', function () {
-    var open = nav.classList.toggle('is-open');
-    navToggle.setAttribute('aria-expanded', String(open));
-    document.body.style.overflow = open ? 'hidden' : '';
+    setNav(!nav.classList.contains('is-open'));
   });
 
   nav.addEventListener('click', function (e) {
-    if (e.target.tagName === 'A' && nav.classList.contains('is-open')) {
-      nav.classList.remove('is-open');
-      navToggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
+    if (e.target.closest('a') && nav.classList.contains('is-open')) setNav(false);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+      setNav(false);
+      navToggle.focus();
     }
   });
 
   /* ---------- Header đổ bóng khi cuộn ---------- */
-  var header = document.getElementById('header');
-  var toTop = document.getElementById('toTop');
-
   function onScroll() {
     var y = window.scrollY;
     header.classList.toggle('is-stuck', y > 12);
     toTop.classList.toggle('is-visible', y > 500);
+    // cố ý KHÔNG gọi syncNavTop ở đây: phép đo bắt trình duyệt dựng lại bố cục,
+    // mà lúc menu mở thì nền đã bị khoá cuộn nên header cũng không xê dịch
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+
+  /* ---------- Đổi cỡ / xoay máy ---------- */
+  function onViewportChange() {
+    // xoay ngang giữa lúc menu đang mở: quay về bố cục desktop thì phải nhả khoá cuộn
+    if (window.innerWidth >= DESKTOP_NAV && nav.classList.contains('is-open')) setNav(false);
+    syncNavTop();
+  }
+
+  window.addEventListener('resize', onViewportChange, { passive: true });
+  // orientationchange bắn trước khi trình duyệt cập nhật kích thước → đợi một nhịp
+  window.addEventListener('orientationchange', function () {
+    setTimeout(onViewportChange, 120);
+  });
 
   toTop.addEventListener('click', function () {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -71,6 +119,10 @@
     document.querySelector('.hero__nav--prev').addEventListener('click', function () { go(current - 1); });
 
     document.addEventListener('keydown', function (e) {
+      // đang gõ trong ô nhập hoặc đang mở popup thì phím mũi tên không thuộc về slider
+      var t = e.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+      if (document.querySelector('.bkmodal')) return;
       if (e.key === 'ArrowRight') go(current + 1);
       if (e.key === 'ArrowLeft') go(current - 1);
     });
@@ -78,6 +130,38 @@
     var hero = document.getElementById('hero');
     hero.addEventListener('mouseenter', function () { clearInterval(timer); });
     hero.addEventListener('mouseleave', restart);
+
+    /* ---------- Vuốt ngang để chuyển slide ----------
+       Trên điện thoại/tablet không có nút ‹ › (đã ẩn ở breakpoint 860px)
+       nên vuốt là cách chuyển slide duy nhất.                              */
+    var startX = 0, startY = 0, tracking = false;
+
+    hero.addEventListener('touchstart', function (e) {
+      var t = e.changedTouches[0];
+      startX = t.clientX; startY = t.clientY; tracking = true;
+      clearInterval(timer);           // đang chạm thì ngừng tự chuyển
+    }, { passive: true });
+
+    hero.addEventListener('touchend', function (e) {
+      if (!tracking) return;
+      tracking = false;
+      var t = e.changedTouches[0];
+      var dx = t.clientX - startX;
+      var dy = t.clientY - startY;
+      // chỉ nhận là vuốt ngang khi lệch ngang rõ hơn hẳn lệch dọc,
+      // nếu không sẽ cướp mất thao tác cuộn trang của người dùng
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? current + 1 : current - 1);
+      else restart();
+    }, { passive: true });
+
+    hero.addEventListener('touchcancel', function () { tracking = false; restart(); }, { passive: true });
+
+    /* chuyển tab hoặc tắt màn hình thì dừng hẳn cho đỡ tốn pin */
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) clearInterval(timer);
+      else restart();
+    });
+
     restart();
   }
 
