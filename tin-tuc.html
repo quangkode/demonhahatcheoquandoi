@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#a51c26" />
+<title>Tin tức &amp; Truyền thông - Nhà hát Chèo Quân đội</title>
+<meta name="description" content="Tin tức, video, thư viện ảnh và báo chí viết về Nhà hát Chèo Quân đội." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./styles.css?v=7" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='%23a51c26'/><path d='M32 12l4.6 9.4 10.4 1.5-7.5 7.3 1.8 10.3L32 35.6l-9.3 4.9 1.8-10.3-7.5-7.3 10.4-1.5z' fill='%23f0cd7c'/></svg>" />
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<div class="topbar">
+  <div class="container topbar__inner">
+    <div class="topbar__left">
+      <span>Số 3 Nguyễn Tri Phương, Ba Đình, Hà Nội</span>
+      <span class="hide-sm">lienhe@nhahatcheoquandoi.vn</span>
+    </div>
+    <div class="topbar__right">
+      <a href="tel:02438457583">Hotline: 024 3845 7583</a>
+      <span class="topbar__socials">
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.29-.04-1.27-.13-2.41-.13-2.38 0-4.02 1.46-4.02 4.13V9.9H7.5V13h2.77v8h3.23z"/></svg>
+        </a>
+        <a href="#" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.75-1.77C18.3 5 12 5 12 5s-6.3 0-7.85.43A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.75 1.77C5.7 19 12 19 12 19s6.3 0 7.85-.43a2.5 2.5 0 0 0 1.75-1.77A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3-5.2 3z"/></svg>
+        </a>
+        <a href="#" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 3h-2.8v12.1a2.4 2.4 0 1 1-2.4-2.4c.23 0 .45.03.66.1v-2.9a5.3 5.3 0 1 0 4.54 5.24V9.1a6.2 6.2 0 0 0 3.5 1.08V7.3a3.5 3.5 0 0 1-3.5-3.5V3z"/></svg>
+        </a>
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a class="brand" href="./index.html">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" stroke="currentColor" stroke-width="2"/><path d="M32 12l4.6 9.4 10.4 1.5-7.5 7.3 1.8 10.3L32 35.6l-9.3 4.9 1.8-10.3-7.5-7.3 10.4-1.5L32 12z" fill="currentColor"/><path d="M18 46c4 4 9 6 14 6s10-2 14-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+      </span>
+      <span class="brand__text">
+        <strong>NHÀ HÁT CHÈO QUÂN ĐỘI</strong>
+        <em>Tổng cục Chính trị Quân đội nhân dân Việt Nam</em>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Mở menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav" id="nav">
+      <a href="./index.html">Trang chủ</a>
+      <a href="./trai-nghiem.html">Trải nghiệm</a>
+      <a href="./gioi-thieu.html">Giới thiệu</a>
+      <a href="./lich-su.html">Lịch sử</a>
+      <a href="./tin-tuc.html" class="is-active">Tin tức</a>
+      <a href="./dat-cho.html" class="nav__cta">Đặt chỗ</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ PAGE HERO ============ -->
+<section class="pagehero pagehero--news">
+  <div class="container">
+    <nav class="crumb" aria-label="Đường dẫn">
+      <a href="./index.html">Trang chủ</a> <span>/</span> <strong>Tin tức</strong>
+    </nav>
+    <p class="pagehero__eyebrow">Trung tâm truyền thông</p>
+    <h1 class="pagehero__title">Tin tức &amp; Truyền thông</h1>
+    <p class="pagehero__desc">Hoạt động biểu diễn, video trích đoạn, ảnh hậu trường và những gì báo chí viết về Nhà hát Chèo Quân đội — tập hợp ở một nơi.</p>
+  </div>
+</section>
+
+<!-- ============ MỤC LỤC ============ -->
+<nav class="subnav" id="subnav" aria-label="Mục lục trang">
+  <div class="container subnav__bar">
+    <div class="subnav__wrap">
+    <button type="button" class="subnav__toggle" id="subnavToggle"
+            aria-expanded="false" aria-controls="subnavMenu">
+      <span class="subnav__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span class="subnav__label">Mục lục</span>
+      <span class="subnav__current" id="subnavCurrent">Tin mới nhất</span>
+      <span class="subnav__caret" aria-hidden="true"></span>
+    </button>
+    <div class="subnav__inner" id="subnavMenu">
+      <a href="#tin-moi" class="is-active">Tin mới nhất</a>
+      <a href="#video">Video</a>
+      <a href="#thu-vien-anh">Thư viện ảnh</a>
+      <a href="#bao-chi">Báo chí viết</a>
+      <a href="#lien-he-bao-chi">Liên hệ báo chí</a>
+    </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ 1. TIN MỚI NHẤT ============ -->
+<section class="section" id="tin-moi">
+  <div class="container">
+    <div class="section__head">
+      <div>
+        <p class="section__eyebrow">Cập nhật</p>
+        <h2 class="section__title">Tin mới nhất</h2>
+      </div>
+    </div>
+
+    <!-- BỘ LỌC — data-filter phải khớp với data-cat của từng bài bên dưới -->
+    <div class="chips" role="group" aria-label="Lọc tin theo chủ đề">
+      <button type="button" class="chip is-active" data-filter="all">Tất cả</button>
+      <button type="button" class="chip" data-filter="hoat-dong">Hoạt động</button>
+      <button type="button" class="chip" data-filter="su-kien">Sự kiện</button>
+      <button type="button" class="chip" data-filter="giai-thuong">Giải thưởng</button>
+      <button type="button" class="chip" data-filter="dao-tao">Đào tạo</button>
+      <button type="button" class="chip" data-filter="hop-tac">Hợp tác</button>
+    </div>
+
+    <!-- Bài nổi bật: luôn hiện, không nằm trong bộ lọc -->
+    <article class="feature" data-cat="hoat-dong">
+      <div class="feature__art" data-art="7" aria-hidden="true">
+        <span class="feature__tag">Tin nổi bật</span>
+      </div>
+      <div class="feature__body">
+        <p class="news__meta">18/07/2026 · Hoạt động</p>
+        <h3>Nhà hát Chèo Quân đội lưu diễn phục vụ cán bộ, chiến sĩ Trường Sa</h3>
+        <p>Đoàn công tác gồm 32 nghệ sĩ đã thực hiện 12 buổi biểu diễn tại các điểm đảo, mang lời ca tiếng hát động viên cán bộ, chiến sĩ đang làm nhiệm vụ nơi đầu sóng ngọn gió. Chuyến đi kéo dài 18 ngày, đi qua 9 điểm đảo và nhà giàn DK1.</p>
+        <a href="#" class="link-more">Đọc tiếp →</a>
+      </div>
+    </article>
+
+    <!-- DANH SÁCH TIN — thêm bài mới thì chép một <article class="newscard">
+         và đặt data-cat trùng một trong các mã ở bộ lọc phía trên -->
+    <div class="newsgrid" id="newsGrid">
+      <article class="newscard" data-cat="su-kien">
+        <div class="newscard__art" data-art="8" aria-hidden="true"></div>
+        <div class="newscard__body">
+          <p class="news__meta">12/07/2026 · Sự kiện</p>
+          <h3>Khởi công dàn dựng vở chèo "Bến nước Trường Sơn"</h3>
+          <p>Vở diễn mới về đề tài người lính Trường Sơn dự kiến ra mắt khán giả vào dịp kỷ niệm Ngày thành lập Quân đội nhân dân Việt Nam.</p>
+          <a href="#" class="link-more">Đọc tiếp →</a>
+        </div>
+      </article>
+
+      <article class="newscard" data-cat="giai-thuong">
+        <div class="newscard__art" data-art="9" aria-hidden="true"></div>
+        <div class="newscard__body">
+          <p class="news__meta">05/07/2026 · Giải thưởng</p>
+          <h3>Ba nghệ sĩ đoạt Huy chương Vàng Liên hoan Chèo toàn quốc</h3>
+          <p>Thành tích ghi nhận nỗ lực của lớp nghệ sĩ trẻ trong việc gìn giữ và làm mới nghệ thuật chèo truyền thống.</p>
+          <a href="#" class="link-more">Đọc tiếp →</a>
+        </div>
+      </article>
+
+      <article class="newscard" data-cat="dao-tao">
+        <div class="newscard__art" data-art="10" aria-hidden="true"></div>
+        <div class="newscard__body">
+          <p class="news__meta">28/06/2026 · Đào tạo</p>
+          <h3>Khai giảng lớp truyền dạy hát chèo cho thanh thiếu niên quý III</h3>
+          <p>Lớp học miễn phí dành cho các em từ 10 đến 18 tuổi, do chính các nghệ sĩ của Nhà hát trực tiếp giảng dạy.</p>
+          <a href="#" class="link-more">Đọc tiếp →</a>
+        </div>
+      </article>
+
+      <article class="newscard" data-cat="hop-tac">
+        <div class="newscard__art" data-art="11" aria-hidden="true"></div>
+        <div class="newscard__body">
+          <p class="news__meta">20/06/2026 · Hợp tác</p>
+          <h3>Giao lưu nghệ thuật với đoàn văn công Quân đội nhân dân Lào</h3>
+          <p>Chương trình nằm trong khuôn khổ hoạt động đối ngoại quốc phòng, thắt chặt tình đoàn kết giữa quân đội hai nước.</p>
+          <a href="#" class="link-more">Đọc tiếp →</a>
+        </div>
+      </article>
+
+      <article class="newscard" data-cat="hoat-dong" hidden>
+        <div class="newscard__art" data-art="12" aria-hidden="true"></div>
+        <div class="newscard__body">
+          <p class="news__meta">11/06/2026 · Hoạt động</p>
+          <h3>Biểu diễn phục vụ chiến sĩ mới tại Quân khu 3</h3>
+          <p>Bốn buổi diễn liên tiếp tại các đơn vị huấn luyện, phục vụ hơn 3.000 lượt cán bộ, chiến sĩ.</p>
+          <a href="#" class="link-more">Đọc tiếp →</a>
+        </div>
+      </article>
+
+      <article class="newscard" data-cat="su-kien" hidden>
+        <div class="newscard__art" data-art="13" aria-hidden="true"></div>
+        <div class="newscard__body">
+          <p class="news__meta">02/06/2026 · Sự kiện</p>
+          <h3>Đêm diễn đặc biệt kỷ niệm 72 năm Ngày truyền thống</h3>
+          <p>Chương trình quy tụ nhiều thế hệ nghệ sĩ của Nhà hát cùng đứng chung một sân khấu.</p>
+          <a href="#" class="link-more">Đọc tiếp →</a>
+        </div>
+      </article>
+
+      <article class="newscard" data-cat="dao-tao" hidden>
+        <div class="newscard__art" data-art="14" aria-hidden="true"></div>
+        <div class="newscard__body">
+          <p class="news__meta">24/05/2026 · Đào tạo</p>
+          <h3>Toạ đàm "Chèo trong đời sống đương đại" tại Hà Nội</h3>
+          <p>Các nhà nghiên cứu, đạo diễn và nghệ sĩ cùng bàn về hướng đi của chèo trước thị hiếu khán giả trẻ.</p>
+          <a href="#" class="link-more">Đọc tiếp →</a>
+        </div>
+      </article>
+
+      <article class="newscard" data-cat="hoat-dong" hidden>
+        <div class="newscard__art" data-art="15" aria-hidden="true"></div>
+        <div class="newscard__body">
+          <p class="news__meta">15/05/2026 · Hoạt động</p>
+          <h3>Chương trình nghệ thuật phục vụ đồng bào vùng cao Hà Giang</h3>
+          <p>Nhà hát mang chèo tới các xã biên giới, kết hợp tặng quà và khám bệnh cho bà con.</p>
+          <a href="#" class="link-more">Đọc tiếp →</a>
+        </div>
+      </article>
+    </div>
+
+    <p class="newsgrid__more">
+      <button type="button" class="btn btn--ghost" id="newsMore" data-more="Xem thêm tin" data-less="Thu gọn">Xem thêm tin</button>
+    </p>
+    <p class="newsgrid__empty" id="newsEmpty" hidden>Chưa có tin nào thuộc chủ đề này.</p>
+  </div>
+</section>
+
+<!-- ============ 2. VIDEO ============ -->
+<section class="section section--alt" id="video">
+  <div class="container">
+    <div class="section__head">
+      <div>
+        <p class="section__eyebrow">Xem lại</p>
+        <h2 class="section__title">Video</h2>
+      </div>
+      <a href="#" class="link-more">Kênh YouTube →</a>
+    </div>
+    <p class="section__intro">Trích đoạn vở diễn, phóng sự và tư liệu hậu trường.</p>
+
+    <!-- KHUNG SẴN — khi có video thật, thay .videocard__art bằng thẻ nhúng
+         (iframe YouTube hoặc <video>) và bỏ .videocard__play đi -->
+    <div class="videos">
+      <article class="videocard">
+        <div class="videocard__art" data-art="7" aria-hidden="true">
+          <span class="videocard__play"></span>
+          <span class="videocard__time">12:40</span>
+        </div>
+        <div class="videocard__body">
+          <p class="news__meta">Trích đoạn</p>
+          <h3>Trích đoạn "Quan Âm Thị Kính" - Cảnh Thị Mầu lên chùa</h3>
+        </div>
+      </article>
+      <article class="videocard">
+        <div class="videocard__art" data-art="9" aria-hidden="true">
+          <span class="videocard__play"></span>
+          <span class="videocard__time">08:15</span>
+        </div>
+        <div class="videocard__body">
+          <p class="news__meta">Phóng sự</p>
+          <h3>Những người giữ lửa chèo trong quân ngũ</h3>
+        </div>
+      </article>
+      <article class="videocard">
+        <div class="videocard__art" data-art="11" aria-hidden="true">
+          <span class="videocard__play"></span>
+          <span class="videocard__time">05:32</span>
+        </div>
+        <div class="videocard__body">
+          <p class="news__meta">Hậu trường</p>
+          <h3>Một ngày tập luyện của dàn nhạc Nhà hát</h3>
+        </div>
+      </article>
+      <article class="videocard">
+        <div class="videocard__art" data-art="13" aria-hidden="true">
+          <span class="videocard__play"></span>
+          <span class="videocard__time">21:07</span>
+        </div>
+        <div class="videocard__body">
+          <p class="news__meta">Toàn cảnh</p>
+          <h3>Đêm diễn kỷ niệm 72 năm Ngày truyền thống</h3>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. THƯ VIỆN ẢNH ============ -->
+<section class="section" id="thu-vien-anh">
+  <div class="container">
+    <div class="section__head">
+      <div>
+        <p class="section__eyebrow">Hình ảnh</p>
+        <h2 class="section__title">Thư viện ảnh</h2>
+      </div>
+    </div>
+    <p class="section__intro">Ảnh biểu diễn, hậu trường và các chuyến lưu diễn. Thay bằng ảnh thật khi có.</p>
+
+    <!-- KHUNG SẴN — mỗi .shot là một ô ảnh, thay nền bằng <img> khi có ảnh thật -->
+    <div class="gallery">
+      <figure class="shot shot--tall" data-art="8"><figcaption>Đêm diễn tại Nhà hát</figcaption></figure>
+      <figure class="shot" data-art="10"><figcaption>Hậu trường hoá trang</figcaption></figure>
+      <figure class="shot" data-art="12"><figcaption>Dàn nhạc dân tộc</figcaption></figure>
+      <figure class="shot shot--wide" data-art="14"><figcaption>Lưu diễn tại đảo Trường Sa Lớn</figcaption></figure>
+      <figure class="shot" data-art="16"><figcaption>Lớp truyền dạy hát chèo</figcaption></figure>
+      <figure class="shot" data-art="9"><figcaption>Trao huy chương Liên hoan Chèo</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. BÁO CHÍ ============ -->
+<section class="section section--alt" id="bao-chi">
+  <div class="container">
+    <div class="section__head">
+      <div>
+        <p class="section__eyebrow">Điểm báo</p>
+        <h2 class="section__title">Báo chí viết về Nhà hát</h2>
+      </div>
+    </div>
+    <p class="section__intro">Những bài viết và ghi nhận của báo chí về hoạt động của Nhà hát.</p>
+
+    <div class="press">
+      <article class="presscard">
+        <p class="presscard__src">Báo Quân đội nhân dân</p>
+        <blockquote>Tiếng hát chèo giữa trùng khơi đã trở thành món quà tinh thần quý giá với những người lính đảo.</blockquote>
+        <p class="presscard__meta">19/07/2026 · <a href="#">Đọc bài gốc →</a></p>
+      </article>
+      <article class="presscard">
+        <p class="presscard__src">Tạp chí Văn hoá Nghệ thuật</p>
+        <blockquote>Nhà hát Chèo Quân đội là một trong số ít đơn vị giữ được lối chèo cổ mà vẫn nói được chuyện hôm nay.</blockquote>
+        <p class="presscard__meta">07/07/2026 · <a href="#">Đọc bài gốc →</a></p>
+      </article>
+      <article class="presscard">
+        <p class="presscard__src">Đài Truyền hình Việt Nam</p>
+        <blockquote>Lớp nghệ sĩ trẻ của Nhà hát đang chứng minh rằng chèo hoàn toàn có chỗ đứng trong đời sống đương đại.</blockquote>
+        <p class="presscard__meta">30/06/2026 · <a href="#">Xem phóng sự →</a></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. LIÊN HỆ BÁO CHÍ ============ -->
+<section class="section" id="lien-he-bao-chi">
+  <div class="container">
+    <div class="section__head">
+      <div>
+        <p class="section__eyebrow">Dành cho phóng viên</p>
+        <h2 class="section__title">Liên hệ báo chí</h2>
+      </div>
+    </div>
+
+    <div class="pressbox">
+      <div class="pressbox__col">
+        <h3>Đầu mối truyền thông</h3>
+        <ul class="footer__contact">
+          <li><span>Email</span> truyenthong@nhahatcheoquandoi.vn</li>
+          <li><span>Điện thoại</span> 024 3845 7583 (máy lẻ 12)</li>
+          <li><span>Giờ làm việc</span> 8:00 - 17:00 các ngày trong tuần</li>
+        </ul>
+      </div>
+      <div class="pressbox__col">
+        <h3>Tác nghiệp tại Nhà hát</h3>
+        <p>Phóng viên có nhu cầu quay phim, chụp ảnh hoặc phỏng vấn nghệ sĩ vui lòng đăng ký trước ít nhất 3 ngày làm việc để Nhà hát bố trí người hướng dẫn.</p>
+        <p class="soon__hint">Bộ nhận diện và ảnh độ phân giải cao sẽ được cung cấp theo yêu cầu.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta">
+  <div class="container cta__inner">
+    <div>
+      <h2>Đọc tin thôi thì chưa đủ</h2>
+      <p>Lịch diễn được cập nhật hằng tháng. Chọn một buổi và tới xem trực tiếp — vào cửa miễn phí.</p>
+    </div>
+    <div class="cta__actions">
+      <a href="./dat-cho.html" class="btn btn--primary btn--lg">Đặt chỗ miễn phí</a>
+      <a href="./trai-nghiem.html" class="btn btn--ghost btn--lg">Tham quan 360°</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer" id="lien-he">
+  <div class="container footer__grid">
+    <div class="footer__col footer__col--brand">
+      <div class="brand brand--footer">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" stroke="currentColor" stroke-width="2"/><path d="M32 12l4.6 9.4 10.4 1.5-7.5 7.3 1.8 10.3L32 35.6l-9.3 4.9 1.8-10.3-7.5-7.3 10.4-1.5L32 12z" fill="currentColor"/><path d="M18 46c4 4 9 6 14 6s10-2 14-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </span>
+        <span class="brand__text"><strong>NHÀ HÁT CHÈO QUÂN ĐỘI</strong></span>
+      </div>
+      <p>Đơn vị nghệ thuật trực thuộc Tổng cục Chính trị Quân đội nhân dân Việt Nam. Bảo tồn và phát huy nghệ thuật chèo truyền thống, phục vụ bộ đội và nhân dân.</p>
+      <div class="footer__socials">
+        <a href="#" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.29-.04-1.27-.13-2.41-.13-2.38 0-4.02 1.46-4.02 4.13V9.9H7.5V13h2.77v8h3.23z"/></svg>
+        </a>
+        <a href="#" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.75-1.77C18.3 5 12 5 12 5s-6.3 0-7.85.43A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.75 1.77C5.7 19 12 19 12 19s6.3 0 7.85-.43a2.5 2.5 0 0 0 1.75-1.77A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3-5.2 3z"/></svg>
+        </a>
+        <a href="#" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 3h-2.8v12.1a2.4 2.4 0 1 1-2.4-2.4c.23 0 .45.03.66.1v-2.9a5.3 5.3 0 1 0 4.54 5.24V9.1a6.2 6.2 0 0 0 3.5 1.08V7.3a3.5 3.5 0 0 1-3.5-3.5V3z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer__col">
+      <h4>Liên kết</h4>
+      <ul>
+        <li><a href="./index.html">Trang chủ</a></li>
+        <li><a href="./trai-nghiem.html">Trải nghiệm</a></li>
+        <li><a href="./gioi-thieu.html">Giới thiệu</a></li>
+        <li><a href="./lich-su.html">Lịch sử</a></li>
+        <li><a href="./tin-tuc.html">Tin tức</a></li>
+        <li><a href="./dat-cho.html">Đặt chỗ</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4>Liên hệ</h4>
+      <ul class="footer__contact">
+        <li><span>Địa chỉ</span> Số 3 Nguyễn Tri Phương, Ba Đình, Hà Nội</li>
+        <li><span>Điện thoại</span> 024 3845 7583</li>
+        <li><span>Email</span> lienhe@nhahatcheoquandoi.vn</li>
+        <li><span>Quầy đón tiếp</span> 8:00 - 21:00 hằng ngày</li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4>Nhận bản tin</h4>
+      <p>Cập nhật lịch diễn và vở mới hằng tháng.</p>
+      <form class="subscribe" onsubmit="return false;">
+        <input type="email" placeholder="Email của bạn" aria-label="Email" required />
+        <button type="submit" class="btn btn--primary">Đăng ký</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <div class="container">
+      <p>© 2026 Nhà hát Chèo Quân đội. Trang demo phục vụ mục đích trình bày.</p>
+    </div>
+  </div>
+</footer>
+
+<button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
+
+<script src="./script.js?v=7"></script>
+</body>
+</html>

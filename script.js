@@ -318,6 +318,61 @@
     Array.prototype.forEach.call(counters, runCounter);
   }
 
+  /* ---------- Trang tin tức: lọc chủ đề + xem thêm ---------- */
+  var newsGrid = document.getElementById('newsGrid');
+  if (newsGrid) {
+    var newsMore = document.getElementById('newsMore');
+    var newsEmpty = document.getElementById('newsEmpty');
+    var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+    var cards = Array.prototype.slice.call(newsGrid.querySelectorAll('.newscard'));
+    // bài nổi bật nằm ngoài lưới nhưng vẫn phải theo bộ lọc
+    var feature = document.querySelector('.feature');
+    var VISIBLE = 4;              // số tin hiện sẵn trước khi bấm "Xem thêm"
+    var filter = 'all';
+    var expanded = false;
+
+    var renderNews = function () {
+      var matches = cards.filter(function (c) {
+        return filter === 'all' || c.getAttribute('data-cat') === filter;
+      });
+      cards.forEach(function (c) {
+        var i = matches.indexOf(c);
+        c.hidden = i < 0 || (!expanded && i >= VISIBLE);
+      });
+
+      var featureShown = false;
+      if (feature) {
+        featureShown = filter === 'all' || feature.getAttribute('data-cat') === filter;
+        feature.hidden = !featureShown;
+      }
+
+      // nút chỉ có việc khi còn tin bị giấu; hết việc thì ẩn hẳn cho gọn
+      newsMore.hidden = matches.length <= VISIBLE;
+      newsMore.textContent = newsMore.getAttribute(expanded ? 'data-less' : 'data-more');
+      newsMore.setAttribute('aria-expanded', String(expanded));
+      newsEmpty.hidden = matches.length > 0 || featureShown;
+    };
+
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        chips.forEach(function (c) { c.classList.toggle('is-active', c === chip); });
+        filter = chip.getAttribute('data-filter');
+        // đổi chủ đề thì thu lại, không thì bấm "Xem thêm" một lần là
+        // mọi chủ đề sau đó đều mở sẵn, người dùng không hiểu vì sao
+        expanded = false;
+        renderNews();
+      });
+    });
+
+    newsMore.addEventListener('click', function () {
+      expanded = !expanded;
+      renderNews();
+      if (!expanded) newsGrid.scrollIntoView({ block: 'nearest' });
+    });
+
+    renderNews();
+  }
+
   /* ---------- Đăng ký nhận bản tin (demo) ---------- */
   var form = document.querySelector('.subscribe');
   if (form) {

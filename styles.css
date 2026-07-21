@@ -145,7 +145,13 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .nav a {
   padding: 9px 14px; border-radius: 8px; font-size: 15px; font-weight: 500;
   transition: var(--t); position: relative;
+  /* Không cho nhãn xuống dòng. Thiếu dòng này, lúc menu chật thì từng mục tự
+     bẻ đôi ("Trang / chủ") và header cao vọt lên — trông như còn chỗ nhưng
+     thực ra đã hết chỗ từ lâu. Cứ để nó tràn thật rồi xử ở media query. */
+  white-space: nowrap;
 }
+/* Khối thương hiệu không được co lại làm dòng phụ vỡ thành ba dòng */
+.brand__text strong, .brand__text em { white-space: nowrap; }
 .nav a:hover { color: var(--red); background: rgba(165, 28, 38, .06); }
 .nav a.is-active { color: var(--red); font-weight: 600; }
 .nav__cta { background: var(--red); color: #fff !important; margin-left: 8px; padding: 10px 22px !important; border-radius: 999px; }
@@ -1346,6 +1352,165 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .milestone:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
 }
 
+/* ==========================================================
+   TRANG TIN TỨC (tin-tuc.html)
+   ========================================================== */
+.pagehero--news { background: linear-gradient(120deg, #14202b 0%, #7c1119 52%, #b8862c 100%); }
+
+/* ---------- Hàng nút lọc chủ đề ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+.chip {
+  padding: 10px 18px; min-height: 44px;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: var(--white); color: var(--ink-soft);
+  font-family: inherit; font-size: 14.5px; font-weight: 600; cursor: pointer;
+  transition: var(--t); touch-action: manipulation; white-space: nowrap;
+}
+.chip.is-active {
+  background: var(--red); border-color: var(--red); color: #fff;
+  box-shadow: 0 6px 18px rgba(165, 28, 38, .26);
+}
+
+/* ---------- Bài nổi bật ---------- */
+.feature {
+  display: grid; grid-template-columns: 1.05fr 1fr;
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--r); overflow: hidden; margin-bottom: 30px;
+}
+.feature__art { min-height: 260px; }
+.feature__tag {
+  position: absolute; z-index: 1; top: 16px; left: 16px;
+  padding: 6px 14px; border-radius: 999px;
+  background: var(--red); color: #fff;
+  font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+}
+.feature__body { padding: 32px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
+.feature__body h3 { font-family: "Playfair Display", serif; font-size: clamp(21px, 2.4vw, 27px); margin: 0 0 12px; }
+.feature__body p { color: var(--ink-soft); font-size: 15px; margin: 0 0 16px; }
+
+/* ---------- Lưới tin ---------- */
+.newsgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 22px; }
+.newscard {
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--r); transition: var(--t);
+}
+.newscard__art { aspect-ratio: 16 / 9; }
+.newscard__body { flex: 1; display: flex; flex-direction: column; align-items: flex-start; padding: 20px; }
+.newscard__body h3 { font-size: 17.5px; line-height: 1.4; margin: 0 0 10px; }
+.newscard__body p { color: var(--ink-soft); font-size: 14.5px; margin: 0 0 16px; }
+.newscard__body .link-more { margin-top: auto; }
+
+.newsgrid__more { margin: 28px 0 0; text-align: center; }
+.newsgrid__empty { margin: 28px 0 0; text-align: center; color: var(--ink-soft); }
+
+/* ---------- Video ---------- */
+.videos { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 22px; }
+.videocard {
+  overflow: hidden; background: var(--white);
+  border: 1px solid var(--line); border-radius: var(--r); transition: var(--t);
+}
+.videocard__art { aspect-ratio: 16 / 9; display: grid; place-items: center; }
+/* Nút play vẽ bằng CSS: hình tròn nền mờ, tam giác là viền trái của một ô rỗng */
+.videocard__play {
+  position: relative; z-index: 1;
+  width: 62px; height: 62px; border-radius: 50%;
+  background: rgba(255, 255, 255, .92); box-shadow: var(--shadow);
+  display: grid; place-items: center; transition: var(--t);
+}
+.videocard__play::before {
+  content: ""; margin-left: 5px;
+  border-style: solid; border-width: 11px 0 11px 18px;
+  border-color: transparent transparent transparent var(--red);
+}
+.videocard__time {
+  position: absolute; z-index: 1; right: 12px; bottom: 12px;
+  padding: 3px 9px; border-radius: 6px;
+  background: rgba(0, 0, 0, .68); color: #fff;
+  font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums;
+}
+.videocard__body { padding: 18px 20px; }
+.videocard__body h3 { font-size: 16.5px; line-height: 1.45; margin: 0; }
+
+/* ---------- Thư viện ảnh ----------
+   Lưới ô vuông tự xếp; .shot--tall và .shot--wide chiếm hai ô để mảng ảnh
+   đỡ đều tăm tắp. Trên điện thoại thu về một cột nên hai lớp đó vô hiệu. */
+.gallery {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-auto-rows: 200px; gap: 16px;
+}
+.shot {
+  margin: 0; border-radius: var(--r); overflow: hidden;
+  display: flex; align-items: flex-end;
+}
+.shot--tall { grid-row: span 2; }
+.shot--wide { grid-column: span 2; }
+.shot figcaption {
+  position: relative; z-index: 1; width: 100%;
+  padding: 26px 16px 14px; color: #fff; font-size: 13.5px; font-weight: 500;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .72));
+}
+
+/* ---------- Điểm báo ---------- */
+.press { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 22px; }
+.presscard {
+  background: var(--white); border: 1px solid var(--line);
+  border-top: 3px solid var(--gold); border-radius: var(--r); padding: 24px 22px;
+}
+.presscard__src {
+  margin: 0 0 12px; font-size: 12.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px; color: var(--gold);
+}
+.presscard blockquote {
+  margin: 0 0 16px; font-family: "Playfair Display", serif;
+  font-size: 18px; line-height: 1.55; color: var(--ink);
+}
+.presscard blockquote::before { content: "\201C"; }
+.presscard blockquote::after { content: "\201D"; }
+.presscard__meta { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
+.presscard__meta a {
+  color: var(--red); font-weight: 600;
+  /* nới vùng chạm lên đủ 44px mà vẫn nằm cùng dòng với ngày tháng —
+     để nguyên thì link chỉ cao 18px, ngón tay bấm rất dễ trượt */
+  display: inline-flex; align-items: center; min-height: 44px;
+}
+
+/* ---------- Liên hệ báo chí ---------- */
+.pressbox {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;
+  background: var(--cream-2); border: 1px solid var(--line);
+  border-radius: var(--r); padding: 30px;
+}
+.pressbox__col h3 { font-size: 18px; margin: 0 0 16px; color: var(--red); }
+.pressbox__col p { margin: 0 0 12px; font-size: 15px; color: var(--ink-soft); }
+.pressbox__col .footer__contact li { color: var(--ink); }
+.pressbox__col .footer__contact span { color: var(--gold); }
+
+@media (hover: hover) and (pointer: fine) {
+  .chip:hover { border-color: var(--red); color: var(--red); }
+  .chip.is-active:hover { color: #fff; }
+  .feature:hover, .newscard:hover, .videocard:hover { box-shadow: var(--shadow-lg); }
+  .newscard:hover, .videocard:hover { transform: translateY(-4px); }
+  .videocard:hover .videocard__play { transform: scale(1.08); }
+  .presscard:hover { box-shadow: var(--shadow); }
+}
+
+@media (max-width: 860px) {
+  .feature { grid-template-columns: 1fr; }
+  .feature__art { min-height: 0; aspect-ratio: 16 / 9; }
+  .feature__body { padding: 24px 20px; }
+  /* một cột thì "cao gấp đôi"/"rộng gấp đôi" không còn nghĩa gì */
+  .gallery { grid-auto-rows: 190px; }
+  .shot--wide { grid-column: span 1; }
+  .pressbox { padding: 24px 20px; }
+}
+
+@media (max-width: 640px) {
+  .shot--tall { grid-row: span 1; }
+  .gallery { grid-template-columns: 1fr; grid-auto-rows: 210px; gap: 14px; }
+  .videocard__play { width: 54px; height: 54px; }
+}
+
 /* ---------- Back to top ---------- */
 .totop {
   position: fixed; z-index: 70;
@@ -1392,6 +1557,20 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .quickinfo__item:nth-child(2) { border-right: 0; }
   .footer__grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
   .news__lead .news__img { aspect-ratio: 21 / 9; }
+}
+
+/* ---------- Menu ngang lúc chật ----------
+   Từ 861px (ngưỡng đổi sang hamburger) tới 1120px, sáu mục menu bày ngang
+   cạnh khối thương hiệu cỡ đầy đủ là vừa hết chỗ. Bóp lại khoảng đệm và
+   cỡ chữ ở đúng quãng này thay vì đẩy cả iPad ngang về hamburger.
+   Thêm mục thứ bảy vào menu thì phải đo lại quãng này. */
+@media (min-width: 861px) and (max-width: 1120px) {
+  .header__inner { gap: 14px; }
+  .brand__text strong { font-size: 15.5px; }
+  .brand__text em { display: none; }
+  .nav { gap: 0; }
+  .nav a { padding: 9px 9px; font-size: 14.2px; }
+  .nav__cta { margin-left: 6px; padding: 10px 16px !important; }
 }
 
 /* ---------- iPad dọc ---------- */
