@@ -208,6 +208,19 @@
         // Giới hạn chiều cao theo khoảng trống thật còn lại bên dưới thanh mục lục.
         // Thanh này dính, nhưng khi trang chưa cuộn tới thì nó vẫn nằm giữa màn hình,
         // lúc đó bảng xổ ra sẽ thò xuống dưới mép dưới nếu cứ để chiều cao cố định.
+        //
+        // Riêng lúc trang còn ở đầu, khoảng trống bên dưới có khi chỉ còn vài chục
+        // điểm ảnh (điện thoại xoay ngang là rõ nhất) — ít hơn cả mức tối thiểu 180px,
+        // nên bảng thò hẳn xuống dưới mép màn hình. Cuộn cho thanh về đúng chỗ dính
+        // của nó trước rồi mới đo, khi đó lúc nào cũng có đủ chỗ.
+        var rect = subnav.getBoundingClientRect();
+        var stickTop = header ? header.getBoundingClientRect().bottom : 0;
+        if (window.innerHeight - rect.bottom - 12 < 180 && rect.top > stickTop + 1) {
+          var prevBehavior = document.documentElement.style.scrollBehavior;
+          document.documentElement.style.scrollBehavior = 'auto';
+          window.scrollBy(0, rect.top - stickTop);
+          document.documentElement.style.scrollBehavior = prevBehavior;
+        }
         var space = window.innerHeight - subnav.getBoundingClientRect().bottom - 12;
         subMenu.style.maxHeight = Math.max(180, space) + 'px';
       }
