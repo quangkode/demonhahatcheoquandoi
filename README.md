@@ -75,6 +75,26 @@ CTA đặt chỗ → Footer.
 Menu ngang có **bảy mục**. Quãng 861-1120px đã được bóp cỡ chữ và khoảng đệm cho
 vừa (xem comment trong `styles.css`); thêm mục thứ tám thì phải đo lại quãng này.
 
+## Bảng màu
+
+Lấy theo brand guideline của Nhà hát, khai báo ở `:root` đầu `styles.css`:
+
+| Token | Mã | Vai trò |
+|---|---|---|
+| `--red` | `#cc4752` | màu chính: nút, tiêu đề, viền trái thẻ |
+| `--green` | `#85c663` | màu chính: trạng thái còn chỗ / thành công |
+| `--gold` | `#ffcd00` | màu chính: **nền**, huy hiệu, nhãn huy chương |
+| `--sand` | `#d0d09d` | phụ: khối chờ nội dung (`.soon`, tư liệu) |
+| `--army` | `#22372f` | phụ: thanh trên cùng, chân trang, khối tầm nhìn |
+
+Nền kem giấy dó (`--cream`, `--cream-2`, `--line`) giữ nguyên vì guideline không
+quy định màu nền.
+
+**Lưu ý về vàng**: `#ffcd00` quá sáng để làm màu chữ trên nền kem (tương phản
+~1.5:1, gần như không đọc được). Nên có ba token tách vai: `--gold` cho nền,
+`--gold-ink` (`#8a6f00`) cho chữ vàng trên nền sáng, `--gold-light` cho chữ vàng
+trên nền tối. Đừng gộp lại thành một.
+
 ## Trang Vở diễn
 
 `vo-dien.html` là kho tác phẩm, chia bốn mảng có mục lục dính:
