@@ -512,6 +512,10 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 /* ---------- Prose ---------- */
 .section__intro { max-width: 780px; margin: -18px 0 34px; color: var(--ink-soft); font-size: 16px; }
 .section__intro--wide { max-width: 100%; }
+/* liên kết nằm giữa dòng chữ: `a { color: inherit }` ở đầu tệp làm nó tàng hình
+   trong đoạn văn, nên phải trả lại màu và gạch chân ở đây */
+.section__intro a { color: var(--red); font-weight: 600; border-bottom: 1px solid rgba(165, 28, 38, .32); }
+.section__intro a:hover { border-bottom-color: var(--red); }
 .prose p { margin: 0 0 18px; color: var(--ink-soft); }
 .prose__lead { font-size: 17.5px; color: var(--ink) !important; font-weight: 500; }
 
@@ -1283,6 +1287,9 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   background: var(--cream-2); color: var(--ink-soft);
   font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
 }
+/* thẻ không có nhãn "Sắp có" thì đoạn mô tả là phần tử cuối — bỏ lề dưới
+   của nó, nếu không đáy thẻ hở thêm một khoảng trống 16px không rõ lý do */
+.expcard__body > :last-child { margin-bottom: 0; }
 
 [data-inst="nhi"]      .expcard__art { --c1: #5a2a18; --c2: #c8934f; }
 [data-inst="trong-de"] .expcard__art { --c1: #7c1119; --c2: #e0b357; }
@@ -1512,6 +1519,71 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .videocard__play { width: 54px; height: 54px; }
 }
 
+/* ==========================================================
+   TRANG VỞ DIỄN (vo-dien.html)
+   ========================================================== */
+.pagehero--works { background: linear-gradient(120deg, #2a1020 0%, #7c1119 50%, #b8862c 100%); }
+
+/* ---------- Nhãn nhóm nhỏ trong một mảng ----------
+   Nét kẻ chạy hết phần còn lại của dòng để tách nhóm mà không phải thêm một
+   cấp tiêu đề nữa — riêng mảng "Người lính" đã có ba nhóm con. */
+.works__sub {
+  display: flex; align-items: center; gap: 14px;
+  margin: 38px 0 2px; font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.6px; color: var(--army);
+}
+.works__sub::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+/* ---------- Danh sách vở diễn ----------
+   Hai cột trên màn rộng, một cột trên điện thoại. Cố ý KHÔNG dùng thẻ có viền
+   như .sched: mảng người lính có tới ba bốn chục vở, mỗi vở một khung viền thì
+   cả trang thành một bức tường hộp. Một nét kẻ mảnh là đủ tách dòng.
+   Lưu ý: các dòng này CHƯA phải liên kết — mỗi vở chưa có trang riêng — nên
+   không đặt hiệu ứng hover, tránh mời người dùng bấm vào chỗ không bấm được. */
+.works {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 0 40px; margin-top: 14px;
+}
+.work {
+  display: flex; gap: 16px; align-items: baseline;
+  padding: 14px 2px; border-bottom: 1px solid var(--line);
+}
+.work__year {
+  flex: none; width: 54px; font-family: "Playfair Display", serif;
+  font-size: 18px; color: var(--red); line-height: 1.2;
+}
+.work__body { min-width: 0; }
+.work h4 { margin: 0; font-size: 16px; line-height: 1.4; }
+.work p { margin: 3px 0 0; font-size: 13.5px; color: var(--ink-soft); }
+.work__tag {
+  margin-left: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .5px; color: var(--gold); white-space: nowrap;
+}
+/* chèo cổ không có niên đại dàn dựng nên bỏ hẳn cột năm thay vì để trống */
+.works--plain .work__year { display: none; }
+
+.works__note {
+  margin: 26px 0 0; padding: 14px 18px;
+  background: var(--cream-2); border-left: 3px solid var(--gold);
+  border-radius: var(--r); font-size: 14px; color: var(--ink-soft);
+}
+
+[data-work="kim-nham"] .expcard__art         { --c1: #4a2033; --c2: #c39a86; }
+[data-work="dem-trang"] .expcard__art        { --c1: #141a2a; --c2: #9aa8c4; }
+[data-work="bai-ca-giu-nuoc"] .expcard__art  { --c1: #5a1a14; --c2: #d4a03c; }
+[data-work="dat-lien-bien-ca"] .expcard__art { --c1: #12303a; --c2: #7fb3c0; }
+[data-work="tuoi-tre-chi-lon"] .expcard__art { --c1: #3a1a1e; --c2: #c08a5e; }
+[data-work="nguyen-chi-thanh"] .expcard__art { --c1: #22331f; --c2: #a8b26a; }
+[data-work="chu-van-an"] .expcard__art       { --c1: #2b2416; --c2: #bfa76a; }
+[data-work="huyen-nu"] .expcard__art         { --c1: #4a2440; --c2: #c093ae; }
+
+@media (max-width: 640px) {
+  .works { grid-template-columns: 1fr; gap: 0; }
+  .works__sub { margin-top: 30px; font-size: 12.5px; letter-spacing: 1.2px; }
+  .work { padding: 12px 2px; gap: 12px; }
+  .work__year { width: 46px; font-size: 16.5px; }
+}
+
 /* ---------- Back to top ---------- */
 .totop {
   position: fixed; z-index: 70;
@@ -1561,17 +1633,31 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 }
 
 /* ---------- Menu ngang lúc chật ----------
-   Từ 861px (ngưỡng đổi sang hamburger) tới 1120px, sáu mục menu bày ngang
-   cạnh khối thương hiệu cỡ đầy đủ là vừa hết chỗ. Bóp lại khoảng đệm và
-   cỡ chữ ở đúng quãng này thay vì đẩy cả iPad ngang về hamburger.
-   Thêm mục thứ bảy vào menu thì phải đo lại quãng này. */
+   Từ 861px (ngưỡng đổi sang hamburger) tới 1120px, BẢY mục menu bày ngang cạnh
+   khối thương hiệu cỡ đầy đủ là vừa hết chỗ. Bóp lại khoảng đệm và cỡ chữ ở
+   đúng quãng này thay vì đẩy cả iPad ngang về hamburger.
+
+   Đo lại lần gần nhất khi thêm mục "Vở diễn" (mục thứ bảy). Quãng phải chia
+   làm hai vì bộ số cũ chỉ vừa cho sáu mục:
+     - tại 1120px: thương hiệu ~255px + menu ~545px = ~800px / 1072px chỗ trống
+     - tại  861px: thương hiệu ~226px + menu ~495px = ~721px /  813px chỗ trống
+   Thêm mục thứ tám thì phải đo lại cả hai mốc này. */
 @media (min-width: 861px) and (max-width: 1120px) {
   .header__inner { gap: 14px; }
-  .brand__text strong { font-size: 15.5px; }
+  .brand__text strong { font-size: 15px; }
   .brand__text em { display: none; }
   .nav { gap: 0; }
-  .nav a { padding: 9px 9px; font-size: 14.2px; }
-  .nav__cta { margin-left: 6px; padding: 10px 16px !important; }
+  .nav a { padding: 9px 8px; font-size: 14px; }
+  .nav__cta { margin-left: 6px; padding: 10px 15px !important; }
+}
+
+/* quãng chật nhất: bảy mục cộng khối thương hiệu gần kín bề ngang nội dung */
+@media (min-width: 861px) and (max-width: 980px) {
+  .header__inner { gap: 10px; }
+  .brand__mark { height: 40px; }
+  .brand__text strong { font-size: 13.8px; letter-spacing: .2px; }
+  .nav a { padding: 8px 6px; font-size: 13.4px; }
+  .nav__cta { margin-left: 4px; padding: 9px 13px !important; }
 }
 
 /* ---------- iPad dọc ---------- */

@@ -5,14 +5,22 @@ Trang chủ tĩnh (HTML/CSS/JS thuần), không cần build, deploy thẳng lên
 ## Cấu trúc
 
 ```
-index.html      # trang chủ
-gioi-thieu.html # trang giới thiệu
-dat-cho.html    # trang đặt chỗ xem chèo
-styles.css      # giao diện, responsive
-script.js       # slider, menu mobile, đếm số, hiệu ứng cuộn
-booking.js      # engine đặt chỗ: dữ liệu suất diễn, sơ đồ ghế, popup
-vercel.json     # cấu hình cache + clean URLs
+index.html        # trang chủ
+trai-nghiem.html  # tham quan 360°, nhạc cụ, tác phẩm tiêu biểu
+vo-dien.html      # kho tác phẩm, chia 4 mảng
+gioi-thieu.html   # trang giới thiệu
+lich-su.html      # lịch sử phát triển
+tin-tuc.html      # tin tức, video, thư viện ảnh, điểm báo
+dat-cho.html      # trang đặt chỗ xem chèo
+styles.css        # giao diện, responsive
+script.js         # slider, menu mobile, mục lục dính, đếm số, hiệu ứng cuộn
+booking.js        # engine đặt chỗ: dữ liệu suất diễn, sơ đồ ghế, popup
+pano.js           # engine khung xem toàn cảnh 360°
+vercel.json       # cấu hình cache + clean URLs
 ```
+
+Sửa `styles.css` hay tệp `.js` nào thì nhớ tăng số `?v=` ở **tất cả** các trang
+HTML, nếu không trang bỏ sót sẽ vẫn ăn bản cũ trong bộ nhớ đệm trình duyệt.
 
 ## Đặt chỗ
 
@@ -57,13 +65,34 @@ git push -u origin main
 
 Không cần cài gì thêm — Vercel phục vụ file tĩnh trực tiếp.
 
-## Các phần trên trang
+## Các phần trên trang chủ
 
-Top bar → Header (Trang chủ · Giới thiệu · Đặt chỗ) → Slider hero (3 slide, tự chạy) →
-Thông tin nhanh → Lịch biểu diễn → Nghệ sĩ tiêu biểu → Giới thiệu + số liệu →
-Tin tức & Sự kiện → CTA đặt chỗ → Footer.
+Top bar → Header (Trang chủ · Trải nghiệm · Vở diễn · Giới thiệu · Lịch sử ·
+Tin tức · Đặt chỗ) → Slider hero (3 slide, tự chạy) → Thông tin nhanh →
+Lịch biểu diễn → Nghệ sĩ tiêu biểu → Giới thiệu + số liệu → Tin tức & Sự kiện →
+CTA đặt chỗ → Footer.
 
-Các khối Vở diễn và Thư viện ảnh/video tạm thời bỏ, sẽ bổ sung sau.
+Menu ngang có **bảy mục**. Quãng 861-1120px đã được bóp cỡ chữ và khoảng đệm cho
+vừa (xem comment trong `styles.css`); thêm mục thứ tám thì phải đo lại quãng này.
+
+## Trang Vở diễn
+
+`vo-dien.html` là kho tác phẩm, chia bốn mảng có mục lục dính:
+
+1. **Chèo cổ & truyền thống** — nền tảng nghề nghiệp Nhà hát kế thừa
+2. **Đề tài người lính** — trọng tâm, ba nhóm con: thời phong kiến/lịch sử,
+   kháng chiến chống Pháp & chống Mỹ, hậu chiến & thời bình
+3. **Danh nhân & lãnh đạo**
+4. **Theo giai đoạn phát triển**
+
+Mỗi mảng mở đầu bằng vài thẻ nổi bật (`.expcard--work`, ảnh là gradient giả lập
+khai báo qua `[data-work="..."] .expcard__art`), phần còn lại xếp thành danh sách
+`.works` gọn theo năm. Thêm vở mới chỉ cần thêm một khối `.work`; vở nào chưa rõ
+năm dàn dựng thì để `<span class="work__year"></span>` rỗng cho thẳng cột.
+
+Danh mục hiện là **bản tuyển chọn**, chưa phải toàn bộ tác phẩm — và một số vở
+xuất hiện ở nhiều mảng (ví dụ *Công lý không gục ngã*). Các dòng trong danh sách
+chưa phải liên kết vì mỗi vở chưa có trang riêng.
 
 ## Ghi chú
 
