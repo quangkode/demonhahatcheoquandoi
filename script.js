@@ -372,15 +372,4 @@
 
     renderNews();
   }
-
-  /* ---------- Đăng ký nhận bản tin (demo) ---------- */
-  var form = document.querySelector('.subscribe');
-  if (form) {
-    form.addEventListener('submit', function () {
-      var input = form.querySelector('input');
-      if (!input.value) return;
-      alert('Cảm ơn bạn! Chúng tôi sẽ gửi bản tin tới ' + input.value);
-      input.value = '';
-    });
-  }
 })();

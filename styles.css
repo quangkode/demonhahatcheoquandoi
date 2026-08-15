@@ -407,7 +407,7 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
    còn lại. Nay dùng chính --army của thanh trên cùng: đầu và chân trang đóng
    khung bằng cùng một màu, và tông xanh nhạt hơn đen nên đỡ tối. */
 .footer { background: var(--army); color: #c2cfc6; padding-top: 60px; font-size: 14.5px; }
-.footer__grid { display: grid; grid-template-columns: 1.5fr 1fr 1.3fr 1.2fr; gap: 40px; padding-bottom: 46px; }
+.footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1.3fr; gap: 48px; padding-bottom: 46px; }
 .footer h4 { color: #fff; font-size: 16px; margin: 0 0 18px; position: relative; padding-bottom: 10px; }
 .footer h4::after { content: ""; position: absolute; left: 0; bottom: 0; width: 34px; height: 2px; background: var(--gold); }
 .footer p { margin: 0 0 16px; }
@@ -428,16 +428,6 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 }
 .footer__socials svg { width: 17px; height: 17px; }
 .footer__socials a:hover { background: var(--gold); color: var(--army); }
-
-.subscribe { display: flex; gap: 8px; }
-.subscribe input {
-  flex: 1; min-width: 0; padding: 11px 14px; border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, .16); background: rgba(255, 255, 255, .06);
-  color: #fff; font-family: inherit; font-size: 14px;
-}
-.subscribe input::placeholder { color: #8a9489; }
-.subscribe input:focus { outline: 2px solid var(--gold); border-color: transparent; }
-.subscribe .btn { padding: 11px 18px; font-size: 14px; }
 
 .footer__bottom { border-top: 1px solid rgba(255, 255, 255, .1); padding: 20px 0; }
 .footer__bottom p { margin: 0; font-size: 13.5px; text-align: center; }
@@ -1834,10 +1824,6 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .news__thumb { width: 84px; height: 62px; }
   .news__item h4 { font-size: 15px; }
 
-  .subscribe { flex-wrap: wrap; }
-  .subscribe input { flex: 1 1 100%; }
-  .subscribe .btn { flex: 1 1 100%; }
-
   .pano { height: clamp(260px, 44vh, 400px); }
   .pano__hud { right: 10px; bottom: 10px; gap: 6px; }
   .pano__hud button { width: 42px; height: 42px; font-size: 19px; }
@@ -1909,7 +1895,7 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 
 @media (pointer: coarse) {
   /* iOS tự phóng to trang khi focus vào ô nhập có cỡ chữ < 16px */
-  .field input, .field textarea, .subscribe input { font-size: 16px; }
+  .field input, .field textarea { font-size: 16px; }
 
   /* vùng chạm tối thiểu 44px theo khuyến nghị của Apple/Google */
   .topbar__socials a { width: 32px; height: 32px; }
