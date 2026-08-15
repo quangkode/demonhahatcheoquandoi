@@ -1562,11 +1562,41 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 /* chèo cổ không có niên đại dàn dựng nên bỏ hẳn cột năm thay vì để trống */
 .works--plain .work__year { display: none; }
 
-.works__note {
+/* ---------- Vở diễn đoạt giải ----------
+   Một vở có thể đoạt nhiều giải ở nhiều năm khác nhau (Điều đọng lại sau chiến
+   tranh có ba giải trải hai mốc thời gian), nên KHÔNG dùng cột năm như .works —
+   năm phải nằm trong từng dòng giải, không phải ngoài lề của cả vở. */
+.laurels { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 18px; }
+.laurel {
+  background: var(--white); border: 1px solid var(--line);
+  border-left: 3px solid var(--gold); border-radius: var(--r);
+  padding: 20px 22px; transition: var(--t);
+}
+.laurel h4 { margin: 0 0 12px; font-size: 17.5px; font-family: "Playfair Display", serif; }
+.laurel ul { display: flex; flex-direction: column; gap: 10px; }
+.laurel li {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: 13.5px; line-height: 1.5; color: var(--ink-soft);
+}
+.laurel b { color: var(--ink); font-weight: 600; }
+.laurel__medal {
+  flex: none; margin-top: 1px; padding: 3px 9px; border-radius: 5px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .5px; white-space: nowrap;
+}
+.laurel__medal--gold   { background: var(--gold); color: #4a3607; }
+.laurel__medal--silver { background: #dcd6cb; color: #4e4840; }
+.laurel__medal--top    { background: var(--army); color: #fff; }
+.laurel__medal--plain  { background: var(--cream-2); color: var(--ink-soft); border: 1px solid var(--line); }
+
+/* khối ghi chú cuối mục — dùng ở cả trang Vở diễn lẫn trang Giới thiệu */
+.notebox {
   margin: 26px 0 0; padding: 14px 18px;
   background: var(--cream-2); border-left: 3px solid var(--gold);
   border-radius: var(--r); font-size: 14px; color: var(--ink-soft);
 }
+/* nền mục đã là kem đậm thì khối ghi chú phải sáng hơn mới tách khỏi nền */
+.section--alt .notebox { background: var(--white); border: 1px solid var(--line); border-left: 3px solid var(--gold); }
 
 [data-work="kim-nham"] .expcard__art         { --c1: #4a2033; --c2: #c39a86; }
 [data-work="dem-trang"] .expcard__art        { --c1: #141a2a; --c2: #9aa8c4; }
@@ -1577,11 +1607,18 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 [data-work="chu-van-an"] .expcard__art       { --c1: #2b2416; --c2: #bfa76a; }
 [data-work="huyen-nu"] .expcard__art         { --c1: #4a2440; --c2: #c093ae; }
 
+@media (hover: hover) and (pointer: fine) {
+  .laurel:hover { border-color: var(--gold); box-shadow: var(--shadow); }
+}
+
 @media (max-width: 640px) {
   .works { grid-template-columns: 1fr; gap: 0; }
   .works__sub { margin-top: 30px; font-size: 12.5px; letter-spacing: 1.2px; }
   .work { padding: 12px 2px; gap: 12px; }
   .work__year { width: 46px; font-size: 16.5px; }
+  .laurels { grid-template-columns: 1fr; gap: 14px; }
+  .laurel { padding: 18px; }
+  .laurel h4 { font-size: 16.5px; }
 }
 
 /* ---------- Back to top ---------- */

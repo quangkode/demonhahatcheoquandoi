@@ -84,6 +84,7 @@ vừa (xem comment trong `styles.css`); thêm mục thứ tám thì phải đo l
    kháng chiến chống Pháp & chống Mỹ, hậu chiến & thời bình
 3. **Danh nhân & lãnh đạo**
 4. **Theo giai đoạn phát triển**
+5. **Vở diễn đoạt giải** — bảng vàng huy chương và giải thưởng
 
 Mỗi mảng mở đầu bằng vài thẻ nổi bật (`.expcard--work`, ảnh là gradient giả lập
 khai báo qua `[data-work="..."] .expcard__art`), phần còn lại xếp thành danh sách
@@ -93,6 +94,14 @@ năm dàn dựng thì để `<span class="work__year"></span>` rỗng cho thẳn
 Danh mục hiện là **bản tuyển chọn**, chưa phải toàn bộ tác phẩm — và một số vở
 xuất hiện ở nhiều mảng (ví dụ *Công lý không gục ngã*). Các dòng trong danh sách
 chưa phải liên kết vì mỗi vở chưa có trang riêng.
+
+Mục **Vở diễn đoạt giải** dùng thành phần `.laurel`: mỗi vở một thẻ, bên trong là
+danh sách giải, mỗi giải một nhãn `.laurel__medal` (`--gold` huy chương Vàng,
+`--silver` Bạc, `--top` giải A/Xuất sắc, `--plain` giải B/C/chứng nhận). Cố ý
+không dùng cột năm như `.works` vì một vở có thể đoạt nhiều giải ở nhiều năm.
+
+Phần thưởng của bản thân Nhà hát (huân chương, danh hiệu Anh hùng LLVTND) nằm ở
+`gioi-thieu.html#khen-thuong`, hai mục có liên kết qua lại.
 
 ## Ghi chú
 
