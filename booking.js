@@ -10,13 +10,13 @@
     {
       id: 'nhc-0808', day: '08', month: 'Tháng 8', year: '2026', weekday: 'Thứ Sáu',
       time: '20:00', title: 'Quan Âm Thị Kính', genre: 'Chèo cổ',
-      venue: 'Rạp Nhà hát Chèo Quân đội', address: 'Số 3 Nguyễn Tri Phương, Ba Đình, Hà Nội',
+      venue: 'Rạp Nhà hát Chèo Quân đội', address: '45 Ng. 126 Đ. Xuân Đỉnh, Xuân Đỉnh, Hà Nội',
       duration: '120 phút', fill: 0.24
     },
     {
       id: 'nhc-1508', day: '15', month: 'Tháng 8', year: '2026', weekday: 'Thứ Sáu',
       time: '20:00', title: 'Bến nước Trường Sơn', genre: 'Chèo hiện đại', flag: 'Công diễn',
-      venue: 'Rạp Nhà hát Chèo Quân đội', address: 'Số 3 Nguyễn Tri Phương, Ba Đình, Hà Nội',
+      venue: 'Rạp Nhà hát Chèo Quân đội', address: '45 Ng. 126 Đ. Xuân Đỉnh, Xuân Đỉnh, Hà Nội',
       duration: '135 phút', fill: 0.82
     },
     {
@@ -28,7 +28,7 @@
     {
       id: 'nhc-2908', day: '29', month: 'Tháng 8', year: '2026', weekday: 'Thứ Sáu',
       time: '19:30', title: 'Đêm nhạc: Điệu chèo người lính', genre: 'Chương trình nghệ thuật',
-      venue: 'Rạp Nhà hát Chèo Quân đội', address: 'Số 3 Nguyễn Tri Phương, Ba Đình, Hà Nội',
+      venue: 'Rạp Nhà hát Chèo Quân đội', address: '45 Ng. 126 Đ. Xuân Đỉnh, Xuân Đỉnh, Hà Nội',
       duration: '100 phút', fill: 1
     }
   ];
