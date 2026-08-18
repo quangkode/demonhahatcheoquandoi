@@ -144,6 +144,11 @@ Phần thưởng của bản thân Nhà hát (huân chương, danh hiệu Anh h�
 - Danh sách 34 nghệ sĩ được phong tặng NSND/NSƯT ở `gioi-thieu.html#nghe-si`
   (do Nhà hát cung cấp). Đây là **bảng vàng danh hiệu**, không phải danh sách
   nhân sự đang công tác — có cả người đã nghỉ hưu.
+  Tám NSND đã đủ ảnh nên dựng thành lưới chân dung dùng chung thành phần
+  `.leaders` với mục Lãnh đạo; 26 NSƯT mới có 7 ảnh nên vẫn để danh sách chữ,
+  đủ ảnh thì chuyển nốt. Ảnh nghệ sĩ nằm ở `anh/nghe-si/`, khác ảnh lãnh đạo ở
+  chỗ là ảnh sân khấu khung ngang, không có dải chú thích in sẵn — tấm nào nhân
+  vật đứng lệch tâm thì thêm `.leader--fit-right` cho khỏi bị cắt mất mặt.
 - Sáu bài trong mục Tin tức, ảnh tải về `anh/tin-tuc/`, có ghi nguồn bài và
   nguồn ảnh
 

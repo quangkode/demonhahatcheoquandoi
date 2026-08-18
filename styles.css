@@ -1734,6 +1734,10 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   border: 1px solid var(--line); box-shadow: var(--shadow);
 }
 .leader__img img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+/* Ảnh lãnh đạo là chân dung dọc, cắt "top" để bỏ dải chú thích in sẵn ở đáy ảnh.
+   Ảnh nghệ sĩ lại là ảnh sân khấu khung ngang: khung 5/6 cắt hai bên chứ không cắt đáy,
+   nên tấm nào nhân vật đứng lệch khỏi tâm phải kéo khung cắt về đúng mặt. */
+.leader--fit-right .leader__img img { object-position: 58% top; }
 .leader h4 { margin: 12px 0 3px; font-size: 14.5px; line-height: 1.35; }
 .leader p { margin: 0; font-size: 12.5px; color: var(--ink-soft); line-height: 1.45; }
 /* người đang giữ chức */
