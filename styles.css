@@ -327,7 +327,7 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .about__badge {
   position: absolute; right: -18px; bottom: 36px; z-index: 2;
   background: var(--army); color: #fff; padding: 18px 26px; border-radius: var(--r);
-  text-align: center; box-shadow: var(--shadow-lg); border-bottom: 3px solid var(--gold);
+  text-align: center; box-shadow: var(--shadow-lg);
 }
 .about__badge strong { display: block; font-size: 30px; font-family: "Playfair Display", serif; color: var(--gold-light); line-height: 1; }
 .about__badge span { font-size: 12.5px; letter-spacing: .5px; }
@@ -544,7 +544,7 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 
 .honorbox {
   background: var(--army); color: #fff; border-radius: var(--r); padding: 26px 24px;
-  border-bottom: 4px solid var(--gold); text-align: center;
+  text-align: center;
 }
 .honorbox__year {
   margin: 0 0 6px; font-family: "Playfair Display", serif; font-size: 36px;
@@ -616,8 +616,7 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 }
 .award:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 .award--top {
-  grid-column: 1 / -1; background: var(--army); color: #fff;
-  border: 0; border-bottom: 4px solid var(--gold);
+  grid-column: 1 / -1; background: var(--army); color: #fff; border: 0;
   display: flex; align-items: center; gap: 24px; padding: 26px 30px;
 }
 .award__year {
