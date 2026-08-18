@@ -339,17 +339,16 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 /* ---------- Giới thiệu ---------- */
 .about__grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: center; }
 .about__media { position: relative; }
+/* Khung này giữ bìa sách 70 năm. Bìa là một bố cục hoàn chỉnh, chữ áp sát mép trên
+   (tên đơn vị) và mép dưới (nhà xuất bản), nên cắt "cover" theo khung 4/5 dọc như hồi
+   còn ảnh giả lập là mất cả hai đầu. Khung lấy đúng tỉ lệ 701/686 của ảnh để khỏi cắt.
+   Thay ảnh khác thì nhớ sửa lại tỉ lệ cho khớp. */
 .about__img {
-  aspect-ratio: 4 / 5; border-radius: var(--r); box-shadow: var(--shadow-lg);
-  background: linear-gradient(150deg, #9f3740 0%, #cc4752 42%, #ffcd00 100%);
-  position: relative; overflow: hidden;
+  aspect-ratio: 701 / 686; border-radius: var(--r); box-shadow: var(--shadow-lg);
+  background: var(--cream-2); position: relative; overflow: hidden;
 }
-.about__img::after {
-  content: ""; position: absolute; inset: 0;
-  background-image:
-    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, .28) 0, transparent 45%),
-    radial-gradient(circle at 72% 80%, rgba(0, 0, 0, .3) 0, transparent 50%);
-}
+.about__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+
 .about__badge {
   position: absolute; right: -18px; bottom: 36px; z-index: 2;
   background: var(--army); color: #fff; padding: 18px 26px; border-radius: var(--r);

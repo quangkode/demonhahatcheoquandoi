@@ -127,7 +127,8 @@ Phần thưởng của bản thân Nhà hát (huân chương, danh hiệu Anh h�
 
 - Ảnh hiện là khối gradient giả lập (`[data-art]` trong `styles.css`) để trang chạy
   được ngay không cần tài nguyên ngoài. Khi có ảnh thật, thay bằng `<img>` hoặc
-  `background-image: url(...)`. Riêng ảnh trong mục Tin tức đã là ảnh thật.
+  `background-image: url(...)`. Đã là ảnh thật: mục Tin tức, chân dung lãnh đạo và NSND, và khối
+  "Về chúng tôi" ở trang chủ (bìa sách 70 năm, `anh/bia-sach-70-nam.png`).
 
 ## Nội dung: cái nào thật, cái nào còn là dữ liệu mẫu
 
