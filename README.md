@@ -125,10 +125,14 @@ Phần thưởng của bản thân Nhà hát (huân chương, danh hiệu Anh h�
 
 ## Ghi chú
 
-- Ảnh hiện là khối gradient giả lập (`[data-art]` trong `styles.css`) để trang chạy
-  được ngay không cần tài nguyên ngoài. Khi có ảnh thật, thay bằng `<img>` hoặc
-  `background-image: url(...)`. Đã là ảnh thật: mục Tin tức, chân dung lãnh đạo và NSND, và khối
-  "Về chúng tôi" ở trang chủ (bìa sách 70 năm, `anh/bia-sach-70-nam.png`).
+- Ảnh trên trang giờ là ảnh thật cả: mục Tin tức (`anh/tin-tuc/`), lãnh đạo qua các
+  thời kỳ (`anh/lanh-dao/`), tám NSND (`anh/nghe-si/`), bìa sách 70 năm ở khối
+  "Về chúng tôi" (`anh/bia-sach-70-nam.png`). Khối gradient giả lập `[data-art]` đã
+  gỡ khỏi `styles.css` vì không còn ai dùng — vở diễn vẫn dùng gradient nhưng qua
+  `[data-work] .expcard__art`, một cơ chế khác.
+- Ảnh nghệ sĩ có hai bản: bản đầy đủ ở `anh/nghe-si/` cho lưới chân dung bên trang
+  Giới thiệu, và bản cắt vuông quanh mặt ở `anh/nghe-si/tron/` cho khung tròn ở trang
+  chủ. Đừng dùng lẫn: thả ảnh đầy đủ vào khung tròn là mặt bé tí và lệch khỏi tâm.
 
 ## Nội dung: cái nào thật, cái nào còn là dữ liệu mẫu
 

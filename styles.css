@@ -311,31 +311,6 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .tag--amber { background: #fff3cc; color: #8a6f00; }
 .tag--red { background: #f9e6e8; color: #9f3740; }
 
-/* ---------- Ảnh giả lập (gradient art) ---------- */
-[data-art] {
-  background: linear-gradient(135deg, var(--a1, #cc4752), var(--a2, #ffcd00));
-  position: relative; overflow: hidden;
-}
-[data-art]::after {
-  content: ""; position: absolute; inset: 0;
-  background-image:
-    radial-gradient(circle at 22% 28%, rgba(255, 255, 255, .3) 0, transparent 42%),
-    radial-gradient(circle at 78% 76%, rgba(0, 0, 0, .28) 0, transparent 46%);
-}
-[data-art="7"]  { --a1: #8a2027; --a2: #e0b357; }
-[data-art="8"]  { --a1: #2b3a45; --a2: #7fa0a8; }
-[data-art="9"]  { --a1: #5a3a12; --a2: #ffcd00; }
-[data-art="10"] { --a1: #3a4a2c; --a2: #a3b26a; }
-[data-art="11"] { --a1: #4a1e2c; --a2: #c07a6a; }
-[data-art="12"] { --a1: #3d2a20; --a2: #b08856; }
-[data-art="13"] { --a1: #6a2030; --a2: #d99a86; }
-[data-art="14"] { --a1: #23343f; --a2: #7c96a6; }
-[data-art="15"] { --a1: #3f3216; --a2: #c3a45e; }
-[data-art="16"] { --a1: #52203a; --a2: #c48ba0; }
-[data-art="17"] { --a1: #2b3a2c; --a2: #9ab27a; }
-[data-art="18"] { --a1: #45301f; --a2: #c9a173; }
-[data-art="19"] { --a1: #1f2c3a; --a2: #8fa6bd; }
-
 /* ---------- Giới thiệu ---------- */
 .about__grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: center; }
 .about__media { position: relative; }
@@ -397,7 +372,13 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .artist__img {
   aspect-ratio: 1; border-radius: 50%; margin-bottom: 16px;
   border: 4px solid var(--white); box-shadow: var(--shadow); transition: var(--t);
+  overflow: hidden; background: var(--cream-2);
 }
+/* Ảnh trong khung tròn được cắt vuông sẵn quanh mặt rồi mới đưa vào (anh/nghe-si/tron).
+   Ảnh gốc là ảnh sân khấu khung ngang, người đứng lệch tâm và đầu chiếm phần nhỏ,
+   nên chỉ object-position thôi không đủ — còn phải phóng vào mặt, việc đó cắt sẵn
+   ở file gọn hơn là dựng tám lớp CSS riêng. Cắt lại thì giữ nguyên khung vuông. */
+.artist__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .artist:hover .artist__img { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--gold); }
 .artist h4 { margin: 0 0 2px; font-size: 16px; }
 .artist p { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
@@ -1653,7 +1634,7 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 /* ==========================================================
    ẢNH THẬT TRONG KHỐI TIN
    Các ô ảnh (.news__img, .news__thumb, .newscard__art, .feature__art, .shot)
-   vốn là khối gradient giả lập tô bằng [data-art]. Nay chứa <img> thật nên
+   vốn là khối gradient giả lập. Nay chứa <img> thật nên
    phải thành khung định vị: ảnh phủ kín ô bằng object-fit, nhãn nguồn neo
    vào góc. Giữ nguyên tỉ lệ khung cũ để bố cục không xê dịch.
    ========================================================== */
