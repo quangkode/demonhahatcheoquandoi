@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=13" />
+<link rel="stylesheet" href="./styles.css?v=15" />
 <link rel="icon" type="image/png" href="https://i.postimg.cc/FRktfv0p/Logo-Cheo-QD-PNG.png" />
 </head>
 <body>
@@ -116,104 +116,84 @@
       <button type="button" class="chip is-active" data-filter="all">Tất cả</button>
       <button type="button" class="chip" data-filter="hoat-dong">Hoạt động</button>
       <button type="button" class="chip" data-filter="su-kien">Sự kiện</button>
-      <button type="button" class="chip" data-filter="giai-thuong">Giải thưởng</button>
-      <button type="button" class="chip" data-filter="dao-tao">Đào tạo</button>
-      <button type="button" class="chip" data-filter="hop-tac">Hợp tác</button>
     </div>
 
     <!-- Bài nổi bật: luôn hiện, không nằm trong bộ lọc -->
     <article class="feature" data-cat="hoat-dong">
-      <div class="feature__art" data-art="7" aria-hidden="true">
+      <div class="feature__art">
+        <img src="./anh/tin-tuc/nha-may-x46.jpg" alt="Nghệ sĩ Nhà hát Chèo Quân đội biểu diễn tại Hội trường Nhà máy X46" width="1280" height="773" />
         <span class="feature__tag">Tin nổi bật</span>
+        <span class="art__credit">Ảnh: Báo Hải quân Việt Nam</span>
       </div>
       <div class="feature__body">
-        <p class="news__meta">18/07/2026 · Hoạt động</p>
-        <h3>Nhà hát Chèo Quân đội lưu diễn phục vụ cán bộ, chiến sĩ Trường Sa</h3>
-        <p>Đoàn công tác gồm 32 nghệ sĩ đã thực hiện 12 buổi biểu diễn tại các điểm đảo, mang lời ca tiếng hát động viên cán bộ, chiến sĩ đang làm nhiệm vụ nơi đầu sóng ngọn gió. Chuyến đi kéo dài 18 ngày, đi qua 9 điểm đảo và nhà giàn DK1.</p>
-        <a href="#" class="link-more">Đọc tiếp →</a>
+        <p class="news__meta">15/04/2026 · Hoạt động</p>
+        <h3>Nhà hát Chèo Quân đội biểu diễn tại Nhà máy X46</h3>
+        <p>Nhà hát trình diễn các tiết mục đặc sắc như “Những người mẹ” và “Đất liền và biển cả” tại Hội trường Nhà máy X46, phục vụ cán bộ, chiến sĩ và nhân dân địa phương. Các vở diễn tôn vinh hình ảnh những người mẹ Việt Nam và mối gắn bó giữa đất liền với biển đảo quê hương, góp phần nâng cao đời sống văn hóa tinh thần cho cộng đồng.</p>
+        <p class="news__source">Nguồn: <a href="https://baohaiquanvietnam.vn/tin-tuc/nha-hat-cheo-quan-doi-bieu-dien-tai-nha-may-x46" target="_blank" rel="noopener">Báo Hải quân Việt Nam</a></p>
       </div>
     </article>
 
     <!-- DANH SÁCH TIN — thêm bài mới thì chép một <article class="newscard">
          và đặt data-cat trùng một trong các mã ở bộ lọc phía trên -->
     <div class="newsgrid" id="newsGrid">
+      <article class="newscard" data-cat="hoat-dong">
+        <div class="newscard__art">
+          <img src="./anh/tin-tuc/dieu-binh-quan-khu-2.jpg" alt="Chương trình nghệ thuật phục vụ các khối diễu binh, diễu hành" loading="lazy" width="1200" height="743" />
+          <span class="art__credit">Ảnh: Báo Quân khu 2</span>
+        </div>
+        <div class="newscard__body">
+          <p class="news__meta">05/07/2025 · Hoạt động</p>
+          <h3>Biểu diễn phục vụ các lực lượng diễu binh, diễu hành</h3>
+          <p>Tối 4/7 tại Trường Sĩ quan Chính trị, Nhà hát biểu diễn ca nhạc và trích đoạn phục vụ hơn 900 cán bộ, chiến sĩ trong 4 khối diễu binh, diễu hành của Quân khu. Chương trình gồm hát văn, dân ca Quan họ Bắc Ninh, múa và trích đoạn chèo.</p>
+          <p class="news__source">Nguồn: <a href="https://baoquankhu2.com.vn/nha-hat-cheo-quan-doi-bieu-dien-phuc-vu-cac-luc-luong-dieu-binh-dieu-hanh/" target="_blank" rel="noopener">Báo Quân khu 2</a></p>
+        </div>
+      </article>
       <article class="newscard" data-cat="su-kien">
-        <div class="newscard__art" data-art="8" aria-hidden="true"></div>
+        <div class="newscard__art">
+          <img src="./anh/tin-tuc/tu-long-giam-doc.jpg" alt="Đại tá, NSND Tự Long" loading="lazy" width="1608" height="1081" />
+          <span class="art__credit">Ảnh: Báo Thanh Niên</span>
+        </div>
         <div class="newscard__body">
-          <p class="news__meta">12/07/2026 · Sự kiện</p>
-          <h3>Khởi công dàn dựng vở chèo "Bến nước Trường Sơn"</h3>
-          <p>Vở diễn mới về đề tài người lính Trường Sơn dự kiến ra mắt khán giả vào dịp kỷ niệm Ngày thành lập Quân đội nhân dân Việt Nam.</p>
-          <a href="#" class="link-more">Đọc tiếp →</a>
+          <p class="news__meta">30/12/2024 · Sự kiện</p>
+          <h3>NSND Tự Long giữ chức Giám đốc Nhà hát Chèo Quân đội</h3>
+          <p>Đại tá, NSND Tự Long được bổ nhiệm giữ chức Giám đốc Nhà hát Chèo Quân đội, thay Đại tá, NSND Nguyễn Quốc Trượng nghỉ hưu theo chế độ. Trước đó ông giữ cương vị Phó Giám đốc Nhà hát.</p>
+          <p class="news__source">Nguồn: <a href="https://thanhnien.vn/nsnd-tu-long-giu-chuc-giam-doc-nha-hat-cheo-quan-doi-18524123101142834.htm" target="_blank" rel="noopener">Báo Thanh Niên</a></p>
         </div>
       </article>
-
-      <article class="newscard" data-cat="giai-thuong">
-        <div class="newscard__art" data-art="9" aria-hidden="true"></div>
+      <article class="newscard" data-cat="hoat-dong">
+        <div class="newscard__art">
+          <img src="./anh/tin-tuc/nghe-si-chien-si.png" alt="Nhà hát Chèo Quân đội trên mặt trận văn hóa" loading="lazy" width="500" height="355" />
+          <span class="art__credit">Ảnh: Tạp chí Quốc phòng toàn dân</span>
+        </div>
         <div class="newscard__body">
-          <p class="news__meta">05/07/2026 · Giải thưởng</p>
-          <h3>Ba nghệ sĩ đoạt Huy chương Vàng Liên hoan Chèo toàn quốc</h3>
-          <p>Thành tích ghi nhận nỗ lực của lớp nghệ sĩ trẻ trong việc gìn giữ và làm mới nghệ thuật chèo truyền thống.</p>
-          <a href="#" class="link-more">Đọc tiếp →</a>
+          <p class="news__meta">01/10/2024 · Hoạt động</p>
+          <h3>Phát huy vai trò người “nghệ sĩ - chiến sĩ” trên mặt trận văn hóa</h3>
+          <p>Bài viết nhìn lại 70 năm phát triển của Nhà hát qua bốn nội dung: xây dựng tổ chức đảng vững mạnh, học tập tư tưởng Hồ Chí Minh, nâng cao chất lượng sáng tác - biểu diễn và thực hiện công tác dân vận.</p>
+          <p class="news__source">Nguồn: <a href="https://tapchiqptd.vn/vi/bao-ve-to-quoc/nha-hat-cheo-quan-doi-phat-huy-vai-tro-nguoi-nghe-si-chien-si-tren-mat-tran-van-hoa/22768.html" target="_blank" rel="noopener">Tạp chí Quốc phòng toàn dân</a></p>
         </div>
       </article>
-
-      <article class="newscard" data-cat="dao-tao">
-        <div class="newscard__art" data-art="10" aria-hidden="true"></div>
+      <article class="newscard" data-cat="hoat-dong">
+        <div class="newscard__art">
+          <img src="./anh/tin-tuc/nghe-an.jpg" alt="Biểu diễn phục vụ cán bộ, chiến sĩ và nhân dân Nghệ An" loading="lazy" width="1000" height="657" />
+          <span class="art__credit">Ảnh: Truyền hình Nghệ An</span>
+        </div>
         <div class="newscard__body">
-          <p class="news__meta">28/06/2026 · Đào tạo</p>
-          <h3>Khai giảng lớp truyền dạy hát chèo cho thanh thiếu niên quý III</h3>
-          <p>Lớp học miễn phí dành cho các em từ 10 đến 18 tuổi, do chính các nghệ sĩ của Nhà hát trực tiếp giảng dạy.</p>
-          <a href="#" class="link-more">Đọc tiếp →</a>
+          <p class="news__meta">07/04/2024 · Hoạt động</p>
+          <h3>Biểu diễn phục vụ cán bộ, chiến sĩ và nhân dân Nghệ An</h3>
+          <p>Nhà hát biểu diễn tại Trung đoàn 764, Bộ Chỉ huy Quân sự tỉnh Nghệ An. Vở “Đất liền và biển cả” ca ngợi tinh thần chiến đấu và sự hy sinh của các chiến sĩ Hải quân nhân dân Việt Nam trong bảo vệ chủ quyền biển đảo.</p>
+          <p class="news__source">Nguồn: <a href="https://truyenhinhnghean.vn/van-hoa-giai-tri/202404/nha-hat-cheo-quan-doi-bieu-dien-phuc-vu-can-bo-chien-si-va-nhan-dan-nghe-an-9b515d8/" target="_blank" rel="noopener">Truyền hình Nghệ An</a></p>
         </div>
       </article>
-
-      <article class="newscard" data-cat="hop-tac">
-        <div class="newscard__art" data-art="11" aria-hidden="true"></div>
-        <div class="newscard__body">
-          <p class="news__meta">20/06/2026 · Hợp tác</p>
-          <h3>Giao lưu nghệ thuật với đoàn văn công Quân đội nhân dân Lào</h3>
-          <p>Chương trình nằm trong khuôn khổ hoạt động đối ngoại quốc phòng, thắt chặt tình đoàn kết giữa quân đội hai nước.</p>
-          <a href="#" class="link-more">Đọc tiếp →</a>
+      <article class="newscard" data-cat="hoat-dong">
+        <div class="newscard__art">
+          <img src="./anh/tin-tuc/canh-sat-bien-hai-phong.jpg" alt="Đoàn diễn 1 biểu diễn phục vụ các đơn vị Cảnh sát biển tại Hải Phòng" loading="lazy" width="900" height="552" />
+          <span class="art__credit">Ảnh: Báo An ninh Hải Phòng</span>
         </div>
-      </article>
-
-      <article class="newscard" data-cat="hoat-dong" hidden>
-        <div class="newscard__art" data-art="12" aria-hidden="true"></div>
         <div class="newscard__body">
-          <p class="news__meta">11/06/2026 · Hoạt động</p>
-          <h3>Biểu diễn phục vụ chiến sĩ mới tại Quân khu 3</h3>
-          <p>Bốn buổi diễn liên tiếp tại các đơn vị huấn luyện, phục vụ hơn 3.000 lượt cán bộ, chiến sĩ.</p>
-          <a href="#" class="link-more">Đọc tiếp →</a>
-        </div>
-      </article>
-
-      <article class="newscard" data-cat="su-kien" hidden>
-        <div class="newscard__art" data-art="13" aria-hidden="true"></div>
-        <div class="newscard__body">
-          <p class="news__meta">02/06/2026 · Sự kiện</p>
-          <h3>Đêm diễn đặc biệt kỷ niệm 72 năm Ngày truyền thống</h3>
-          <p>Chương trình quy tụ nhiều thế hệ nghệ sĩ của Nhà hát cùng đứng chung một sân khấu.</p>
-          <a href="#" class="link-more">Đọc tiếp →</a>
-        </div>
-      </article>
-
-      <article class="newscard" data-cat="dao-tao" hidden>
-        <div class="newscard__art" data-art="14" aria-hidden="true"></div>
-        <div class="newscard__body">
-          <p class="news__meta">24/05/2026 · Đào tạo</p>
-          <h3>Toạ đàm "Chèo trong đời sống đương đại" tại Hà Nội</h3>
-          <p>Các nhà nghiên cứu, đạo diễn và nghệ sĩ cùng bàn về hướng đi của chèo trước thị hiếu khán giả trẻ.</p>
-          <a href="#" class="link-more">Đọc tiếp →</a>
-        </div>
-      </article>
-
-      <article class="newscard" data-cat="hoat-dong" hidden>
-        <div class="newscard__art" data-art="15" aria-hidden="true"></div>
-        <div class="newscard__body">
-          <p class="news__meta">15/05/2026 · Hoạt động</p>
-          <h3>Chương trình nghệ thuật phục vụ đồng bào vùng cao Hà Giang</h3>
-          <p>Nhà hát mang chèo tới các xã biên giới, kết hợp tặng quà và khám bệnh cho bà con.</p>
-          <a href="#" class="link-more">Đọc tiếp →</a>
+          <p class="news__meta">05/04/2024 · Hoạt động</p>
+          <h3>Biểu diễn phục vụ các đơn vị Cảnh sát biển và nhân dân Hải Phòng</h3>
+          <p>Tối 4/4 tại Hải Phòng, Đoàn diễn 1 biểu diễn chương trình kết hợp ca khúc cách mạng với các làn điệu chèo, quan họ và trích đoạn chèo cổ. Đây là hoạt động hướng tới kỷ niệm 70 năm Chiến thắng lịch sử Điện Biên Phủ.</p>
+          <p class="news__source">Nguồn: <a href="https://www.anhp.vn/nha-hat-cheo-quan-doi-bieu-dien-phuc-vu-can-bo-chien-si-cac-don-vi-canh-sat-bien-va-nhan-dan-hai-phong-d59243.html" target="_blank" rel="noopener">Báo An ninh Hải Phòng</a></p>
         </div>
       </article>
     </div>
@@ -237,49 +217,9 @@
     </div>
     <p class="section__intro">Trích đoạn vở diễn, phóng sự và tư liệu hậu trường.</p>
 
-    <!-- KHUNG SẴN — khi có video thật, thay .videocard__art bằng thẻ nhúng
-         (iframe YouTube hoặc <video>) và bỏ .videocard__play đi -->
-    <div class="videos">
-      <article class="videocard">
-        <div class="videocard__art" data-art="7" aria-hidden="true">
-          <span class="videocard__play"></span>
-          <span class="videocard__time">12:40</span>
-        </div>
-        <div class="videocard__body">
-          <p class="news__meta">Trích đoạn</p>
-          <h3>Trích đoạn "Quan Âm Thị Kính" - Cảnh Thị Mầu lên chùa</h3>
-        </div>
-      </article>
-      <article class="videocard">
-        <div class="videocard__art" data-art="9" aria-hidden="true">
-          <span class="videocard__play"></span>
-          <span class="videocard__time">08:15</span>
-        </div>
-        <div class="videocard__body">
-          <p class="news__meta">Phóng sự</p>
-          <h3>Những người giữ lửa chèo trong quân ngũ</h3>
-        </div>
-      </article>
-      <article class="videocard">
-        <div class="videocard__art" data-art="11" aria-hidden="true">
-          <span class="videocard__play"></span>
-          <span class="videocard__time">05:32</span>
-        </div>
-        <div class="videocard__body">
-          <p class="news__meta">Hậu trường</p>
-          <h3>Một ngày tập luyện của dàn nhạc Nhà hát</h3>
-        </div>
-      </article>
-      <article class="videocard">
-        <div class="videocard__art" data-art="13" aria-hidden="true">
-          <span class="videocard__play"></span>
-          <span class="videocard__time">21:07</span>
-        </div>
-        <div class="videocard__body">
-          <p class="news__meta">Toàn cảnh</p>
-          <h3>Đêm diễn kỷ niệm 72 năm Ngày truyền thống</h3>
-        </div>
-      </article>
+    <div class="soon soon--block">
+      <p class="soon__label">Chưa có nội dung</p>
+      <p class="soon__hint">Bốn video ở đây trước là dữ liệu mẫu nên đã gỡ. Khi có bản ghi thật, thay khối này bằng lưới <code>.videos</code> với iframe YouTube của Nhà hát.</p>
     </div>
   </div>
 </section>
@@ -293,16 +233,33 @@
         <h2 class="section__title">Thư viện ảnh</h2>
       </div>
     </div>
-    <p class="section__intro">Ảnh biểu diễn, hậu trường và các chuyến lưu diễn. Thay bằng ảnh thật khi có.</p>
+    <p class="section__intro">Ảnh từ các bài báo viết về hoạt động biểu diễn của Nhà hát, ghi rõ nguồn dưới mỗi ảnh.</p>
 
-    <!-- KHUNG SẴN — mỗi .shot là một ô ảnh, thay nền bằng <img> khi có ảnh thật -->
     <div class="gallery">
-      <figure class="shot shot--tall" data-art="8"><figcaption>Đêm diễn tại Nhà hát</figcaption></figure>
-      <figure class="shot" data-art="10"><figcaption>Hậu trường hoá trang</figcaption></figure>
-      <figure class="shot" data-art="12"><figcaption>Dàn nhạc dân tộc</figcaption></figure>
-      <figure class="shot shot--wide" data-art="14"><figcaption>Lưu diễn tại đảo Trường Sa Lớn</figcaption></figure>
-      <figure class="shot" data-art="16"><figcaption>Lớp truyền dạy hát chèo</figcaption></figure>
-      <figure class="shot" data-art="9"><figcaption>Trao huy chương Liên hoan Chèo</figcaption></figure>
+      <figure class="shot shot--tall">
+        <img src="./anh/tin-tuc/tu-long-giam-doc.jpg" alt="Đại tá, NSND Tự Long" loading="lazy" />
+        <figcaption>Đại tá, NSND Tự Long, Giám đốc Nhà hát <span>Ảnh: Báo Thanh Niên</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="./anh/tin-tuc/dieu-binh-quan-khu-2.jpg" alt="Biểu diễn phục vụ các khối diễu binh, diễu hành" loading="lazy" />
+        <figcaption>Phục vụ các khối diễu binh, diễu hành <span>Ảnh: Báo Quân khu 2</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="./anh/tin-tuc/nghe-an.jpg" alt="Biểu diễn tại Trung đoàn 764, Nghệ An" loading="lazy" />
+        <figcaption>Biểu diễn tại Trung đoàn 764, Nghệ An <span>Ảnh: Truyền hình Nghệ An</span></figcaption>
+      </figure>
+      <figure class="shot shot--wide">
+        <img src="./anh/tin-tuc/nha-may-x46.jpg" alt="Biểu diễn tại Hội trường Nhà máy X46" loading="lazy" />
+        <figcaption>Đêm diễn tại Hội trường Nhà máy X46 <span>Ảnh: Báo Hải quân Việt Nam</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="./anh/tin-tuc/canh-sat-bien-hai-phong.jpg" alt="Đoàn diễn 1 biểu diễn tại Hải Phòng" loading="lazy" />
+        <figcaption>Đoàn diễn 1 tại Hải Phòng <span>Ảnh: Báo An ninh Hải Phòng</span></figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="./anh/tin-tuc/nghe-si-chien-si.png" alt="Nhà hát Chèo Quân đội trên mặt trận văn hóa" loading="lazy" />
+        <figcaption>Người “nghệ sĩ - chiến sĩ” <span>Ảnh: Tạp chí Quốc phòng toàn dân</span></figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -318,22 +275,9 @@
     </div>
     <p class="section__intro">Những bài viết và ghi nhận của báo chí về hoạt động của Nhà hát.</p>
 
-    <div class="press">
-      <article class="presscard">
-        <p class="presscard__src">Báo Quân đội nhân dân</p>
-        <blockquote>Tiếng hát chèo giữa trùng khơi đã trở thành món quà tinh thần quý giá với những người lính đảo.</blockquote>
-        <p class="presscard__meta">19/07/2026 · <a href="#">Đọc bài gốc →</a></p>
-      </article>
-      <article class="presscard">
-        <p class="presscard__src">Tạp chí Văn hoá Nghệ thuật</p>
-        <blockquote>Nhà hát Chèo Quân đội là một trong số ít đơn vị giữ được lối chèo cổ mà vẫn nói được chuyện hôm nay.</blockquote>
-        <p class="presscard__meta">07/07/2026 · <a href="#">Đọc bài gốc →</a></p>
-      </article>
-      <article class="presscard">
-        <p class="presscard__src">Đài Truyền hình Việt Nam</p>
-        <blockquote>Lớp nghệ sĩ trẻ của Nhà hát đang chứng minh rằng chèo hoàn toàn có chỗ đứng trong đời sống đương đại.</blockquote>
-        <p class="presscard__meta">30/06/2026 · <a href="#">Xem phóng sự →</a></p>
-      </article>
+    <div class="soon soon--block">
+      <p class="soon__label">Chưa có nội dung</p>
+      <p class="soon__hint">Ba câu trích dẫn trước ở đây là dữ liệu mẫu nhưng lại gán cho những tòa soạn có thật, nên đã gỡ. Chỉ đưa lại khi trích đúng câu chữ từ bài báo cụ thể.</p>
     </div>
   </div>
 </section>

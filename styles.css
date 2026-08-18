@@ -1648,6 +1648,46 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .laurel h4 { font-size: 16.5px; }
 }
 
+/* ==========================================================
+   ẢNH THẬT TRONG KHỐI TIN
+   Các ô ảnh (.news__img, .news__thumb, .newscard__art, .feature__art, .shot)
+   vốn là khối gradient giả lập tô bằng [data-art]. Nay chứa <img> thật nên
+   phải thành khung định vị: ảnh phủ kín ô bằng object-fit, nhãn nguồn neo
+   vào góc. Giữ nguyên tỉ lệ khung cũ để bố cục không xê dịch.
+   ========================================================== */
+.news__img, .news__thumb, .newscard__art, .feature__art, .shot {
+  position: relative; overflow: hidden; background: var(--cream-2);
+}
+.news__img img, .news__thumb img, .newscard__art img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+/* .shot là flex container (chú thích dính đáy ô), nên ảnh phải nằm tuyệt đối
+   phía sau — để ở luồng thường thì ảnh và chú thích xếp cạnh nhau, vỡ ô. */
+.shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* .feature__art cao theo hàng lưới chứ không có tỉ lệ cố định, nên ảnh phải
+   phủ tuyệt đối; height:100% ở đây không có mốc để tính ra pixel */
+.feature__art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* nhãn ghi nguồn ảnh, chìm ở góc dưới bên phải */
+.art__credit {
+  position: absolute; right: 0; bottom: 0; z-index: 2;
+  padding: 4px 10px; border-radius: var(--r) 0 0 0;
+  background: rgba(20, 14, 12, .62); color: #fff;
+  font-size: 11px; font-weight: 500; line-height: 1.4;
+}
+
+/* dòng ghi nguồn bài báo, thay chỗ "Đọc tiếp →" cũ và giữ nguyên
+   margin-top:auto để đáy các thẻ trong lưới vẫn thẳng hàng */
+.news__source { margin: auto 0 0 !important; font-size: 13px; color: var(--ink-soft); }
+.news__source a { color: var(--red); font-weight: 600; border-bottom: 1px solid rgba(204, 71, 82, .32); }
+.news__source a:hover { border-bottom-color: var(--red); }
+
+/* chú thích ảnh trong thư viện: tên cảnh rồi tới nguồn cỡ nhỏ hơn */
+.shot figcaption span {
+  display: block; margin-top: 2px;
+  font-size: 11.5px; font-weight: 400; color: rgba(255, 255, 255, .75);
+}
+
 /* ---------- Back to top ---------- */
 .totop {
   position: fixed; z-index: 70;
