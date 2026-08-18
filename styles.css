@@ -383,7 +383,14 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .news__item h4 { margin: 0; font-size: 16px; line-height: 1.4; }
 
 /* ---------- Nghệ sĩ ---------- */
-.artists { display: grid; grid-template-columns: repeat(5, 1fr); gap: 22px; }
+/* auto-fit thay vì khoá cứng 5 cột: danh sách nghệ sĩ nay chỉ gồm người đã có
+   nguồn báo xác nhận nên số thẻ sẽ lên xuống theo thời gian. Khoá cứng thì hai
+   thẻ nằm dạt sang trái, chừa ba ô trống. minmax cận dưới 140px để điện thoại
+   hẹp vẫn xếp được hai thẻ một hàng. */
+.artists {
+  display: grid; gap: 22px; justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 200px));
+}
 .artist { margin: 0; text-align: center; }
 .artist__img {
   aspect-ratio: 1; border-radius: 50%; margin-bottom: 16px;
@@ -1680,7 +1687,6 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 @media (max-width: 1024px) {
   :root { --header-h: 72px; }
   .header__inner { min-height: 72px; }
-  .artists { grid-template-columns: repeat(3, 1fr); }
   .about__grid { grid-template-columns: 1fr; gap: 40px; }
   .news { grid-template-columns: 1fr; }
   .quickinfo__grid { grid-template-columns: repeat(2, 1fr); }
@@ -1720,7 +1726,6 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 /* ---------- iPad dọc ---------- */
 @media (max-width: 900px) {
   .section { padding: 64px 0; }
-  .artists { grid-template-columns: repeat(4, 1fr); }
   .hero__slides { height: min(64vh, 520px); min-height: 400px; }
 }
 
@@ -1802,7 +1807,6 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .hero__actions .btn { flex: 1 1 auto; }
   .hero__dots { bottom: 18px; }
 
-  .artists { grid-template-columns: repeat(2, 1fr); }
   .stats { grid-template-columns: repeat(2, 1fr); gap: 14px; }
   .stat strong { font-size: 28px; }
   .quickinfo__grid { grid-template-columns: 1fr; }
@@ -1842,7 +1846,6 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 
 /* ---------- Điện thoại nhỏ ---------- */
 @media (max-width: 420px) {
-  .artists { grid-template-columns: 1fr 1fr; gap: 16px; }
   .btn { padding: 12px 20px; }
   .btn--lg { padding: 14px 24px; font-size: 15px; }
   .sched__act { flex-wrap: wrap; gap: 10px; }
