@@ -332,6 +332,9 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 [data-art="14"] { --a1: #23343f; --a2: #7c96a6; }
 [data-art="15"] { --a1: #3f3216; --a2: #c3a45e; }
 [data-art="16"] { --a1: #52203a; --a2: #c48ba0; }
+[data-art="17"] { --a1: #2b3a2c; --a2: #9ab27a; }
+[data-art="18"] { --a1: #45301f; --a2: #c9a173; }
+[data-art="19"] { --a1: #1f2c3a; --a2: #8fa6bd; }
 
 /* ---------- Giới thiệu ---------- */
 .about__grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: center; }

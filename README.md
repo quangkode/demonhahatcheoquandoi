@@ -127,6 +127,30 @@ Phần thưởng của bản thân Nhà hát (huân chương, danh hiệu Anh h�
 
 - Ảnh hiện là khối gradient giả lập (`[data-art]` trong `styles.css`) để trang chạy
   được ngay không cần tài nguyên ngoài. Khi có ảnh thật, thay bằng `<img>` hoặc
-  `background-image: url(...)`.
-- Nội dung (tên vở diễn, nghệ sĩ, tin tức, số điện thoại, địa chỉ) là dữ liệu mẫu,
-  cần thay bằng thông tin chính thức trước khi dùng thật.
+  `background-image: url(...)`. Riêng ảnh trong mục Tin tức đã là ảnh thật.
+
+## Nội dung: cái nào thật, cái nào còn là dữ liệu mẫu
+
+**Đã là thông tin thật, có nguồn:**
+
+- Địa chỉ Nhà hát
+- Kho tác phẩm và bảng vàng giải thưởng ở `vo-dien.html` (do Nhà hát cung cấp)
+- Phần thưởng cao quý ở `gioi-thieu.html#khen-thuong`
+- Danh sách 34 nghệ sĩ được phong tặng NSND/NSƯT ở `gioi-thieu.html#nghe-si`
+  (do Nhà hát cung cấp). Đây là **bảng vàng danh hiệu**, không phải danh sách
+  nhân sự đang công tác — có cả người đã nghỉ hưu.
+- Sáu bài trong mục Tin tức, ảnh tải về `anh/tin-tuc/`, có ghi nguồn bài và
+  nguồn ảnh
+
+**Vẫn là dữ liệu mẫu, phải thay trước khi dùng thật:**
+
+- Lịch biểu diễn ở trang chủ và mảng `SHOWS` trong `booking.js`
+- Vở "Bến nước Trường Sơn" ở slide 2 của hero — không có thật
+- Bốn số liệu ở khối Giới thiệu trang chủ (70 năm, 120 vở, 35 NSND & NSƯT,
+  4.500 buổi diễn)
+- Số điện thoại và email liên hệ
+- Các khối `.soon` ở `lich-su.html`, mục Video và Điểm báo ở `tin-tuc.html`
+
+**Quy tắc khi bổ sung nội dung**: chỉ đưa lên thứ truy được về một nguồn cụ thể
+— bài báo, văn bản của Nhà hát hoặc của Bộ Quốc phòng. Wikipedia không tính.
+Trang này từng có tên giám đốc và trích dẫn báo chí hoàn toàn bịa, đã phải gỡ.
