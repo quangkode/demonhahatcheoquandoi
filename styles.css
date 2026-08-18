@@ -1715,6 +1715,50 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   font-size: 11.5px; font-weight: 400; color: rgba(255, 255, 255, .75);
 }
 
+/* ==========================================================
+   LÃNH ĐẠO NHÀ HÁT QUA CÁC THỜI KỲ
+   ========================================================== */
+:root {
+  /* Ảnh gốc là chân dung ~590x890 có SẴN dải chú thích in ở đáy ảnh. Khung ảnh
+     dùng tỉ lệ này cộng object-position:top để cắt bỏ đúng dải đó, rồi chú thích
+     được viết lại bằng chữ thật bên dưới — nhờ vậy sửa được thông tin đã cũ và
+     máy đọc màn hình mới đọc được tên. Dải chú thích chiếm khoảng 20% chiều cao;
+     nếu ảnh nào còn lòi chữ thì giảm số này (5/6 -> 4/5), nếu cụt cằm thì tăng. */
+  --leader-crop: 5 / 6;
+}
+.leaders { display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); gap: 24px 20px; }
+.leader { margin: 0; }
+.leader__img {
+  aspect-ratio: var(--leader-crop); overflow: hidden;
+  border-radius: var(--r); background: var(--cream-2);
+  border: 1px solid var(--line); box-shadow: var(--shadow);
+}
+.leader__img img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+.leader h4 { margin: 12px 0 3px; font-size: 14.5px; line-height: 1.35; }
+.leader p { margin: 0; font-size: 12.5px; color: var(--ink-soft); line-height: 1.45; }
+/* người đang giữ chức */
+.leader__now { color: var(--red) !important; font-weight: 600; }
+
+/* ô chưa có tư liệu: gạch chéo mờ cho thấy rõ là chỗ trống chờ điền,
+   dùng lại đúng ngôn ngữ của .soon ở trang Lịch sử */
+.leader--blank .leader__img {
+  border-style: dashed; border-color: var(--sand); box-shadow: none;
+  background:
+    repeating-linear-gradient(135deg, rgba(208, 208, 157, .28) 0 8px, transparent 8px 16px),
+    var(--cream-2);
+}
+.leader--blank h4 { color: var(--ink-soft); font-weight: 500; }
+
+@media (hover: hover) and (pointer: fine) {
+  .leader:not(.leader--blank):hover .leader__img { box-shadow: var(--shadow-lg); border-color: var(--gold); }
+}
+
+@media (max-width: 640px) {
+  .leaders { grid-template-columns: repeat(auto-fill, minmax(136px, 1fr)); gap: 20px 14px; }
+  .leader h4 { font-size: 13.5px; }
+  .leader p { font-size: 12px; }
+}
+
 /* ---------- Back to top ---------- */
 .totop {
   position: fixed; z-index: 70;

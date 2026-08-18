@@ -136,6 +136,11 @@ Phần thưởng của bản thân Nhà hát (huân chương, danh hiệu Anh h�
 - Địa chỉ Nhà hát
 - Kho tác phẩm và bảng vàng giải thưởng ở `vo-dien.html` (do Nhà hát cung cấp)
 - Phần thưởng cao quý ở `gioi-thieu.html#khen-thuong`
+- Lãnh đạo qua các thời kỳ ở `gioi-thieu.html#lanh-dao` — 20 chân dung do Nhà
+  hát cung cấp. Ảnh gốc có sẵn dòng chú thích in ở đáy; khung `.leader__img` cắt
+  bỏ dải đó bằng `--leader-crop` rồi chú thích viết lại bằng chữ thật. Nhờ vậy
+  sửa được chỗ đã cũ: ảnh ông Vũ Tự Long ghi "Phó Giám đốc" vì chụp trước khi
+  ông nhận chức Giám đốc từ 1.2025. Ảnh nào còn lòi chữ thì chỉnh `--leader-crop`.
 - Danh sách 34 nghệ sĩ được phong tặng NSND/NSƯT ở `gioi-thieu.html#nghe-si`
   (do Nhà hát cung cấp). Đây là **bảng vàng danh hiệu**, không phải danh sách
   nhân sự đang công tác — có cả người đã nghỉ hưu.
