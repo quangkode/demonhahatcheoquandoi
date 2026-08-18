@@ -1679,6 +1679,30 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   font-size: 11px; font-weight: 500; line-height: 1.4;
 }
 
+/* ---------- Cả thẻ tin là một vùng bấm ----------
+   Bọc <a> quanh TIÊU ĐỀ rồi trải vùng bấm của nó ra kín thẻ bằng ::after.
+   Hai cách khác đều tệ hơn: bọc <a> quanh cả khối thì trình đọc màn hình
+   phải đọc hết ngày, tiêu đề, tóm tắt và cả dòng nguồn mới hết một liên kết;
+   còn gắn onclick lên thẻ thì bàn phím và chuột giữa đều không dùng được. */
+.feature, .newscard, .news__lead, .news__item { position: relative; }
+.feature__body h3 a, .newscard__body h3 a, .news__lead h3 a, .news__item h4 a {
+  color: inherit; transition: color var(--t);
+}
+.feature__body h3 a::after, .newscard__body h3 a::after,
+.news__lead h3 a::after, .news__item h4 a::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+}
+/* Dòng "Nguồn:" là liên kết thật nên phải nổi lên trên vùng bấm trải rộng.
+   Còn nhãn nguồn ảnh và nhãn "Tin nổi bật" chỉ là chữ, nằm đè lên thì bấm trúng
+   chúng sẽ không ra gì cả — cho chuột xuyên qua để cú bấm rơi đúng vào liên kết. */
+.news__source { position: relative; z-index: 2; }
+.art__credit, .feature__tag { pointer-events: none; }
+
+@media (hover: hover) and (pointer: fine) {
+  .feature:hover h3 a, .newscard:hover h3 a,
+  .news__lead:hover h3 a, .news__item:hover h4 a { color: var(--red); }
+}
+
 /* dòng ghi nguồn bài báo, thay chỗ "Đọc tiếp →" cũ và giữ nguyên
    margin-top:auto để đáy các thẻ trong lưới vẫn thẳng hàng */
 .news__source { margin: auto 0 0 !important; font-size: 13px; color: var(--ink-soft); }
