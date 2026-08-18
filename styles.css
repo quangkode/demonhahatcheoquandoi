@@ -1308,7 +1308,6 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 [data-inst="thanh-la"] .expcard__art { --c1: #23343f; --c2: #cbb27a; }
 [data-work="quan-am"]  .expcard__art { --c1: #6a2030; --c2: #d99a86; }
 [data-work="luu-binh"] .expcard__art { --c1: #3a4a2c; --c2: #c3b26a; }
-[data-work="ben-nuoc"] .expcard__art { --c1: #182621; --c2: #a68500; }
 
 @media (hover: hover) and (pointer: fine) {
   .scene:hover { border-color: var(--red); color: var(--red); }

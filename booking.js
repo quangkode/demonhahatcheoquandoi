@@ -15,7 +15,7 @@
     },
     {
       id: 'nhc-1508', day: '15', month: 'Tháng 8', year: '2026', weekday: 'Thứ Sáu',
-      time: '20:00', title: 'Bến nước Trường Sơn', genre: 'Chèo hiện đại', flag: 'Công diễn',
+      time: '20:00', title: 'Đất liền và biển cả', genre: 'Chèo hiện đại',
       venue: 'Rạp Nhà hát Chèo Quân đội', address: '45 Ng. 126 Đ. Xuân Đỉnh, Xuân Đỉnh, Hà Nội',
       duration: '135 phút', fill: 0.82
     },

@@ -160,7 +160,6 @@ Phần thưởng của bản thân Nhà hát (huân chương, danh hiệu Anh h�
 **Vẫn là dữ liệu mẫu, phải thay trước khi dùng thật:**
 
 - Lịch biểu diễn ở trang chủ và mảng `SHOWS` trong `booking.js`
-- Vở "Bến nước Trường Sơn" ở slide 2 của hero — không có thật
 - Bốn số liệu ở khối Giới thiệu trang chủ (70 năm, 120 vở, 35 NSND & NSƯT,
   4.500 buổi diễn)
 - Số điện thoại và email liên hệ
