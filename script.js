@@ -270,7 +270,8 @@
   /* ---------- Hiệu ứng xuất hiện khi cuộn ---------- */
   var targets = document.querySelectorAll(
     '.sched, .artist, .news__lead, .news__item, .about__media, .about__text, .quickinfo__item,' +
-    '.mission, .value, .capa, .award, .tl, .factbox, .honorbox, .decree'
+    '.mission, .value, .capa, .award, .tl, .factbox, .honorbox, .decree,' +
+    '.milestone, .leader, .work, .archive__item'
   );
   Array.prototype.forEach.call(targets, function (el) { el.classList.add('reveal'); });
 
@@ -279,7 +280,7 @@
       entries.forEach(function (entry, i) {
         if (!entry.isIntersecting) return;
         var el = entry.target;
-        setTimeout(function () { el.classList.add('is-in'); }, i * 70);
+        setTimeout(function () { el.classList.add('is-in'); }, Math.min(i, 8) * 70);
         io.unobserve(el);
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
