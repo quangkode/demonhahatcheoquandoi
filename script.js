@@ -403,9 +403,12 @@
     closeLightbox();
     lbOpener = btn;
 
-    var fig = btn.closest('.archive__item');
-    var cap = fig && fig.querySelector('figcaption');
-    var capText = cap ? cap.textContent.trim() : '';
+    // Thư viện ảnh không còn chú thích đè trên ảnh nên chữ nằm ở data-cap;
+    // ô tư liệu vẫn viết chú thích bằng <figcaption> nên giữ đường lùi về đó.
+    var fig = btn.closest('figure');
+    var figCap = fig && fig.querySelector('figcaption');
+    var capText = btn.getAttribute('data-cap') || (figCap ? figCap.textContent.trim() : '');
+    var creditText = btn.getAttribute('data-credit') || '';
 
     var box = document.createElement('div');
     box.className = 'lightbox';
@@ -431,6 +434,14 @@
       p.textContent = capText;
       wrap.appendChild(p);
     }
+    // ảnh lấy từ báo nên nguồn phải đi kèm; bỏ khỏi lưới cho sạch thì
+    // chỗ duy nhất còn lại để ghi công là đây
+    if (creditText) {
+      var cr = document.createElement('p');
+      cr.className = 'lightbox__credit';
+      cr.textContent = creditText;
+      wrap.appendChild(cr);
+    }
 
     box.appendChild(close);
     box.appendChild(wrap);
@@ -451,7 +462,7 @@
   }
 
   document.addEventListener('click', function (e) {
-    var btn = e.target.closest && e.target.closest('.archive__zoom');
+    var btn = e.target.closest && e.target.closest('.archive__zoom, .shot__zoom');
     if (btn) openLightbox(btn);
   });
 

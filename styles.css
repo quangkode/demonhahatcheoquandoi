@@ -1436,6 +1436,10 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   margin: 16px auto 0; max-width: 720px; text-align: center;
   color: rgba(255, 255, 255, .88); font-size: 14.5px;
 }
+.lightbox__credit {
+  margin: 6px auto 0; max-width: 720px; text-align: center;
+  color: rgba(255, 255, 255, .55); font-size: 12.5px;
+}
 .lightbox__close {
   position: absolute; top: 18px; right: 18px; width: 44px; height: 44px;
   border: 0; border-radius: 50%; cursor: pointer; font-size: 26px; line-height: 1;
@@ -1533,6 +1537,10 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .gallery {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   grid-auto-rows: 200px; gap: 16px;
+  /* .shot--tall chiếm hai hàng còn .shot--wide chiếm hai cột nên số ô không
+     chia chẵn cho lưới, để mặc định sẽ hở lỗ ở cuối hàng. dense cho ảnh sau
+     lùi lại lấp chỗ trống — thứ tự ảnh trong thư viện không quan trọng. */
+  grid-auto-flow: dense;
 }
 .shot {
   margin: 0; border-radius: var(--r); overflow: hidden;
@@ -1540,10 +1548,22 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 }
 .shot--tall { grid-row: span 2; }
 .shot--wide { grid-column: span 2; }
-.shot figcaption {
-  position: relative; z-index: 1; width: 100%;
-  padding: 26px 16px 14px; color: #fff; font-size: 13.5px; font-weight: 500;
-  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .72));
+/* Thư viện ảnh là mảng ảnh sạch, không chữ đè lên: chú thích và nguồn đưa
+   vào lớp phóng to khi bấm. Nút phủ kín ô để cả ô đều bấm được, không phải
+   nhắm đúng tấm ảnh bên trong. */
+.shot__zoom {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  padding: 0; border: 0; background: none; cursor: zoom-in;
+}
+.shot__zoom img { transition: transform .5s ease; }
+.shot__zoom:focus-visible { outline: 3px solid var(--gold); outline-offset: -3px; }
+/* dấu hiệu cho biết ảnh bấm được — trên cảm ứng không có hover nên luôn hiện */
+.shot__zoom::after {
+  content: ""; position: absolute; right: 10px; bottom: 10px;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(20, 14, 12, .55) center / 15px 15px no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.6-3.6M11 8.4v5.2M8.4 11h5.2'/%3E%3C/svg%3E");
+  transition: var(--t);
 }
 
 /* ---------- Điểm báo ---------- */
@@ -1701,6 +1721,8 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 
 @media (hover: hover) and (pointer: fine) {
   .laurel:hover { border-color: var(--gold); box-shadow: var(--shadow); }
+  .shot__zoom:hover img { transform: scale(1.06); }
+  .shot__zoom:hover::after { background-color: var(--red); }
 }
 
 @media (max-width: 640px) {
@@ -1775,10 +1797,7 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .news__source a:hover { border-bottom-color: var(--red); }
 
 /* chú thích ảnh trong thư viện: tên cảnh rồi tới nguồn cỡ nhỏ hơn */
-.shot figcaption span {
-  display: block; margin-top: 2px;
-  font-size: 11.5px; font-weight: 400; color: rgba(255, 255, 255, .75);
-}
+/* .shot figcaption đã bỏ — chú thích chuyển vào lớp phóng to */
 
 /* ==========================================================
    LÃNH ĐẠO NHÀ HÁT QUA CÁC THỜI KỲ

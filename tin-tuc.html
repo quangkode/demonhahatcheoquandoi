@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=35" />
+<link rel="stylesheet" href="./styles.css?v=37" />
 <link rel="icon" type="image/png" href="https://i.postimg.cc/FRktfv0p/Logo-Cheo-QD-PNG.png" />
 </head>
 <body>
@@ -233,32 +233,38 @@
         <h2 class="section__title">Thư viện ảnh</h2>
       </div>
     </div>
-    <p class="section__intro">Ảnh từ các bài báo viết về hoạt động biểu diễn của Nhà hát, ghi rõ nguồn dưới mỗi ảnh.</p>
+    <p class="section__intro">Hình ảnh về Nhà hát và các hoạt động biểu diễn. Bấm vào từng ảnh để xem bản đầy đủ.</p>
 
     <div class="gallery">
       <figure class="shot shot--tall">
-        <img src="./anh/tin-tuc/tu-long-giam-doc.jpg" alt="Đại tá, NSND Tự Long" loading="lazy" />
-        <figcaption>Đại tá, NSND Tự Long, Giám đốc Nhà hát <span>Ảnh: Báo Thanh Niên</span></figcaption>
+        <button type="button" class="shot__zoom" data-cap="Đại tá, NSND Tự Long, Giám đốc Nhà hát" data-credit="Ảnh: Báo Thanh Niên" aria-label="Phóng to ảnh: Đại tá, NSND Tự Long, Giám đốc Nhà hát">
+          <img src="./anh/tin-tuc/tu-long-giam-doc.jpg" alt="Đại tá, NSND Tự Long" loading="lazy" />
+        </button>
       </figure>
       <figure class="shot">
-        <img src="./anh/tin-tuc/dieu-binh-quan-khu-2.jpg" alt="Biểu diễn phục vụ các khối diễu binh, diễu hành" loading="lazy" />
-        <figcaption>Phục vụ các khối diễu binh, diễu hành <span>Ảnh: Báo Quân khu 2</span></figcaption>
+        <button type="button" class="shot__zoom" data-cap="Phục vụ các khối diễu binh, diễu hành" data-credit="Ảnh: Báo Quân khu 2" aria-label="Phóng to ảnh: Phục vụ các khối diễu binh, diễu hành">
+          <img src="./anh/tin-tuc/dieu-binh-quan-khu-2.jpg" alt="Biểu diễn phục vụ các khối diễu binh, diễu hành" loading="lazy" />
+        </button>
       </figure>
       <figure class="shot">
-        <img src="./anh/tin-tuc/nghe-an.jpg" alt="Biểu diễn tại Trung đoàn 764, Nghệ An" loading="lazy" />
-        <figcaption>Biểu diễn tại Trung đoàn 764, Nghệ An <span>Ảnh: Truyền hình Nghệ An</span></figcaption>
+        <button type="button" class="shot__zoom" data-cap="Biểu diễn tại Trung đoàn 764, Nghệ An" data-credit="Ảnh: Truyền hình Nghệ An" aria-label="Phóng to ảnh: Biểu diễn tại Trung đoàn 764, Nghệ An">
+          <img src="./anh/tin-tuc/nghe-an.jpg" alt="Biểu diễn tại Trung đoàn 764, Nghệ An" loading="lazy" />
+        </button>
       </figure>
       <figure class="shot shot--wide">
-        <img src="./anh/tin-tuc/nha-may-x46.jpg" alt="Biểu diễn tại Hội trường Nhà máy X46" loading="lazy" />
-        <figcaption>Đêm diễn tại Hội trường Nhà máy X46 <span>Ảnh: Báo Hải quân Việt Nam</span></figcaption>
+        <button type="button" class="shot__zoom" data-cap="Đêm diễn tại Hội trường Nhà máy X46" data-credit="Ảnh: Báo Hải quân Việt Nam" aria-label="Phóng to ảnh: Đêm diễn tại Hội trường Nhà máy X46">
+          <img src="./anh/tin-tuc/nha-may-x46.jpg" alt="Biểu diễn tại Hội trường Nhà máy X46" loading="lazy" />
+        </button>
       </figure>
       <figure class="shot">
-        <img src="./anh/tin-tuc/canh-sat-bien-hai-phong.jpg" alt="Đoàn diễn 1 biểu diễn tại Hải Phòng" loading="lazy" />
-        <figcaption>Đoàn diễn 1 tại Hải Phòng <span>Ảnh: Báo An ninh Hải Phòng</span></figcaption>
+        <button type="button" class="shot__zoom" data-cap="Đoàn diễn 1 tại Hải Phòng" data-credit="Ảnh: Báo An ninh Hải Phòng" aria-label="Phóng to ảnh: Đoàn diễn 1 tại Hải Phòng">
+          <img src="./anh/tin-tuc/canh-sat-bien-hai-phong.jpg" alt="Đoàn diễn 1 biểu diễn tại Hải Phòng" loading="lazy" />
+        </button>
       </figure>
       <figure class="shot">
-        <img src="./anh/tin-tuc/nghe-si-chien-si.png" alt="Nhà hát Chèo Quân đội trên mặt trận văn hóa" loading="lazy" />
-        <figcaption>Người “nghệ sĩ - chiến sĩ” <span>Ảnh: Tạp chí Quốc phòng toàn dân</span></figcaption>
+        <button type="button" class="shot__zoom" data-cap="Người “nghệ sĩ - chiến sĩ”" data-credit="Ảnh: Tạp chí Quốc phòng toàn dân" aria-label="Phóng to ảnh: Người “nghệ sĩ - chiến sĩ”">
+          <img src="./anh/tin-tuc/nghe-si-chien-si.png" alt="Nhà hát Chèo Quân đội trên mặt trận văn hóa" loading="lazy" />
+        </button>
       </figure>
     </div>
   </div>
@@ -381,6 +387,6 @@
 
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
-<script src="./script.js?v=12"></script>
+<script src="./script.js?v=13"></script>
 </body>
 </html>
