@@ -618,7 +618,9 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .capa p { margin: 0; font-size: 14.5px; color: var(--ink-soft); }
 
 /* ---------- Khen thưởng ---------- */
-.awards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+/* 5 cột chứ không phải 4: danh sách xếp theo năm có 9 thẻ thường bao quanh
+   thẻ 2004 chiếm trọn hàng, chia 5 / 2004 / 4 mới không rơi ra một hàng lẻ. */
+.awards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
 .award {
   background: var(--white); border: 1px solid var(--line); border-radius: var(--r);
   padding: 24px; transition: var(--t);
@@ -635,6 +637,7 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .award--top .award__year { margin: 0; font-size: 40px; color: var(--gold-light); flex: none; }
 .award h3 { font-size: 16.5px; margin: 0; }
 .award--top h3 { font-size: 24px; font-family: "Playfair Display", serif; }
+.award__sub { font-size: 16px; font-weight: 400; color: var(--gold-light); }
 .award__note { margin: 8px 0 0; font-size: 13.5px; color: var(--ink-soft); }
 
 /* ---------- Timeline ---------- */
@@ -666,13 +669,18 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   font-size: 14.5px; color: var(--ink) !important;
 }
 .tl__works strong { color: var(--gold-ink); }
+.tl__note {
+  margin: 16px 0 0 !important; padding: 10px 14px; border-radius: var(--r);
+  background: var(--cream-2); font-size: 13.5px; font-style: italic;
+}
 
 /* ---------- Responsive trang giới thiệu ---------- */
 @media (max-width: 1024px) {
   .intro { grid-template-columns: 1fr; gap: 32px; }
   .intro__aside { position: static; flex-direction: row; flex-wrap: wrap; }
   .factbox, .honorbox { flex: 1 1 280px; }
-  .awards { grid-template-columns: repeat(2, 1fr); }
+  /* khối này đã chuyển sang trang Lịch sử và tách thành 10 thẻ theo năm */
+  .awards { grid-template-columns: repeat(3, 1fr); }
   .values { grid-template-columns: 1fr; }
 }
 
@@ -681,6 +689,7 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
      trên mobile chỉ cao 62-66px. Đặt 78px cố định sẽ hở một khe ngay dưới
      header, nội dung trang lộ ra giữa hai thanh dính. */
   .missions, .capabilities { grid-template-columns: 1fr; }
+  .awards { grid-template-columns: repeat(2, 1fr); }
   .tl { grid-template-columns: 1fr; gap: 20px; }
   .tl::before { display: none; }
   .tl__marker {
@@ -1359,6 +1368,21 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 /* ô dấu mốc giờ là nội dung thật, không còn .soon__hint để mượn margin/màu */
 .milestone p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-soft); }
 
+/* ---------- Tưởng nhớ liệt sĩ ----------
+   Cố ý khác .milestone: viền trái vàng thay vì đỏ và nền kem, để khối tưởng
+   niệm không đọc thành một dấu mốc thành tích nữa trong cùng trang. */
+.tribute { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; margin-top: 14px; }
+.martyr {
+  background: var(--cream-2); border: 1px solid var(--line);
+  border-left: 3px solid var(--gold); border-radius: var(--r); padding: 20px;
+}
+.martyr__role {
+  margin: 0 0 6px; font-size: 12px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 1.2px; color: var(--gold-ink);
+}
+.martyr h4 { margin: 0; font-family: "Playfair Display", serif; font-size: 19px; color: var(--red); }
+.martyr__note { margin: 8px 0 0; font-size: 13px; color: var(--ink-soft); }
+
 /* ---------- Tư liệu ---------- */
 .archive { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }
 .archive__item { margin: 0; }
@@ -1825,9 +1849,15 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .tl.reveal.is-in::before { transform: scaleY(1); }
 
 .tl.reveal .tl__body {
-  opacity: 0; transform: translateX(26px);
+  opacity: 0; transform: translateY(18px);
   /* giữ box-shadow trong danh sách, nếu không hover mất hiệu ứng đổ bóng */
   transition: opacity .6s ease .16s, transform .6s ease .16s, box-shadow var(--t);
+}
+/* Chỉ trượt ngang khi bố cục còn hai cột: thẻ nội dung sát mép phải container
+   nên dịch X dương là tràn khung nhìn, phải dịch sang TRÁI vào khoảng hở
+   cạnh cột mốc năm. Dưới 861px chỉ còn một cột, hết chỗ hở, quay về trục Y. */
+@media (min-width: 861px) {
+  .tl.reveal .tl__body { transform: translateX(-22px); }
 }
 .tl.reveal.is-in .tl__body { opacity: 1; transform: none; }
 

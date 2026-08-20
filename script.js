@@ -271,7 +271,7 @@
   var targets = document.querySelectorAll(
     '.sched, .artist, .news__lead, .news__item, .about__media, .about__text, .quickinfo__item,' +
     '.mission, .value, .capa, .award, .tl, .factbox, .honorbox, .decree,' +
-    '.milestone, .leader, .work, .archive__item'
+    '.milestone, .leader, .work, .archive__item, .martyr'
   );
   Array.prototype.forEach.call(targets, function (el) { el.classList.add('reveal'); });
 
@@ -294,13 +294,16 @@
 
   function runCounter(el) {
     var end = parseInt(el.getAttribute('data-count'), 10);
+    // hàm ghi đè trọn textContent nên hậu tố (+, %) phải đi kèm ở đây,
+    // đặt trong thẻ riêng sẽ bị nhịp đếm ghi đè mất
+    var suffix = el.getAttribute('data-suffix') || '';
     var dur = 1400;
     var start = null;
     function step(ts) {
       if (start === null) start = ts;
       var p = Math.min((ts - start) / dur, 1);
       var eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(end * eased).toLocaleString('vi-VN');
+      el.textContent = Math.round(end * eased).toLocaleString('vi-VN') + suffix;
       if (p < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
