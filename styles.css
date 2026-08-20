@@ -1356,7 +1356,8 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   font-size: 21px; color: var(--red); line-height: 1.1;
 }
 .milestone h3 { font-size: 16px; margin: 0 0 10px; }
-.milestone .soon__hint { font-size: 13px; }
+/* ô dấu mốc giờ là nội dung thật, không còn .soon__hint để mượn margin/màu */
+.milestone p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-soft); }
 
 /* ---------- Tư liệu ---------- */
 .archive { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }
