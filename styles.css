@@ -1373,6 +1373,44 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .archive__item figcaption {
   margin-top: 10px; font-size: 13px; color: var(--ink-soft); text-align: center;
 }
+/* Ô đã có ảnh thật: bỏ viền đứt + nền kẻ sọc của ô rỗng đi.
+   Ảnh tư liệu tỉ lệ rất lệch nhau (bài báo dọc, ảnh chụp ngang) nên cover
+   để khung không vỡ lưới; bấm vào xem bản đầy đủ ở lớp phóng to. */
+.archive__art:has(img) { border-style: solid; border-color: var(--line); background: var(--white); }
+.archive__art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.archive__zoom {
+  /* height:100% là bắt buộc: .archive__art định cỡ bằng aspect-ratio, nút là con
+     duy nhất nên nếu nút cao auto thì height:100% của <img> không có gì để bám
+     vào và ô ảnh sập xuống 0. */
+  display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none;
+  cursor: zoom-in; border-radius: var(--r); overflow: hidden;
+}
+.archive__zoom:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.archive__zoom img { transition: transform .45s ease; }
+.archive__zoom:hover img { transform: scale(1.05); }
+
+/* ---------- Lớp phóng to ảnh tư liệu ---------- */
+.lightbox {
+  position: fixed; inset: 0; z-index: 120; display: grid; place-items: center;
+  padding: 5vmin; background: rgba(20, 14, 12, .93);
+  opacity: 0; transition: opacity .25s ease;
+}
+.lightbox.is-open { opacity: 1; }
+.lightbox img {
+  max-width: 100%; max-height: 84vh; object-fit: contain;
+  border-radius: var(--r); box-shadow: var(--shadow-lg);
+}
+.lightbox__cap {
+  margin: 16px auto 0; max-width: 720px; text-align: center;
+  color: rgba(255, 255, 255, .88); font-size: 14.5px;
+}
+.lightbox__close {
+  position: absolute; top: 18px; right: 18px; width: 44px; height: 44px;
+  border: 0; border-radius: 50%; cursor: pointer; font-size: 26px; line-height: 1;
+  background: rgba(255, 255, 255, .14); color: #fff; transition: var(--t);
+}
+.lightbox__close:hover { background: rgba(255, 255, 255, .26); }
 
 @media (hover: hover) and (pointer: fine) {
   .milestone:hover { transform: translateY(-3px); box-shadow: var(--shadow); }

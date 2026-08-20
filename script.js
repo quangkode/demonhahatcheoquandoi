@@ -373,4 +373,86 @@
 
     renderNews();
   }
+
+  /* ---------- Phóng to ảnh tư liệu (trang Lịch sử) ----------
+     Ảnh trong lưới bị cắt cover cho khung đều nhau, nên bài báo hay quyết định
+     scan sẽ không đọc được ở cỡ thumbnail — bấm vào mở bản đầy đủ contain.
+
+     Gắn theo uỷ nhiệm trên document: ô tư liệu có thể được thêm sau, không cần
+     gắn lại listener. Dùng chung ScrollLock có bộ đếm ở đầu file để nếu lớp này
+     chồng lên popup khác thì lớp đóng trước không mở khoá cuộn sớm.             */
+  var lbBox = null, lbOpener = null;
+
+  function closeLightbox() {
+    if (!lbBox) return;
+    var box = lbBox;
+    lbBox = null;
+    box.classList.remove('is-open');
+    lock.off();
+    // đợi hết transition mờ dần rồi mới gỡ, không thì biến mất cụt ngủn
+    setTimeout(function () { if (box.parentNode) box.parentNode.removeChild(box); }, 260);
+    if (lbOpener) { lbOpener.focus(); lbOpener = null; }
+  }
+
+  function openLightbox(btn) {
+    var img = btn.querySelector('img');
+    if (!img) return;
+    closeLightbox();
+    lbOpener = btn;
+
+    var fig = btn.closest('.archive__item');
+    var cap = fig && fig.querySelector('figcaption');
+    var capText = cap ? cap.textContent.trim() : '';
+
+    var box = document.createElement('div');
+    box.className = 'lightbox';
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-modal', 'true');
+    if (capText) box.setAttribute('aria-label', capText);
+
+    var close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'lightbox__close';
+    close.setAttribute('aria-label', 'Đóng');
+    close.innerHTML = '&times;';
+
+    var wrap = document.createElement('div');
+    var big = document.createElement('img');
+    // dùng lại đúng src đã tải nên mở ra là thấy ngay, không chờ tải lần hai
+    big.src = img.currentSrc || img.src;
+    big.alt = img.alt || capText;
+    wrap.appendChild(big);
+    if (capText) {
+      var p = document.createElement('p');
+      p.className = 'lightbox__cap';
+      p.textContent = capText;
+      wrap.appendChild(p);
+    }
+
+    box.appendChild(close);
+    box.appendChild(wrap);
+    document.body.appendChild(box);
+    lbBox = box;
+    lock.on();
+    // ép trình duyệt tính layout một nhịp, không thì thêm .is-open cùng khung
+    // hình với lúc chèn, transition không chạy mà nhảy thẳng sang trạng thái cuối
+    void box.offsetWidth;
+    box.classList.add('is-open');
+    close.focus();
+
+    close.addEventListener('click', closeLightbox);
+    // chỉ đóng khi bấm vào nền, bấm trúng ảnh thì giữ nguyên
+    box.addEventListener('click', function (e) {
+      if (e.target === box || e.target === wrap) closeLightbox();
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('.archive__zoom');
+    if (btn) openLightbox(btn);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (lbBox && (e.key === 'Escape' || e.key === 'Esc')) closeLightbox();
+  });
 })();

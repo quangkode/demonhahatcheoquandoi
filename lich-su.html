@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=28" />
+<link rel="stylesheet" href="./styles.css?v=29" />
 <link rel="icon" type="image/png" href="https://i.postimg.cc/FRktfv0p/Logo-Cheo-QD-PNG.png" />
 </head>
 <body>
@@ -94,6 +94,7 @@
       <a href="#dong-thoi-gian" class="is-active">Dòng thời gian</a>
       <a href="#dau-moc">Dấu mốc nổi bật</a>
       <a href="#the-he">Các thế hệ nghệ sĩ</a>
+      <a href="#khen-thuong">Phần thưởng</a>
       <a href="#tu-lieu">Tư liệu &amp; hình ảnh</a>
     </div>
     </div>
@@ -433,8 +434,51 @@
   </div>
 </section>
 
-<!-- ============ 4. TƯ LIỆU ============ -->
-<section class="section section--alt" id="tu-lieu">
+<!-- ============ 4. KHEN THƯỞNG ============ -->
+<section class="section section--alt" id="khen-thuong">
+  <div class="container">
+    <div class="section__head">
+      <div>
+        <p class="section__eyebrow">Thành tích</p>
+        <h2 class="section__title">Phần thưởng cao quý</h2>
+      </div>
+      <a href="./vo-dien.html#giai-thuong" class="link-more">Vở diễn đoạt giải →</a>
+    </div>
+
+    <p class="section__intro">Trải qua các thời kỳ, Nhà hát đã vinh dự được trao tặng nhiều phần thưởng cao quý, tiêu biểu:</p>
+
+    <div class="awards">
+      <article class="award award--top">
+        <p class="award__year">2004</p>
+        <h3>Danh hiệu Anh hùng Lực lượng vũ trang nhân dân thời kỳ đổi mới</h3>
+      </article>
+      <article class="award">
+        <p class="award__year">1976 · 1980 · 1985</p>
+        <h3>Huân chương Chiến công</h3>
+        <p class="award__note">Hạng Ba (1976), hạng Nhì (1980), hạng Nhất (1985)</p>
+      </article>
+      <article class="award">
+        <p class="award__year">1991</p>
+        <h3>Huân chương Lao động hạng Nhì</h3>
+      </article>
+      <article class="award">
+        <p class="award__year">1999 · 2009</p>
+        <h3>Huân chương Quân công</h3>
+        <p class="award__note">Hạng Ba (1999), hạng Nhì (2009)</p>
+      </article>
+      <article class="award">
+        <p class="award__year">2014 · 2019 · 2024</p>
+        <h3>Huân chương Bảo vệ Tổ quốc</h3>
+        <p class="award__note">Hạng Ba (2014), hạng Nhì (2019), hạng Ba (2024)</p>
+      </article>
+    </div>
+
+    <p class="notebox">Ngoài các huân chương trên, Nhà hát còn được tặng nhiều cờ thưởng của Bộ Quốc phòng, Tổng cục Chính trị, Tổng cục Hậu cần và các đơn vị trong, ngoài Quân đội.</p>
+  </div>
+</section>
+
+<!-- ============ 5. TƯ LIỆU ============ -->
+<section class="section" id="tu-lieu">
   <div class="container">
     <div class="section__head">
       <div>
@@ -444,7 +488,21 @@
     </div>
     <p class="section__intro">Ảnh tư liệu, bài báo và hiện vật gắn với từng chặng đường của Nhà hát.</p>
 
-    <!-- KHUNG SẴN — thay mỗi .archive__art bằng ảnh tư liệu thật -->
+    <!-- KHUNG SẴN — mỗi ô rỗng thay bằng một khối như mẫu dưới đây.
+         Ảnh đặt trong ./anh/tu-lieu/. Bọc <img> trong .archive__zoom thì bấm vào
+         sẽ mở lớp phóng to (xem cuối script.js) — cần thiết vì ảnh trong lưới bị
+         cắt cover, bài báo hay quyết định scan không đọc nổi ở cỡ thumbnail.
+         Chú thích viết một lần ở <figcaption>, lớp phóng to tự lấy lại.
+
+         <figure class="archive__item">
+           <div class="archive__art">
+             <button type="button" class="archive__zoom" aria-label="Phóng to ảnh">
+               <img src="./anh/tu-lieu/TEN-FILE.jpg" alt="Mô tả ảnh" loading="lazy" />
+             </button>
+           </div>
+           <figcaption>Chú thích · năm</figcaption>
+         </figure>
+    -->
     <div class="archive">
       <figure class="archive__item">
         <div class="archive__art" aria-hidden="true"></div>
@@ -537,6 +595,6 @@
 
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
-<script src="./script.js?v=10"></script>
+<script src="./script.js?v=11"></script>
 </body>
 </html>
