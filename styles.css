@@ -205,11 +205,20 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(100deg, rgba(20, 14, 12, .88) 0%, rgba(20, 14, 12, .6) 48%, rgba(20, 14, 12, .25) 100%);
 }
-.hero__slide[data-bg="1"]::before { background-image: linear-gradient(135deg, #70272d 0%, #cc4752 45%, #ffcd00 100%); }
-.hero__slide[data-bg="2"]::before { background-image: linear-gradient(135deg, #182621 0%, #22372f 40%, #a68500 100%); }
-/* slide 3 nói về lớp truyền nghề — dùng xanh lá thương hiệu cho khác hẳn hai
-   slide trên, đồng thời đưa màu chính thứ ba của guideline lên vị trí lớn nhất trang */
-.hero__slide[data-bg="3"]::before { background-image: linear-gradient(135deg, #182621 0%, #47803a 50%, #85c663 100%); }
+/* Ảnh thật của Nhà hát cho ba slide. Gradient giữ lại làm lớp dưới: nếu ảnh
+   chưa tải xong hoặc lỗi mạng thì nền vẫn ra đúng màu thương hiệu chứ không đen. */
+.hero__slide[data-bg="1"]::before {
+  background-image: url("https://i.postimg.cc/HLpRq9LL/1787106124047-5181209564709035851-5181209564709035851-8e8ade8ae2073bf8755719a47b91a637.jpg"),
+    linear-gradient(135deg, #70272d 0%, #cc4752 45%, #ffcd00 100%);
+}
+.hero__slide[data-bg="2"]::before {
+  background-image: url("https://i.postimg.cc/MG3wtFY2/1787106011293-5181209564709035851-5181209564709035851-309b93ad2e523577b9f71f104a67458c.jpg"),
+    linear-gradient(135deg, #182621 0%, #22372f 40%, #a68500 100%);
+}
+.hero__slide[data-bg="3"]::before {
+  background-image: url("https://i.postimg.cc/5N8x1pfy/1787106082049-5181209564709035851-5181209564709035851-992b784c9e90b7532cffb9474b4cbad4.jpg"),
+    linear-gradient(135deg, #182621 0%, #47803a 50%, #85c663 100%);
+}
 
 .hero__content { position: relative; z-index: 2; color: #fff; max-width: 760px; }
 .hero__eyebrow {
