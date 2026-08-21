@@ -1912,7 +1912,11 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
    riêng chứ không dùng :has(img) để trình duyệt cũ cũng ăn. Nền gradient vẫn
    giữ, thành màu chờ trong lúc ảnh chưa tải xong. */
 .expcard__art--anh::after { content: none; }
-/* Hai vở còn lại chưa có ảnh tư liệu. Khi mọi thẻ quanh nó đều là ảnh thật thì
+/* Ghi chú nhỏ dưới phần mô tả, dùng khi ảnh trên thẻ không phải cảnh diễn mà
+   là hiện vật (bìa đĩa, áp phích) — nói rõ đang nhìn cái gì. */
+.expcard__ghi { display: block; margin-top: 9px; font-size: 12.5px; line-height: 1.5; color: var(--gold-ink); }
+
+/* Vở còn lại chưa có ảnh tư liệu. Khi mọi thẻ quanh nó đều là ảnh thật thì
    một ô gradient trơ ra trông như ảnh hỏng — dán nhãn để thấy rõ là đang chờ
    ảnh chứ không phải lỗi. Bỏ nhãn đi khi có ảnh. */
 .expcard__art--cho::before {
