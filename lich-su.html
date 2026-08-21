@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=38" />
+<link rel="stylesheet" href="./styles.css?v=39" />
 <link rel="icon" type="image/png" href="https://i.postimg.cc/FRktfv0p/Logo-Cheo-QD-PNG.png" />
 </head>
 <body>
@@ -729,7 +729,7 @@
     </div>
     <p class="section__intro">Ảnh tư liệu, bài báo và hiện vật gắn với từng chặng đường của Nhà hát.</p>
 
-    <!-- KHUNG SẴN — mỗi ô rỗng thay bằng một khối như mẫu dưới đây.
+    <!-- THÊM TƯ LIỆU MỚI — chép một khối .archive__item như các khối dưới đây.
          Ảnh đặt trong ./anh/tu-lieu/. Bọc <img> trong .archive__zoom thì bấm vào
          sẽ mở lớp phóng to (xem cuối script.js) — cần thiết vì ảnh trong lưới bị
          cắt cover, bài báo hay quyết định scan không đọc nổi ở cỡ thumbnail.
@@ -746,22 +746,39 @@
     -->
     <div class="archive">
       <figure class="archive__item">
-        <div class="archive__art" aria-hidden="true"></div>
-        <figcaption>Đang cập nhật</figcaption>
+        <div class="archive__art">
+          <button type="button" class="archive__zoom" aria-label="Phóng to ảnh">
+            <img src="./anh/tu-lieu/bai-ca-giu-nuoc.jpg" alt="Bìa đĩa VCD vở chèo Lý Thánh Tông tuyển hiền do Đoàn Chèo Tổng cục Hậu cần biểu diễn" loading="lazy" width="400" height="264" />
+          </button>
+        </div>
+        <figcaption>Bìa đĩa VCD vở <em>Lý Thánh Tông tuyển hiền</em> — mặt bìa ghi rõ “Đoàn Chèo Tổng cục Hậu cần biểu diễn”, tên gọi của Nhà hát trước năm 2010</figcaption>
       </figure>
       <figure class="archive__item">
-        <div class="archive__art" aria-hidden="true"></div>
-        <figcaption>Đang cập nhật</figcaption>
+        <div class="archive__art">
+          <button type="button" class="archive__zoom" aria-label="Phóng to ảnh">
+            <img src="./anh/tu-lieu/dem-trang.jpg" alt="Cảnh trong vở Đêm trắng" loading="lazy" width="573" height="349" />
+          </button>
+        </div>
+        <figcaption>Cảnh trong vở <em>Đêm trắng</em> — Huy chương Vàng Hội diễn Nghệ thuật chuyên nghiệp toàn quân 2008</figcaption>
       </figure>
       <figure class="archive__item">
-        <div class="archive__art" aria-hidden="true"></div>
-        <figcaption>Đang cập nhật</figcaption>
+        <div class="archive__art">
+          <button type="button" class="archive__zoom" aria-label="Phóng to ảnh">
+            <img src="./anh/tu-lieu/nguyen-chi-thanh.jpg" alt="Cảnh trong vở Nguyễn Chí Thanh - Sáng trong như ngọc một con người" loading="lazy" width="450" height="316" />
+          </button>
+        </div>
+        <figcaption>Cảnh trong vở <em>Nguyễn Chí Thanh - Sáng trong như ngọc một con người</em> — Huy chương Vàng Hội diễn Nghệ thuật chuyên nghiệp toàn quân 2014</figcaption>
       </figure>
       <figure class="archive__item">
-        <div class="archive__art" aria-hidden="true"></div>
-        <figcaption>Đang cập nhật</figcaption>
+        <div class="archive__art">
+          <button type="button" class="archive__zoom" aria-label="Phóng to ảnh">
+            <img src="./anh/tu-lieu/quan-am.jpg" alt="Cảnh trong vở chèo cổ Quan Âm Thị Kính" loading="lazy" width="400" height="277" />
+          </button>
+        </div>
+        <figcaption>Cảnh trong vở chèo cổ <em>Quan Âm Thị Kính</em>, một trong những vở nền tảng Nhà hát kế thừa</figcaption>
       </figure>
     </div>
+
   </div>
 </section>
 
