@@ -271,7 +271,7 @@
   var targets = document.querySelectorAll(
     '.sched, .artist, .news__lead, .news__item, .about__media, .about__text, .quickinfo__item,' +
     '.mission, .value, .capa, .award, .tl, .factbox, .honorbox, .decree,' +
-    '.milestone, .leader, .work, .archive__item, .martyr'
+    '.milestone, .leader, .work, .archive__item, .martyr, .laurel, .bangvang'
   );
   Array.prototype.forEach.call(targets, function (el) { el.classList.add('reveal'); });
 

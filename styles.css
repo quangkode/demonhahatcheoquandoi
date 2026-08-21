@@ -134,6 +134,10 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .btn--sm { padding: 8px 18px; font-size: 14px; }
 .btn--lg { padding: 15px 34px; font-size: 16px; }
 .btn--muted { background: var(--cream-2); color: var(--ink-soft); box-shadow: none; }
+/* nút vàng dùng trên nền xanh quân đội đậm (chân trang): đỏ trên xanh đậm tối
+   quá nên chìm, vàng thương hiệu thì bật hẳn lên */
+.btn--vang { background: var(--gold); color: #4a3a00; box-shadow: 0 6px 18px rgba(255, 205, 0, .22); }
+.btn--vang:hover { background: #ffdb3d; transform: translateY(-2px); }
 
 .link-more { color: var(--red); font-weight: 600; font-size: 15px; transition: var(--t); }
 .link-more:hover { color: var(--gold-ink); }
@@ -266,9 +270,11 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 }
 .quickinfo__item:last-child { border-right: 0; }
 .quickinfo__item:hover { background: var(--cream); }
+.quickinfo__item:hover .quickinfo__ico { background: var(--gold); color: #4a3a00; transform: translateY(-2px); }
 .quickinfo__ico {
   width: 46px; height: 46px; flex: none; display: grid; place-items: center;
   background: var(--cream-2); border-radius: 12px; color: var(--red);
+  transition: var(--t);
 }
 .quickinfo__ico svg { width: 24px; height: 24px; }
 .quickinfo__item h4 { margin: 0; font-size: 15.5px; }
@@ -276,7 +282,15 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 
 /* ---------- Section shell ---------- */
 .section { padding: 76px 0; }
-.section--alt { background: var(--cream-2); }
+/* Nền mục xen kẽ dệt thêm hoạ tiết chiếu rất mờ (alpha .017): ở khoảng cách đọc
+   thường nó chỉ làm mặt nền bớt phẳng lì chứ không đọc ra thành vân, đúng tinh
+   thần chiếu chèo mà không cướp sự chú ý của chữ. */
+.section--alt {
+  background-color: var(--cream-2);
+  background-image:
+    repeating-linear-gradient(45deg, rgba(28, 26, 23, .014) 0 2px, transparent 2px 7px),
+    repeating-linear-gradient(-45deg, rgba(28, 26, 23, .014) 0 2px, transparent 2px 7px);
+}
 .section__head {
   display: flex; align-items: flex-end; justify-content: space-between;
   gap: 20px; margin-bottom: 38px; flex-wrap: wrap;
@@ -285,13 +299,22 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   margin: 0 0 6px; text-transform: uppercase; letter-spacing: 2.5px;
   font-size: 12px; font-weight: 700; color: var(--gold-ink);
 }
+/* hạt trám vàng nhỏ dẫn trước mỗi dòng nhãn mục — một chi tiết lặp lại xuyên
+   suốt sáu trang, đủ để các mục nhìn ra là cùng một bộ chứ không rời rạc */
+.section__eyebrow::before {
+  content: ""; display: inline-block; width: 6px; height: 6px;
+  margin-right: 9px; vertical-align: 1px;
+  background: var(--gold); transform: rotate(45deg);
+}
+.section__head--light .section__eyebrow::before { background: var(--gold-light); }
 .section__title {
   font-family: var(--serif); font-weight: 700;
   font-size: clamp(28px, 3.4vw, 40px); margin: 0; position: relative; padding-bottom: 14px;
 }
 .section__title::after {
   content: ""; position: absolute; left: 0; bottom: 0;
-  width: 62px; height: 3px; background: var(--red); border-radius: 3px;
+  width: 74px; height: 3px; border-radius: 3px;
+  background: linear-gradient(90deg, var(--red) 0%, var(--red) 55%, var(--gold) 100%);
 }
 .section__head--light .section__title, .section__head--light .section__eyebrow { color: #fff; }
 .section__head--light .section__eyebrow { color: var(--gold-light); }
@@ -381,22 +404,33 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
    thẻ nằm dạt sang trái, chừa ba ô trống. minmax cận dưới 140px để điện thoại
    hẹp vẫn xếp được hai thẻ một hàng. */
 .artists {
-  display: grid; gap: 22px; justify-content: center;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 200px));
+  display: grid; gap: 26px 24px; justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 240px));
 }
 .artist { margin: 0; text-align: center; }
+/* KHÔNG dùng overflow:hidden ở khung này — huy hiệu năm phong tặng nằm đè lên
+   mép dưới vòng tròn, cắt là mất. Bo tròn ảnh ngay trên chính thẻ img. */
 .artist__img {
-  aspect-ratio: 1; border-radius: 50%; margin-bottom: 16px;
+  position: relative; aspect-ratio: 1; border-radius: 50%; margin-bottom: 18px;
   border: 4px solid var(--white); box-shadow: var(--shadow); transition: var(--t);
-  overflow: hidden; background: var(--cream-2);
+  background: var(--cream-2);
 }
 /* Ảnh trong khung tròn được cắt vuông sẵn quanh mặt rồi mới đưa vào (anh/nghe-si/tron).
    Ảnh gốc là ảnh sân khấu khung ngang, người đứng lệch tâm và đầu chiếm phần nhỏ,
    nên chỉ object-position thôi không đủ — còn phải phóng vào mặt, việc đó cắt sẵn
    ở file gọn hơn là dựng tám lớp CSS riêng. Cắt lại thì giữ nguyên khung vuông. */
-.artist__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.artist__img img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 50%; }
+/* năm được phong tặng danh hiệu — viết thành huy hiệu nhỏ trên ảnh thay vì một
+   dòng chữ dưới mỗi tên, vì tám nghệ sĩ chỉ có hai mốc năm nên viết ra là lặp */
+.artist__nam {
+  position: absolute; right: 4px; bottom: 4px;
+  padding: 4px 11px; border-radius: 999px;
+  background: var(--gold); color: #4a3a00;
+  font-size: 11.5px; font-weight: 700; letter-spacing: .5px; line-height: 1.5;
+  border: 2px solid var(--white); box-shadow: 0 3px 10px rgba(28, 26, 23, .2);
+}
 .artist:hover .artist__img { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--gold); }
-.artist h4 { margin: 0 0 2px; font-size: 16px; }
+.artist h4 { margin: 0 0 3px; font-size: 17px; font-family: var(--serif); }
 .artist p { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
 
 /* ---------- CTA ---------- */
@@ -411,19 +445,64 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 /* ---------- Footer ----------
    Trước đây nền là #1a1613 (gần như đen), khiến chân trang nặng hơn hẳn phần
    còn lại. Nay dùng chính --army của thanh trên cùng: đầu và chân trang đóng
-   khung bằng cùng một màu, và tông xanh nhạt hơn đen nên đỡ tối. */
-.footer { background: var(--army); color: #c2cfc6; padding-top: 60px; font-size: 14.5px; }
-.footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1.3fr; gap: 48px; padding-bottom: 46px; }
+   khung bằng cùng một màu, và tông xanh nhạt hơn đen nên đỡ tối.
+
+   Cột "Liên kết" đã bỏ: menu chính và mục lục từng trang đã dẫn đủ, cột đó chỉ
+   lặp lại và trên điện thoại kéo chân trang dài thêm gần 400px. Còn lại hai
+   khối — thương hiệu ở trên, liên hệ bày NGANG thành một dải bốn đầu mối. */
+.footer {
+  background: var(--army); color: #c2cfc6; padding-top: 56px; font-size: 14.5px;
+  position: relative;
+}
+/* vạch vàng mảnh vắt ngang mép trên, nối chân trang với dải CTA đỏ phía trên */
+.footer::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px;
+  background: linear-gradient(90deg, var(--red) 0%, var(--gold) 50%, var(--red) 100%);
+}
+.footer__top {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 30px; flex-wrap: wrap; padding-bottom: 30px;
+}
+.footer__brand { flex: 1 1 440px; max-width: 620px; }
+/* khối mời đặt chỗ dồn về mép phải, lấp chỗ trống mà cột "Liên kết" để lại và
+   giữ lối vào việc quan trọng nhất của trang ngay ở chân mỗi trang */
+.footer__moi { flex: 0 1 290px; text-align: right; }
+.footer__moi p { margin: 0 0 14px; font-size: 14px; }
+.footer__moi .footer__socials { justify-content: flex-end; margin-top: 22px; }
 .footer h4 { color: #fff; font-size: 16px; margin: 0 0 18px; position: relative; padding-bottom: 10px; }
 .footer h4::after { content: ""; position: absolute; left: 0; bottom: 0; width: 34px; height: 2px; background: var(--gold); }
 .footer p { margin: 0 0 16px; }
+.footer__brand p { margin: 0; }
 .footer li { margin-bottom: 10px; }
 /* nền chân trang là xanh đậm nên dùng được vàng thương hiệu nguyên bản */
 .footer a:hover { color: var(--gold); }
 .brand--footer { margin-bottom: 16px; }
 .brand--footer .brand__text strong { color: #fff; font-size: 16px; }
-.footer__contact li { display: flex; flex-direction: column; gap: 1px; margin-bottom: 14px; }
-.footer__contact span {
+
+/* --- Dải liên hệ nằm ngang --- */
+.footer__lienhe {
+  /* cột địa chỉ rộng nhất vì chuỗi địa chỉ dài gấp đôi ba mục còn lại — chia
+     đều bốn cột là địa chỉ tự xuống dòng còn ba cột kia thừa chỗ */
+  display: grid; grid-template-columns: 1.7fr 1fr 1.35fr 1fr; gap: 20px 26px;
+  padding: 26px 0 34px; border-top: 1px solid rgba(255, 255, 255, .12);
+}
+.footer__lienhe li { display: flex; gap: 12px; align-items: flex-start; margin: 0; min-width: 0; }
+.footer__lienhe > li > div { min-width: 0; overflow-wrap: anywhere; }
+.footer__ico {
+  flex: none; width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center; margin-top: 1px;
+  background: rgba(255, 205, 0, .13); color: var(--gold);
+}
+.footer__ico svg { width: 17px; height: 17px; }
+.footer__lienhe span {
+  display: block; margin-bottom: 2px;
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--gold); font-weight: 600;
+}
+
+/* danh sách "nhãn + nội dung" xếp dọc, dùng ở khối đầu mối báo chí trang Tin tức */
+.infolist li { display: flex; flex-direction: column; gap: 1px; margin-bottom: 14px; }
+.infolist span {
   font-size: 11.5px; text-transform: uppercase; letter-spacing: 1.2px;
   color: var(--gold); font-weight: 600;
 }
@@ -1598,8 +1677,8 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 }
 .pressbox__col h3 { font-size: 18px; margin: 0 0 16px; color: var(--red); }
 .pressbox__col p { margin: 0 0 12px; font-size: 15px; color: var(--ink-soft); }
-.pressbox__col .footer__contact li { color: var(--ink); }
-.pressbox__col .footer__contact span { color: var(--gold-ink); }
+.pressbox__col .infolist li { color: var(--ink); }
+.pressbox__col .infolist span { color: var(--gold-ink); }
 
 @media (hover: hover) and (pointer: fine) {
   .chip:hover { border-color: var(--red); color: var(--red); }
@@ -1678,21 +1757,87 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
    Một vở có thể đoạt nhiều giải ở nhiều năm khác nhau (Điều đọng lại sau chiến
    tranh có ba giải trải hai mốc thời gian), nên KHÔNG dùng cột năm như .works —
    năm phải nằm trong từng dòng giải, không phải ngoài lề của cả vở. */
-.laurels { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 18px; }
+
+/* Dải thống kê mở đầu bảng vàng — nền xanh quân đội, số vàng, đếm tăng dần khi
+   cuộn tới nhờ [data-count] dùng chung với dải số ở trang chủ. */
+.bangvang {
+  position: relative; overflow: hidden;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  background: var(--army); border-radius: 14px;
+  padding: 30px 18px 26px; margin: 0 0 12px;
+  box-shadow: var(--shadow);
+}
+.bangvang::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px;
+  background: linear-gradient(90deg, var(--red), var(--gold) 50%, var(--red));
+}
+.bangvang__o { text-align: center; padding: 2px 12px; border-right: 1px solid rgba(255, 255, 255, .13); }
+.bangvang__o:last-child { border-right: 0; }
+.bangvang strong {
+  display: block; margin-bottom: 8px; line-height: 1;
+  font-family: var(--serif); font-size: clamp(30px, 3.4vw, 40px); color: var(--gold);
+}
+.bangvang span {
+  display: block; font-size: 12px; font-weight: 600; color: #b9c7bd;
+  text-transform: uppercase; letter-spacing: 1.3px; line-height: 1.5;
+}
+.bangvang__chu { margin: 0 0 34px; font-size: 13px; color: var(--ink-soft); }
+
+/* Tiêu đề từng giai đoạn: mốc năm cỡ lớn kiểu chữ có chân, lời dẫn viết hoa nhỏ,
+   số vở nằm trong huy hiệu vàng dạt hẳn sang phải sau nét kẻ. */
+.works__sub--vang { margin-top: 44px; }
+.works__sub-nam {
+  font-family: var(--serif); font-size: 21px; font-weight: 700;
+  text-transform: none; letter-spacing: 0; color: var(--red);
+}
+.works__sub--vang::after { order: 2; background: linear-gradient(90deg, var(--line), rgba(227, 217, 198, 0)); }
+.works__sub-dem {
+  order: 3; flex: none; font-style: normal;
+  padding: 4px 12px; border-radius: 999px;
+  background: var(--gold); color: #4a3a00;
+  font-size: 11px; letter-spacing: .6px;
+}
+
+/* align-items:start chứ không để grid kéo giãn: một vở chỉ có một dòng giải mà
+   nằm cùng hàng với vở có ba dòng thì bị kéo cao bằng nhau, chừa một mảng trắng
+   to tướng trong thẻ. Để thẻ cao đúng bằng nội dung của nó. */
+.laurels {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  align-items: start; gap: 18px; margin-top: 18px;
+}
 .laurel {
+  position: relative; overflow: hidden;
   background: var(--white); border: 1px solid var(--line);
-  border-left: 3px solid var(--gold); border-radius: var(--r);
-  padding: 20px 22px; transition: var(--t);
+  border-radius: var(--r); padding: 20px 22px 20px 26px;
+  transition: transform var(--t), box-shadow var(--t), border-color var(--t);
 }
-.laurel h4 { margin: 0 0 12px; font-size: 17.5px; font-family: var(--serif); }
-.laurel ul { display: flex; flex-direction: column; gap: 10px; }
-.laurel li {
-  display: flex; gap: 10px; align-items: flex-start;
-  font-size: 13.5px; line-height: 1.5; color: var(--ink-soft);
+/* dải đứng bên trái báo hạng giải cao nhất mà vở đạt được */
+.laurel::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: var(--gold);
 }
-.laurel b { color: var(--ink); font-weight: 600; }
+.laurel--bac::before { background: #c9c1b4; }
+.laurel--khac::before { background: var(--army); }
+/* quầng sáng mờ ở góc trên phải, ăn màu theo hạng giải — thuần trang trí.
+   Trước dùng hình huy chương vẽ chìm nhưng ở độ mờ đủ nhã thì nó chỉ còn là
+   một vệt xám nhoè, nhìn như lỗi ảnh. Quầng màu thì không bao giờ bị vậy. */
+.laurel::after {
+  content: ""; position: absolute; right: -40px; top: -40px;
+  width: 150px; height: 150px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 205, 0, .26), rgba(255, 205, 0, 0) 68%);
+}
+.laurel--bac::after { background: radial-gradient(circle, rgba(120, 112, 100, .18), rgba(120, 112, 100, 0) 68%); }
+.laurel--khac::after { background: radial-gradient(circle, rgba(34, 55, 47, .11), rgba(34, 55, 47, 0) 68%); }
+.laurel h4 { margin: 0 0 14px; padding-right: 12px; font-size: 18px; line-height: 1.35; font-family: var(--serif); }
+.laurel ul { display: flex; flex-direction: column; gap: 11px; }
+/* grid hai cột chứ KHÔNG phải flex: với flex, phần chữ sau huy chương bị cắt
+   thành nhiều ô riêng ở mỗi thẻ <b>, làm năm trao giải nhảy sang một cột lửng
+   giữa dòng. Bọc chữ trong .laurel__giai và cho nó chiếm trọn cột thứ hai. */
+.laurel li { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; }
+.laurel__giai { font-size: 13.5px; line-height: 1.55; color: var(--ink-soft); }
+.laurel b { color: var(--ink); font-weight: 600; white-space: nowrap; }
 .laurel__medal {
-  flex: none; margin-top: 1px; padding: 3px 9px; border-radius: 5px;
+  margin-top: 2px; padding: 3px 9px; border-radius: 5px;
   font-size: 11px; font-weight: 700; text-transform: uppercase;
   letter-spacing: .5px; white-space: nowrap;
 }
@@ -1720,7 +1865,7 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 [data-work="huyen-nu"] .expcard__art         { --c1: #4a2440; --c2: #c093ae; }
 
 @media (hover: hover) and (pointer: fine) {
-  .laurel:hover { border-color: var(--gold); box-shadow: var(--shadow); }
+  .laurel:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: var(--shadow-lg); }
   .shot__zoom:hover img { transform: scale(1.06); }
   .shot__zoom:hover::after { background-color: var(--red); }
 }
@@ -1734,8 +1879,11 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .work { padding: 12px 2px; gap: 12px; }
   .work__year { width: 46px; font-size: 16.5px; }
   .laurels { grid-template-columns: 1fr; gap: 14px; }
-  .laurel { padding: 18px; }
-  .laurel h4 { font-size: 16.5px; }
+  .laurel { padding: 16px 16px 16px 20px; }
+  .laurel h4 { font-size: 16.5px; padding-right: 4px; }
+  .laurel::after { width: 110px; height: 110px; right: -32px; top: -32px; }
+  .works__sub-nam { font-size: 18px; }
+  .works__sub--vang { margin-top: 34px; }
 }
 
 /* ==========================================================
@@ -1934,7 +2082,15 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .news { grid-template-columns: 1fr; }
   .quickinfo__grid { grid-template-columns: repeat(2, 1fr); }
   .quickinfo__item:nth-child(2) { border-right: 0; }
-  .footer__grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .footer__lienhe { grid-template-columns: repeat(2, 1fr); }
+  .footer__moi { flex: 1 1 100%; text-align: left; }
+  .footer__moi .footer__socials { justify-content: flex-start; }
+  /* bốn ô thống kê bảng vàng xuống hai hàng: nét ngăn dọc giữa hai hàng phải
+     đổi thành nét ngang, không thì hàng trên dính hàng dưới */
+  .bangvang { grid-template-columns: repeat(2, 1fr); }
+  .bangvang__o:nth-child(2n) { border-right: 0; }
+  .bangvang__o:nth-child(-n+2) { padding-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, .13); }
+  .bangvang__o:nth-child(n+3) { padding-top: 20px; }
   .news__lead .news__img { aspect-ratio: 21 / 9; }
 }
 
@@ -2054,8 +2210,14 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .stat strong { font-size: 28px; }
   .quickinfo__grid { grid-template-columns: 1fr; }
   .quickinfo__item { border-right: 0; border-bottom: 1px solid var(--line); padding: 18px 4px; }
-  .footer__grid { grid-template-columns: 1fr; gap: 28px; padding-bottom: 36px; }
-  .footer { padding-top: 44px; }
+  .footer__lienhe { grid-template-columns: 1fr; gap: 14px; padding: 22px 0 28px; }
+  .bangvang { padding: 22px 8px 18px; border-radius: 12px; }
+  .bangvang__o { padding: 2px 6px; }
+  .bangvang strong { margin-bottom: 5px; }
+  .bangvang span { font-size: 10.5px; letter-spacing: .9px; }
+  .bangvang__chu { margin-bottom: 26px; font-size: 12.5px; }
+  .footer { padding-top: 42px; }
+  .footer__top { padding-bottom: 24px; }
   .about__badge { right: 10px; bottom: 10px; padding: 14px 18px; }
   .about__badge strong { font-size: 24px; }
   .cta { padding: 42px 0; }
@@ -2154,12 +2316,11 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .bkmodal__close { width: 44px; height: 44px; }
   .topbar__right > a { display: inline-flex; align-items: center; min-height: 44px; }
 
-  /* danh sách liên kết ở chân trang vốn chỉ cao ~21px, rất khó bấm trúng */
-  .footer__col ul a,
+  /* liên kết chữ nhỏ ở chân trang / vụn đường dẫn vốn chỉ cao ~21px, rất khó bấm trúng */
+  .footer__lienhe a,
   .crumb a {
     display: inline-flex; align-items: center; min-height: 40px;
   }
-  .footer__col li { margin-bottom: 2px; }
   .link-more { display: inline-flex; align-items: center; min-height: 40px; }
   .section__head .link-more { margin-top: -4px; }
   .hero__dots { gap: 6px; }
