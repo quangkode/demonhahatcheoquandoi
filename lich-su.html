@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=40" />
+<link rel="stylesheet" href="./styles.css?v=41" />
 <link rel="icon" type="image/png" href="https://i.postimg.cc/FRktfv0p/Logo-Cheo-QD-PNG.png" />
 </head>
 <body>
@@ -59,6 +59,7 @@
       <a href="./index.html">Trang chủ</a>
       <a href="./trai-nghiem.html">Trải nghiệm</a>
       <a href="./vo-dien.html">Vở diễn</a>
+      <a href="./nghe-si.html">Nghệ sĩ</a>
       <a href="./gioi-thieu.html">Giới thiệu</a>
       <a href="./lich-su.html" class="is-active">Lịch sử</a>
       <a href="./tin-tuc.html">Tin tức</a>
@@ -93,8 +94,6 @@
     <div class="subnav__inner" id="subnavMenu">
       <a href="#dong-thoi-gian" class="is-active">Dòng thời gian</a>
       <a href="#dau-moc">Dấu mốc nổi bật</a>
-      <a href="#the-he">Các thế hệ nghệ sĩ</a>
-      <a href="#lanh-dao">Lãnh đạo</a>
       <a href="#khen-thuong">Phần thưởng</a>
       <a href="#tu-lieu">Tư liệu &amp; hình ảnh</a>
     </div>
@@ -103,9 +102,9 @@
 </nav>
 
 <!-- ==========================================================
-     Ba mục đầu đã có nội dung thật. Chỗ trống duy nhất còn lại là
-     mục 4 "Tư liệu & hình ảnh": mỗi .archive__art là một ô ảnh rỗng,
-     thay bằng <img> thật rồi viết chú thích vào <figcaption>.
+     Trang này kể chuyện đơn vị theo thời gian. Phần con người — ban lãnh đạo,
+     Nghệ sĩ Nhân dân, Nghệ sĩ Ưu tú — đã tách hẳn sang nghe-si.html để mỗi
+     người chỉ xuất hiện ở MỘT chỗ trên toàn trang web.
      ========================================================== -->
 
 <!-- ============ 1. DÒNG THỜI GIAN ============ -->
@@ -184,6 +183,7 @@
         <p class="section__eyebrow">Cột mốc</p>
         <h2 class="section__title">Dấu mốc nổi bật</h2>
       </div>
+      <a href="./nghe-si.html" class="link-more">Nghệ sĩ của Nhà hát →</a>
     </div>
     <p class="section__intro">Những sự kiện đánh dấu bước ngoặt trong quá trình xây dựng và trưởng thành của đơn vị.</p>
 
@@ -222,443 +222,7 @@
   </div>
 </section>
 
-<!-- ============ 3. CÁC THẾ HỆ NGHỆ SĨ ============
-     Nguồn: danh sách nghệ sĩ được phong tặng danh hiệu do Nhà hát cung cấp.
-     Đây là BẢNG VÀNG DANH HIỆU, không phải danh sách nhân sự đang công tác —
-     có cả người đã nghỉ hưu. Đừng đổi tiêu đề thành "cán bộ, nhân viên". -->
-<section class="section" id="the-he">
-  <div class="container">
-    <div class="section__head">
-      <div>
-        <p class="section__eyebrow">Con người</p>
-        <h2 class="section__title">Các thế hệ nghệ sĩ</h2>
-      </div>
-      <a href="./index.html#nghe-si" class="link-more">Nghệ sĩ hiện nay →</a>
-    </div>
-    <p class="section__intro section__intro--wide">Trong suốt chặng đường từ Đoàn nghệ thuật Chèo Tổng cục Hậu cần đến Nhà hát Chèo Quân đội hôm nay, 34 nghệ sĩ của đơn vị đã được Nhà nước phong tặng danh hiệu Nghệ sĩ Nhân dân và Nghệ sĩ Ưu tú. Cột năm ở danh sách Nghệ sĩ Ưu tú là năm được phong tặng.</p>
-
-    <h3 class="works__sub">Nghệ sĩ Nhân dân (8)</h3>
-    <div class="leaders">
-      <figure class="leader">
-        <div class="leader__img"><img src="./anh/lanh-dao/dao-van-le.jpg" alt="NSND Đào Lê" loading="lazy" /></div>
-        <figcaption>
-          <h4>NSND Đào Lê</h4>
-          <p>NSND 2015 · NSƯT 1997</p>
-        </figcaption>
-      </figure>
-      <figure class="leader">
-        <div class="leader__img"><img src="./anh/lanh-dao/nguyen-quoc-truong.jpg" alt="NSND Nguyễn Quốc Trượng" loading="lazy" /></div>
-        <figcaption>
-          <h4>NSND Nguyễn Quốc Trượng</h4>
-          <p>NSND 2015 · NSƯT 2001</p>
-        </figcaption>
-      </figure>
-      <figure class="leader leader--fit-right">
-        <div class="leader__img"><img src="./anh/nghe-si/ngoc-vien.jpg" alt="NSND Nguyễn Thị Ngọc Viễn" loading="lazy" /></div>
-        <figcaption>
-          <h4>NSND Nguyễn Thị Ngọc Viễn</h4>
-          <p>NSND 2015 · NSƯT 2007</p>
-        </figcaption>
-      </figure>
-      <figure class="leader">
-        <div class="leader__img"><img src="./anh/nghe-si/trinh-minh-tien.jpg" alt="NSND Trịnh Minh Tiến" loading="lazy" /></div>
-        <figcaption>
-          <h4>NSND Trịnh Minh Tiến</h4>
-          <p>NSND 2015 · NSƯT 2007</p>
-        </figcaption>
-      </figure>
-      <figure class="leader">
-        <div class="leader__img"><img src="./anh/lanh-dao/vu-tu-long.jpg" alt="NSND Vũ Tự Long" loading="lazy" /></div>
-        <figcaption>
-          <h4>NSND Vũ Tự Long</h4>
-          <p>NSND 2015 · NSƯT 2012</p>
-        </figcaption>
-      </figure>
-      <figure class="leader">
-        <div class="leader__img"><img src="./anh/nghe-si/dang-xuan-theo.jpg" alt="NSND Đặng Xuân Theo" loading="lazy" /></div>
-        <figcaption>
-          <h4>NSND Đặng Xuân Theo</h4>
-          <p>NSND 2023 · NSƯT 1998</p>
-        </figcaption>
-      </figure>
-      <figure class="leader">
-        <div class="leader__img"><img src="./anh/nghe-si/pham-dinh-ong.jpg" alt="NSND Phạm Đình Óng" loading="lazy" /></div>
-        <figcaption>
-          <h4>NSND Phạm Đình Óng</h4>
-          <p>NSND 2023 · NSƯT 2015</p>
-        </figcaption>
-      </figure>
-      <figure class="leader">
-        <div class="leader__img"><img src="./anh/nghe-si/luong-thuy-linh.jpg" alt="NSND Lương Thị Thùy Linh" loading="lazy" /></div>
-        <figcaption>
-          <h4>NSND Lương Thị Thùy Linh</h4>
-          <p>NSND 2023 · NSƯT 2015</p>
-        </figcaption>
-      </figure>
-    </div>
-
-    <h3 class="works__sub">Nghệ sĩ Ưu tú (26)</h3>
-    <div class="works">
-      <div class="work">
-        <span class="work__year">1993</span>
-        <div class="work__body">
-          <h4>NSƯT Nguyễn Thị Thu Hòa</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">1997</span>
-        <div class="work__body">
-          <h4>NSƯT Phạm Thanh Hải</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">1997</span>
-        <div class="work__body">
-          <h4>NSƯT Đỗ Tùng</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2001</span>
-        <div class="work__body">
-          <h4>NSƯT Đồng Bảo Quý</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2007</span>
-        <div class="work__body">
-          <h4>NSƯT Nguyễn Thế Phiệt</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2007</span>
-        <div class="work__body">
-          <h4>NSƯT Trần Trung Sinh</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2007</span>
-        <div class="work__body">
-          <h4>NSƯT Vũ Phương Thúy</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2012</span>
-        <div class="work__body">
-          <h4>NSƯT Mai Tú Lệ</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2012</span>
-        <div class="work__body">
-          <h4>NSƯT Vũ Duy Từ</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2015</span>
-        <div class="work__body">
-          <h4>NSƯT Phạm Văn Chính</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2015</span>
-        <div class="work__body">
-          <h4>NSƯT Nguyễn Tiến Lợi</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2015</span>
-        <div class="work__body">
-          <h4>NSƯT Nguyễn Văn Minh</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2015</span>
-        <div class="work__body">
-          <h4>NSƯT Hà Quang Hảo</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2015</span>
-        <div class="work__body">
-          <h4>NSƯT Phạm Hữu Vương</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2015</span>
-        <div class="work__body">
-          <h4>NSƯT Cấn Thị Lương</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2015</span>
-        <div class="work__body">
-          <h4>NSƯT Thái Phương Ngọc</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2019</span>
-        <div class="work__body">
-          <h4>NSƯT Nguyễn Thị Thanh</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2019</span>
-        <div class="work__body">
-          <h4>NSƯT Nguyễn Đức Hải</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2019</span>
-        <div class="work__body">
-          <h4>NSƯT Trần Thị Liên</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2019</span>
-        <div class="work__body">
-          <h4>NSƯT Cao Ngọc Sơn</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2019</span>
-        <div class="work__body">
-          <h4>NSƯT Ngô Thị Thu Hiền</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2019</span>
-        <div class="work__body">
-          <h4>NSƯT Nguyễn Xuân Hải</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2019</span>
-        <div class="work__body">
-          <h4>NSƯT Trần Hồng Minh</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2019</span>
-        <div class="work__body">
-          <h4>NSƯT Hoàng Tiến Dũng</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2023</span>
-        <div class="work__body">
-          <h4>NSƯT Ngô Thanh Tuyết</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2023</span>
-        <div class="work__body">
-          <h4>NSƯT Phạm Xuân Dương</h4>
-        </div>
-      </div>
-    </div>
-    <h3 class="works__sub">Tưởng nhớ các liệt sĩ</h3>
-    <div class="tribute">
-      <article class="martyr">
-        <p class="martyr__role">Phó Trưởng đoàn · Biên đạo múa</p>
-        <h4>Liệt sĩ Ngọc Minh</h4>
-      </article>
-      <article class="martyr">
-        <p class="martyr__role">Đội trưởng Đội múa</p>
-        <h4>Liệt sĩ Ma Văn Quy</h4>
-      </article>
-      <article class="martyr">
-        <p class="martyr__role">Nhạc sĩ</p>
-        <h4>Liệt sĩ Trịnh Quý</h4>
-        <p class="martyr__note">Tác giả ca khúc “Trước ngày hội bắn”</p>
-      </article>
-    </div>
-    <p class="notebox">Các đồng chí đã anh dũng hy sinh và vĩnh viễn nằm lại trên tuyến đường Trường Sơn trong kháng chiến chống Mỹ cứu nước.</p>
-
-  </div>
-</section>
-
-<!-- ============ 4. LÃNH ĐẠO QUA CÁC THỜI KỲ ============
-     Nguồn: sách lịch sử 70 năm của Nhà hát, do người dùng cung cấp.
-     Riêng hai dòng Giám đốc lấy mốc bàn giao 12/2024 theo bản tin Báo Thanh
-     Niên 30/12/2024 đã dẫn ở tin-tuc.html — sách in năm 2024 nên còn ghi
-     "nay" cho cả NSND Nguyễn Quốc Trượng lẫn chức Phó của NSND Vũ Tự Long. -->
-<section class="section section--alt" id="lanh-dao">
-  <div class="container">
-    <div class="section__head">
-      <div>
-        <p class="section__eyebrow">Người đứng đầu</p>
-        <h2 class="section__title">Lãnh đạo qua các thời kỳ</h2>
-      </div>
-      <a href="./gioi-thieu.html#lanh-dao" class="link-more">Ban Giám đốc hiện nay →</a>
-    </div>
-    <p class="section__intro section__intro--wide">Danh sách cán bộ chủ trì đơn vị từ ngày thành lập, qua các tên gọi Đội Văn công - Tổng cục Cung cấp, Đoàn Văn công rồi Đoàn Chèo Tổng cục Hậu cần đến Nhà hát Chèo Quân đội hôm nay.</p>
-
-    <h3 class="works__sub">Đoàn trưởng (1954 - 2009)</h3>
-    <div class="works works--term">
-      <div class="work">
-        <span class="work__year">1954</span>
-        <div class="work__body">
-          <h4>Bùi Công Kỳ</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">1969 - 1973</span>
-        <div class="work__body">
-          <h4>Nhạc sĩ Nguyễn Thành</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">1973 - 1975</span>
-        <div class="work__body">
-          <h4>Nguyễn Văn Thơm</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">1975 - 1989</span>
-        <div class="work__body">
-          <h4>Nguyễn Văn Thuyên</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">1989 - 2005</span>
-        <div class="work__body">
-          <h4>Nhạc sĩ, NSƯT Nguyễn Thế Phiệt</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2005 - 2009</span>
-        <div class="work__body">
-          <h4>Đại tá, Đạo diễn, NSƯT Đào Văn Lê</h4>
-        </div>
-      </div>
-    </div>
-
-    <h3 class="works__sub">Giám đốc Nhà hát (từ 2010)</h3>
-    <div class="works works--term">
-      <div class="work">
-        <span class="work__year">2010 - 7/2014</span>
-        <div class="work__body">
-          <h4>Đại tá, Đạo diễn, NSƯT Đào Văn Lê</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">9/2014 - 12/2024</span>
-        <div class="work__body">
-          <h4>Đại tá, Đạo diễn, NSND Nguyễn Quốc Trượng</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">từ 12/2024</span>
-        <div class="work__body">
-          <h4>Đại tá, Đạo diễn, NSND Vũ Tự Long</h4>
-        </div>
-      </div>
-    </div>
-
-    <h3 class="works__sub">Chính trị viên - Bí thư Đảng ủy</h3>
-    <div class="works works--term">
-      <div class="work">
-        <span class="work__year">1954</span>
-        <div class="work__body">
-          <h4>Lê Đình Lâm</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">chưa rõ</span>
-        <div class="work__body">
-          <h4>Nguyễn Hữu Tự</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2010 - 2012</span>
-        <div class="work__body">
-          <h4>Đại tá Nguyễn Đức Thành</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2012 - 5/2022</span>
-        <div class="work__body">
-          <h4>Đại tá Lê Danh Toàn</h4>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">từ 6/2022</span>
-        <div class="work__body">
-          <h4>Đại tá, NSƯT Vũ Thị Phương Thúy</h4>
-        </div>
-      </div>
-    </div>
-
-    <h3 class="works__sub">Phó Đoàn trưởng · Phó Giám đốc</h3>
-    <div class="works works--term">
-      <div class="work">
-        <span class="work__year">1970 - 1985</span>
-        <div class="work__body">
-          <h4>NSƯT Đỗ Tùng</h4>
-          <p>Phó Đoàn trưởng</p>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">1978 - 1982</span>
-        <div class="work__body">
-          <h4>Nguyễn Văn Thắng</h4>
-          <p>Phó Đoàn trưởng</p>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">1989 - 1991</span>
-        <div class="work__body">
-          <h4>Phan Long</h4>
-          <p>Phó Đoàn trưởng</p>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2002 - 2011</span>
-        <div class="work__body">
-          <h4>NSƯT Phạm Thanh Hải</h4>
-          <p>Phó Đoàn trưởng (2002 - 2009) · Phó Giám đốc (2010 - 2011)</p>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">2007 - 2009</span>
-        <div class="work__body">
-          <h4>Đạo diễn, NSƯT Nguyễn Quốc Trượng</h4>
-          <p>Phó Đoàn trưởng</p>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">3/2011 - 3/2014</span>
-        <div class="work__body">
-          <h4>Trung tá, NSƯT Mai Tú Lệ</h4>
-          <p>Phó Giám đốc</p>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">9/2014 - 4/2023</span>
-        <div class="work__body">
-          <h4>Đại tá, NSƯT Vũ Duy Từ</h4>
-          <p>Phó Giám đốc</p>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">9/2014 - 12/2024</span>
-        <div class="work__body">
-          <h4>Đại tá, Đạo diễn, NSND Vũ Tự Long</h4>
-          <p>Phó Giám đốc</p>
-        </div>
-      </div>
-      <div class="work">
-        <span class="work__year">chưa rõ</span>
-        <div class="work__body">
-          <h4>Ngọc Minh</h4>
-          <p>Phó Đoàn trưởng</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 5. KHEN THƯỞNG ============ -->
+<!-- ============ 3. KHEN THƯỞNG ============ -->
 <section class="section" id="khen-thuong">
   <div class="container">
     <div class="section__head">
@@ -718,7 +282,7 @@
   </div>
 </section>
 
-<!-- ============ 6. TƯ LIỆU ============ -->
+<!-- ============ 4. TƯ LIỆU ============ -->
 <section class="section section--alt" id="tu-lieu">
   <div class="container">
     <div class="section__head">

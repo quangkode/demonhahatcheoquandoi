@@ -1425,6 +1425,7 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
    TRANG LỊCH SỬ (lich-su.html)
    ========================================================== */
 .pagehero--history { background: linear-gradient(120deg, #2a1d12 0%, #70272d 46%, #a68500 100%); }
+.pagehero--artist { background: linear-gradient(120deg, #17241f 0%, #8a3038 50%, #ffcd00 100%); }
 
 /* ---------- Chỗ trống chờ điền nội dung ----------
    Dùng viền nét đứt để nhìn là biết ngay đây chưa phải nội dung thật,
@@ -2124,12 +2125,14 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
    khối thương hiệu cỡ đầy đủ là vừa hết chỗ. Bóp lại khoảng đệm và cỡ chữ ở
    đúng quãng này thay vì đẩy cả iPad ngang về hamburger.
 
-   Đo lại lần gần nhất khi thêm mục "Vở diễn" (mục thứ bảy). Quãng phải chia
-   làm hai vì bộ số cũ chỉ vừa cho sáu mục:
-     - tại 1120px: thương hiệu ~255px + menu ~545px = ~800px / 1072px chỗ trống
-     - tại  861px: thương hiệu ~226px + menu ~495px = ~721px /  813px chỗ trống
-   Thêm mục thứ tám thì phải đo lại cả hai mốc này. */
-@media (min-width: 861px) and (max-width: 1120px) {
+   Đo lại lần gần nhất khi thêm mục "Nghệ sĩ" (mục thứ tám). Cỡ chữ đầy đủ
+   cần tối thiểu 1180px mới đủ chỗ, nên ngưỡng bóp phải nới từ 1120 lên 1220:
+   ở quãng 1121-1140px bộ số cũ làm trang tràn ngang 16-35px.
+     - tại 1220px: thương hiệu 269 + menu 618 + gap 14 = 901px / 1172px chỗ trống
+     - tại  980px: thương hiệu 269 + menu 618 + gap 14 = 901px /  932px chỗ trống
+     - tại  861px: thương hiệu 244 + menu 553 + gap 10 = 807px /  813px chỗ trống
+   Thêm mục thứ chín thì phải đo lại cả ba mốc này. */
+@media (min-width: 861px) and (max-width: 1220px) {
   .header__inner { gap: 14px; }
   .brand__text strong { font-size: 15px; }
   .brand__text em { display: none; }
@@ -2138,13 +2141,13 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .nav__cta { margin-left: 6px; padding: 10px 15px !important; }
 }
 
-/* quãng chật nhất: bảy mục cộng khối thương hiệu gần kín bề ngang nội dung */
+/* quãng chật nhất: tám mục cộng khối thương hiệu gần kín bề ngang nội dung */
 @media (min-width: 861px) and (max-width: 980px) {
   .header__inner { gap: 10px; }
   .brand__mark { height: 40px; }
-  .brand__text strong { font-size: 13.8px; letter-spacing: .2px; }
-  .nav a { padding: 8px 6px; font-size: 13.4px; }
-  .nav__cta { margin-left: 4px; padding: 9px 13px !important; }
+  .brand__text strong { font-size: 13.2px; letter-spacing: .1px; }
+  .nav a { padding: 8px 4px; font-size: 13px; }
+  .nav__cta { margin-left: 4px; padding: 9px 12px !important; }
 }
 
 /* ---------- iPad dọc ---------- */
