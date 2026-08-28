@@ -93,6 +93,53 @@
     return 'NHC-' + out;
   }
 
+  /* Suất diễn viết cho người đọc: "20:00 · Thứ Sáu, 08/8/2026" */
+  function moTaSuat(s) {
+    return s.time + ' · ' + s.weekday + ', ' + s.day + '/' +
+           s.month.replace('Tháng ', '') + '/' + s.year;
+  }
+
+  /* Cắt bớt cho vừa giới hạn firestore.rules bên CMS. Luật chặn chuỗi
+     quá dài để không ai nhét cả quyển sách vào làm phình hoá đơn
+     Firebase — vượt giới hạn là Firestore từ chối cả đơn, nên cắt ở đây
+     vẫn hơn để khách gõ xong rồi mất trắng. */
+  function cat(s, n) {
+    s = String(s || '');
+    return s.length > n ? s.slice(0, n) : s;
+  }
+
+  /* Ghi đơn vào Firestore, đúng bộ trường mà CMS và firestore.rules chờ.
+     maSuat dùng id của suất trong SHOWS — bản ghi lịch diễn bên CMS giữ
+     đúng id đó ở trường maCu, nên hai bên khớp được với nhau. */
+  function guiDon(bk) {
+    if (!global.Kho || typeof global.Kho.them !== 'function') {
+      return Promise.reject(new Error('Thiếu kho.js — trang chưa nạp lớp nối Firestore'));
+    }
+
+    var s = bk.show;
+    var f = bk.form || {};
+
+    return global.Kho.them('dat-cho', {
+      ma: bk.code,
+      hoTen: cat(f.name, 110),
+      dienThoai: cat(f.phone, 28),
+      email: cat(f.email, 150),
+      donVi: cat(f.org, 190),
+      ghiChu: cat(f.note, 900),
+      maSuat: cat(s.id, 78),
+      tenVo: s.title,
+      suatDien: moTaSuat(s),
+      diaDiem: s.venue,
+      gheNgoi: bk.selected.slice().sort().join(', '),
+      soGhe: bk.selected.length,
+      trangThai: 'moi',
+      // Đồng hồ máy khách, không phải giờ máy chủ: REST API tạo tài liệu
+      // không kèm được serverTimestamp. Máy ai lệch giờ thì đơn xếp sai
+      // chỗ trong danh sách, nhưng không mất đơn.
+      taoLuc: new Date()
+    });
+  }
+
   // Khoá cuộn nền dùng chung, định nghĩa trong script.js (tệp mọi trang đều nạp).
   // Lấy ở thời điểm gọi chứ không phải lúc nạp tệp, vì script.js nạp sau booking.js.
   function scrollLock() {
@@ -351,6 +398,7 @@
                 '<textarea name="note" rows="3" placeholder="Ví dụ: đi cùng người cao tuổi, cần chỗ gần lối ra…">' + esc(f.note || '') + '</textarea></label>' +
             '</div>' +
             '<p class="bkform__hint">Nhà hát dùng số điện thoại để xác nhận lại chỗ ngồi trước ngày diễn. Thông tin chỉ phục vụ công tác đón tiếp.</p>' +
+            '<p data-loi style="display:none;margin:0 0 14px;color:#a3333d;font-weight:600;font-size:14px"></p>' +
             '<div class="bk__actions">' +
               '<button type="button" class="btn btn--ghost btn--sm" data-back="2">Quay lại chọn chỗ</button>' +
               '<button type="submit" class="btn btn--primary">Xác nhận đặt chỗ</button>' +
@@ -473,9 +521,47 @@
           });
           return;
         }
+        /* Luật Firestore đòi số điện thoại dài hơn 5 ký tự. Chặn ngay ở
+           đây để người ta được nhắc tử tế, thay vì gõ xong bấm gửi rồi
+           nhận một lỗi khó hiểu từ máy chủ. */
+        if (data.phone.length < 6) {
+          form.phone.classList.add('is-error');
+          var oNgan = form.querySelector('[data-loi]');
+          if (oNgan) {
+            oNgan.textContent = 'Số điện thoại chưa đúng, xin nhập đủ số.';
+            oNgan.style.display = 'block';
+          }
+          return;
+        }
+        if (!self.selected.length) { self.go(2); return; }
+
         self.form = data;
         self.code = bookingCode();
-        self.go(4);
+
+        /* Gửi đơn về Nhà hát rồi MỚI sang màn hoàn tất.
+           Trước đây màn "Đã giữ chỗ thành công" hiện vô điều kiện trong
+           khi đơn không được gửi đi đâu cả — khách cầm mã giữ chỗ ra rạp
+           còn Nhà hát chưa từng biết có ai đặt. Thà báo lỗi để người ta
+           gọi điện, còn hơn hứa suông. */
+        var nut = form.querySelector('button[type="submit"]');
+        var oLoi = form.querySelector('[data-loi]');
+        var chuCu = nut ? nut.textContent : '';
+
+        if (oLoi) oLoi.style.display = 'none';
+        if (nut) { nut.disabled = true; nut.textContent = 'Đang gửi…'; }
+
+        guiDon(self).then(function () {
+          self.go(4);
+        })['catch'](function (err) {
+          if (nut) { nut.disabled = false; nut.textContent = chuCu; }
+          if (oLoi) {
+            oLoi.textContent = 'Chưa gửi được đơn. Kiểm tra kết nối mạng rồi bấm lại, ' +
+                               'hoặc gọi 024 3845 7583 để Nhà hát giữ chỗ giúp.';
+            oLoi.style.display = 'block';
+          }
+          // giữ nguyên lý do thật trong console cho người quản trị dò
+          if (global.console) console.error('Gửi đơn đặt chỗ hỏng:', err);
+        });
       });
     }
   };
