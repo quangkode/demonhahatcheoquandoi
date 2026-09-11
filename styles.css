@@ -494,7 +494,11 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   background: rgba(255, 205, 0, .13); color: var(--gold);
 }
 .footer__ico svg { width: 17px; height: 17px; }
-.footer__lienhe span {
+/* Phải là "div span" chứ không phải "span" trơn. Vòng tròn icon cũng là một
+   thẻ span, mà ".footer__lienhe span" mạnh hơn ".footer__ico" nên nó đè luôn
+   display:grid thành display:block — icon rơi về góc trên trái vòng tròn thay
+   vì nằm giữa. Giới hạn vào span nằm trong div thì chỉ còn trúng nhãn chữ. */
+.footer__lienhe div span {
   display: block; margin-bottom: 2px;
   font-size: 11.5px; text-transform: uppercase; letter-spacing: 1.2px;
   color: var(--gold); font-weight: 600;
