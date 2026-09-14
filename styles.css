@@ -434,7 +434,7 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .artist p { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
 
 /* ---------- CTA ---------- */
-.cta { background: var(--red); color: #fff; padding: 54px 0; }
+.cta { background: var(--red); color: #fff; padding: 34px 0; }
 .cta__inner { display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
 .cta h2 { font-family: var(--serif); font-size: clamp(24px, 3vw, 34px); margin: 0 0 6px; }
 .cta p { margin: 0; color: rgba(255, 255, 255, .85); max-width: 560px; }
@@ -618,7 +618,33 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .subnav__toggle:hover { background: var(--cream-2); }
 }
 
-/* ---------- Prose ---------- */
+/* ---------- Prose ----------
+   Đoạn văn dài căn đều hai mép. CHỈ áp cho khối chữ chạy hết bề ngang cột nội
+   dung — chữ trong thẻ hẹp mà căn đều thì mỗi dòng chỉ vài từ, khoảng cách bị
+   giãn toác thành "dòng sông trắng" chạy dọc giữa đoạn, xấu hơn là để lệch
+   phải. Dòng cuối mỗi đoạn vẫn tự căn trái theo mặc định của justify. */
+.section__intro,
+.prose p,
+.about__text p,
+.decree p,
+.tl__body p,
+.notebox,
+.pagehero__desc {
+  text-align: justify;
+  text-justify: inter-word;
+  /* tiếng Việt không tự ngắt gạch nối được, nên chặn từ quá dài kéo giãn dòng */
+  overflow-wrap: break-word;
+}
+/* khổ hẹp thì mỗi dòng còn quá ít từ, căn đều lại phản tác dụng */
+@media (max-width: 640px) {
+  .section__intro,
+  .prose p,
+  .about__text p,
+  .decree p,
+  .tl__body p,
+  .notebox,
+  .pagehero__desc { text-align: left; }
+}
 .section__intro { max-width: 780px; margin: -18px 0 34px; color: var(--ink-soft); font-size: 16px; }
 .section__intro--wide { max-width: 100%; }
 /* liên kết nằm giữa dòng chữ: `a { color: inherit }` ở đầu tệp làm nó tàng hình
@@ -1804,12 +1830,13 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   font-size: 11px; letter-spacing: .6px;
 }
 
-/* align-items:start chứ không để grid kéo giãn: một vở chỉ có một dòng giải mà
-   nằm cùng hàng với vở có ba dòng thì bị kéo cao bằng nhau, chừa một mảng trắng
-   to tướng trong thẻ. Để thẻ cao đúng bằng nội dung của nó. */
+/* Thẻ cùng một hàng cao bằng nhau: để nguyên align-items mặc định (stretch)
+   của grid. Thẻ ít giải hơn sẽ thừa khoảng trống ở ĐÁY chứ chữ vẫn bám mép
+   trên, vì trong thẻ là dòng chảy khối bình thường. Đặt align-items:start thì
+   thẻ co lại đúng bằng nội dung, hàng lối so le. */
 .laurels {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-  align-items: start; gap: 18px; margin-top: 18px;
+  gap: 18px; margin-top: 18px;
 }
 .laurel {
   position: relative; overflow: hidden;
@@ -2252,7 +2279,7 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .footer__top { padding-bottom: 24px; }
   .about__badge { right: 10px; bottom: 10px; padding: 14px 18px; }
   .about__badge strong { font-size: 24px; }
-  .cta { padding: 42px 0; }
+  .cta { padding: 26px 0; }
   .cta__inner { flex-direction: column; align-items: stretch; }
   .cta__actions .btn { flex: 1 1 auto; }
 
