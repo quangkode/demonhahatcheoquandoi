@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=50" />
+<link rel="stylesheet" href="./styles.css?v=51" />
 <link rel="icon" type="image/png" href="./anh/logo.png" />
 </head>
 <body>
@@ -118,59 +118,112 @@
     </div>
     <p class="section__intro section__intro--wide">Suốt hơn 70 năm, dù nhiều lần thay đổi về tổ chức, lực lượng và tên gọi: Từ Đội Văn công - Tổng cục Cung cấp, Đoàn Văn công - Tổng cục Hậu cần, Đoàn Văn công Trường Sơn (thời kỳ chống Mỹ), Đoàn Nghệ thuật, Đoàn Chèo - Tổng cục Hậu cần, đến Nhà hát Chèo Quân đội - Tổng cục Chính trị ngày nay, Nhà hát vẫn giữ vững bản lĩnh chính trị và sứ mệnh nghệ thuật của mình.</p>
 
-    <div class="timeline">
-      <article class="tl">
-        <div class="tl__marker"><span>1954</span><em>1965</em></div>
-        <div class="tl__body">
-          <h3>Hình thành và hoà bình dựng xây</h3>
-          <p>Đơn vị được thành lập ngày 01/10/1954 tại thôn Phú Minh, huyện Đại Từ, tỉnh Thái Nguyên với tên gọi Đội Văn công - Tổng cục Cung cấp, ngay sau khi cuộc kháng chiến chống Pháp kết thúc, nhằm phục vụ đời sống văn hóa &amp; tinh thần của cán bộ, chiến sĩ cũng như cổ vũ tinh thần yêu nước, đoàn kết quân dân.</p>
-          <p>Tháng 11/1954, Đội cùng cơ quan Tổng cục vào tiếp quản Thủ đô Hà Nội, đóng quân tạm tại khu nhà kho cũ của Tổng cục. Từ năm 1955 đến 1956, trụ sở chuyển ra phố Đặng Dung rồi khu Liễu Giai; năm 1956 Đội chính thức về ngôi nhà 5 tầng ở ngõ Hàng Hành, quận Hoàn Kiếm và đóng quân tại đây. Cùng thời gian này, Tổng cục Cung cấp đổi tên thành Tổng cục Hậu cần.</p>
-          <p>Từ ngày 26/4/1955, Đội đi biểu diễn phục vụ các cơ quan, đơn vị cơ sở, đến đâu cũng được nhân dân đón nhận nồng nhiệt. Giai đoạn này Đội tập trung xây dựng lực lượng nòng cốt ban đầu và tổ chức các đội xung kích xuống tận đơn vị trong Tổng cục.</p>
-        </div>
-      </article>
+    <div class="dttg" id="dttg">
 
-      <article class="tl">
-        <div class="tl__marker"><span>1966</span><em>1975</em></div>
-        <div class="tl__body">
-          <h3>Chiếu chèo chiến sĩ trên đường Trường Sơn</h3>
-          <p>Ngày 06/7/1966, Đoàn Văn công Trường Sơn (Đoàn 559) được điều về sáp nhập, hình thành Đoàn Văn công Tổng cục Hậu cần. Tháng 2/1968, Đoàn Chèo Tỉnh đội Hưng Yên tiếp tục sáp nhập vào đơn vị.</p>
-          <p>Ngày 28/3/1967, Chủ tịch Hồ Chí Minh và Bộ Chính trị đã xem Đoàn biểu diễn tại Phủ Chủ tịch và ân cần căn dặn, trở thành một dấu son trong quá trình hình thành.</p>
-          <p>Đoàn bám trụ tuyến lửa miền Trung và bám sát các binh trạm dọc tuyến đường Trường Sơn lịch sử. Các nghệ sĩ vác ba lô, mang nhạc cụ xuyên rừng sang cả Trung Lào, Hạ Lào và Thượng Lào biểu diễn phục vụ bộ đội và thanh niên xung phong dưới mưa bom bão đạn.</p>
-          <p>Nhiều nghệ sĩ đã anh dũng hy sinh trên đường làm nhiệm vụ. Những năm cuối cuộc kháng chiến, Đoàn sáng tạo nhiều vở chèo ngắn cổ vũ tinh thần quân ta tiến về Sài Gòn giải phóng miền Nam.</p>
-          <p class="tl__works"><strong>Vở diễn tiêu biểu:</strong> Nguyễn Viết Xuân, Đường về trận địa, Lá thư tiền tuyến…</p>
-        </div>
-      </article>
+      <!-- TRỤC NGANG: vuốt hoặc bấm mũi tên để đi dọc dòng thời gian.
+           Mọi trạng thái mờ / ẩn đều khoá sau .san-sang do script.js gắn — không có
+           JS thì năm chặng nằm cạnh nhau, cuộn ngang bằng tay vẫn đọc đủ chữ. -->
 
-      <article class="tl">
-        <div class="tl__marker"><span>1976</span><em>1985</em></div>
-        <div class="tl__body">
-          <h3>Mười năm đầu sau ngày thống nhất</h3>
-          <p>Chặng đường mười năm này được ghi nhận bằng ba lần liên tiếp nhận Huân chương Chiến công: hạng Ba năm 1976, hạng Nhì năm 1980 và hạng Nhất năm 1985.</p>
-          <p class="tl__note">Tư liệu chi tiết của giai đoạn này đang được bổ sung.</p>
+      <div class="dttg__thanh">
+        <div class="dttg__nam" id="dttgNam">
+          <button type="button" class="nam hoat" data-di="0" aria-current="true">
+            <b>1954</b><i>đến 1965</i>
+          </button>
+          <button type="button" class="nam" data-di="1">
+            <b>1966</b><i>đến 1975</i>
+          </button>
+          <button type="button" class="nam" data-di="2">
+            <b>1976</b><i>đến 1985</i>
+          </button>
+          <button type="button" class="nam" data-di="3">
+            <b>1986</b><i>đến 2010</i>
+          </button>
+          <button type="button" class="nam" data-di="4">
+            <b>2010</b><i>đến nay</i>
+          </button>
         </div>
-      </article>
+        <div class="dttg__vach"><span class="dttg__day" id="dttgDay"></span></div>
+      </div>
 
-      <article class="tl">
-        <div class="tl__marker"><span>1986</span><em>2010</em></div>
-        <div class="tl__body">
-          <h3>Đổi mới và phát triển chuyên nghiệp</h3>
-          <p>Sau năm 1986, khi đất nước bước vào thời kỳ đổi mới, đơn vị (khi đó hoạt động dưới tên Đoàn Chèo Tổng cục Hậu cần) chủ động đổi mới cả nội dung lẫn hình thức để thích nghi với cơ chế thị trường và đáp ứng nhu cầu thưởng thức của khán giả.</p>
-          <p>Từ năm 1990, kịch mục có sự chuyển hướng: bên cạnh đề tài lịch sử và cách mạng, Đoàn khai thác nhiều câu chuyện về đời sống quân nhân thời bình và những vấn đề xã hội đương đại nhằm mở rộng đối tượng khán giả.</p>
-          <p>Ngày 02/02/2010, Đoàn Chèo Tổng cục Hậu cần chính thức trở thành Nhà hát Chèo Quân đội, trực thuộc Tổng cục Chính trị - bước ngoặt quan trọng giúp mở rộng quy mô hoạt động, tăng cường đầu tư về cơ sở vật chất, con người và nghệ thuật, đưa Nhà hát trở thành một trong những đơn vị nghệ thuật truyền thống hàng đầu của Quân đội nhân dân Việt Nam.</p>
-          <p class="tl__works"><strong>Vở diễn tiêu biểu:</strong> Anh lái xe và cô chống lầy, Chiếc bóng oan khiên, Người tử tù mất tích, Nữ tú tài, Hùng ca Bạch Đằng Giang…</p>
-        </div>
-      </article>
+      <div class="dttg__ray" id="dttgRay" tabindex="0" role="group" aria-label="Dòng thời gian — vuốt ngang để xem từng chặng">
 
-      <article class="tl">
-        <div class="tl__marker"><span>2010</span><em>nay</em></div>
-        <div class="tl__body">
-          <h3>Hiện đại hóa và hội nhập</h3>
-          <p>Từ sau khi được nâng cấp thành Nhà hát, đơn vị có những bước tiến lớn: vừa giữ gìn bản sắc truyền thống, vừa đổi mới để phù hợp với xu thế hiện đại. Nhà hát tiếp tục khai thác đề tài chiến tranh, cách mạng, lịch sử dân tộc, đồng thời mở rộng sang các đề tài hiện đại phản ánh cuộc sống người lính thời kỳ mới và những vấn đề xã hội giàu tính nhân văn.</p>
-          <p>Năm 2014, Tổng cục Chính trị ra quyết định công nhận ngày 01/10/1954 là Ngày truyền thống của Nhà hát.</p>
-          <p>Bên cạnh hoạt động biểu diễn truyền thống, Nhà hát chú trọng ứng dụng công nghệ thông tin, phát triển các hình thức truyền thông - phát sóng truyền hình, các nền tảng trực tuyến để tiếp cận công chúng rộng rãi hơn, nhất là thế hệ trẻ.</p>
-          <p class="tl__works"><strong>Vở diễn tiêu biểu:</strong> Người thầy của muôn đời, Đời luận anh hùng, Công lý không gục ngã, Nguyễn Chí Thanh - Sáng trong như ngọc một con người…</p>
-        </div>
-      </article>
+        <article class="chuong" id="chang-1954" aria-label="Chặng 1954 đến 1965">
+          <span class="chuong__bong" aria-hidden="true">1954</span>
+          <div class="chuong__trong">
+            <p class="chuong__ky"><b>1954</b><span>—</span><b>1965</b></p>
+            <h3>Hình thành và hoà bình dựng xây</h3>
+            <div class="chuong__chu">
+              <p>Đơn vị được thành lập ngày 01/10/1954 tại thôn Phú Minh, huyện Đại Từ, tỉnh Thái Nguyên với tên gọi Đội Văn công - Tổng cục Cung cấp, ngay sau khi cuộc kháng chiến chống Pháp kết thúc, nhằm phục vụ đời sống văn hóa &amp; tinh thần của cán bộ, chiến sĩ cũng như cổ vũ tinh thần yêu nước, đoàn kết quân dân.</p>
+              <p>Tháng 11/1954, Đội cùng cơ quan Tổng cục vào tiếp quản Thủ đô Hà Nội, đóng quân tạm tại khu nhà kho cũ của Tổng cục. Từ năm 1955 đến 1956, trụ sở chuyển ra phố Đặng Dung rồi khu Liễu Giai; năm 1956 Đội chính thức về ngôi nhà 5 tầng ở ngõ Hàng Hành, quận Hoàn Kiếm và đóng quân tại đây. Cùng thời gian này, Tổng cục Cung cấp đổi tên thành Tổng cục Hậu cần.</p>
+              <p>Từ ngày 26/4/1955, Đội đi biểu diễn phục vụ các cơ quan, đơn vị cơ sở, đến đâu cũng được nhân dân đón nhận nồng nhiệt. Giai đoạn này Đội tập trung xây dựng lực lượng nòng cốt ban đầu và tổ chức các đội xung kích xuống tận đơn vị trong Tổng cục.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="chuong" id="chang-1966" aria-label="Chặng 1966 đến 1975">
+          <span class="chuong__bong" aria-hidden="true">1966</span>
+          <div class="chuong__trong">
+            <p class="chuong__ky"><b>1966</b><span>—</span><b>1975</b></p>
+            <h3>Chiếu chèo chiến sĩ trên đường Trường Sơn</h3>
+            <div class="chuong__chu">
+              <p>Ngày 06/7/1966, Đoàn Văn công Trường Sơn (Đoàn 559) được điều về sáp nhập, hình thành Đoàn Văn công Tổng cục Hậu cần. Tháng 2/1968, Đoàn Chèo Tỉnh đội Hưng Yên tiếp tục sáp nhập vào đơn vị.</p>
+              <p>Ngày 28/3/1967, Chủ tịch Hồ Chí Minh và Bộ Chính trị đã xem Đoàn biểu diễn tại Phủ Chủ tịch và ân cần căn dặn, trở thành một dấu son trong quá trình hình thành.</p>
+              <p>Đoàn bám trụ tuyến lửa miền Trung và bám sát các binh trạm dọc tuyến đường Trường Sơn lịch sử. Các nghệ sĩ vác ba lô, mang nhạc cụ xuyên rừng sang cả Trung Lào, Hạ Lào và Thượng Lào biểu diễn phục vụ bộ đội và thanh niên xung phong dưới mưa bom bão đạn.</p>
+              <p>Nhiều nghệ sĩ đã anh dũng hy sinh trên đường làm nhiệm vụ. Những năm cuối cuộc kháng chiến, Đoàn sáng tạo nhiều vở chèo ngắn cổ vũ tinh thần quân ta tiến về Sài Gòn giải phóng miền Nam.</p>
+              <p class="chuong__vo"><strong>Vở diễn tiêu biểu:</strong> Nguyễn Viết Xuân, Đường về trận địa, Lá thư tiền tuyến…</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="chuong" id="chang-1976" aria-label="Chặng 1976 đến 1985">
+          <span class="chuong__bong" aria-hidden="true">1976</span>
+          <div class="chuong__trong">
+            <p class="chuong__ky"><b>1976</b><span>—</span><b>1985</b></p>
+            <h3>Mười năm đầu sau ngày thống nhất</h3>
+            <div class="chuong__chu">
+              <p>Chặng đường mười năm này được ghi nhận bằng ba lần liên tiếp nhận Huân chương Chiến công: hạng Ba năm 1976, hạng Nhì năm 1980 và hạng Nhất năm 1985.</p>
+              <p class="chuong__ghi">Tư liệu chi tiết của giai đoạn này đang được bổ sung.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="chuong" id="chang-1986" aria-label="Chặng 1986 đến 2010">
+          <span class="chuong__bong" aria-hidden="true">1986</span>
+          <div class="chuong__trong">
+            <p class="chuong__ky"><b>1986</b><span>—</span><b>2010</b></p>
+            <h3>Đổi mới và phát triển chuyên nghiệp</h3>
+            <div class="chuong__chu">
+              <p>Sau năm 1986, khi đất nước bước vào thời kỳ đổi mới, đơn vị (khi đó hoạt động dưới tên Đoàn Chèo Tổng cục Hậu cần) chủ động đổi mới cả nội dung lẫn hình thức để thích nghi với cơ chế thị trường và đáp ứng nhu cầu thưởng thức của khán giả.</p>
+              <p>Từ năm 1990, kịch mục có sự chuyển hướng: bên cạnh đề tài lịch sử và cách mạng, Đoàn khai thác nhiều câu chuyện về đời sống quân nhân thời bình và những vấn đề xã hội đương đại nhằm mở rộng đối tượng khán giả.</p>
+              <p>Ngày 02/02/2010, Đoàn Chèo Tổng cục Hậu cần chính thức trở thành Nhà hát Chèo Quân đội, trực thuộc Tổng cục Chính trị - bước ngoặt quan trọng giúp mở rộng quy mô hoạt động, tăng cường đầu tư về cơ sở vật chất, con người và nghệ thuật, đưa Nhà hát trở thành một trong những đơn vị nghệ thuật truyền thống hàng đầu của Quân đội nhân dân Việt Nam.</p>
+              <p class="chuong__vo"><strong>Vở diễn tiêu biểu:</strong> Anh lái xe và cô chống lầy, Chiếc bóng oan khiên, Người tử tù mất tích, Nữ tú tài, Hùng ca Bạch Đằng Giang…</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="chuong" id="chang-2010" aria-label="Chặng 2010 đến nay">
+          <span class="chuong__bong" aria-hidden="true">2010</span>
+          <div class="chuong__trong">
+            <p class="chuong__ky"><b>2010</b><span>—</span><b>nay</b></p>
+            <h3>Hiện đại hóa và hội nhập</h3>
+            <div class="chuong__chu">
+              <p>Từ sau khi được nâng cấp thành Nhà hát, đơn vị có những bước tiến lớn: vừa giữ gìn bản sắc truyền thống, vừa đổi mới để phù hợp với xu thế hiện đại. Nhà hát tiếp tục khai thác đề tài chiến tranh, cách mạng, lịch sử dân tộc, đồng thời mở rộng sang các đề tài hiện đại phản ánh cuộc sống người lính thời kỳ mới và những vấn đề xã hội giàu tính nhân văn.</p>
+              <p>Năm 2014, Tổng cục Chính trị ra quyết định công nhận ngày 01/10/1954 là Ngày truyền thống của Nhà hát.</p>
+              <p>Bên cạnh hoạt động biểu diễn truyền thống, Nhà hát chú trọng ứng dụng công nghệ thông tin, phát triển các hình thức truyền thông - phát sóng truyền hình, các nền tảng trực tuyến để tiếp cận công chúng rộng rãi hơn, nhất là thế hệ trẻ.</p>
+              <p class="chuong__vo"><strong>Vở diễn tiêu biểu:</strong> Người thầy của muôn đời, Đời luận anh hùng, Công lý không gục ngã, Nguyễn Chí Thanh - Sáng trong như ngọc một con người…</p>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="dttg__dieu">
+        <button type="button" class="dttg__nut" id="dttgTruoc" aria-label="Chặng trước"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7" /></svg></button>
+        <button type="button" class="dttg__nut" id="dttgSau" aria-label="Chặng sau"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></button>
+        <p class="dttg__dem"><b id="dttgSo">1</b><span>/</span>5</p>
+        <p class="dttg__goi">Vuốt ngang, bấm mũi tên hoặc chọn mốc năm phía trên</p>
+      </div>
+
     </div>
   </div>
 </section>
@@ -421,6 +474,6 @@
 
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
-<script src="./script.js?v=14"></script>
+<script src="./script.js?v=15"></script>
 </body>
 </html>

@@ -627,7 +627,7 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .prose p,
 .about__text p,
 .decree p,
-.tl__body p,
+.chuong__chu p,
 .notebox,
 .pagehero__desc {
   text-align: justify;
@@ -641,7 +641,7 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .prose p,
   .about__text p,
   .decree p,
-  .tl__body p,
+  .chuong__chu p,
   .notebox,
   .pagehero__desc { text-align: left; }
 }
@@ -756,39 +756,158 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .award__sub { font-size: 16px; font-weight: 400; color: var(--gold-light); }
 .award__note { margin: 8px 0 0; font-size: 13.5px; color: var(--ink-soft); }
 
-/* ---------- Timeline ---------- */
-.timeline { position: relative; padding-left: 8px; }
-.tl { display: grid; grid-template-columns: 150px 1fr; gap: 34px; padding-bottom: 44px; position: relative; }
-.tl:last-child { padding-bottom: 0; }
-.tl::before {
-  content: ""; position: absolute; left: 74px; top: 84px; bottom: 0;
-  width: 2px; background: linear-gradient(var(--gold), rgba(255, 205, 0, .18));
+/* ---------- Dòng thời gian: trục ngang vuốt được ----------
+   Kể theo lối akkersvanmargraten.nl: thời gian là một trục có thật, người xem
+   tự đi dọc theo nó chứ không cuộn qua một danh sách.
+
+   MỌI trạng thái mờ và ẩn đều khoá sau .san-sang, mà .san-sang do script.js
+   gắn sau khi dựng xong. Không có JS thì năm chặng nằm cạnh nhau sáng rõ, kéo
+   ngang bằng tay vẫn đọc đủ chữ — đừng bỏ .san-sang khỏi các selector bên
+   dưới, bỏ là mất chữ khi script lỗi. */
+.dttg {
+  position: relative; margin-top: 26px;
+  border-radius: var(--r); overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  background:
+    radial-gradient(1100px 380px at 10% 0%, rgba(255, 205, 0, .10), transparent 62%),
+    linear-gradient(135deg, #16221d 0%, #22372f 52%, #2e1518 100%);
 }
-.tl:last-child::before { display: none; }
-.tl__marker {
-  position: relative; z-index: 2; width: 148px; height: 148px; border-radius: 50%;
-  background: var(--red); color: #fff; display: grid; place-content: center;
-  text-align: center; box-shadow: var(--shadow-lg); border: 5px solid var(--cream-2);
+
+/* --- thanh mốc năm, kiêm luôn thanh tiến độ --- */
+.dttg__thanh { padding: 22px 26px 0; }
+.dttg__nam {
+  display: flex; gap: 6px;
+  overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
 }
-.tl__marker span { display: block; font-family: var(--serif); font-size: 34px; line-height: 1.05; }
-.tl__marker em { font-style: normal; font-size: 15px; color: var(--gold-light); }
-.tl__marker em::before { content: "— "; }
-.tl__body {
-  background: var(--white); border: 1px solid var(--line); border-radius: var(--r);
-  padding: 28px 30px; transition: var(--t);
+.dttg__nam::-webkit-scrollbar { display: none; }
+.nam {
+  flex: none; cursor: pointer; padding: 9px 16px;
+  border: 0; border-radius: 999px; background: transparent;
+  color: rgba(250, 246, 238, .55); font-family: inherit; text-align: left;
+  transition: var(--t);
 }
-.tl__body:hover { box-shadow: var(--shadow-lg); }
-.tl__body h3 { font-family: var(--serif); font-size: 24px; margin: 0 0 14px; color: var(--red); }
-.tl__body p { margin: 0 0 14px; color: var(--ink-soft); font-size: 15px; }
-.tl__works {
-  margin: 18px 0 0 !important; padding-top: 14px; border-top: 1px dashed var(--line);
-  font-size: 14.5px; color: var(--ink) !important;
+.nam b {
+  display: block; font-family: var(--serif); font-weight: 700;
+  font-size: 21px; line-height: 1.1;
 }
-.tl__works strong { color: var(--gold-ink); }
-.tl__note {
-  margin: 16px 0 0 !important; padding: 10px 14px; border-radius: var(--r);
-  background: var(--cream-2); font-size: 13.5px; font-style: italic;
+.nam i { font-style: normal; font-size: 11.5px; letter-spacing: .04em; opacity: .78; }
+.nam:hover { color: var(--cream); background: rgba(250, 246, 238, .07); }
+.nam.hoat { color: var(--gold-light); background: rgba(255, 205, 0, .12); }
+.nam:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.dttg__vach {
+  position: relative; margin-top: 14px; height: 2px;
+  border-radius: 2px; background: rgba(250, 246, 238, .14); overflow: hidden;
 }
+.dttg__day {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 20%; border-radius: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+}
+
+/* --- ray trượt ---
+   Lề hai bên 7% tính theo bề NGOÀI của ray, còn flex-basis của thẻ tính theo bề
+   TRONG (đã trừ lề). Nên đặt thẻ đúng 100% thì bề rộng thẻ luôn bằng bề trong,
+   mà lề mỗi bên lại vừa đúng nửa phần thừa — thẻ đầu và thẻ cuối canh giữa
+   chuẩn như các thẻ giữa. Đổi 100% thành một số nhỏ hơn là hai đầu lệch ngay,
+   thanh tiến độ cũng không chạy hết được. --- */
+.dttg__ray {
+  display: flex; padding: 26px 7% 30px;
+  overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.dttg__ray::-webkit-scrollbar { display: none; }
+.dttg__ray:focus-visible { outline: 2px solid var(--gold); outline-offset: -4px; }
+
+.chuong {
+  flex: 0 0 100%; scroll-snap-align: center;
+  position: relative; min-width: 0; padding: 10px 4% 0;
+  display: flex;
+}
+.chuong__bong {
+  position: absolute; right: 2%; top: -34px; z-index: 0;
+  font-family: var(--serif); font-weight: 900;
+  font-size: clamp(120px, 17vw, 260px); line-height: .9;
+  color: rgba(255, 205, 0, .07);
+  pointer-events: none; user-select: none; will-change: transform;
+}
+/* Thẻ nào cũng cao bằng chặng dài nhất — đổi chiều cao theo từng chặng thì cả
+   khúc trang phía dưới nhảy lên nhảy xuống mỗi lần vuốt. Nên thay vì bỏ mặc
+   khoảng thừa, neo dòng cuối (vở diễn tiêu biểu / ghi chú) xuống đáy thẻ: các
+   chặng có cùng loại dòng cuối thì dòng đó nằm đúng một mực khi vuốt qua. */
+.chuong__trong {
+  position: relative; z-index: 1; width: 100%; max-width: 780px;
+  display: flex; flex-direction: column;
+}
+.chuong__chu { flex: 1; display: flex; flex-direction: column; }
+.chuong__ky {
+  display: flex; align-items: baseline; gap: 9px; margin: 0 0 10px;
+  font-family: var(--serif); font-size: 17px; letter-spacing: .04em;
+  color: var(--gold-light);
+}
+.chuong__ky span { opacity: .5; }
+.chuong h3 {
+  margin: 0 0 18px; color: #fff; font-family: var(--serif);
+  font-size: clamp(23px, 3vw, 33px); line-height: 1.2; text-wrap: balance;
+}
+.chuong__chu p { margin: 0 0 14px; font-size: 15px; color: rgba(250, 246, 238, .8); }
+/* Phải viết .chuong__chu > … chứ không phải .chuong__vo trơ trọi: .chuong__chu p
+   ở trên có độ đặc hiệu (0,1,1), cao hơn một lớp đơn (0,1,0), nên mọi margin
+   khai ở lớp đơn đều bị nó nuốt mất — kể cả margin-top: auto.
+   margin-top: auto neo dòng cuối xuống đáy thẻ (xem chú thích ở .chuong__trong). */
+.chuong__chu > .chuong__vo {
+  margin: auto 0 0; padding-top: 16px;
+  border-top: 1px dashed rgba(250, 246, 238, .2);
+  font-size: 14.5px; color: var(--cream);
+}
+.chuong__vo strong { color: var(--gold-light); }
+.chuong__chu > .chuong__ghi {
+  margin: auto 0 0; padding: 10px 14px; border-radius: var(--r);
+  background: rgba(250, 246, 238, .07);
+  font-size: 13.5px; font-style: italic; color: rgba(250, 246, 238, .72);
+}
+
+/* --- nút điều khiển --- */
+.dttg__dieu { display: flex; align-items: center; gap: 12px; padding: 0 26px 26px; }
+.dttg__nut {
+  flex: none; width: 46px; height: 46px; border-radius: 50%;
+  display: grid; place-items: center; cursor: pointer;
+  border: 1px solid rgba(250, 246, 238, .24);
+  background: rgba(250, 246, 238, .05); color: var(--cream);
+  transition: var(--t);
+}
+.dttg__nut:hover:not(:disabled) { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+.dttg__nut:disabled { opacity: .26; cursor: default; }
+.dttg__nut:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.dttg__dem {
+  margin: 0; display: flex; align-items: baseline; gap: 6px;
+  font-family: var(--serif); font-size: 17px; color: rgba(250, 246, 238, .6);
+}
+.dttg__dem b { font-size: 24px; color: var(--gold-light); }
+.dttg__goi { margin: 0 0 0 auto; font-size: 12.5px; color: rgba(250, 246, 238, .5); }
+
+/* --- phần động, chỉ bật khi script.js đã gắn .san-sang --- */
+.dttg.san-sang .chuong {
+  opacity: .26; transform: scale(.955);
+  transition: opacity .55s ease, transform .55s cubic-bezier(.22, 1, .36, 1);
+}
+.dttg.san-sang .chuong.hoat { opacity: 1; transform: none; }
+.dttg.san-sang .chuong__ky,
+.dttg.san-sang .chuong h3,
+.dttg.san-sang .chuong__chu > * {
+  opacity: 0; transform: translateY(22px);
+  transition: opacity .6s ease, transform .6s cubic-bezier(.22, 1, .36, 1);
+}
+.dttg.san-sang .chuong.hoat .chuong__ky,
+.dttg.san-sang .chuong.hoat h3,
+.dttg.san-sang .chuong.hoat .chuong__chu > * { opacity: 1; transform: none; }
+.dttg.san-sang .chuong.hoat .chuong__ky { transition-delay: .06s; }
+.dttg.san-sang .chuong.hoat h3 { transition-delay: .14s; }
+.dttg.san-sang .chuong.hoat .chuong__chu > :nth-child(1) { transition-delay: .24s; }
+.dttg.san-sang .chuong.hoat .chuong__chu > :nth-child(2) { transition-delay: .31s; }
+.dttg.san-sang .chuong.hoat .chuong__chu > :nth-child(3) { transition-delay: .38s; }
+.dttg.san-sang .chuong.hoat .chuong__chu > :nth-child(4) { transition-delay: .45s; }
+.dttg.san-sang .chuong.hoat .chuong__chu > :nth-child(n+5) { transition-delay: .52s; }
 
 /* ---------- Responsive trang giới thiệu ---------- */
 @media (max-width: 1024px) {
@@ -806,13 +925,9 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
      header, nội dung trang lộ ra giữa hai thanh dính. */
   .missions, .capabilities { grid-template-columns: 1fr; }
   .awards { grid-template-columns: repeat(2, 1fr); }
-  .tl { grid-template-columns: 1fr; gap: 20px; }
-  .tl::before { display: none; }
-  .tl__marker {
-    width: auto; height: auto; border-radius: var(--r); padding: 12px 20px;
-    display: flex; align-items: baseline; gap: 10px; justify-content: center;
-  }
-  .tl__marker span { font-size: 26px; }
+  .dttg__ray { padding: 22px 6% 26px; }
+  .chuong { padding: 8px 2% 0; }
+  .chuong__bong { top: -20px; font-size: clamp(96px, 26vw, 170px); }
 }
 
 @media (max-width: 640px) {
@@ -820,7 +935,12 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .awards { grid-template-columns: 1fr; }
   .award--top { flex-direction: column; align-items: flex-start; gap: 10px; }
   .decree { padding: 22px 20px; }
-  .tl__body { padding: 22px 20px; }
+  .dttg__thanh { padding: 18px 16px 0; }
+  .dttg__ray { padding: 20px 6% 22px; }
+  .dttg__dieu { padding: 0 16px 20px; }
+  .dttg__goi { display: none; }
+  .nam { padding: 7px 12px; }
+  .nam b { font-size: 18px; }
 }
 
 /* ==========================================================
@@ -2068,49 +2188,6 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
 .reveal.is-in { opacity: 1; transform: none; }
 
-/* ---------- Dòng thời gian: vào theo nhịp thay vì trôi lên cùng lúc ----------
-   .tl vẫn nằm trong danh sách của script.js để được quan sát và gắn .is-in,
-   nhưng bỏ hiệu ứng chung của .reveal đi để ba phần bên trong tự diễn:
-   mốc năm bật ra → đường kẻ vẽ xuống → thẻ nội dung trượt vào → chữ chạy dần.
-
-   MỌI trạng thái ẩn đều khoá sau .reveal, mà .reveal do JS gắn. Không có JS
-   thì không có .reveal, toàn bộ hiện bình thường — đừng bỏ .reveal khỏi các
-   selector dưới đây, sẽ thành trang trắng khi script lỗi. */
-.tl.reveal { opacity: 1; transform: none; }
-
-.tl.reveal .tl__marker {
-  opacity: 0; transform: scale(.86);
-  transition: opacity .5s ease, transform .55s cubic-bezier(.2, .9, .3, 1.25);
-}
-.tl.reveal.is-in .tl__marker { opacity: 1; transform: none; }
-
-.tl.reveal::before { transform: scaleY(0); transform-origin: top; transition: transform .85s ease .3s; }
-.tl.reveal.is-in::before { transform: scaleY(1); }
-
-.tl.reveal .tl__body {
-  opacity: 0; transform: translateY(18px);
-  /* giữ box-shadow trong danh sách, nếu không hover mất hiệu ứng đổ bóng */
-  transition: opacity .6s ease .16s, transform .6s ease .16s, box-shadow var(--t);
-}
-/* Chỉ trượt ngang khi bố cục còn hai cột: thẻ nội dung sát mép phải container
-   nên dịch X dương là tràn khung nhìn, phải dịch sang TRÁI vào khoảng hở
-   cạnh cột mốc năm. Dưới 861px chỉ còn một cột, hết chỗ hở, quay về trục Y. */
-@media (min-width: 861px) {
-  .tl.reveal .tl__body { transform: translateX(-22px); }
-}
-.tl.reveal.is-in .tl__body { opacity: 1; transform: none; }
-
-.tl.reveal .tl__body > * {
-  opacity: 0; transform: translateY(10px);
-  transition: opacity .5s ease, transform .5s ease;
-}
-.tl.reveal.is-in .tl__body > * { opacity: 1; transform: none; }
-.tl.reveal.is-in .tl__body > :nth-child(1) { transition-delay: .30s; }
-.tl.reveal.is-in .tl__body > :nth-child(2) { transition-delay: .38s; }
-.tl.reveal.is-in .tl__body > :nth-child(3) { transition-delay: .46s; }
-.tl.reveal.is-in .tl__body > :nth-child(4) { transition-delay: .54s; }
-.tl.reveal.is-in .tl__body > :nth-child(5) { transition-delay: .62s; }
-.tl.reveal.is-in .tl__body > :nth-child(n+6) { transition-delay: .70s; }
 
 /* ==========================================================
    RESPONSIVE
@@ -2396,16 +2473,18 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   /* trên cảm ứng, :hover kẹt lại sau khi chạm khiến thẻ bị đẩy lệch */
   .btn--primary:hover, .sched:hover, .news__item:hover, .bkshow:hover,
   .mission:hover, .value:hover, .award:hover, .capa:hover,
-  .news__lead:hover, .tl__body:hover, .artist:hover .artist__img { transform: none; }
+  .news__lead:hover, .artist:hover .artist__img { transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition-duration: .01ms !important; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }
-  /* dòng thời gian có trạng thái ẩn riêng, phải trả lại hết ở đây */
-  .tl.reveal .tl__marker,
-  .tl.reveal .tl__body,
-  .tl.reveal .tl__body > * { opacity: 1; transform: none; }
-  .tl.reveal::before { transform: none; }
+  /* trục thời gian có trạng thái ẩn riêng, phải trả lại hết ở đây */
+  .dttg.san-sang .chuong,
+  .dttg.san-sang .chuong__ky,
+  .dttg.san-sang .chuong h3,
+  .dttg.san-sang .chuong__chu > * { opacity: 1; transform: none; }
+  .dttg__ray { scroll-behavior: auto; }
+  .chuong__bong { display: none; }
 }

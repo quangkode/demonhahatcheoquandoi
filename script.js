@@ -270,7 +270,7 @@
   /* ---------- Hiệu ứng xuất hiện khi cuộn ---------- */
   var targets = document.querySelectorAll(
     '.sched, .artist, .news__lead, .news__item, .about__media, .about__text, .quickinfo__item,' +
-    '.mission, .value, .capa, .award, .tl, .factbox, .honorbox, .decree,' +
+    '.mission, .value, .capa, .award, .factbox, .honorbox, .decree,' +
     '.milestone, .leader, .work, .archive__item, .martyr, .laurel, .bangvang'
   );
   Array.prototype.forEach.call(targets, function (el) { el.classList.add('reveal'); });
@@ -469,4 +469,118 @@
   document.addEventListener('keydown', function (e) {
     if (lbBox && (e.key === 'Escape' || e.key === 'Esc')) closeLightbox();
   });
+  /* ---------- Trang lịch sử: trục thời gian ngang ----------
+     Ray là vùng cuộn ngang thật (overflow-x + scroll-snap), nên vuốt cảm ứng,
+     lăn ngang trackpad và phím mũi tên đều do trình duyệt lo liệu. JS ở đây chỉ
+     đồng bộ bốn thứ theo vị trí cuộn: mốc năm đang sáng, thanh tiến độ, nút
+     trước/sau, và độ trôi của con số năm chìm phía sau.
+
+     Cố ý KHÔNG bắt chuột kéo thả trên ray: chặng nào cũng mấy khổ chữ, kéo thả
+     sẽ cướp mất thao tác bôi đen để đọc và sao chép. Chuột thì bấm nút hoặc
+     bấm mốc năm. */
+  var ray = document.getElementById('dttgRay');
+  if (ray) {
+    var khungTruc = document.getElementById('dttg');
+    var chuongs = Array.prototype.slice.call(ray.querySelectorAll('.chuong'));
+    var namRay = document.getElementById('dttgNam');
+    var namBtn = Array.prototype.slice.call(namRay.querySelectorAll('.nam'));
+    var dayTien = document.getElementById('dttgDay');
+    var soHien = document.getElementById('dttgSo');
+    var nutTruoc = document.getElementById('dttgTruoc');
+    var nutSau = document.getElementById('dttgSau');
+    var diuDi = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var dangCho = false;
+    var mocHien = -1;
+
+    khungTruc.classList.add('san-sang');
+
+    // khoảng cách tâm hai thẻ liền nhau — đổi scrollLeft thành vị trí liên tục
+    function buoc() {
+      return chuongs.length > 1
+        ? (chuongs[1].offsetLeft - chuongs[0].offsetLeft)
+        : ray.clientWidth;
+    }
+
+    function viTri() {
+      var b = buoc();
+      if (b <= 0) return 0;
+      return Math.max(0, Math.min(chuongs.length - 1, ray.scrollLeft / b));
+    }
+
+    function veTruc() {
+      dangCho = false;
+      var vt = viTri();
+
+      // con số năm chìm trôi chậm hơn thẻ, tạo chiều sâu khi vuốt
+      if (!diuDi) {
+        var giua = ray.scrollLeft + ray.clientWidth / 2;
+        for (var k = 0; k < chuongs.length; k++) {
+          var bong = chuongs[k].querySelector('.chuong__bong');
+          if (!bong) continue;
+          var lech = (chuongs[k].offsetLeft + chuongs[k].offsetWidth / 2 - giua) / ray.clientWidth;
+          bong.style.transform = 'translate3d(' + (lech * -78).toFixed(1) + 'px,0,0)';
+        }
+      }
+
+      // thanh tiến độ chạy liền theo tay chứ không nhảy từng nấc
+      dayTien.style.transform = 'translateX(' + (vt * 100) + '%)';
+
+      var i = Math.round(vt);
+      if (i === mocHien) return;
+      mocHien = i;
+
+      for (var t = 0; t < chuongs.length; t++) chuongs[t].classList.toggle('hoat', t === i);
+      for (var u = 0; u < namBtn.length; u++) {
+        namBtn[u].classList.toggle('hoat', u === i);
+        if (u === i) namBtn[u].setAttribute('aria-current', 'true');
+        else namBtn[u].removeAttribute('aria-current');
+      }
+      soHien.textContent = i + 1;
+      nutTruoc.disabled = i === 0;
+      nutSau.disabled = i === chuongs.length - 1;
+
+      // máy hẹp thì thanh mốc năm tràn ngang: kéo mốc đang chọn vào tầm nhìn
+      if (namRay.scrollWidth > namRay.clientWidth + 4) {
+        var b = namBtn[i];
+        namRay.scrollTo({
+          left: Math.max(0, b.offsetLeft - (namRay.clientWidth - b.offsetWidth) / 2),
+          behavior: diuDi ? 'auto' : 'smooth'
+        });
+      }
+    }
+
+    function toiChuong(i) {
+      i = Math.max(0, Math.min(chuongs.length - 1, i));
+      ray.scrollTo({ left: buoc() * i, behavior: diuDi ? 'auto' : 'smooth' });
+    }
+
+    ray.addEventListener('scroll', function () {
+      if (dangCho) return;
+      dangCho = true;
+      requestAnimationFrame(veTruc);
+    }, { passive: true });
+
+    nutTruoc.addEventListener('click', function () { toiChuong(Math.round(viTri()) - 1); });
+    nutSau.addEventListener('click', function () { toiChuong(Math.round(viTri()) + 1); });
+
+    namBtn.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        toiChuong(parseInt(btn.getAttribute('data-di'), 10) || 0);
+      });
+    });
+
+    ray.addEventListener('keydown', function (e) {
+      var i = Math.round(viTri());
+      if (e.key === 'ArrowRight') { e.preventDefault(); toiChuong(i + 1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); toiChuong(i - 1); }
+      else if (e.key === 'Home') { e.preventDefault(); toiChuong(0); }
+      else if (e.key === 'End') { e.preventDefault(); toiChuong(chuongs.length - 1); }
+    });
+
+    // đổi bề rộng cửa sổ thì buoc() khác đi, phải tính lại từ đầu
+    window.addEventListener('resize', function () { mocHien = -1; veTruc(); });
+
+    veTruc();
+  }
+
 })();
