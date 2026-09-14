@@ -513,6 +513,8 @@
     var dangChay = false;
     var tamBong = [];   // tâm mỗi thẻ, đo sẵn
     var rongRay = 0;    // bề ngang khung nhìn, đo sẵn
+    var henGoLoang = null;
+
 
     khungTruc.classList.add('san-sang');
     khungTruc.classList.add('keo-duoc');
@@ -544,6 +546,25 @@
       return Math.max(0, Math.min(chuongs.length - 1, -hienTai / buoc));
     }
 
+    /* Cho chặng vừa vào thấm dần như mực loang. Gỡ lớp cũ rồi gắn lại ở KHUNG
+       HÌNH SAU chứ không gắn ngay: gỡ và gắn trong cùng một khung thì trình
+       duyệt không thấy có gì đổi, animation đứng im. Gỡ hẳn sau khi chạy xong
+       để thẻ thôi bị mask — xem chú thích .dang-loang trong styles.css. */
+    function loang(el, lui) {
+      if (diuDi || !el) return;
+      if (henGoLoang) clearTimeout(henGoLoang);
+      for (var t = 0; t < chuongs.length; t++) {
+        chuongs[t].classList.remove('dang-loang', 'loang--lui');
+      }
+      requestAnimationFrame(function () {
+        el.classList.add('dang-loang');
+        if (lui) el.classList.add('loang--lui');
+        henGoLoang = setTimeout(function () {
+          el.classList.remove('dang-loang', 'loang--lui');
+        }, 1250);
+      });
+    }
+
     function capNhat() {
       var vt = viTri();
 
@@ -561,7 +582,9 @@
 
       var i = Math.round(vt);
       if (i === mocHien) return;
+      var truoc = mocHien;
       mocHien = i;
+      loang(chuongs[i], truoc > i);
 
       for (var t = 0; t < chuongs.length; t++) chuongs[t].classList.toggle('hoat', t === i);
       for (var u = 0; u < namBtn.length; u++) {
