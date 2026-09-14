@@ -811,11 +811,12 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
    chuẩn như các thẻ giữa. Đổi 100% thành một số nhỏ hơn là hai đầu lệch ngay,
    thanh tiến độ cũng không chạy hết được. --- */
 .dttg__ray {
-  display: flex; padding: 26px 7% 30px;
+  display: block; padding: 26px 7% 30px;
   overflow-x: auto; overflow-y: hidden;
   scroll-snap-type: x mandatory; scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch; scrollbar-width: none;
 }
+.dttg__trong { display: flex; }
 .dttg__ray::-webkit-scrollbar { display: none; }
 .dttg__ray:focus-visible { outline: 2px solid var(--gold); outline-offset: -4px; }
 
@@ -908,6 +909,39 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .dttg.san-sang .chuong.hoat .chuong__chu > :nth-child(3) { transition-delay: .38s; }
 .dttg.san-sang .chuong.hoat .chuong__chu > :nth-child(4) { transition-delay: .45s; }
 .dttg.san-sang .chuong.hoat .chuong__chu > :nth-child(n+5) { transition-delay: .52s; }
+
+/* ---------- Kéo-thả có trễ ----------
+   Mặc định ray là vùng cuộn ngang thật, chạy được khi KHÔNG có JavaScript.
+   Dựng xong thì script.js gắn .keo-duoc, lúc đó ray thôi cuộn và chuyển sang
+   dịch .dttg__trong bằng transform — cách này mới trễ được, mới có quán tính.
+   Bỏ .keo-duoc đi là tự động quay về cuộn thật, không vỡ gì. */
+.dttg.keo-duoc .dttg__ray {
+  overflow: hidden;
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+  touch-action: pan-y;        /* vuốt dọc vẫn cuộn trang, dọc nhường cho trang */
+  cursor: grab;
+}
+.dttg.keo-duoc .dttg__trong { will-change: transform; }
+.dttg.keo-duoc .chuong { scroll-snap-align: none; }
+.dttg.keo-duoc.dang-keo .dttg__ray { cursor: grabbing; }
+.dttg.keo-duoc.dang-keo .chuong { user-select: none; -webkit-user-select: none; }
+/* vòng tròn thay con trỏ CHÍNH LÀ con trỏ, nên giấu con trỏ hệ thống đi */
+.dttg.keo-duoc.con-hien .dttg__ray { cursor: none; }
+
+.dttg__con {
+  position: absolute; left: 0; top: 0; z-index: 6;
+  width: 48px; height: 48px; border-radius: 50%;
+  border: 1px solid var(--gold-light);
+  opacity: 0; pointer-events: none;
+  transition: opacity .5s ease, border-width .3s ease .15s;
+  will-change: transform;
+}
+.dttg__con.hien { opacity: 1; }
+/* bấm giữ: vòng tròn co lại còn 1/5 và viền phình kín thành một chấm đặc */
+.dttg.dang-keo .dttg__con { border-width: 24px; }
+/* cảm ứng không có con trỏ để thay */
+@media (hover: none), (pointer: coarse) { .dttg__con { display: none; } }
 
 /* ---------- Responsive trang giới thiệu ---------- */
 @media (max-width: 1024px) {
@@ -2486,5 +2520,6 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .dttg.san-sang .chuong h3,
   .dttg.san-sang .chuong__chu > * { opacity: 1; transform: none; }
   .dttg__ray { scroll-behavior: auto; }
-  .chuong__bong { display: none; }
+  .chuong__bong, .dttg__con { display: none; }
+  .dttg.keo-duoc.con-hien .dttg__ray { cursor: grab; }
 }

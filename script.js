@@ -469,18 +469,27 @@
   document.addEventListener('keydown', function (e) {
     if (lbBox && (e.key === 'Escape' || e.key === 'Esc')) closeLightbox();
   });
-  /* ---------- Trang lịch sử: trục thời gian ngang ----------
-     Ray là vùng cuộn ngang thật (overflow-x + scroll-snap), nên vuốt cảm ứng,
-     lăn ngang trackpad và phím mũi tên đều do trình duyệt lo liệu. JS ở đây chỉ
-     đồng bộ bốn thứ theo vị trí cuộn: mốc năm đang sáng, thanh tiến độ, nút
-     trước/sau, và độ trôi của con số năm chìm phía sau.
+  /* ---------- Trang lịch sử: trục thời gian kéo-thả có trễ ----------
+     Dựng theo đúng cách slider của akkersvanmargraten.nl chạy, nhưng viết
+     bằng rAF và pointer event thuần thay cho GSAP + Hammer.js.
 
-     Cố ý KHÔNG bắt chuột kéo thả trên ray: chặng nào cũng mấy khổ chữ, kéo thả
-     sẽ cướp mất thao tác bôi đen để đọc và sao chép. Chuột thì bấm nút hoặc
-     bấm mốc năm. */
+     Lõi của cảm giác "buông tay rồi nó còn trôi tiếp" nằm ở hai chỗ, KHÔNG
+     phải ở một công thức ma sát nào:
+       1. Trong lúc kéo, quãng dịch nhân TOC = 1.5 — tay đi 100px thì đích
+          dịch 150px, nên vuốt mạnh là đích đã văng qua thẻ kế từ trước.
+       2. Vị trí VẼ RA chỉ đuổi theo đích mỗi khung hình một phần EASE = 0.1,
+          nên lúc buông tay nó còn tụt lại phía sau cả trăm pixel và phải bò
+          tiếp mới bắt kịp. Chính khoảng tụt đó là quán tính.
+     Bắt mốc khi buông cũng tính theo ĐÍCH chứ không theo chỗ đang vẽ, nếu
+     không thì vuốt mạnh mấy cũng chỉ nhích đúng một thẻ.
+
+     Ray mặc định vẫn là vùng cuộn ngang thật. Chỉ khi dựng xong mới gắn
+     .keo-duoc để chuyển sang transform — script hỏng thì trang tự về cuộn
+     thật, không mất chữ nào. */
   var ray = document.getElementById('dttgRay');
   if (ray) {
     var khungTruc = document.getElementById('dttg');
+    var trong = document.getElementById('dttgTrong');
     var chuongs = Array.prototype.slice.call(ray.querySelectorAll('.chuong'));
     var namRay = document.getElementById('dttgNam');
     var namBtn = Array.prototype.slice.call(namRay.querySelectorAll('.nam'));
@@ -488,41 +497,66 @@
     var soHien = document.getElementById('dttgSo');
     var nutTruoc = document.getElementById('dttgTruoc');
     var nutSau = document.getElementById('dttgSau');
+    var con = document.getElementById('dttgCon');
     var diuDi = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var dangCho = false;
-    var mocHien = -1;
+
+    var EASE = 0.1;      // mỗi khung hình đuổi 10% quãng còn lại
+    var TOC = 1.5;       // hệ số khuếch đại quãng kéo
+    var LO = 200;        // kéo lố quá hai đầu 200px rồi bật về
+    var TOC_CON = 0.2;   // độ trễ của vòng tròn thay con trỏ
+    var THEM = 8;        // chưa đi quá 8px thì vẫn là bôi đen chữ, chưa phải kéo
+
+    var buoc = 0, min = 0, max = 0;
+    var dich = 0, hienTai = 0, mocHien = -1;
+    var sanKeo = false, dangKeo = false, batX = 0, batY = 0, goc = 0;
+    var chuotX = 0, chuotY = 0, conX = 0, conY = 0, tiLe = 1, conHien = false;
+    var dangChay = false;
+    var tamBong = [];   // tâm mỗi thẻ, đo sẵn
+    var rongRay = 0;    // bề ngang khung nhìn, đo sẵn
 
     khungTruc.classList.add('san-sang');
+    khungTruc.classList.add('keo-duoc');
 
-    // khoảng cách tâm hai thẻ liền nhau — đổi scrollLeft thành vị trí liên tục
-    function buoc() {
-      return chuongs.length > 1
+    function doLai() {
+      var moc = mocHien < 0 ? 0 : mocHien;
+      buoc = chuongs.length > 1
         ? (chuongs[1].offsetLeft - chuongs[0].offsetLeft)
         : ray.clientWidth;
+      min = 0;
+      max = -(buoc * (chuongs.length - 1));
+      /* Đo sẵn tâm từng thẻ ở đây. capNhat() chạy mỗi khung hình, mà nó vừa
+         ghi transform xong lại đọc offsetLeft thì ép trình duyệt tính lại bố
+         cục ngay giữa khung — 60 lần một giây, máy yếu là thấy giật. Mấy số
+         này chỉ đổi khi đổi bề ngang cửa sổ, mà resize đã gọi doLai rồi. */
+      rongRay = ray.clientWidth;
+      tamBong = chuongs.map(function (c) {
+        return { el: c.querySelector('.chuong__bong'), tam: c.offsetLeft + c.offsetWidth / 2 };
+      });
+      dich = -moc * buoc;
+      hienTai = dich;
+      mocHien = -1;
+      trong.style.transform = 'translate3d(' + hienTai + 'px,0,0)';
+      capNhat();
     }
 
     function viTri() {
-      var b = buoc();
-      if (b <= 0) return 0;
-      return Math.max(0, Math.min(chuongs.length - 1, ray.scrollLeft / b));
+      if (buoc <= 0) return 0;
+      return Math.max(0, Math.min(chuongs.length - 1, -hienTai / buoc));
     }
 
-    function veTruc() {
-      dangCho = false;
+    function capNhat() {
       var vt = viTri();
 
-      // con số năm chìm trôi chậm hơn thẻ, tạo chiều sâu khi vuốt
-      if (!diuDi) {
-        var giua = ray.scrollLeft + ray.clientWidth / 2;
-        for (var k = 0; k < chuongs.length; k++) {
-          var bong = chuongs[k].querySelector('.chuong__bong');
-          if (!bong) continue;
-          var lech = (chuongs[k].offsetLeft + chuongs[k].offsetWidth / 2 - giua) / ray.clientWidth;
-          bong.style.transform = 'translate3d(' + (lech * -78).toFixed(1) + 'px,0,0)';
+      // con số năm chìm trôi chậm hơn thẻ, tạo chiều sâu khi kéo
+      if (!diuDi && rongRay > 0) {
+        var giua = -hienTai + rongRay / 2;
+        for (var k = 0; k < tamBong.length; k++) {
+          if (!tamBong[k].el) continue;
+          var lech = (tamBong[k].tam - giua) / rongRay;
+          tamBong[k].el.style.transform = 'translate3d(' + (lech * -78).toFixed(1) + 'px,0,0)';
         }
       }
 
-      // thanh tiến độ chạy liền theo tay chứ không nhảy từng nấc
       dayTien.style.transform = 'translateX(' + (vt * 100) + '%)';
 
       var i = Math.round(vt);
@@ -539,7 +573,6 @@
       nutTruoc.disabled = i === 0;
       nutSau.disabled = i === chuongs.length - 1;
 
-      // máy hẹp thì thanh mốc năm tràn ngang: kéo mốc đang chọn vào tầm nhìn
       if (namRay.scrollWidth > namRay.clientWidth + 4) {
         var b = namBtn[i];
         namRay.scrollTo({
@@ -549,16 +582,127 @@
       }
     }
 
-    function toiChuong(i) {
-      i = Math.max(0, Math.min(chuongs.length - 1, i));
-      ray.scrollTo({ left: buoc() * i, behavior: diuDi ? 'auto' : 'smooth' });
+    function khung() {
+      var xong = true;
+
+      if (diuDi) {
+        hienTai = dich;
+      } else {
+        hienTai = hienTai + (dich - hienTai) * EASE;
+        if (Math.abs(dich - hienTai) < 0.08) hienTai = dich;
+        else xong = false;
+      }
+      // làm tròn hai số lẻ: dưới ngưỡng đó chỉ là rung pixel, vẽ lại vô ích
+      hienTai = Math.round(hienTai * 100) / 100;
+      trong.style.transform = 'translate3d(' + hienTai + 'px,0,0)';
+      capNhat();
+
+      if (con && conHien) {
+        var nhanh = dangKeo ? 1 : TOC_CON;   // đang kéo thì vòng tròn dính sát tay
+        conX += (chuotX - conX) * nhanh;
+        conY += (chuotY - conY) * nhanh;
+        var dichTiLe = dangKeo ? 0.2 : 1;
+        tiLe += (dichTiLe - tiLe) * 0.18;
+        con.style.transform = 'translate3d(' + (conX - 24).toFixed(1) + 'px,'
+          + (conY - 24).toFixed(1) + 'px,0) scale(' + tiLe.toFixed(3) + ')';
+        if (Math.abs(chuotX - conX) > 0.4 || Math.abs(chuotY - conY) > 0.4
+          || Math.abs(dichTiLe - tiLe) > 0.004) xong = false;
+      }
+
+      if (xong && !dangKeo) { dangChay = false; return; }
+      requestAnimationFrame(khung);
     }
 
-    ray.addEventListener('scroll', function () {
-      if (dangCho) return;
-      dangCho = true;
-      requestAnimationFrame(veTruc);
-    }, { passive: true });
+    function chay() {
+      if (dangChay) return;
+      dangChay = true;
+      requestAnimationFrame(khung);
+    }
+
+    function toiChuong(i) {
+      i = Math.max(0, Math.min(chuongs.length - 1, i));
+      dich = -i * buoc;
+      chay();
+    }
+
+    /* Bắt mốc gần nhất tính theo ĐÍCH, không theo chỗ đang vẽ — đích đã nhân
+       TOC nên một cú vuốt mạnh tự sang thẻ kế mà không cần đo vận tốc. */
+    function bat() {
+      toiChuong(buoc > 0 ? Math.round(-dich / buoc) : 0);
+    }
+
+    ray.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      sanKeo = true;
+      dangKeo = false;
+      batX = e.clientX;
+      batY = e.clientY;
+      goc = dich;
+      chay();
+    });
+
+    ray.addEventListener('pointermove', function (e) {
+      var r = khungTruc.getBoundingClientRect();
+      chuotX = e.clientX - r.left;
+      chuotY = e.clientY - r.top;
+
+      if (con && !conHien && e.pointerType === 'mouse' && !diuDi) {
+        conHien = true;
+        conX = chuotX; conY = chuotY;
+        con.classList.add('hien');
+        khungTruc.classList.add('con-hien');
+      }
+
+      if (sanKeo && !dangKeo) {
+        var dx = e.clientX - batX, dy = e.clientY - batY;
+        // chỉ tính là kéo khi đã đi quá ngưỡng VÀ đi ngang nhiều hơn đi dọc:
+        // dưới ngưỡng thì để người đọc bôi đen chữ như bình thường
+        if (Math.abs(dx) > THEM && Math.abs(dx) > Math.abs(dy)) {
+          dangKeo = true;
+          khungTruc.classList.add('dang-keo');
+          if (window.getSelection) {
+            var ch = window.getSelection();
+            if (ch && ch.removeAllRanges) ch.removeAllRanges();
+          }
+          if (ray.setPointerCapture) {
+            try { ray.setPointerCapture(e.pointerId); } catch (loi) {}
+          }
+        }
+      }
+
+      if (dangKeo) {
+        dich = goc + (e.clientX - batX) * TOC;
+        dich = Math.max(Math.min(dich, min + LO), max - LO);
+      }
+      chay();
+    });
+
+    function tha() {
+      if (!sanKeo) return;
+      sanKeo = false;
+      if (dangKeo) {
+        dangKeo = false;
+        khungTruc.classList.remove('dang-keo');
+        bat();
+      }
+      chay();
+    }
+
+    ray.addEventListener('pointerup', tha);
+    ray.addEventListener('pointercancel', tha);
+    ray.addEventListener('pointerleave', function () {
+      tha();
+      if (con && conHien) {
+        conHien = false;
+        con.classList.remove('hien');
+        khungTruc.classList.remove('con-hien');
+      }
+    });
+    // kéo rồi thả trúng chữ thì trình duyệt vẫn coi là một cú click, chặn đi
+    ray.addEventListener('click', function (e) {
+      if (khungTruc.classList.contains('dang-keo')) e.preventDefault();
+    });
+    ray.addEventListener('dragstart', function (e) { e.preventDefault(); });
 
     nutTruoc.addEventListener('click', function () { toiChuong(Math.round(viTri()) - 1); });
     nutSau.addEventListener('click', function () { toiChuong(Math.round(viTri()) + 1); });
@@ -577,10 +721,8 @@
       else if (e.key === 'End') { e.preventDefault(); toiChuong(chuongs.length - 1); }
     });
 
-    // đổi bề rộng cửa sổ thì buoc() khác đi, phải tính lại từ đầu
-    window.addEventListener('resize', function () { mocHien = -1; veTruc(); });
-
-    veTruc();
+    window.addEventListener('resize', doLai);
+    doLai();
   }
 
 })();

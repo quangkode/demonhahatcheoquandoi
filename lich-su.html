@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=51" />
+<link rel="stylesheet" href="./styles.css?v=52" />
 <link rel="icon" type="image/png" href="./anh/logo.png" />
 </head>
 <body>
@@ -145,7 +145,8 @@
         <div class="dttg__vach"><span class="dttg__day" id="dttgDay"></span></div>
       </div>
 
-      <div class="dttg__ray" id="dttgRay" tabindex="0" role="group" aria-label="Dòng thời gian — vuốt ngang để xem từng chặng">
+      <div class="dttg__ray" id="dttgRay" tabindex="0" role="group" aria-label="Dòng thời gian — kéo ngang để xem từng chặng">
+        <div class="dttg__trong" id="dttgTrong">
 
         <article class="chuong" id="chang-1954" aria-label="Chặng 1954 đến 1965">
           <span class="chuong__bong" aria-hidden="true">1954</span>
@@ -215,13 +216,16 @@
           </div>
         </article>
 
+        </div>
       </div>
+
+      <div class="dttg__con" id="dttgCon" aria-hidden="true"></div>
 
       <div class="dttg__dieu">
         <button type="button" class="dttg__nut" id="dttgTruoc" aria-label="Chặng trước"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7" /></svg></button>
         <button type="button" class="dttg__nut" id="dttgSau" aria-label="Chặng sau"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></button>
         <p class="dttg__dem"><b id="dttgSo">1</b><span>/</span>5</p>
-        <p class="dttg__goi">Vuốt ngang, bấm mũi tên hoặc chọn mốc năm phía trên</p>
+        <p class="dttg__goi">Kéo ngang, bấm mũi tên hoặc chọn mốc năm phía trên</p>
       </div>
 
     </div>
@@ -474,6 +478,6 @@
 
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
-<script src="./script.js?v=15"></script>
+<script src="./script.js?v=16"></script>
 </body>
 </html>
