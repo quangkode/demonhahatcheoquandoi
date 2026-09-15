@@ -823,7 +823,7 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .chuong {
   flex: 0 0 100%; scroll-snap-align: center;
   position: relative; min-width: 0; padding: 10px 4% 0;
-  display: flex;
+  display: flex; gap: 30px;
 }
 .chuong__bong {
   position: absolute; right: 2%; top: -34px; z-index: 0;
@@ -839,7 +839,19 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 .chuong__trong {
   position: relative; z-index: 1; width: 100%; max-width: 780px;
   display: flex; flex-direction: column;
+  /* flex: 1 để khối chữ luôn cao bằng thẻ — dòng cuối mới neo được xuống đáy
+     cả khi ảnh đứng cạnh (hàng ngang) lẫn khi ảnh nằm trên (xếp dọc) */
+  flex: 1 1 0; min-width: 0;
 }
+.chuong__anh {
+  flex: 0 0 clamp(220px, 32%, 340px);
+  align-self: start; margin-top: 4px;
+  aspect-ratio: 3 / 2; overflow: hidden;
+  border: 1px solid rgba(250, 246, 238, .2);
+  background: rgba(0, 0, 0, .28);
+}
+.chuong__anh .archive__zoom { border-radius: 0; }
+.chuong__anh img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .chuong__chu { flex: 1; display: flex; flex-direction: column; }
 .chuong__ky {
   display: flex; align-items: baseline; gap: 9px; margin: 0 0 10px;
@@ -982,7 +994,9 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .missions, .capabilities { grid-template-columns: 1fr; }
   .awards { grid-template-columns: repeat(2, 1fr); }
   .dttg__ray { padding: 22px 6% 26px; }
-  .chuong { padding: 8px 2% 0; }
+  .chuong { padding: 8px 2% 0; flex-direction: column; gap: 18px; }
+  /* xếp dọc thì cho ảnh lên trước: nhìn thấy ảnh rồi mới đọc chữ */
+  .chuong__anh { order: -1; flex: none; width: 100%; max-width: 420px; }
   .chuong__bong { top: -20px; font-size: clamp(96px, 26vw, 170px); }
 }
 
@@ -1653,7 +1667,19 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   background: var(--white); border: 1px solid var(--line);
   border-left: 3px solid var(--red); border-radius: var(--r);
   padding: 22px 20px; transition: var(--t);
+  overflow: hidden;
 }
+/* Ảnh tràn hết bề ngang thẻ bằng lề âm đúng bằng padding. Lề trái -20px dừng
+   ngay sát vạch đỏ bên trái chứ không đè lên. .milestone phải overflow:hidden
+   thì góc bo của thẻ mới cắt được hai góc trên của ảnh. */
+.milestone__art {
+  margin: -22px -20px 16px;
+  aspect-ratio: 16 / 10;
+  background: var(--cream-2);
+  overflow: hidden;
+}
+.milestone__art .archive__zoom { border-radius: 0; }
+.milestone__art img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .milestone__year {
   margin: 0 0 8px; font-family: var(--serif);
   font-size: 21px; color: var(--red); line-height: 1.1;
