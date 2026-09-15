@@ -2571,3 +2571,99 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   .chuong__bong, .dttg__con { display: none; }
   .dttg.keo-duoc.con-hien .dttg__ray { cursor: grab; }
 }
+
+/* ==========================================================
+   TRANG ĐỌC BÀI — tin-bai.html
+   Bài lấy từ báo về, đọc trọn ngay trên trang Nhà hát.
+   ========================================================== */
+.baiviet { padding: 40px 0 70px; background: var(--cream); }
+
+/* .crumb vốn viết cho dải pagehero nền tối nên để chữ trắng. Trang này nền
+   sáng, dùng nguyên là đường dẫn gần như tàng hình. Đặt lại màu mực. */
+.baiviet .crumb { color: var(--ink-soft); }
+.baiviet .crumb a { color: var(--ink-soft); }
+.baiviet .crumb a:hover { color: var(--red); }
+.baiviet .crumb strong { color: var(--ink); }
+.baiviet__khung { max-width: 820px; }
+.baiviet__cho { padding: 60px 0; text-align: center; color: var(--ink-soft); }
+
+.baiviet__bai { margin-top: 18px; }
+.baiviet__meta {
+  margin: 0 0 10px; font-size: 13.5px; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--red);  font-weight: 600;
+}
+.baiviet__tieude {
+  font-family: var(--serif); font-size: clamp(27px, 4.4vw, 40px);
+  line-height: 1.22; margin: 0 0 16px;
+}
+.baiviet__tomtat {
+  font-size: 18px; line-height: 1.65; font-weight: 500;
+  color: var(--ink); margin: 0 0 26px;
+  padding-left: 16px; border-left: 3px solid var(--gold);
+}
+.baiviet__anhbia { margin: 0 0 30px; }
+.baiviet__anhbia img { width: 100%; height: auto; border-radius: 12px; display: block; }
+.baiviet__anhbia figcaption {
+  margin-top: 8px; font-size: 13.5px; color: var(--ink-soft); font-style: italic;
+}
+
+/* Thân bài: cỡ chữ và giãn dòng đặt cho việc đọc dài, không phải để lướt. */
+.baiviet__than { font-size: 17.5px; line-height: 1.82; color: var(--ink); }
+.baiviet__than p { margin: 0 0 20px; }
+.baiviet__than h2, .baiviet__than h3, .baiviet__than h4 {
+  font-family: var(--serif); line-height: 1.3; margin: 34px 0 14px;
+}
+.baiviet__than h2 { font-size: 25px; }
+.baiviet__than h3 { font-size: 21px; }
+.baiviet__than h4 { font-size: 18.5px; }
+.baiviet__than ul, .baiviet__than ol { margin: 0 0 20px; padding-left: 24px; }
+.baiviet__than li { margin-bottom: 9px; }
+.baiviet__than a { color: var(--red); text-underline-offset: 3px; }
+.baiviet__than img {
+  width: 100%; height: auto; border-radius: 10px; display: block; margin: 10px 0;
+}
+.baiviet__than figure { margin: 26px 0; }
+.baiviet__than figcaption {
+  margin-top: 9px; font-size: 14px; color: var(--ink-soft);
+  font-style: italic; text-align: center;
+}
+.baiviet__than blockquote {
+  margin: 26px 0; padding: 4px 0 4px 20px;
+  border-left: 3px solid var(--gold); color: var(--ink-soft); font-size: 18px;
+}
+.baiviet__than table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 15.5px; }
+.baiviet__than th, .baiviet__than td {
+  border: 1px solid var(--line); padding: 10px 12px; text-align: left; vertical-align: top;
+}
+.baiviet__than th { background: rgba(0, 0, 0, .03); font-weight: 600; }
+
+.baiviet__thieu {
+  padding: 16px 18px; border-radius: 10px;
+  background: rgba(255, 205, 0, .12); border: 1px solid rgba(255, 205, 0, .4);
+}
+
+/* Khối dẫn nguồn cuối bài. Bắt buộc có với mọi bài lấy từ báo về. */
+.baiviet__nguon {
+  margin: 40px 0 0; padding: 20px 22px;
+  background: #fff; border: 1px solid var(--line);
+  border-left: 3px solid var(--red); border-radius: 0 12px 12px 0;
+}
+.baiviet__nguon-nhan {
+  display: block; font-size: 12px; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--ink-soft); margin-bottom: 4px; font-weight: 600;
+}
+.baiviet__nguon a, .baiviet__nguon strong {
+  font-size: 17px; font-weight: 600; color: var(--red);
+}
+.baiviet__nguon p { margin: 10px 0 0; font-size: 13.5px; color: var(--ink-soft); line-height: 1.6; }
+
+.baiviet__ve { margin: 34px 0 0; }
+.baiviet__trong { padding: 70px 0; text-align: center; }
+.baiviet__trong h1 { font-family: var(--serif); font-size: 26px; margin: 0 0 10px; }
+.baiviet__trong p { color: var(--ink-soft); margin: 0 0 18px; }
+
+@media (max-width: 640px) {
+  .baiviet { padding: 26px 0 50px; }
+  .baiviet__than { font-size: 16.5px; line-height: 1.78; }
+  .baiviet__tomtat { font-size: 16.5px; }
+}

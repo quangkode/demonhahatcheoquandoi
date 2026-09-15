@@ -4,13 +4,14 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#cc4752" />
-<title>Đặt chỗ xem chèo - Nhà hát Chèo Quân đội</title>
-<meta name="description" content="Chọn suất diễn và giữ chỗ miễn phí tại Nhà hát Chèo Quân đội. Nhà hát không bán vé, chỉ nhận đặt chỗ trước để bố trí đón tiếp." />
+<title>Đang tải bài viết - Nhà hát Chèo Quân đội</title>
+<meta name="description" content="Bài viết về Nhà hát Chèo Quân đội." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="./styles.css?v=55" />
 <link rel="icon" type="image/png" href="./anh/logo.png" />
+<meta name="robots" content="noindex" />
 </head>
 <body>
 
@@ -62,63 +63,25 @@
       <a href="./nghe-si.html">Nghệ sĩ</a>
       <a href="./vo-dien.html">Vở diễn</a>
       <a href="./trai-nghiem.html">Trải nghiệm</a>
-      <a href="./tin-tuc.html">Tin tức</a>
+      <a href="./tin-tuc.html" class="is-active">Tin tức</a>
       <a href="./dat-cho.html" class="nav__cta">Đặt chỗ</a>
     </nav>
   </div>
 </header>
 
-<!-- ============ PAGE HERO ============ -->
-<section class="pagehero pagehero--book">
-  <div class="container">
+<!-- ============ BÀI VIẾT ============ -->
+<main class="baiviet" id="baiviet">
+  <div class="container baiviet__khung">
     <nav class="crumb" aria-label="Đường dẫn">
-      <a href="./index.html">Trang chủ</a> <span>/</span> <strong>Đặt chỗ</strong>
+      <a href="./index.html">Trang chủ</a> <span>/</span>
+      <a href="./tin-tuc.html">Tin tức</a> <span>/</span> <strong id="bvCrumb">Đang tải…</strong>
     </nav>
-    <p class="pagehero__eyebrow">Giữ chỗ miễn phí</p>
-    <h1 class="pagehero__title">Đặt chỗ xem chèo</h1>
-    <p class="pagehero__desc">Nhà hát Chèo Quân đội <strong>không bán vé</strong>. Toàn bộ suất diễn đều mở cửa miễn phí — bạn chỉ cần chọn suất và giữ chỗ trước để Nhà hát chủ động bố trí đón tiếp.</p>
-  </div>
-</section>
 
-<!-- ============ LUỒNG ĐẶT CHỖ ============ -->
-<section class="section section--book">
-  <div class="container">
-    <div id="bookingRoot" class="bk"></div>
-  </div>
-</section>
-
-<!-- ============ HƯỚNG DẪN ============ -->
-<section class="section section--alt">
-  <div class="container">
-    <div class="section__head">
-      <div>
-        <p class="section__eyebrow">Cần biết</p>
-        <h2 class="section__title">Hướng dẫn đặt chỗ</h2>
-      </div>
-    </div>
-
-    <div class="capabilities">
-      <article class="capa">
-        <h3>Hoàn toàn miễn phí</h3>
-        <p>Nhà hát không thu bất kỳ khoản phí nào. Nếu có cá nhân, tổ chức nào yêu cầu bạn trả tiền để vào xem, vui lòng báo ngay cho Nhà hát qua số 024 3845 7583.</p>
-      </article>
-      <article class="capa">
-        <h3>Mỗi lượt tối đa 6 chỗ</h3>
-        <p>Đoàn thể, đơn vị quân đội hoặc trường học cần đặt số lượng lớn, xin liên hệ trực tiếp phòng vé để được bố trí khu vực riêng.</p>
-      </article>
-      <article class="capa">
-        <h3>Có mặt trước 20 phút</h3>
-        <p>Vui lòng đến sớm và đọc mã giữ chỗ tại quầy đón tiếp. Chỗ ngồi chỉ được giữ đến trước giờ mở màn 10 phút.</p>
-      </article>
-      <article class="capa">
-        <h3>Thay đổi hoặc hủy chỗ</h3>
-        <p>Nếu không thể tới xem, xin báo lại để Nhà hát nhường chỗ cho khán giả khác. Gọi 024 3845 7583 trong giờ hành chính.</p>
-      </article>
+    <div id="bvNoiDung">
+      <p class="baiviet__cho">Đang tải bài viết…</p>
     </div>
   </div>
-</section>
-
-<!-- ============ FOOTER ============ -->
+</main>
 <footer class="footer" id="lien-he">
   <div class="container">
     <div class="footer__top">
@@ -180,22 +143,7 @@
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
 <script src="./kho.js?v=1"></script>
-<script src="./booking.js?v=11"></script>
-<script src="./noi-cms.js?v=1"></script>
+<script src="./tin-bai.js?v=1"></script>
 <script src="./script.js?v=17"></script>
-<script>
-  (function () {
-    var showId = new URLSearchParams(location.search).get('suat');
-    var dung = function () {
-      window.Booking.mount(document.getElementById('bookingRoot'), { showId: showId });
-    };
-    // Phải chờ lịch từ CMS về rồi mới dựng, không thì luồng đặt chỗ dựng
-    // bằng danh sách suất viết cứng trong booking.js và người xem chọn
-    // phải suất cũ. Đọc hỏng thì lịchSanSang vẫn về (giá trị null) nên
-    // không bao giờ treo trang ở đây.
-    if (window.NoiCms && window.NoiCms.lichSanSang) window.NoiCms.lichSanSang.then(dung, dung);
-    else dung();
-  })();
-</script>
 </body>
 </html>

@@ -169,10 +169,18 @@
     return (r.anh && r.anh.url) ? r.anh.url : '';
   }
 
+  /* Bài đã có toàn văn thì mở ngay trên trang Nhà hát, người đọc không
+     phải nhảy sang báo khác. Bài cũ chỉ có tóm tắt thì vẫn dẫn thẳng về
+     bài gốc như trước — thà sang báo còn hơn mở ra một trang trống. */
   function tieuDeCoLink(r, the) {
     var t = esc(r.tieuDe);
-    var u = r.nguonUrl ? esc(r.nguonUrl) : '';
-    var trong = u ? '<a href="' + u + '" target="_blank" rel="noopener">' + t + '</a>' : t;
+    var trong = t;
+
+    if (r.noiDung && r.id) {
+      trong = '<a href="./tin-bai.html?id=' + encodeURIComponent(r.id) + '">' + t + '</a>';
+    } else if (r.nguonUrl) {
+      trong = '<a href="' + esc(r.nguonUrl) + '" target="_blank" rel="noopener">' + t + '</a>';
+    }
     return '<' + the + '>' + trong + '</' + the + '>';
   }
 
