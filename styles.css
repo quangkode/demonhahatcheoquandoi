@@ -45,11 +45,13 @@
   --t: .25s ease;
 
   /* Playfair Display tải từ Google Fonts, mạng di động chậm thì trong lúc chờ
-     trình duyệt vẽ bằng font dự phòng. Georgia thiếu nhiều glyph tiếng Việt
-     dựng sẵn nên phải tự ghép dấu, ra cảnh "Phầ`n thưởng" — dấu huyền rơi lệch
-     khỏi chữ. Noto Serif (Android) và Times New Roman (Windows/iOS) đều có đủ
-     dấu dựng sẵn, xếp trước Georgia để không ai phải nhìn cảnh đó. */
-  --serif: "Playfair Display", "Noto Serif", "Times New Roman", Georgia, serif;
+     trình duyệt vẽ bằng font dự phòng. Font dự phòng phải có đủ dấu tiếng Việt
+     dựng sẵn, không thì trình duyệt tự ghép dấu, ra cảnh "Phầ`n thưởng" — dấu
+     huyền rơi lệch khỏi chữ. Vì vậy Noto Serif cũng tải từ Google Fonts luôn
+     (xem thẻ <link> trong từng trang) chứ không chỉ gọi tên suông: Windows và
+     iOS không cài sẵn nó. Có tải thật thì mọi máy đều rơi vào một font giống
+     nhau, đủ dấu dựng sẵn. */
+  --serif: "Playfair Display", "Noto Serif", Montserrat, serif;
 
   /* --- Kích thước khung dính: mọi phép tính offset đều dựa vào đây,
          đổi giá trị theo breakpoint là toàn trang tự khớp --- */
