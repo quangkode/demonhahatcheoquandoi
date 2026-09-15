@@ -181,11 +181,20 @@
 
 <script src="./kho.js?v=1"></script>
 <script src="./booking.js?v=11"></script>
+<script src="./noi-cms.js?v=1"></script>
 <script src="./script.js?v=17"></script>
 <script>
   (function () {
     var showId = new URLSearchParams(location.search).get('suat');
-    window.Booking.mount(document.getElementById('bookingRoot'), { showId: showId });
+    var dung = function () {
+      window.Booking.mount(document.getElementById('bookingRoot'), { showId: showId });
+    };
+    // Phải chờ lịch từ CMS về rồi mới dựng, không thì luồng đặt chỗ dựng
+    // bằng danh sách suất viết cứng trong booking.js và người xem chọn
+    // phải suất cũ. Đọc hỏng thì lịchSanSang vẫn về (giá trị null) nên
+    // không bao giờ treo trang ở đây.
+    if (window.NoiCms && window.NoiCms.lichSanSang) window.NoiCms.lichSanSang.then(dung, dung);
+    else dung();
   })();
 </script>
 </body>
