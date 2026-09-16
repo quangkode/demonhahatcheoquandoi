@@ -56,6 +56,8 @@
     this.auto = !prefersReduced();
     this.last = null;
 
+    this.dungKhung();
+    this.nhanBanDiem();
     this.bindDrag();
     this.bindControls();
     this.bindLifecycle();
@@ -87,6 +89,61 @@
     var x = -(this.yaw / 360) * this.imgW;
     var y = -this.pitchFrac * this.maxY;
     this.view.style.backgroundPosition = x.toFixed(1) + 'px ' + y.toFixed(1) + 'px';
+  };
+
+  /* ---------- Bộ khung riêng của chế độ toàn màn hình ----------
+     Dựng bằng JS chứ không viết sẵn trong HTML: mấy nút này chỉ có nghĩa khi
+     pano.js chạy được, nên tệp này hỏng thì trang không còn nút chết nào. */
+  Pano.prototype.dungKhung = function () {
+    var self = this;
+
+    function nut(lop, html, nhan, lam) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = lop;
+      b.innerHTML = html;
+      b.setAttribute('aria-label', nhan);
+      b.title = nhan;
+      b.addEventListener('click', function (e) { e.stopPropagation(); lam(); });
+      // thiếu dòng này thì cú bấm bị khung hiểu nhầm thành thao tác kéo
+      b.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
+      self.root.appendChild(b);
+      return b;
+    }
+
+    // Lời mời bước vào. Bấm là cảnh chiếm trọn màn hình: chỉ còn ảnh 360 và
+    // mấy nút điều khiển, không còn tiêu đề hay phần nào khác của trang.
+    nut('pano__moi',
+      '<span class="pano__moi-vong" aria-hidden="true">'
+      + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '
+      + 'stroke-linecap="round" stroke-linejoin="round">'
+      + '<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></span>'
+      + '<span>Bước vào không gian</span>',
+      'Xem toàn cảnh chiếm trọn màn hình',
+      function () { self.setImmersive(true); });
+
+    nut('pano__dong',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" '
+      + 'stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+      'Thoát toàn màn hình',
+      function () { self.setImmersive(false); });
+  };
+
+  /* Hàng điểm dừng dùng khi đã toàn màn hình. Nhân bản đúng hàng nút có sẵn
+     trên trang chứ không viết lại, để danh sách điểm dừng chỉ khai báo một
+     nơi duy nhất; setScene() vốn đã đồng bộ trạng thái cho MỌI [data-scene-btn]
+     trong tài liệu nên bản sao tự chạy đúng mà không phải thêm gì.
+
+     Không có hàng này thì vào toàn màn hình là kẹt luôn ở một cảnh, vì hàng
+     nút gốc nằm khuất dưới lớp phủ. */
+  Pano.prototype.nhanBanDiem = function () {
+    var goc = document.querySelector('.scenes');
+    if (!goc) return;
+    var ban = goc.cloneNode(true);
+    ban.classList.add('scenes--trong');
+    // chưa toàn màn hình thì CSS để display:none, nên bản sao không lọt vào
+    // cây trợ năng — không có chuyện trình đọc màn hình đọc hai lần một hàng nút
+    this.root.appendChild(ban);
   };
 
   /* ---------- Kéo để nhìn quanh ---------- */

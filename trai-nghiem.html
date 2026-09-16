@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Serif:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=56" />
+<link rel="stylesheet" href="./styles.css?v=57" />
 <link rel="icon" type="image/png" href="./anh/logo.png" />
 </head>
 <body>
@@ -109,11 +109,14 @@
         <h2 class="section__title">Không gian 360°</h2>
       </div>
     </div>
-    <p class="section__intro">Kéo chuột hoặc vuốt ngang để nhìn quanh. Chọn điểm dừng bên dưới để di chuyển sang khu vực khác của Nhà hát.</p>
+    <p class="section__intro">Bấm <strong>Bước vào không gian</strong> để cảnh chiếm trọn màn hình, rồi kéo để nhìn quanh và đổi điểm dừng ngay trong đó. Bấm phím <kbd>Esc</kbd> hoặc dấu × ở góc là ra.</p>
 
     <!-- ĐIỂM DỪNG THAM QUAN
          Thêm khu vực mới: thêm một nút ở đây với data-scene-btn="<mã>",
-         rồi khai báo .pano[data-scene="<mã>"] { --pano: url(...) } trong styles.css -->
+         rồi khai báo .pano[data-scene="<mã>"] { --pano: url(...) } trong styles.css
+
+         Chỉ khai báo ở ĐÂY một lần. pano.js nhân bản nguyên hàng này vào trong
+         khung để dùng khi xem toàn màn hình, nên thêm ở đây là có ở cả hai chỗ. -->
     <div class="scenes" role="tablist" aria-label="Chọn khu vực tham quan">
       <button type="button" class="scene is-active" data-scene-btn="khan-phong" role="tab" aria-selected="true">Khán phòng</button>
       <button type="button" class="scene" data-scene-btn="san-khau" role="tab" aria-selected="false">Sân khấu</button>
@@ -343,7 +346,7 @@
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
 <script src="./script.js?v=17"></script>
-<script src="./pano.js?v=9"></script>
+<script src="./pano.js?v=10"></script>
 <script>
   window.Pano.mount(document.getElementById('pano'));
 </script>

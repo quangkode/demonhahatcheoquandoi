@@ -113,6 +113,14 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
 
+/* phím bấm nhắc trong câu hướng dẫn */
+kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .84em; padding: 1px 6px; border-radius: 5px;
+  border: 1px solid var(--line); border-bottom-width: 2px;
+  background: var(--white); color: var(--ink);
+}
+
 .container {
   width: 100%; max-width: var(--wrap); margin: 0 auto;
   padding-left: max(var(--gutter), var(--safe-l));
@@ -1507,8 +1515,71 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
   width: 100vw; height: 100dvh; border-radius: 0;
   touch-action: none;      /* đã chiếm trọn màn hình thì kéo dọc cũng là nhìn quanh */
 }
-.pano.is-immersive .pano__hud { right: calc(12px + var(--safe-r)); bottom: calc(12px + var(--safe-b)); }
+/* nâng lên nhường chỗ cho hàng điểm dừng nằm sát đáy */
+.pano.is-immersive .pano__hud { right: calc(12px + var(--safe-r)); bottom: calc(70px + var(--safe-b)); }
 .pano.is-immersive .pano__badge { left: calc(14px + var(--safe-l)); top: calc(14px + env(safe-area-inset-top, 0px)); }
+.pano.is-immersive .pano__hint { bottom: calc(78px + var(--safe-b)); }
+
+/* ---------- Lời mời bước vào ----------
+   Khung trên trang chỉ là ô ngó trước. Bấm nút này thì cảnh chiếm trọn màn
+   hình và cả trang lùi hết ra sau — mở 360 ra là chỉ còn 360. */
+.pano__moi {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  z-index: 5; display: inline-flex; align-items: center; gap: 11px;
+  padding: 11px 22px 11px 11px; border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .26);
+  background: rgba(12, 10, 9, .52); backdrop-filter: blur(8px);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, .38);
+  color: #fff; font-family: inherit; font-size: 15px; font-weight: 600;
+  white-space: nowrap; cursor: pointer; transition: var(--t);
+  touch-action: manipulation;
+}
+.pano__moi-vong {
+  display: grid; place-items: center; flex: none;
+  width: 34px; height: 34px; border-radius: 50%; background: var(--red);
+}
+.pano__moi-vong svg { width: 18px; height: 18px; }
+/* đã vào trong rồi thì lời mời không còn nghĩa gì */
+.pano.is-immersive .pano__moi { display: none; }
+
+/* ---------- Nút thoát ----------
+   Ẩn sẵn: chỉ có nghĩa khi đang chiếm trọn màn hình. */
+.pano__dong {
+  position: absolute; z-index: 5; display: none;
+  right: calc(12px + var(--safe-r)); top: calc(12px + env(safe-area-inset-top, 0px));
+  width: 44px; height: 44px; place-items: center;
+  border: 1px solid rgba(255, 255, 255, .22); border-radius: 12px;
+  background: rgba(12, 10, 9, .55); backdrop-filter: blur(6px);
+  color: #fff; cursor: pointer; transition: var(--t); touch-action: manipulation;
+}
+.pano__dong svg { width: 21px; height: 21px; }
+.pano.is-immersive .pano__dong { display: grid; }
+/* nút phóng to trùng việc với dấu × ở góc, cất đi cho hàng nút đỡ chật */
+.pano.is-immersive .pano__hud [data-pano="expand"] { display: none; }
+
+/* ---------- Hàng điểm dừng bên trong khung toàn màn hình ----------
+   pano.js nhân bản hàng nút trên trang vào đây. Không có nó thì vào toàn
+   màn hình là kẹt ở một cảnh, vì hàng gốc nằm khuất dưới lớp phủ. */
+.scenes--trong { display: none; }
+.pano.is-immersive .scenes--trong {
+  display: flex; position: absolute; z-index: 5;
+  left: 0; right: 0; bottom: calc(14px + var(--safe-b));
+  margin: 0; padding: 0 max(14px, var(--safe-r)) 0 max(14px, var(--safe-l));
+  flex-wrap: nowrap; overflow-x: auto;
+  scrollbar-width: none; overscroll-behavior-x: contain;
+  /* safe center: nhiều điểm dừng quá thì tràn sang phải chứ không cụt mất
+     nút đầu tiên như justify-content:center thường vẫn bị */
+  justify-content: center;
+  justify-content: safe center;
+}
+.pano.is-immersive .scenes--trong::-webkit-scrollbar { display: none; }
+.pano.is-immersive .scenes--trong .scene {
+  background: rgba(12, 10, 9, .55); backdrop-filter: blur(6px);
+  border-color: rgba(255, 255, 255, .22); color: #fff;
+}
+.pano.is-immersive .scenes--trong .scene.is-active {
+  background: var(--red); border-color: var(--red); color: #fff;
+}
 
 .pano__note {
   margin: 16px 0 0; padding: 12px 16px;
@@ -1638,7 +1709,9 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 @media (hover: hover) and (pointer: fine) {
   .scene:hover { border-color: var(--red); color: var(--red); }
   .scene.is-active:hover { color: #fff; }
-  .pano__hud button:hover { background: var(--red); border-color: var(--red); }
+  .pano__hud button:hover,
+  .pano__dong:hover { background: var(--red); border-color: var(--red); }
+  .pano__moi:hover { background: rgba(12, 10, 9, .72); border-color: rgba(255, 255, 255, .45); }
   .expcard:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
   .expcard:hover .expcard__art--anh img { transform: scale(1.05); }
 }
@@ -2455,6 +2528,14 @@ h1, h2, h3, h4, p, li, dd, dt { overflow-wrap: break-word; }
 
   .pano { height: clamp(260px, 44vh, 400px); }
   .pano__hud { right: 10px; bottom: 10px; gap: 6px; }
+  .pano.is-immersive .pano__hud { bottom: calc(66px + var(--safe-b)); }
+  /* màn hẹp thì hàng nút trải hết bề ngang, gợi ý phải nhảy lên trên nó */
+  .pano.is-immersive .pano__hint { bottom: calc(122px + var(--safe-b)); }
+  /* màn hẹp thì bốn điểm dừng không đứng vừa một hàng, cho trượt từ trái */
+  .pano.is-immersive .scenes--trong { justify-content: flex-start; }
+  .pano.is-immersive .scenes--trong .scene { padding: 9px 16px; font-size: 13.5px; }
+  .pano__moi { font-size: 14px; padding: 9px 18px 9px 9px; gap: 9px; }
+  .pano__moi-vong { width: 30px; height: 30px; }
   .pano__hud button { width: 42px; height: 42px; font-size: 19px; }
   .pano__hint { font-size: 12.5px; bottom: 14px; }
   /* các điểm dừng trượt ngang thay vì xuống dòng, tràn hết bề ngang cho dễ vuốt */
