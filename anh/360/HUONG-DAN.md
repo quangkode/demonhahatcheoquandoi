@@ -13,7 +13,7 @@ Tên phải khớp với `data-scene` của từng điểm dừng trong `trai-ng
 
 | Điểm dừng | Tệp | Tình trạng |
 |---|---|---|
-| Khán phòng | `khan-phong.webp` | **đã có** — dải 360°, 3548 × 887, chưa có trần/sàn |
+| Khán phòng | `khan-phong.webp` | **đã có** — ảnh chụp thật, 1024 × 512, đủ 360°, còn nhỏ |
 | Sân khấu | `san-khau.webp` | chưa có |
 | Tiền sảnh | `tien-sanh.webp` | chưa có |
 | Hậu trường | `hau-truong.webp` | chưa có |
@@ -195,8 +195,9 @@ Bản miễn phí thường chỉ cho khoảng 2048 × 1024 — chưa đủ. Ph�
 **Upscayl** (miễn phí, có bản Windows) hoặc Topaz Gigapixel, chọn mô hình dành
 cho ảnh thật.
 
-Tấm khán phòng đang dùng mới 1774px ngang, trong khi màn 1366 xem toàn màn hình
-cần 4391px — nhìn còn mềm. Phóng ×4 lên 7096 × 3548 là đủ nét cho cả màn 1920.
+Tấm khán phòng đang dùng mới 1024px ngang, trong khi màn 1366 xem toàn màn hình
+cần 4391px — đang phóng 4,3 lần nên nhìn hơi mềm. Có bản xuất gốc to hơn thì
+thay thẳng vào; không có thì phóng ×4 lên 4096 × 2048, đủ nét cho màn 1366.
 
 **Phóng cả tấm một lần.** Cắt ra từng mảnh rồi phóng riêng là gãy mối nối vòng
 tròn, quay một vòng sẽ thấy vạch.
@@ -221,17 +222,24 @@ nhau là bị gập. Đo bằng máy thì so từng điểm ảnh `(x, y)` với
 chênh lệch trung bình thấp hẳn so với lúc so hai điểm cách nhau 90° là bị gập.
 
 Tấm khán phòng đầu tiên dính đúng lỗi này (chênh 9,6 khi soi gương so với 29,3
-khi xoay 90°). Tấm đang dùng đã đạt: 31,4 so với 34,5, tức hai nửa khác nhau
-thật, quay ra sau lưng thấy tường cuối phòng với cửa ra vào.
+khi xoay 90°).
+
+**Nhưng số thấp chưa chắc đã là gập đôi.** Tấm đang dùng chấm 12,6 so với nền
+41,9 — thấp hơn nhiều, mà vẫn là ảnh 360 thật: khán phòng vốn đối xứng qua trục
+sân khấu nên hai bên giống nhau là đúng kiến trúc. Máy báo thấp thì phải mở
+thêm hai chỗ mới kết luận được: **cắt vùng quanh mối nối** (tức sau lưng) xem
+có ra tường cuối khác hẳn sân khấu không, và **đặt nửa trái cạnh nửa phải lật
+ngược** xem có khác nhau ở chi tiết nhỏ không — tấm này khác ở băng-rôn treo
+tường, người trên sân khấu và vệt loá đèn.
 
 ---
 
 ## Hai điều phải nhớ
 
-**Ảnh AI không phải Nhà hát thật.** Dòng cảnh báo vàng `.pano__note` dưới khung
-360 phải giữ, và phải ghi rõ là ảnh dựng bằng AI chứ không phải ảnh chụp tại
-Nhà hát. Bỏ dòng đó đi là người xem tưởng thật, đến nơi thấy khác hẳn. Chỉ khi
-nào thay bằng ảnh chụp thật mới được xoá.
+**Dòng `.pano__note` phải nói đúng ảnh nào là thật.** Khán phòng nay là ảnh
+chụp thật nên dòng đó đã ghi vậy, còn ba điểm dừng kia vẫn là hình mô phỏng và
+phải nói rõ. Hễ thay ảnh nào thì sửa lại dòng này — người xem tưởng thật rồi
+đến nơi thấy khác hẳn là mất tin.
 
 **Khung xem hiện chỉ trượt ảnh phẳng, không nắn phối cảnh.** Đường thẳng — mép
 sân khấu, khung cửa — sẽ hơi cong, nhìn lên trần hoặc xuống sàn càng rõ. Muốn

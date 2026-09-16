@@ -272,10 +272,10 @@
   /* Bề ngang chia bề cao của tệp ảnh cảnh này, ghi ở data-ti-le của nút điểm
      dừng. Ảnh cầu đầy đủ là 2 (360 độ ngang, 180 độ dọc) nên đó là mặc định.
 
-     Ảnh khán phòng hiện là một DẢI quanh tầm mắt, tỉ lệ 4: phủ trọn 360 độ
-     ngang nhưng chỉ khoảng 90 độ dọc, chưa có trần và sàn. Ép dải đó vào
-     khuôn 2:1 là kéo cao gấp đôi, tường méo hết. Khai đúng tỉ lệ thì tường
-     giữ nguyên hình. Khi nào ghép thêm ảnh trần và sàn thì hạ số này xuống. */
+     Cả bốn điểm dừng hiện đều dùng mặc định. Chỉ khai số khác khi ảnh chưa đủ
+     trần và sàn — ví dụ một DẢI quanh tầm mắt phủ trọn 360 độ ngang nhưng chỉ
+     khoảng 90 độ dọc thì tỉ lệ là 4. Ép dải đó vào khuôn 2:1 là kéo cao gấp
+     đôi, tường méo hết; khai đúng tỉ lệ thì tường giữ nguyên hình. */
   Pano.prototype.tiLeCua = function (id) {
     var nut = document.querySelector('[data-scene-btn="' + id + '"][data-ti-le]');
     var v = nut ? parseFloat(nut.getAttribute('data-ti-le')) : NaN;
