@@ -133,10 +133,17 @@ Phần thưởng của bản thân Nhà hát (huân chương, danh hiệu Anh h�
 - Ảnh nghệ sĩ có hai bản: bản đầy đủ ở `anh/nghe-si/` cho lưới chân dung bên trang
   Giới thiệu, và bản cắt vuông quanh mặt ở `anh/nghe-si/tron/` cho khung tròn ở trang
   chủ. Đừng dùng lẫn: thả ảnh đầy đủ vào khung tròn là mặt bé tí và lệch khỏi tâm.
-- Ảnh toàn cảnh 360° của trang Trải nghiệm để ở `anh/360/`, hiện **chưa có tấm nào**
-  — `styles.css` vẫn vẽ bốn cảnh bằng gradient mô phỏng. Yêu cầu kỹ thuật (ảnh cầu
-  2:1, tối thiểu 6000px ngang), cách lắp vào CSS và prompt dựng ảnh bằng AI nằm ở
+- Ảnh toàn cảnh 360° của trang Trải nghiệm để ở `anh/360/`. **Khán phòng đã có ảnh
+  chụp thật** tại Nhà hát; ba cảnh còn lại (`san-khau`, `tien-sanh`, `hau-truong`)
+  `styles.css` vẫn vẽ bằng gradient mô phỏng. Yêu cầu kỹ thuật (ảnh cầu 2:1), cách
+  lắp vào CSS, cách kiểm ảnh có đủ 360° thật không, và prompt dựng ảnh bằng AI nằm ở
   `anh/360/HUONG-DAN.md`.
+- `anh/nhac-cu/` đựng **ảnh từng nhạc cụ nền trong suốt** — thứ sẽ bay ra lơ lửng khi
+  bấm cái hộp giữa đáy màn lúc xem 360 toàn màn hình. Hộp đã dựng, bấm chưa làm gì.
+  Yêu cầu ảnh ở `anh/nhac-cu/HUONG-DAN.md`. Hiện **chưa có tấm nào**.
+- `mo-hinh/` đựng **mô hình 3D `.glb`** của chính mấy nhạc cụ đó, xem xoay được nhiều
+  góc. Khung xem 3D **chưa dựng**, đây mới là chỗ để sẵn tệp. Yêu cầu ở
+  `mo-hinh/HUONG-DAN.md`. Hiện **chưa có tệp nào**.
 
 ## Nội dung: cái nào thật, cái nào còn là dữ liệu mẫu
 

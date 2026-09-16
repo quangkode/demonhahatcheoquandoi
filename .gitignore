@@ -15,3 +15,6 @@ Lanh dao Nha hat/
 # anh 360 ban goc nguoi dung dat vao — chi ban .webp da nen moi la ban len web
 anh/360/*.png
 anh/360/*.jpg
+
+# anh nhac cu ban goc (png nen trong suot) — cung vay, chi .webp moi len web
+anh/nhac-cu/*.png
