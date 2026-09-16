@@ -1630,9 +1630,12 @@ kbd {
 
    THAY ẢNH THẬT: đổi giá trị --pano thành url("./anh/<tên>.jpg").
    Ảnh cần theo chuẩn equirectangular tỉ lệ 2:1 (vd 4096x2048).              */
-/* Khán phòng đã có ảnh cầu thật: 5544x2772, đúng 2:1, mép trái khớp mép phải
-   (lệch màu trung bình 4,5/255). Ảnh DỰNG BẰNG AI, không phải ảnh chụp tại Nhà
-   hát — cách dựng và yêu cầu kỹ thuật ghi ở anh/360/HUONG-DAN.md. */
+/* Khán phòng đã có ảnh cầu thật: 1774x887, đúng 2:1, đủ 360 độ (hai nửa ảnh
+   khác nhau thật, không phải một nửa gập đôi). Ảnh DỰNG BẰNG AI, không phải
+   ảnh chụp tại Nhà hát — cách dựng và yêu cầu kỹ thuật ghi ở
+   anh/360/HUONG-DAN.md. Còn hai chỗ chưa đạt, ghi rõ trong tệp đó: ảnh mới
+   1774px ngang trong khi màn 1366 xem toàn màn hình đã cần 6304px, và mối nối
+   trái-phải lệch 10,9/255 nên quay ra sau lưng sẽ thấy một vệt dọc mờ. */
 .pano[data-scene="khan-phong"] { --pano: url("./anh/360/khan-phong.webp"); }
 .pano[data-scene="san-khau"] {
   --pano:

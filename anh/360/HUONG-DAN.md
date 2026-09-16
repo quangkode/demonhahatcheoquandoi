@@ -13,7 +13,7 @@ Tên phải khớp với `data-scene` của từng điểm dừng trong `trai-ng
 
 | Điểm dừng | Tệp | Tình trạng |
 |---|---|---|
-| Khán phòng | `khan-phong.webp` | **đã có** — ảnh AI, 5544 × 2772 |
+| Khán phòng | `khan-phong.webp` | **đã có** — ảnh AI, 1774 × 887, cần phóng to |
 | Sân khấu | `san-khau.webp` | chưa có |
 | Tiền sảnh | `tien-sanh.webp` | chưa có |
 | Hậu trường | `hau-truong.webp` | chưa có |
@@ -135,15 +135,34 @@ Bản miễn phí thường chỉ cho khoảng 2048 × 1024 — chưa đủ. Ph�
 **Upscayl** (miễn phí, có bản Windows) hoặc Topaz Gigapixel, chọn mô hình dành
 cho ảnh thật.
 
+Tấm khán phòng đang dùng mới 1774px ngang, trong khi màn 1366 xem toàn màn hình
+đã cần 6304px — nhìn khá mềm. Phóng ×4 lên 7096 × 3548 là đủ nét hẳn.
+
 **Phóng cả tấm một lần.** Cắt ra từng mảnh rồi phóng riêng là gãy mối nối vòng
 tròn, quay một vòng sẽ thấy vạch.
 
 ### Kiểm trước khi lắp
 
 1. **Tỉ lệ** đúng 2:1 chưa.
-2. **Mép trái có khớp mép phải không** — ghép mép phải sang cạnh mép trái rồi
-   soi chỗ nối. Đây là lỗi hay gặp nhất và mắt thường khó thấy.
-3. **Đường chân trời** có nằm đúng giữa ảnh không.
+2. **Có đủ 360° thật không** — xem mục dưới. Cái bẫy lớn nhất.
+3. **Mép trái có khớp mép phải không** — ghép mép phải sang cạnh mép trái rồi
+   soi chỗ nối. Mắt thường khó thấy.
+4. **Đường chân trời** có nằm đúng giữa ảnh không.
+
+### Bẫy: ảnh 180° gập đôi giả làm 360°
+
+Nhiều công cụ AI trả về **một nửa vòng rồi lật ngược dán vào cho đủ bề ngang**.
+Nhìn lướt thì giống ảnh cầu, mở lên quay một vòng vẫn khớp, nhưng thật ra chỉ
+có 180° nội dung: không bao giờ thấy được phía sau lưng, và hai bên là ảnh soi
+gương của nhau.
+
+Cách kiểm: **cắt đôi ảnh, lật ngược nửa phải rồi đặt cạnh nửa trái.** Giống
+nhau là bị gập. Đo bằng máy thì so từng điểm ảnh `(x, y)` với `(W-x, y)` —
+chênh lệch trung bình thấp hẳn so với lúc so hai điểm cách nhau 90° là bị gập.
+
+Tấm khán phòng đầu tiên dính đúng lỗi này (chênh 9,6 khi soi gương so với 29,3
+khi xoay 90°). Tấm đang dùng đã đạt: 31,4 so với 34,5, tức hai nửa khác nhau
+thật, quay ra sau lưng thấy tường cuối phòng với cửa ra vào.
 
 ---
 
