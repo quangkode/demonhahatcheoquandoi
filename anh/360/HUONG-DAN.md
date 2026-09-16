@@ -41,6 +41,12 @@ Sửa `styles.css`, thay cả khối gradient mô phỏng của từng cảnh b�
 .pano[data-scene="khan-phong"] { --pano: url("./anh/360/khan-phong.webp"); }
 ```
 
+**Giữ nguyên `?v=` ở cuối đường dẫn ảnh, và tăng số đó mỗi lần thay ảnh.**
+`vercel.json` gắn cho mọi tệp ảnh `Cache-Control: max-age=31536000, immutable`
+— trình duyệt không bao giờ hỏi lại máy chủ trong một năm. Thay tệp mà giữ
+nguyên đường dẫn thì ai đã từng mở trang sẽ thấy ảnh cũ mãi, tải lại trang cũng
+vô ích. Đổi `?v=` là đổi đường dẫn, trình duyệt mới chịu tải bản mới.
+
 Không phải đụng gì vào `pano.js`. Xong nhớ:
 
 1. Tăng số `?v=` của `styles.css` ở **tất cả** các trang HTML.
