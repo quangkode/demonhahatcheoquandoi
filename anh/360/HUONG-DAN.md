@@ -13,7 +13,7 @@ Tên phải khớp với `data-scene` của từng điểm dừng trong `trai-ng
 
 | Điểm dừng | Tệp | Tình trạng |
 |---|---|---|
-| Khán phòng | `khan-phong.webp` | **đã có** — nối từ hai nửa 180°, 3548 × 1774 |
+| Khán phòng | `khan-phong.webp` | **đã có** — dải 360°, 3548 × 887, chưa có trần/sàn |
 | Sân khấu | `san-khau.webp` | chưa có |
 | Tiền sảnh | `tien-sanh.webp` | chưa có |
 | Hậu trường | `hau-truong.webp` | chưa có |
@@ -163,32 +163,37 @@ phòng đang dùng có ba diễn viên trên sân khấu và mặt cả ba đề
 tối thiểu 4.400px ngang, 6.200px thì đủ cho màn 1920.
 
 
-### Cách đang dùng: hai nửa 180° nối thẳng
+### Cách đang dùng: dải 360° quanh tầm mắt
 
-Tấm khán phòng đang chạy được nối từ hai tệp, **mỗi tệp là một nửa 180°**:
+Tấm khán phòng đang chạy **chưa phải ảnh cầu đầy đủ**. Nó là một **dải 360°
+quanh tầm mắt**: đủ trọn vòng ngang, nhưng theo chiều dọc mới có tường, ghế và
+một phần trần — chưa có trần thật lẫn sàn.
 
-- `khán phòng mặt trước.png` — 180° có sân khấu ở chính giữa
-- `khán phòng mặt sau.png` — 180° có tường cuối phòng ở chính giữa
+Nối từ hai tệp, mỗi tệp là một nửa 180°:
 
-Nối thẳng: nửa trước chiếm 0-180° của ảnh ra, nửa sau chiếm 180-360°. **Không
-hoà mờ, không căn tâm gì cả** — hai chỗ nối rơi đúng vào tường hai bên, vốn na
-ná nhau, nên không lộ vết.
+- `khán phòng mặt trước.png` — 180° có sân khấu ở giữa
+- `khán phòng mặt sau.png` — 180° có tường cuối phòng ở giữa
 
-**ĐỪNG KÉO CAO CHO ĐẦY KHUNG.** Mỗi tệp nửa là 180° ngang × **90° dọc**, tỉ lệ
-2:1 của nó vốn đã đúng. Ảnh ra trải 360° ngang × 180° dọc, nên nửa đó chỉ chiếm
-**nửa bề ngang VÀ nửa chiều cao**, đặt giữa theo chiều dọc; phần trên dưới vá
-bằng cách kéo dài hàng điểm ảnh trên cùng và dưới cùng. Kéo cho đầy khung là
-cảnh cao vống lên gấp đôi: đèn tường dài ngoẵng, ghế tụt hết xuống mép dưới.
+Đặt cạnh nhau **đúng kích thước gốc**, không kéo cao, không chèn thêm gì. Ra
+3548 × 887, tỉ lệ **4:1**.
 
-Kết quả: 3548 × 1774, mối nối trái-phải 5,2/255, sân khấu ở **90°** (nên
-`data-yaw="90"`), tường cuối ở 270°.
+**Mấu chốt: khai đúng tỉ lệ đó ở `data-ti-le` của nút điểm dừng.**
 
-**Lưu ý khi tự kiểm:** phép quét trục gương sẽ báo đối xứng ở 90° và 270°. Đó
-là chuyện bình thường ở đây, không phải lỗi — một nửa 180° nhìn thẳng vào sân
-khấu thì hai bên trái phải vốn đối xứng, khán phòng thật cũng vậy. Cái phải
-kiểm là **sân khấu có hiện đúng một lần không** và **quay ra sau có thấy tường
-cuối không**. Tấm hỏng đầu tiên sai ở chỗ đó: sân khấu hiện hai lần, không bao
-giờ thấy tường cuối.
+```html
+<button ... data-scene-btn="khan-phong" data-yaw="90" data-ti-le="4">
+```
+
+`pano.js` mặc định coi ảnh là 2:1 (ảnh cầu đầy đủ). Ép dải 4:1 vào khuôn 2:1
+là kéo cao gấp đôi — tường méo, đèn tường dài ngoẵng, ghế tụt hết xuống mép
+dưới. Khai đúng 4 thì tường giữ nguyên hình như trong tệp nguồn.
+
+Hai chỗ nối rơi vào tường hai bên, vốn na ná nhau, nên không lộ vết.
+
+### Khi có thêm ảnh trần và sàn
+
+Ghép ảnh trần vào phía trên dải, ảnh sàn vào phía dưới, rồi **hạ `data-ti-le`
+xuống cho khớp bề cao mới**. Đủ trần và sàn thì tỉ lệ về đúng 2 và bỏ hẳn
+`data-ti-le` cũng được.
 
 ### Sinh hai nửa như thế nào
 

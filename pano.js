@@ -22,6 +22,9 @@
 
    Ảnh phải là ảnh cầu chuẩn (equirectangular), tỉ lệ đúng 2:1 —
    ví dụ 4096x2048 — là loại mà mọi máy ảnh 360 đều xuất ra.
+   Ảnh chưa đủ trần và sàn thì đừng ép vào 2:1, mà khai tỉ lệ thật ở
+   data-ti-le của nút điểm dừng — xem Pano.prototype.tiLeCua.
+
    Thêm cảnh mới thì thêm một nút [data-scene-btn] trong trang là xong.
    ========================================================== */
 (function (global) {
@@ -69,6 +72,7 @@
     this.bindDrag();
     this.bindControls();
     this.bindLifecycle();
+    this.tiLe = this.tiLeCua(root.getAttribute('data-scene'));
     this.yaw = this.gocDau(root.getAttribute('data-scene'));
     this.layout();
 
@@ -86,7 +90,11 @@
     if (!w || !h) return;
 
     this.imgW = w * 360 / this.fov;
-    this.imgH = this.imgW / 2;
+    this.imgH = this.imgW / this.tiLe;
+    /* Dải ảnh thấp hơn khung thì phóng thêm cho vừa chiều cao. Thà thấy hẹp
+       bớt theo bề ngang còn hơn hở hai vệt nền trên dưới — hay gặp trên điện
+       thoại dựng đứng, nơi khung cao mà hẹp. */
+    if (this.imgH < h) { this.imgH = h; this.imgW = h * this.tiLe; }
     this.maxY = Math.max(0, this.imgH - h);   // khoảng còn ngước/cúi được
 
     this.view.style.backgroundSize = this.imgW.toFixed(1) + 'px ' + this.imgH.toFixed(1) + 'px';
@@ -261,6 +269,19 @@
      Cần cái này vì mép trái ảnh cầu rơi vào đâu là tuỳ lúc chụp: ảnh khán
      phòng có sân khấu nằm giữa ảnh, để mặc định thì mở lên nhìn thẳng vào
      cửa thoát hiểm phía sau lưng. */
+  /* Bề ngang chia bề cao của tệp ảnh cảnh này, ghi ở data-ti-le của nút điểm
+     dừng. Ảnh cầu đầy đủ là 2 (360 độ ngang, 180 độ dọc) nên đó là mặc định.
+
+     Ảnh khán phòng hiện là một DẢI quanh tầm mắt, tỉ lệ 4: phủ trọn 360 độ
+     ngang nhưng chỉ khoảng 90 độ dọc, chưa có trần và sàn. Ép dải đó vào
+     khuôn 2:1 là kéo cao gấp đôi, tường méo hết. Khai đúng tỉ lệ thì tường
+     giữ nguyên hình. Khi nào ghép thêm ảnh trần và sàn thì hạ số này xuống. */
+  Pano.prototype.tiLeCua = function (id) {
+    var nut = document.querySelector('[data-scene-btn="' + id + '"][data-ti-le]');
+    var v = nut ? parseFloat(nut.getAttribute('data-ti-le')) : NaN;
+    return isNaN(v) || v <= 0 ? 2 : v;
+  };
+
   Pano.prototype.gocDau = function (id) {
     var nut = document.querySelector('[data-scene-btn="' + id + '"][data-yaw]');
     var huong = nut ? parseFloat(nut.getAttribute('data-yaw')) : NaN;
@@ -269,9 +290,10 @@
 
   Pano.prototype.setScene = function (id) {
     this.root.setAttribute('data-scene', id);
+    this.tiLe = this.tiLeCua(id);
     this.yaw = this.gocDau(id);
     this.pitchFrac = 0.5;
-    this.apply();
+    this.layout();
 
     Array.prototype.forEach.call(document.querySelectorAll('[data-scene-btn]'), function (b) {
       var on = b.getAttribute('data-scene-btn') === id;
