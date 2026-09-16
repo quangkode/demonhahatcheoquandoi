@@ -133,7 +133,9 @@
        cho thao tác chạm-để-vào. Trang nào không có khối chữ thì lời mời rơi
        về giữa khung như cũ. */
     this.hero = this.root.closest ? this.root.closest('.hero360') : null;
-    var khoiChu = this.hero ? this.hero.querySelector('.hero360__chu') : null;
+    var khoiChu = this.hero
+      ? (this.hero.querySelector('.hero360__trong') || this.hero.querySelector('.hero360__chu'))
+      : null;
 
     nut(khoiChu || this.root, 'pano__moi',
       '<span class="pano__moi-vong" aria-hidden="true">'

@@ -1466,7 +1466,6 @@ kbd {
 /* ==========================================================
    TRANG TRẢI NGHIỆM (trai-nghiem.html)
    ========================================================== */
-.pagehero--exp { background: linear-gradient(120deg, #182621 0%, #47803a 48%, #85c663 100%); }
 
 /* ---------- Chọn điểm dừng tham quan ---------- */
 /* Hàng điểm dừng gốc trong trang chỉ còn là NGUỒN KHAI BÁO, không hiện ra:
@@ -1489,38 +1488,38 @@ kbd {
    Cả tấm ảnh là một nút bấm: chạm vào đâu cũng vào toàn màn hình (pano.js bắt
    chạm-không-kéo). Khối chữ phủ lên nhưng pointer-events:none nên không cướp
    mất cú bấm; chỉ nút "Bước vào không gian" bên trong mới nhận bấm.          */
+/* Hero đầu trang Trải nghiệm không dùng nền màu như các trang khác: nền của
+   nó LÀ ảnh 360 thật của Nhà hát, chữ nổi đè lên trên.
+
+   min-height giữ đúng bằng chiều cao khung: lúc vào toàn màn hình thì .pano
+   nhảy sang position:fixed, không còn chiếm chỗ trong dòng chảy nữa — thiếu
+   min-height thì cả trang bên dưới giật vọt lên rồi thoát ra lại tụt xuống. */
+.pagehero.hero360 {
+  --h360: clamp(430px, 76vh, 760px);
+  min-height: var(--h360); padding: 0;
+  background: #0d0b0a;
+}
+.pagehero.hero360::after { content: none; }   /* bỏ hai vệt sáng/tối của nền màu */
 .hero360 { position: relative; }
-.hero360 .pano { height: clamp(380px, 68vh, 700px); }
+.hero360 .pano { height: var(--h360); border-radius: 0; box-shadow: none; }
 
 .hero360__chu {
   position: absolute; z-index: 4; left: 0; right: 0; bottom: 0;
-  padding: 64px clamp(18px, 4vw, 42px) clamp(20px, 3.4vw, 36px);
+  padding: 96px 0 clamp(26px, 3.6vw, 48px);
   pointer-events: none; color: #fff;
-  border-radius: 0 0 var(--r) var(--r);
   background: linear-gradient(0deg,
-    rgba(8, 12, 10, .88) 0%, rgba(8, 12, 10, .66) 34%,
-    rgba(8, 12, 10, .24) 68%, transparent 100%);
+    rgba(8, 12, 10, .9) 0%, rgba(8, 12, 10, .72) 30%,
+    rgba(8, 12, 10, .3) 64%, transparent 100%);
   transition: opacity .35s ease, visibility .35s ease;
 }
-.hero360__eyebrow {
-  margin: 0 0 7px; font-size: 12.5px; font-weight: 700;
-  letter-spacing: 1.7px; text-transform: uppercase; color: var(--gold);
-}
-.hero360__title {
-  margin: 0 0 10px; font-family: var(--serif); font-weight: 900;
-  font-size: clamp(30px, 5.2vw, 52px); line-height: 1.1; color: #fff;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, .5);
-}
-.hero360__lede {
-  margin: 0 0 20px; max-width: 56ch;
-  font-size: clamp(14px, 1.4vw, 16px); line-height: 1.62;
-  color: rgba(255, 255, 255, .88);
-}
-.hero360__lede kbd {
-  background: rgba(255, 255, 255, .15); border-color: rgba(255, 255, 255, .42); color: #fff;
-}
-/* Hàng nút điều khiển chỉ có nghĩa khi đã vào trong. Ở khung ngó trước nó
-   nằm đè lên khối chữ và chẳng để làm gì — ngó trước thì chỉ cần thấy ảnh. */
+/* đường dẫn vẫn phải bấm được, phần còn lại để cú bấm rơi xuống ảnh */
+.hero360__chu .crumb { margin-bottom: 14px; }
+.hero360__chu a { pointer-events: auto; }
+.hero360 .pagehero__title { text-shadow: 0 2px 18px rgba(0, 0, 0, .55); margin-bottom: 12px; }
+.hero360 .pagehero__desc { max-width: 60ch; margin-bottom: 20px; }
+
+/* Hàng nút điều khiển chỉ có nghĩa khi đã vào trong. Ở ngoài nó nằm đè lên
+   khối chữ mà chẳng để làm gì — nhìn từ ngoài thì chỉ cần thấy ảnh. */
 .hero360:not(.is-full) .pano__hud { display: none; }
 /* Vào toàn màn hình là chữ biến mất hẳn, chỉ còn cảnh. */
 .hero360.is-full .hero360__chu { opacity: 0; visibility: hidden; }

@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Serif:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=71" />
+<link rel="stylesheet" href="./styles.css?v=72" />
 <link rel="icon" type="image/png" href="./anh/logo.png" />
 </head>
 <body>
@@ -68,82 +68,53 @@
   </div>
 </header>
 
-<!-- ============ PAGE HERO ============ -->
-<section class="pagehero pagehero--exp">
-  <div class="container">
-    <nav class="crumb" aria-label="Đường dẫn">
-      <a href="./index.html">Trang chủ</a> <span>/</span> <strong>Trải nghiệm</strong>
-    </nav>
-    <p class="pagehero__eyebrow">Tham quan trực tuyến</p>
-    <h1 class="pagehero__title">Trải nghiệm Nhà hát</h1>
-    <p class="pagehero__desc">Bước vào không gian Nhà hát Chèo Quân đội ngay trên màn hình: đi một vòng khán phòng bằng ảnh 360°, làm quen với dàn nhạc cụ dân tộc và các tác phẩm đã làm nên tên tuổi của Nhà hát.</p>
+<!-- ============ PAGE HERO = CHÍNH KHÔNG GIAN 360 ============
+     Hero này KHÔNG dùng nền màu như các trang khác: nền của nó là ảnh 360 thật
+     của Nhà hát. Ảnh nằm sau, khối chữ nổi đè lên. Bấm vào bất cứ chỗ nào của
+     ảnh là cảnh chiếm trọn màn hình, chữ biến mất, và lúc đó mới hiện cánh cửa
+     ở góc trái cùng cái hộp giữa đáy màn. Dựng ở pano.js. -->
+<section class="pagehero hero360">
+  <div class="pano" id="pano" data-scene="khan-phong" tabindex="0"
+       role="application" aria-label="Khung xem toàn cảnh 360 độ của Nhà hát. Bấm vào ảnh để xem toàn màn hình, dùng phím mũi tên để nhìn quanh.">
+    <div class="pano__view" aria-hidden="true"></div>
+    <div class="pano__vignette" aria-hidden="true"></div>
+
+    <p class="pano__badge"><span id="panoSceneName">Khán phòng</span> · 360°</p>
+    <p class="pano__hint" aria-hidden="true">Kéo để nhìn quanh</p>
+
+    <div class="pano__hud">
+      <button type="button" data-pano="out"    aria-label="Thu nhỏ" title="Thu nhỏ">−</button>
+      <button type="button" data-pano="in"     aria-label="Phóng to" title="Phóng to">+</button>
+      <button type="button" data-pano="auto"   aria-pressed="true" aria-label="Dừng tự xoay" title="Dừng tự xoay">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v4h-4"/></svg>
+      </button>
+      <button type="button" data-pano="reset"  aria-label="Về góc nhìn ban đầu" title="Về góc nhìn ban đầu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3.2M12 17.8V21M3 12h3.2M17.8 12H21"/></svg>
+      </button>
+      <button type="button" data-pano="expand" aria-pressed="false" aria-label="Xem toàn màn hình" title="Xem toàn màn hình">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Khối chữ nổi trên ảnh. pointer-events:none nên bấm xuyên qua nó vẫn
+       trúng ảnh phía sau; riêng đường dẫn và nút "Bước vào không gian" (do
+       pano.js chèn vào .hero360__trong) thì bật lại pointer-events. -->
+  <div class="hero360__chu">
+    <div class="container hero360__trong">
+      <nav class="crumb" aria-label="Đường dẫn">
+        <a href="./index.html">Trang chủ</a> <span>/</span> <strong>Trải nghiệm</strong>
+      </nav>
+      <p class="pagehero__eyebrow">Tham quan trực tuyến</p>
+      <h1 class="pagehero__title">Trải nghiệm Nhà hát</h1>
+      <p class="pagehero__desc">Bước vào không gian Nhà hát Chèo Quân đội ngay trên màn hình: bấm vào ảnh để đi một vòng khán phòng bằng ảnh 360°, rồi mở cánh cửa ở góc trái để sang những không gian khác.</p>
+    </div>
   </div>
 </section>
-
-<!-- ============ MỤC LỤC ============ -->
-<nav class="subnav" id="subnav" aria-label="Mục lục trang">
-  <div class="container subnav__bar">
-    <div class="subnav__wrap">
-    <button type="button" class="subnav__toggle" id="subnavToggle"
-            aria-expanded="false" aria-controls="subnavMenu">
-      <span class="subnav__bars" aria-hidden="true"><span></span><span></span><span></span></span>
-      <span class="subnav__label">Mục lục</span>
-      <span class="subnav__current" id="subnavCurrent">Không gian 360°</span>
-      <span class="subnav__caret" aria-hidden="true"></span>
-    </button>
-    <div class="subnav__inner" id="subnavMenu">
-      <a href="#khong-gian" class="is-active">Không gian 360°</a>
-      <a href="#nhac-cu">Nhạc cụ dân tộc</a>
-      <a href="#tac-pham">Tác phẩm tiêu biểu</a>
-    </div>
-    </div>
-  </div>
-</nav>
 
 <!-- ============ 1. KHÔNG GIAN 360 ============ -->
 <section class="section" id="khong-gian">
   <div class="container">
-    <!-- KHUNG NGÓ TRƯỚC
-         Ảnh 360 nằm SAU làm nền, khối chữ nổi đè lên trên. Bấm vào bất cứ chỗ
-         nào của ảnh là cảnh chiếm trọn màn hình và khối chữ biến mất — lúc đó
-         mới hiện cánh cửa ở góc trái và cái hộp giữa đáy màn. Xem pano.js. -->
-    <div class="hero360">
-      <div class="pano" id="pano" data-scene="khan-phong" tabindex="0"
-           role="application" aria-label="Khung xem toàn cảnh 360 độ. Bấm vào ảnh để xem toàn màn hình, dùng phím mũi tên để nhìn quanh.">
-        <div class="pano__view" aria-hidden="true"></div>
-        <div class="pano__vignette" aria-hidden="true"></div>
-
-        <p class="pano__badge"><span id="panoSceneName">Khán phòng</span> · 360°</p>
-        <p class="pano__hint" aria-hidden="true">Kéo để nhìn quanh</p>
-
-        <div class="pano__hud">
-          <button type="button" data-pano="out"    aria-label="Thu nhỏ" title="Thu nhỏ">−</button>
-          <button type="button" data-pano="in"     aria-label="Phóng to" title="Phóng to">+</button>
-          <button type="button" data-pano="auto"   aria-pressed="true" aria-label="Dừng tự xoay" title="Dừng tự xoay">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v4h-4"/></svg>
-          </button>
-          <button type="button" data-pano="reset"  aria-label="Về góc nhìn ban đầu" title="Về góc nhìn ban đầu">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3.2M12 17.8V21M3 12h3.2M17.8 12H21"/></svg>
-          </button>
-          <button type="button" data-pano="expand" aria-pressed="false" aria-label="Xem toàn màn hình" title="Xem toàn màn hình">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- CHỮ NỔI TRÊN ẢNH
-           pointer-events:none nên bấm xuyên qua khối này vẫn trúng ảnh phía
-           sau. Riêng nút "Bước vào không gian" do pano.js chèn vào đây thì tự
-           bật lại pointer-events để vẫn bấm được. -->
-      <div class="hero360__chu">
-        <p class="hero360__eyebrow">Không gian 360°</p>
-        <h2 class="hero360__title">Đi một vòng Nhà hát</h2>
-        <p class="hero360__lede">Bấm vào ảnh để bước vào Nhà hát. Vào rồi thì kéo để
-          nhìn quanh, mở cánh cửa ở góc trái để sang không gian khác, bấm <kbd>Esc</kbd>
-          hoặc dấu × ở góc là ra.</p>
-      </div>
-    </div>
-
     <!-- ĐIỂM DỪNG THAM QUAN — nguồn khai báo DUY NHẤT.
          Trên trang thì hàng này ẩn (.scenes{display:none} trong styles.css);
          pano.js nhân bản nguyên hàng vào sau cánh cửa của chế độ toàn màn hình.
@@ -358,7 +329,7 @@
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
 <script src="./script.js?v=18"></script>
-<script src="./pano.js?v=16"></script>
+<script src="./pano.js?v=17"></script>
 <script>
   window.Pano.mount(document.getElementById('pano'));
 </script>
