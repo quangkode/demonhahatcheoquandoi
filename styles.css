@@ -1469,7 +1469,10 @@ kbd {
 .pagehero--exp { background: linear-gradient(120deg, #182621 0%, #47803a 48%, #85c663 100%); }
 
 /* ---------- Chọn điểm dừng tham quan ---------- */
-.scenes { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+/* Hàng điểm dừng gốc trong trang chỉ còn là NGUỒN KHAI BÁO, không hiện ra:
+   các không gian khác nay nằm sau cánh cửa ở góc trái, và cánh cửa chỉ mọc ra
+   khi đã xem toàn màn hình. pano.js nhân bản hàng này vào bảng sau cánh cửa. */
+.scenes { display: none; }
 .scene {
   padding: 10px 20px; min-height: 44px;
   border: 1px solid var(--line); border-radius: 999px;
@@ -1481,6 +1484,46 @@ kbd {
   background: var(--red); border-color: var(--red); color: #fff;
   box-shadow: 0 6px 18px rgba(204, 71, 82, .26);
 }
+
+/* ---------- Khung ngó trước: ảnh nằm sau, chữ nổi lên trên ----------
+   Cả tấm ảnh là một nút bấm: chạm vào đâu cũng vào toàn màn hình (pano.js bắt
+   chạm-không-kéo). Khối chữ phủ lên nhưng pointer-events:none nên không cướp
+   mất cú bấm; chỉ nút "Bước vào không gian" bên trong mới nhận bấm.          */
+.hero360 { position: relative; }
+.hero360 .pano { height: clamp(380px, 68vh, 700px); }
+
+.hero360__chu {
+  position: absolute; z-index: 4; left: 0; right: 0; bottom: 0;
+  padding: 64px clamp(18px, 4vw, 42px) clamp(20px, 3.4vw, 36px);
+  pointer-events: none; color: #fff;
+  border-radius: 0 0 var(--r) var(--r);
+  background: linear-gradient(0deg,
+    rgba(8, 12, 10, .88) 0%, rgba(8, 12, 10, .66) 34%,
+    rgba(8, 12, 10, .24) 68%, transparent 100%);
+  transition: opacity .35s ease, visibility .35s ease;
+}
+.hero360__eyebrow {
+  margin: 0 0 7px; font-size: 12.5px; font-weight: 700;
+  letter-spacing: 1.7px; text-transform: uppercase; color: var(--gold);
+}
+.hero360__title {
+  margin: 0 0 10px; font-family: var(--serif); font-weight: 900;
+  font-size: clamp(30px, 5.2vw, 52px); line-height: 1.1; color: #fff;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, .5);
+}
+.hero360__lede {
+  margin: 0 0 20px; max-width: 56ch;
+  font-size: clamp(14px, 1.4vw, 16px); line-height: 1.62;
+  color: rgba(255, 255, 255, .88);
+}
+.hero360__lede kbd {
+  background: rgba(255, 255, 255, .15); border-color: rgba(255, 255, 255, .42); color: #fff;
+}
+/* Hàng nút điều khiển chỉ có nghĩa khi đã vào trong. Ở khung ngó trước nó
+   nằm đè lên khối chữ và chẳng để làm gì — ngó trước thì chỉ cần thấy ảnh. */
+.hero360:not(.is-full) .pano__hud { display: none; }
+/* Vào toàn màn hình là chữ biến mất hẳn, chỉ còn cảnh. */
+.hero360.is-full .hero360__chu { opacity: 0; visibility: hidden; }
 
 /* ---------- Khung xem 360° ----------
    Hình trụ do pano.js dựng: mỗi .pano__seg là một dải dọc của ảnh toàn cảnh,
@@ -1518,9 +1561,11 @@ kbd {
   background: rgba(12, 10, 9, .6); backdrop-filter: blur(6px);
   color: #fff; font-size: 12.5px; font-weight: 600; letter-spacing: .4px;
 }
+/* Ngoài trang thì lời mời đã nói rõ phải làm gì, dòng này chỉ tổ chồng lên
+   khối chữ — để dành cho lúc đã vào trong. */
 .pano__hint {
   position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
-  z-index: 3; margin: 0; padding: 9px 18px; border-radius: 999px;
+  z-index: 3; display: none; margin: 0; padding: 9px 18px; border-radius: 999px;
   background: rgba(12, 10, 9, .58); backdrop-filter: blur(6px);
   color: #fff; font-size: 13px; white-space: nowrap;
   transition: opacity .4s ease;
@@ -1545,17 +1590,20 @@ kbd {
   width: 100vw; height: 100dvh; border-radius: 0;
   touch-action: none;      /* đã chiếm trọn màn hình thì kéo dọc cũng là nhìn quanh */
 }
-/* nâng lên nhường chỗ cho hàng điểm dừng nằm sát đáy */
-.pano.is-immersive .pano__hud { right: calc(12px + var(--safe-r)); bottom: calc(70px + var(--safe-b)); }
-.pano.is-immersive .pano__badge { left: calc(14px + var(--safe-l)); top: calc(14px + env(safe-area-inset-top, 0px)); }
-.pano.is-immersive .pano__hint { bottom: calc(78px + var(--safe-b)); }
+/* nâng lên nhường chỗ cho cái hộp nằm giữa đáy màn */
+.pano.is-immersive .pano__hud { right: calc(12px + var(--safe-r)); bottom: calc(78px + var(--safe-b)); }
+/* dịch sang phải nhường góc trái cho cánh cửa */
+.pano.is-immersive .pano__badge { left: calc(68px + var(--safe-l)); top: calc(14px + env(safe-area-inset-top, 0px)); }
+.pano.is-immersive .pano__hint { display: block; bottom: calc(134px + var(--safe-b)); }
 
 /* ---------- Lời mời bước vào ----------
    Khung trên trang chỉ là ô ngó trước. Bấm nút này thì cảnh chiếm trọn màn
    hình và cả trang lùi hết ra sau — mở 360 ra là chỉ còn 360. */
 .pano__moi {
-  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   z-index: 5; display: inline-flex; align-items: center; gap: 11px;
+  /* khối chữ bọc ngoài tắt pointer-events để bấm xuyên qua được xuống ảnh,
+     nên riêng nút này phải bật lại */
+  pointer-events: auto;
   padding: 11px 22px 11px 11px; border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, .26);
   background: rgba(12, 10, 9, .52); backdrop-filter: blur(8px);
@@ -1569,8 +1617,12 @@ kbd {
   width: 34px; height: 34px; border-radius: 50%; background: var(--red);
 }
 .pano__moi-vong svg { width: 18px; height: 18px; }
+/* Không có khối chữ bọc ngoài (trang khác dùng lại khung này) thì rơi về
+   giữa khung như cũ — pano.js lúc đó chèn thẳng nút vào .pano. */
+.pano > .pano__moi { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
 /* đã vào trong rồi thì lời mời không còn nghĩa gì */
-.pano.is-immersive .pano__moi { display: none; }
+.pano.is-immersive .pano__moi,
+.hero360.is-full .pano__moi { display: none; }
 
 /* ---------- Nút thoát ----------
    Ẩn sẵn: chỉ có nghĩa khi đang chiếm trọn màn hình. */
@@ -1587,29 +1639,75 @@ kbd {
 /* nút phóng to trùng việc với dấu × ở góc, cất đi cho hàng nút đỡ chật */
 .pano.is-immersive .pano__hud [data-pano="expand"] { display: none; }
 
-/* ---------- Hàng điểm dừng bên trong khung toàn màn hình ----------
-   pano.js nhân bản hàng nút trên trang vào đây. Không có nó thì vào toàn
-   màn hình là kẹt ở một cảnh, vì hàng gốc nằm khuất dưới lớp phủ. */
-.scenes--trong { display: none; }
-.pano.is-immersive .scenes--trong {
-  display: flex; position: absolute; z-index: 5;
-  left: 0; right: 0; bottom: calc(14px + var(--safe-b));
-  margin: 0; padding: 0 max(14px, var(--safe-r)) 0 max(14px, var(--safe-l));
-  flex-wrap: nowrap; overflow-x: auto;
-  scrollbar-width: none; overscroll-behavior-x: contain;
-  /* safe center: nhiều điểm dừng quá thì tràn sang phải chứ không cụt mất
-     nút đầu tiên như justify-content:center thường vẫn bị */
-  justify-content: center;
-  justify-content: safe center;
-}
-.pano.is-immersive .scenes--trong::-webkit-scrollbar { display: none; }
-.pano.is-immersive .scenes--trong .scene {
+/* ---------- Cánh cửa sang không gian khác ----------
+   Góc trái trên, và CHỈ mọc ra khi đã toàn màn hình: ngoài trang thì khung
+   mới là ô ngó trước một cảnh, chưa phải lúc bày ra cả bốn nơi.
+   Bấm cửa thì mở bảng .pano__bang, bấm một nơi thì đổi cảnh rồi đóng lại. */
+.pano__cua {
+  position: absolute; z-index: 6; display: none;
+  left: calc(12px + var(--safe-l)); top: calc(12px + env(safe-area-inset-top, 0px));
+  width: 44px; height: 44px; place-items: center;
+  border: 1px solid rgba(255, 255, 255, .22); border-radius: 12px;
   background: rgba(12, 10, 9, .55); backdrop-filter: blur(6px);
-  border-color: rgba(255, 255, 255, .22); color: #fff;
+  color: #fff; cursor: pointer; transition: var(--t); touch-action: manipulation;
 }
-.pano.is-immersive .scenes--trong .scene.is-active {
+.pano__cua svg { width: 23px; height: 23px; }
+.pano.is-immersive .pano__cua { display: grid; }
+.pano__cua[aria-expanded="true"] { background: var(--red); border-color: var(--red); }
+
+.pano__bang {
+  position: absolute; z-index: 6; display: none;
+  left: calc(12px + var(--safe-l)); top: calc(64px + env(safe-area-inset-top, 0px));
+  width: min(268px, calc(100vw - 24px - var(--safe-l) - var(--safe-r)));
+  max-height: calc(100dvh - 92px - var(--safe-b)); overflow-y: auto;
+  padding: 13px; border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, .17);
+  background: rgba(10, 9, 8, .74); backdrop-filter: blur(16px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, .5);
+}
+.pano.is-immersive .pano__bang.is-mo { display: block; }
+.pano__bang-tieu {
+  margin: 2px 0 11px; font-size: 11.5px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold);
+}
+
+/* Bản sao hàng điểm dừng, xếp dọc trong bảng. Nhân bản chứ không viết lại để
+   danh sách điểm dừng chỉ khai báo một nơi; setScene() vốn đồng bộ trạng thái
+   cho MỌI [data-scene-btn] trong tài liệu nên bản sao tự chạy đúng. */
+.scenes--trong { display: flex; flex-direction: column; gap: 8px; margin: 0; }
+.scenes--trong .scene {
+  width: 100%; text-align: left; padding: 11px 15px; border-radius: 10px;
+  background: rgba(255, 255, 255, .07); border-color: rgba(255, 255, 255, .15);
+  color: #fff; box-shadow: none;
+}
+.scenes--trong .scene.is-active {
   background: var(--red); border-color: var(--red); color: #fff;
 }
+
+/* ---------- Hộp nhạc cụ ----------
+   Mới dựng cái hộp. Bấm chưa làm gì — phần nhạc cụ bay lơ lửng gắn sau. */
+.pano__hop {
+  position: absolute; z-index: 6; display: none;
+  left: 50%; transform: translateX(-50%);
+  bottom: calc(16px + var(--safe-b));
+  align-items: center; gap: 11px;
+  padding: 10px 19px 10px 11px; border-radius: 17px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  background: rgba(12, 10, 9, .55); backdrop-filter: blur(10px);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, .42);
+  color: #fff; font-family: inherit; font-size: 14.5px; font-weight: 600;
+  white-space: nowrap; cursor: pointer;
+  transition: background .2s ease, border-color .2s ease, transform .12s ease;
+  touch-action: manipulation;
+}
+.pano.is-immersive .pano__hop { display: inline-flex; }
+.pano__hop:active { transform: translateX(-50%) scale(.965); }
+.pano__hop-vong {
+  display: grid; place-items: center; flex: none;
+  width: 34px; height: 34px; border-radius: 11px;
+  background: var(--gold); color: #3a2a00;
+}
+.pano__hop-vong svg { width: 20px; height: 20px; }
 
 .pano__note {
   margin: 16px 0 0; padding: 12px 16px;

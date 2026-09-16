@@ -114,7 +114,7 @@
   Pano.prototype.dungKhung = function () {
     var self = this;
 
-    function nut(lop, html, nhan, lam) {
+    function nut(cha, lop, html, nhan, lam) {
       var b = document.createElement('button');
       b.type = 'button';
       b.className = lop;
@@ -124,13 +124,18 @@
       b.addEventListener('click', function (e) { e.stopPropagation(); lam(); });
       // thiếu dòng này thì cú bấm bị khung hiểu nhầm thành thao tác kéo
       b.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
-      self.root.appendChild(b);
+      cha.appendChild(b);
       return b;
     }
 
-    // Lời mời bước vào. Bấm là cảnh chiếm trọn màn hình: chỉ còn ảnh 360 và
-    // mấy nút điều khiển, không còn tiêu đề hay phần nào khác của trang.
-    nut('pano__moi',
+    /* Khối chữ nổi trên ảnh, nếu trang có. Lời mời được chèn VÀO khối đó để
+       nó đi liền một mạch với tiêu đề, còn cả tấm ảnh phía sau thì để trống
+       cho thao tác chạm-để-vào. Trang nào không có khối chữ thì lời mời rơi
+       về giữa khung như cũ. */
+    this.hero = this.root.closest ? this.root.closest('.hero360') : null;
+    var khoiChu = this.hero ? this.hero.querySelector('.hero360__chu') : null;
+
+    nut(khoiChu || this.root, 'pano__moi',
       '<span class="pano__moi-vong" aria-hidden="true">'
       + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '
       + 'stroke-linecap="round" stroke-linejoin="round">'
@@ -139,11 +144,54 @@
       'Xem toàn cảnh chiếm trọn màn hình',
       function () { self.setImmersive(true); });
 
-    nut('pano__dong',
+    nut(this.root, 'pano__dong',
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" '
       + 'stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
       'Thoát toàn màn hình',
       function () { self.setImmersive(false); });
+
+    /* ---------- Cánh cửa ----------
+       Bảng phải dựng TRƯỚC nút vì nhanBanDiem() chạy ngay sau hàm này và cần
+       chỗ để thả bản sao hàng điểm dừng vào. */
+    this.bang = document.createElement('div');
+    this.bang.className = 'pano__bang';
+    this.bang.id = 'panoBang';
+    this.bang.innerHTML = '<p class="pano__bang-tieu">Chọn không gian</p>';
+    this.bang.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
+    this.root.appendChild(this.bang);
+
+    this.cuaMo = false;
+    this.cua = nut(this.root, 'pano__cua',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '
+      + 'stroke-linecap="round" stroke-linejoin="round">'
+      + '<path d="M6 21V4.6a1.6 1.6 0 0 1 1.3-1.57l8-1.6A1.6 1.6 0 0 1 17.2 3v18"/>'
+      + '<path d="M3 21h18"/><circle cx="14" cy="12.4" r=".95" fill="currentColor" stroke="none"/>'
+      + '</svg>',
+      'Mở cửa sang không gian khác',
+      function () { self.moCua(!self.cuaMo); });
+    this.cua.setAttribute('aria-expanded', 'false');
+    this.cua.setAttribute('aria-controls', 'panoBang');
+
+    /* ---------- Hộp nhạc cụ ----------
+       Mới dựng cái hộp theo yêu cầu, bấm chưa làm gì. Phần nhạc cụ bay lơ
+       lửng sẽ gắn vào hàm rỗng này sau. */
+    nut(this.root, 'pano__hop',
+      '<span class="pano__hop-vong" aria-hidden="true">'
+      + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '
+      + 'stroke-linecap="round" stroke-linejoin="round">'
+      + '<path d="M3 9.4 5.3 5a2 2 0 0 1 1.8-1.1h9.8A2 2 0 0 1 18.7 5L21 9.4"/>'
+      + '<rect x="3" y="9.4" width="18" height="10.7" rx="2"/>'
+      + '<path d="M3 13.6h18"/><path d="M10.4 13.6h3.2v3h-3.2z"/></svg></span>'
+      + '<span>Hộp nhạc cụ</span>',
+      'Hộp nhạc cụ',
+      function () { /* chưa gắn gì */ });
+  };
+
+  /* Mở hoặc đóng bảng sau cánh cửa. */
+  Pano.prototype.moCua = function (on) {
+    this.cuaMo = !!on;
+    if (this.bang) this.bang.classList.toggle('is-mo', this.cuaMo);
+    if (this.cua) this.cua.setAttribute('aria-expanded', String(this.cuaMo));
   };
 
   /* Hàng điểm dừng dùng khi đã toàn màn hình. Nhân bản đúng hàng nút có sẵn
@@ -154,27 +202,33 @@
      Không có hàng này thì vào toàn màn hình là kẹt luôn ở một cảnh, vì hàng
      nút gốc nằm khuất dưới lớp phủ. */
   Pano.prototype.nhanBanDiem = function () {
+    var self = this;
     var goc = document.querySelector('.scenes');
-    if (!goc) return;
+    if (!goc || !this.bang) return;
     var ban = goc.cloneNode(true);
     ban.classList.add('scenes--trong');
-    // chưa toàn màn hình thì CSS để display:none, nên bản sao không lọt vào
-    // cây trợ năng — không có chuyện trình đọc màn hình đọc hai lần một hàng nút
-    this.root.appendChild(ban);
+    // bảng chỉ hiện khi đã toàn màn hình VÀ đã mở cửa, nên lúc bình thường bản
+    // sao nằm trong display:none — trình đọc màn hình không đọc hai lần một hàng
+    this.bang.appendChild(ban);
+
+    // chọn xong thì khép cửa lại, đỡ che mất cảnh vừa đổi sang
+    ban.addEventListener('click', function (e) {
+      if (e.target && e.target.closest && e.target.closest('[data-scene-btn]')) self.moCua(false);
+    });
   };
 
   /* ---------- Kéo để nhìn quanh ---------- */
   Pano.prototype.bindDrag = function () {
     var self = this;
     var r = this.root;
+    var dat = null;      // chỗ và lúc đặt tay xuống, để phân biệt chạm với kéo
 
     r.addEventListener('pointerdown', function (e) {
       if (e.button != null && e.button !== 0) return;
       self.dragging = true;
-      self.setAuto(false);
       self.last = { x: e.clientX, y: e.clientY };
+      dat = { x: e.clientX, y: e.clientY, t: Date.now() };
       r.classList.add('is-dragging');
-      r.classList.add('has-moved');          // ẩn dòng gợi ý sau lần chạm đầu
       try { r.setPointerCapture(e.pointerId); } catch (err) {}
     });
 
@@ -182,6 +236,11 @@
       if (!self.dragging || !self.last) return;
       var dx = e.clientX - self.last.x;
       var dy = e.clientY - self.last.y;
+      /* Chỉ khi đã thật sự kéo mới tắt tự xoay và ẩn dòng gợi ý. Đặt ở
+         pointerdown như trước thì một cú chạm để bước vào cũng giết luôn
+         tự xoay, vào tới nơi là cảnh đứng im. */
+      if (self.auto) self.setAuto(false);
+      r.classList.add('has-moved');
       // kéo ngang bao nhiêu điểm ảnh thì cảnh trôi đúng bấy nhiêu — bám tay
       self.yaw -= dx / self.imgW * 360;
       if (self.maxY > 0) self.pitchFrac = clamp(self.pitchFrac - dy / self.maxY, 0, 1);
@@ -195,6 +254,23 @@
       self.last = null;
       r.classList.remove('is-dragging');
       try { r.releasePointerCapture(e.pointerId); } catch (err) {}
+
+      /* CHẠM VÀO ẢNH LÀ BƯỚC VÀO.
+         Cả tấm ảnh là nút bấm, đúng như khung ngó trước cần: chữ nổi lên
+         trên, ảnh nằm sau, chạm vào ảnh là chữ biến mất và cảnh chiếm trọn
+         màn hình. Mấy nút nổi bên trên đều chặn pointerdown nên cú bấm vào
+         chúng không lọt xuống đây.
+
+         Phải là pointerup thật (pointercancel thì thôi), di chuyển dưới 9px
+         và nhấc tay trong 600ms — quá ngưỡng đó là người dùng đang kéo nhìn
+         quanh chứ không định bấm. */
+      var d = dat; dat = null;
+      if (e.type !== 'pointerup' || !d) return;
+      if (Math.abs(e.clientX - d.x) + Math.abs(e.clientY - d.y) >= 9) return;
+      if (Date.now() - d.t >= 600) return;
+
+      if (!self.immersive) self.setImmersive(true);
+      else if (self.cuaMo) self.moCua(false);   // trong rồi thì chạm là khép cửa
     };
     r.addEventListener('pointerup', end);
     r.addEventListener('pointercancel', end);
@@ -245,6 +321,11 @@
     if (on === this.immersive) return;
     this.immersive = on;
     this.root.classList.toggle('is-immersive', on);
+    // khối chữ nổi trên ảnh tắt đi: vào trong rồi thì chỉ còn cảnh
+    if (this.hero) this.hero.classList.toggle('is-full', on);
+    if (!on) this.moCua(false);
+    // dòng gợi ý "Kéo để nhìn quanh" chỉ hiện trong này, cho nó một lượt nữa
+    if (on) this.root.classList.remove('has-moved');
 
     var lock = global.ScrollLock;
     if (lock) { on ? lock.on() : lock.off(); }
@@ -334,8 +415,11 @@
       });
     });
 
+    // Esc khép cửa trước, bấm tiếp mới thoát hẳn — đỡ văng ra ngoài oan
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && self.immersive) self.setImmersive(false);
+      if (e.key !== 'Escape' || !self.immersive) return;
+      if (self.cuaMo) self.moCua(false);
+      else self.setImmersive(false);
     });
   };
 

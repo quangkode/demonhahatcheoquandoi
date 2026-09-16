@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Serif:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=70" />
+<link rel="stylesheet" href="./styles.css?v=71" />
 <link rel="icon" type="image/png" href="./anh/logo.png" />
 </head>
 <body>
@@ -103,48 +103,59 @@
 <!-- ============ 1. KHÔNG GIAN 360 ============ -->
 <section class="section" id="khong-gian">
   <div class="container">
-    <div class="section__head">
-      <div>
-        <p class="section__eyebrow">Cảnh quan</p>
-        <h2 class="section__title">Không gian 360°</h2>
+    <!-- KHUNG NGÓ TRƯỚC
+         Ảnh 360 nằm SAU làm nền, khối chữ nổi đè lên trên. Bấm vào bất cứ chỗ
+         nào của ảnh là cảnh chiếm trọn màn hình và khối chữ biến mất — lúc đó
+         mới hiện cánh cửa ở góc trái và cái hộp giữa đáy màn. Xem pano.js. -->
+    <div class="hero360">
+      <div class="pano" id="pano" data-scene="khan-phong" tabindex="0"
+           role="application" aria-label="Khung xem toàn cảnh 360 độ. Bấm vào ảnh để xem toàn màn hình, dùng phím mũi tên để nhìn quanh.">
+        <div class="pano__view" aria-hidden="true"></div>
+        <div class="pano__vignette" aria-hidden="true"></div>
+
+        <p class="pano__badge"><span id="panoSceneName">Khán phòng</span> · 360°</p>
+        <p class="pano__hint" aria-hidden="true">Kéo để nhìn quanh</p>
+
+        <div class="pano__hud">
+          <button type="button" data-pano="out"    aria-label="Thu nhỏ" title="Thu nhỏ">−</button>
+          <button type="button" data-pano="in"     aria-label="Phóng to" title="Phóng to">+</button>
+          <button type="button" data-pano="auto"   aria-pressed="true" aria-label="Dừng tự xoay" title="Dừng tự xoay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v4h-4"/></svg>
+          </button>
+          <button type="button" data-pano="reset"  aria-label="Về góc nhìn ban đầu" title="Về góc nhìn ban đầu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3.2M12 17.8V21M3 12h3.2M17.8 12H21"/></svg>
+          </button>
+          <button type="button" data-pano="expand" aria-pressed="false" aria-label="Xem toàn màn hình" title="Xem toàn màn hình">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- CHỮ NỔI TRÊN ẢNH
+           pointer-events:none nên bấm xuyên qua khối này vẫn trúng ảnh phía
+           sau. Riêng nút "Bước vào không gian" do pano.js chèn vào đây thì tự
+           bật lại pointer-events để vẫn bấm được. -->
+      <div class="hero360__chu">
+        <p class="hero360__eyebrow">Không gian 360°</p>
+        <h2 class="hero360__title">Đi một vòng Nhà hát</h2>
+        <p class="hero360__lede">Bấm vào ảnh để bước vào Nhà hát. Vào rồi thì kéo để
+          nhìn quanh, mở cánh cửa ở góc trái để sang không gian khác, bấm <kbd>Esc</kbd>
+          hoặc dấu × ở góc là ra.</p>
       </div>
     </div>
-    <p class="section__intro">Bấm <strong>Bước vào không gian</strong> để cảnh chiếm trọn màn hình, rồi kéo để nhìn quanh và đổi điểm dừng ngay trong đó. Bấm phím <kbd>Esc</kbd> hoặc dấu × ở góc là ra.</p>
 
-    <!-- ĐIỂM DỪNG THAM QUAN
-         Thêm khu vực mới: thêm một nút ở đây với data-scene-btn="<mã>",
-         rồi khai báo .pano[data-scene="<mã>"] { --pano: url(...) } trong styles.css
+    <!-- ĐIỂM DỪNG THAM QUAN — nguồn khai báo DUY NHẤT.
+         Trên trang thì hàng này ẩn (.scenes{display:none} trong styles.css);
+         pano.js nhân bản nguyên hàng vào sau cánh cửa của chế độ toàn màn hình.
 
-         Chỉ khai báo ở ĐÂY một lần. pano.js nhân bản nguyên hàng này vào trong
-         khung để dùng khi xem toàn màn hình, nên thêm ở đây là có ở cả hai chỗ. -->
+         Thêm khu vực mới: thêm một nút ở đây với data-scene-btn="<mã>", rồi khai
+         .pano[data-scene="<mã>"] { --pano: url(...) } trong styles.css. Thêm ở
+         đây là có luôn trong bảng sau cánh cửa, không phải sửa chỗ nào khác. -->
     <div class="scenes" role="tablist" aria-label="Chọn khu vực tham quan">
       <button type="button" class="scene is-active" data-scene-btn="khan-phong" data-yaw="180" role="tab" aria-selected="true">Khán phòng</button>
       <button type="button" class="scene" data-scene-btn="san-khau" role="tab" aria-selected="false">Sân khấu</button>
       <button type="button" class="scene" data-scene-btn="tien-sanh" role="tab" aria-selected="false">Tiền sảnh</button>
       <button type="button" class="scene" data-scene-btn="hau-truong" role="tab" aria-selected="false">Hậu trường</button>
-    </div>
-
-    <div class="pano" id="pano" data-scene="khan-phong" tabindex="0"
-         role="application" aria-label="Khung xem toàn cảnh 360 độ. Dùng phím mũi tên để nhìn quanh.">
-      <div class="pano__view" aria-hidden="true"></div>
-      <div class="pano__vignette" aria-hidden="true"></div>
-
-      <p class="pano__badge"><span id="panoSceneName">Khán phòng</span> · 360°</p>
-      <p class="pano__hint" aria-hidden="true">Kéo để nhìn quanh</p>
-
-      <div class="pano__hud">
-        <button type="button" data-pano="out"    aria-label="Thu nhỏ" title="Thu nhỏ">−</button>
-        <button type="button" data-pano="in"     aria-label="Phóng to" title="Phóng to">+</button>
-        <button type="button" data-pano="auto"   aria-pressed="true" aria-label="Dừng tự xoay" title="Dừng tự xoay">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v4h-4"/></svg>
-        </button>
-        <button type="button" data-pano="reset"  aria-label="Về góc nhìn ban đầu" title="Về góc nhìn ban đầu">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3.2M12 17.8V21M3 12h3.2M17.8 12H21"/></svg>
-        </button>
-        <button type="button" data-pano="expand" aria-pressed="false" aria-label="Xem toàn màn hình" title="Xem toàn màn hình">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
-        </button>
-      </div>
     </div>
 
     <p class="pano__note">
@@ -347,7 +358,7 @@
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
 <script src="./script.js?v=18"></script>
-<script src="./pano.js?v=15"></script>
+<script src="./pano.js?v=16"></script>
 <script>
   window.Pano.mount(document.getElementById('pano'));
 </script>
