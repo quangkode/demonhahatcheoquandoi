@@ -61,6 +61,7 @@
     this.bindDrag();
     this.bindControls();
     this.bindLifecycle();
+    this.yaw = this.gocDau(root.getAttribute('data-scene'));
     this.layout();
 
     this.tick = this.tick.bind(this);
@@ -244,9 +245,23 @@
     if (on) this.root.focus();
   };
 
+  /* Hướng nhìn lúc vừa mở một cảnh, ghi ở data-yaw của nút điểm dừng, tính
+     bằng độ kể từ mép trái ảnh — ảnh cầu trải 360 độ nên giữa ảnh là 180.
+     Trừ đi nửa bề ngang khung nhìn để hướng đó nằm CHÍNH GIỮA khung chứ không
+     nằm ở mép trái. Không ghi data-yaw thì mở ra đúng mép trái ảnh như cũ.
+
+     Cần cái này vì mép trái ảnh cầu rơi vào đâu là tuỳ lúc chụp: ảnh khán
+     phòng có sân khấu nằm giữa ảnh, để mặc định thì mở lên nhìn thẳng vào
+     cửa thoát hiểm phía sau lưng. */
+  Pano.prototype.gocDau = function (id) {
+    var nut = document.querySelector('[data-scene-btn="' + id + '"][data-yaw]');
+    var huong = nut ? parseFloat(nut.getAttribute('data-yaw')) : NaN;
+    return isNaN(huong) ? 0 : huong - this.fov / 2;
+  };
+
   Pano.prototype.setScene = function (id) {
     this.root.setAttribute('data-scene', id);
-    this.yaw = 0;
+    this.yaw = this.gocDau(id);
     this.pitchFrac = 0.5;
     this.apply();
 
@@ -273,7 +288,9 @@
         else if (act === 'auto') self.setAuto(!self.auto);
         else if (act === 'expand') self.setImmersive(!self.immersive);
         else if (act === 'reset') {
-          self.yaw = 0; self.pitchFrac = 0.5; self.fov = FOV_DEFAULT; self.layout();
+          self.fov = FOV_DEFAULT;
+          self.yaw = self.gocDau(self.root.getAttribute('data-scene'));
+          self.pitchFrac = 0.5; self.layout();
         }
         if (act !== 'auto') self.root.classList.add('has-moved');
       });

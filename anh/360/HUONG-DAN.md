@@ -11,12 +11,12 @@ phỏng — trang không vỡ, chỉ là chưa có ảnh.
 
 Tên phải khớp với `data-scene` của từng điểm dừng trong `trai-nghiem.html`:
 
-| Điểm dừng | Tệp |
-|---|---|
-| Khán phòng | `khan-phong.webp` |
-| Sân khấu | `san-khau.webp` |
-| Tiền sảnh | `tien-sanh.webp` |
-| Hậu trường | `hau-truong.webp` |
+| Điểm dừng | Tệp | Tình trạng |
+|---|---|---|
+| Khán phòng | `khan-phong.webp` | **đã có** — ảnh AI, 5544 × 2772 |
+| Sân khấu | `san-khau.webp` | chưa có |
+| Tiền sảnh | `tien-sanh.webp` | chưa có |
+| Hậu trường | `hau-truong.webp` | chưa có |
 
 ## Yêu cầu kỹ thuật
 
@@ -45,6 +45,19 @@ Không phải đụng gì vào `pano.js`. Xong nhớ:
 
 1. Tăng số `?v=` của `styles.css` ở **tất cả** các trang HTML.
 2. Sửa hoặc xoá dòng cảnh báo vàng `.pano__note` dưới khung — xem mục cuối.
+
+### Hướng nhìn lúc vừa mở
+
+Mép trái ảnh cầu rơi vào đâu là tuỳ lúc chụp, nên mở cảnh ra chưa chắc đã nhìn
+đúng chỗ đáng nhìn. Ghi hướng đó vào `data-yaw` của nút điểm dừng, tính bằng
+độ kể từ mép trái ảnh — **giữa ảnh là 180**:
+
+```html
+<button ... data-scene-btn="khan-phong" data-yaw="180">Khán phòng</button>
+```
+
+Ảnh khán phòng có sân khấu nằm giữa ảnh nên để `180`. Không ghi thì mở ra nhìn
+đúng mép trái ảnh — với tấm khán phòng là nhìn thẳng vào cửa thoát hiểm sau lưng.
 
 Thêm điểm dừng mới thì thêm một nút `data-scene-btn` trong `trai-nghiem.html`
 và một dòng `--pano` như trên. `pano.js` tự nhân bản hàng nút đó vào khung toàn
@@ -110,8 +123,11 @@ wooden floor, photorealistic
 
 **Negative prompt:** `people, faces, text, watermark, logo, tripod, fisheye`
 
-Đừng bảo AI vẽ người: mặt người trong ảnh 360 luôn méo, mà cũng không nên bịa
-ra diễn viên của Nhà hát.
+**Đừng để AI vẽ người.** Tấm khán phòng hiện tại có ba diễn viên trên sân khấu
+và mặt cả ba đều méo — xem toàn màn hình là thấy ngay. Mặt người trong ảnh 360
+gần như luôn hỏng vì lúc sinh mỗi khuôn mặt chỉ chiếm vài chục điểm ảnh. Mà cũng
+không nên bịa ra diễn viên của Nhà hát. Sinh lại tấm nào có người thì để
+`people, faces` trong negative prompt, hoặc thêm `empty stage` vào prompt.
 
 ### Phóng to
 
