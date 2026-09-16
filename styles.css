@@ -1636,14 +1636,18 @@ kbd {
    anh/360/HUONG-DAN.md. Còn hai chỗ chưa đạt, ghi rõ trong tệp đó: ảnh mới
    1774px ngang trong khi màn 1366 xem toàn màn hình đã cần 6304px, và mối nối
    trái-phải lệch 10,9/255 nên quay ra sau lưng sẽ thấy một vệt dọc mờ. */
-/* PHẢI CÓ ?v= VÀ PHẢI TĂNG MỖI LẦN THAY ẢNH.
+/* Ảnh nối từ hai nửa 180 độ do người dùng dựng: nửa trước chiếm 0-180 độ
+   (sân khấu ở giữa, tức 90 độ), nửa sau chiếm 180-360 (tường cuối ở 270).
+   Nối thẳng, không hoà mờ — hai chỗ nối rơi vào tường hai bên nên không lộ.
+
+   PHẢI CÓ ?v= VÀ PHẢI TĂNG MỖI LẦN THAY ẢNH.
    vercel.json gắn cho mọi tệp ảnh: Cache-Control: max-age=31536000, immutable.
    "immutable" nghĩa là trình duyệt KHÔNG BAO GIỜ hỏi lại máy chủ trong một
    năm — thay tệp mà giữ nguyên đường dẫn thì người đã từng mở trang vẫn thấy
    ảnh cũ mãi, tải lại trang cũng vô ích. Đổi ?v= là đổi đường dẫn, trình
    duyệt coi như tệp khác và tải mới. Đây là lý do tấm 360 gập đôi đầu tiên
    còn bám lại sau khi đã thay bằng tấm 360 thật. */
-.pano[data-scene="khan-phong"] { --pano: url("./anh/360/khan-phong.webp?v=4"); }
+.pano[data-scene="khan-phong"] { --pano: url("./anh/360/khan-phong.webp?v=5"); }
 .pano[data-scene="san-khau"] {
   --pano:
     radial-gradient(30% 20% at 50% 46%, rgba(255, 224, 94, .55), transparent 70%),

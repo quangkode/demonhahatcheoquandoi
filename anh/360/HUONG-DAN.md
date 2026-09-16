@@ -13,7 +13,7 @@ Tên phải khớp với `data-scene` của từng điểm dừng trong `trai-ng
 
 | Điểm dừng | Tệp | Tình trạng |
 |---|---|---|
-| Khán phòng | `khan-phong.webp` | **đã có** — ghép từ hai tấm AI, 1774 × 887, cần phóng to |
+| Khán phòng | `khan-phong.webp` | **đã có** — nối từ hai nửa 180°, 3548 × 1774 |
 | Sân khấu | `san-khau.webp` | chưa có |
 | Tiền sảnh | `tien-sanh.webp` | chưa có |
 | Hậu trường | `hau-truong.webp` | chưa có |
@@ -163,28 +163,34 @@ phòng đang dùng có ba diễn viên trên sân khấu và mặt cả ba đề
 tối thiểu 4.400px ngang, 6.200px thì đủ cho màn 1920.
 
 
-### Mẹo: ghép hai tấm 180° thành một tấm 360°
+### Cách đang dùng: hai nửa 180° nối thẳng
 
-Cách này đã dùng cho tấm khán phòng đang chạy, và ra kết quả tốt hơn cả hai
-tấm gốc. Khác hẳn chuyện ghép bốn mảnh rời ở trên: ở đây **cả hai tấm đều là
-ảnh cầu 2:1 trọn vẹn của cùng một căn phòng**, chỉ khác hướng nhìn chính.
+Tấm khán phòng đang chạy được nối từ hai tệp, **mỗi tệp là một nửa 180°**:
 
-1. Sinh tấm thứ nhất tả **mặt trước** (sân khấu, màn, đèn sân khấu).
-2. Sinh tấm thứ hai tả **mặt sau** (tường cuối phòng, cửa ra vào, phòng kỹ
-   thuật) — giữ nguyên mọi chi tiết vật liệu của tấm đầu để hai tấm ra cùng
-   một phòng.
-3. Lấy **nửa 180° quanh sân khấu** của tấm một, **nửa 180° quanh tường cuối**
-   của tấm hai, đặt cạnh nhau thành một vòng 360°.
-4. **Hoà mờ khoảng 34° ở hai chỗ nối** (chuyển dần từ tấm này sang tấm kia,
-   không cắt thẳng). Đây là chỗ quyết định: cắt thẳng thì lộ vạch, hoà mờ thì
-   gần như không thấy, vì hai bên chỗ nối đều là tường ốp gỗ na ná nhau.
+- `khán phòng mặt trước.png` — 180° có sân khấu ở chính giữa
+- `khán phòng mặt sau.png` — 180° có tường cuối phòng ở chính giữa
 
-Kết quả tấm đang dùng: mối nối trái-phải lệch **3/255** (hai tấm gốc là 10,9),
-không có trục gương nào, quay một vòng thấy đủ sân khấu — hai bên tường —
-tường cuối phòng.
+Nối thẳng: nửa trước chiếm 0-180° của ảnh ra, nửa sau chiếm 180-360°. Kéo cao
+gấp đôi để ảnh ra đúng 2:1. **Không hoà mờ, không căn tâm gì cả** — hai chỗ nối
+rơi đúng vào tường hai bên, vốn na ná nhau, nên không lộ vết.
 
-Hai tấm gốc vẫn để lại trong thư mục (`khán phòng.png`, `khán phòng mặt
-sau.png`) để ghép lại khi có bản độ phân giải cao hơn.
+Kết quả: 3548 × 1774, mối nối trái-phải 5,2/255, sân khấu ở **90°** (nên
+`data-yaw="90"`), tường cuối ở 270°.
+
+**Lưu ý khi tự kiểm:** phép quét trục gương sẽ báo đối xứng ở 90° và 270°. Đó
+là chuyện bình thường ở đây, không phải lỗi — một nửa 180° nhìn thẳng vào sân
+khấu thì hai bên trái phải vốn đối xứng, khán phòng thật cũng vậy. Cái phải
+kiểm là **sân khấu có hiện đúng một lần không** và **quay ra sau có thấy tường
+cuối không**. Tấm hỏng đầu tiên sai ở chỗ đó: sân khấu hiện hai lần, không bao
+giờ thấy tường cuối.
+
+### Sinh hai nửa như thế nào
+
+Dùng đúng bộ prompt ở trên, nhưng tả rõ hướng nhìn cho từng nửa: một tấm lấy
+sân khấu làm chính diện, một tấm lấy tường cuối phòng làm chính diện. Giữ
+nguyên mọi chi tiết vật liệu ở cả hai để ra cùng một phòng.
+
+Ba cảnh còn lại làm y hệt: mỗi cảnh sinh hai nửa rồi đưa cả hai vào thư mục này.
 
 ### Phóng to
 
