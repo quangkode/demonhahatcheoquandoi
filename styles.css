@@ -1643,7 +1643,7 @@ kbd {
    ảnh cũ mãi, tải lại trang cũng vô ích. Đổi ?v= là đổi đường dẫn, trình
    duyệt coi như tệp khác và tải mới. Đây là lý do tấm 360 gập đôi đầu tiên
    còn bám lại sau khi đã thay bằng tấm 360 thật. */
-.pano[data-scene="khan-phong"] { --pano: url("./anh/360/khan-phong.webp?v=2"); }
+.pano[data-scene="khan-phong"] { --pano: url("./anh/360/khan-phong.webp?v=3"); }
 .pano[data-scene="san-khau"] {
   --pano:
     radial-gradient(30% 20% at 50% 46%, rgba(255, 224, 94, .55), transparent 70%),

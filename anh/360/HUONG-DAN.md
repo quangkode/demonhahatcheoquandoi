@@ -13,7 +13,7 @@ Tên phải khớp với `data-scene` của từng điểm dừng trong `trai-ng
 
 | Điểm dừng | Tệp | Tình trạng |
 |---|---|---|
-| Khán phòng | `khan-phong.webp` | **đã có** — ảnh AI, 1774 × 887, cần phóng to |
+| Khán phòng | `khan-phong.webp` | **đã có** — ghép từ hai tấm AI, 1774 × 887, cần phóng to |
 | Sân khấu | `san-khau.webp` | chưa có |
 | Tiền sảnh | `tien-sanh.webp` | chưa có |
 | Hậu trường | `hau-truong.webp` | chưa có |
@@ -162,6 +162,29 @@ phòng đang dùng có ba diễn viên trên sân khấu và mặt cả ba đề
 **Lấy bản to nhất công cụ cho.** Nếu có ô chọn độ phân giải thì kéo hết cỡ; cần
 tối thiểu 4.400px ngang, 6.200px thì đủ cho màn 1920.
 
+
+### Mẹo: ghép hai tấm 180° thành một tấm 360°
+
+Cách này đã dùng cho tấm khán phòng đang chạy, và ra kết quả tốt hơn cả hai
+tấm gốc. Khác hẳn chuyện ghép bốn mảnh rời ở trên: ở đây **cả hai tấm đều là
+ảnh cầu 2:1 trọn vẹn của cùng một căn phòng**, chỉ khác hướng nhìn chính.
+
+1. Sinh tấm thứ nhất tả **mặt trước** (sân khấu, màn, đèn sân khấu).
+2. Sinh tấm thứ hai tả **mặt sau** (tường cuối phòng, cửa ra vào, phòng kỹ
+   thuật) — giữ nguyên mọi chi tiết vật liệu của tấm đầu để hai tấm ra cùng
+   một phòng.
+3. Lấy **nửa 180° quanh sân khấu** của tấm một, **nửa 180° quanh tường cuối**
+   của tấm hai, đặt cạnh nhau thành một vòng 360°.
+4. **Hoà mờ khoảng 34° ở hai chỗ nối** (chuyển dần từ tấm này sang tấm kia,
+   không cắt thẳng). Đây là chỗ quyết định: cắt thẳng thì lộ vạch, hoà mờ thì
+   gần như không thấy, vì hai bên chỗ nối đều là tường ốp gỗ na ná nhau.
+
+Kết quả tấm đang dùng: mối nối trái-phải lệch **3/255** (hai tấm gốc là 10,9),
+không có trục gương nào, quay một vòng thấy đủ sân khấu — hai bên tường —
+tường cuối phòng.
+
+Hai tấm gốc vẫn để lại trong thư mục (`khán phòng.png`, `khán phòng mặt
+sau.png`) để ghép lại khi có bản độ phân giải cao hơn.
 
 ### Phóng to
 
