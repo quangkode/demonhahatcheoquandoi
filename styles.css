@@ -1488,7 +1488,7 @@ kbd {
    từng dải đều do JS tính theo bề ngang khung, ở đây chỉ lo phần trình bày.  */
 .pano {
   position: relative; overflow: hidden;
-  height: clamp(300px, 52vh, 540px);
+  height: clamp(320px, 58vh, 580px);
   border-radius: var(--r); background: #0d0b0a;
   box-shadow: var(--shadow-lg); cursor: grab;
   user-select: none; -webkit-user-select: none;
@@ -2550,7 +2550,7 @@ kbd {
   .news__thumb { width: 84px; height: 62px; }
   .news__item h4 { font-size: 15px; }
 
-  .pano { height: clamp(260px, 44vh, 400px); }
+  .pano { height: clamp(300px, 52vh, 440px); }
   .pano__hud { right: 10px; bottom: 10px; gap: 6px; }
   .pano.is-immersive .pano__hud { bottom: calc(66px + var(--safe-b)); }
   /* màn hẹp thì hàng nút trải hết bề ngang, gợi ý phải nhảy lên trên nó */

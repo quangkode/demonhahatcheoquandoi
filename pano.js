@@ -27,9 +27,17 @@
 (function (global) {
   'use strict';
 
-  var FOV_DEFAULT = 78;       // bề ngang khung nhìn thấy bao nhiêu độ
-  var FOV_MIN = 30;           // càng nhỏ càng phóng to
-  var FOV_MAX = 120;
+  /* Bề ngang khung nhìn thấy bao nhiêu độ. Chiều dọc đi theo chiều ngang vì
+     ảnh cầu luôn 2:1, nên góc càng rộng thì càng thấy nhiều trần và sàn.
+
+     Để 78 thì khung chỉ thấy khoảng 44 độ theo chiều dọc — một dải ngang hẹp,
+     nhìn như bị cắt cụt trần lẫn sàn, không ra hình một căn phòng. 112 thấy
+     được 63 độ, đủ ôm từ mép trần xuống hết dãy ghế.
+
+     Góc rộng còn đỡ vỡ ảnh: ảnh chỉ phải kéo giãn 2 lần thay vì 2,9 lần. */
+  var FOV_DEFAULT = 112;
+  var FOV_MIN = 50;           // càng nhỏ càng phóng to; dưới 50 là vỡ nhoè
+  var FOV_MAX = 140;
   var AUTO_SPEED = 0.004;     // độ mỗi mili-giây khi tự xoay
 
   function clamp(v, lo, hi) { return v < lo ? lo : (v > hi ? hi : v); }

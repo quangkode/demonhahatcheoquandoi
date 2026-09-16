@@ -29,9 +29,9 @@ Tên phải khớp với `data-scene` của từng điểm dừng trong `trai-ng
 | Định dạng | `.webp` chất lượng 80 |
 | Dung lượng | Dưới 3 MB mỗi tấm |
 
-Vì sao phải to thế: khung nhìn mặc định rộng 78° trên tổng 360°, tức ảnh phải
-rộng gấp **4,6 lần** bề ngang màn hình. Màn 1920px xem toàn màn hình đã cần
-8.862px. Ảnh 2048 hay 4096 bung ra là nhoè hẳn.
+Vì sao phải to thế: khung nhìn mặc định rộng 112° trên tổng 360°, tức ảnh phải
+rộng gấp **3,2 lần** bề ngang màn hình. Màn 1920px xem toàn màn hình cần
+6.171px, màn 1366px cần 4.391px. Ảnh 2048 bung ra là nhoè hẳn.
 
 ## Lắp vào trang
 
@@ -45,6 +45,16 @@ Không phải đụng gì vào `pano.js`. Xong nhớ:
 
 1. Tăng số `?v=` của `styles.css` ở **tất cả** các trang HTML.
 2. Sửa hoặc xoá dòng cảnh báo vàng `.pano__note` dưới khung — xem mục cuối.
+
+### Góc nhìn rộng bao nhiêu
+
+`FOV_DEFAULT` trong `pano.js` quyết định khung nhìn thấy bao nhiêu độ theo bề
+ngang. Chiều dọc đi theo chiều ngang vì ảnh cầu luôn 2:1, nên góc càng rộng thì
+càng thấy nhiều trần và sàn.
+
+Đang để **112°** (thấy 63° theo chiều dọc). Hạ xuống 78° thì khung chỉ còn thấy
+44° chiều dọc — một dải ngang hẹp, cụt cả trần lẫn sàn, nhìn như ảnh bị cắt chứ
+không ra hình một căn phòng.
 
 ### Hướng nhìn lúc vừa mở
 
@@ -136,7 +146,7 @@ Bản miễn phí thường chỉ cho khoảng 2048 × 1024 — chưa đủ. Ph�
 cho ảnh thật.
 
 Tấm khán phòng đang dùng mới 1774px ngang, trong khi màn 1366 xem toàn màn hình
-đã cần 6304px — nhìn khá mềm. Phóng ×4 lên 7096 × 3548 là đủ nét hẳn.
+cần 4391px — nhìn còn mềm. Phóng ×4 lên 7096 × 3548 là đủ nét cho cả màn 1920.
 
 **Phóng cả tấm một lần.** Cắt ra từng mảnh rồi phóng riêng là gãy mối nối vòng
 tròn, quay một vòng sẽ thấy vạch.
