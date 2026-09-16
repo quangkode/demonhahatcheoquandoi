@@ -91,59 +91,77 @@ tường, độ cao trần, bốn mảnh ghép vào thành bốn căn phòng kh�
 
 ### Prompt
 
-Nhà hát Chèo Quân đội là đơn vị quân đội, khán phòng **160 chỗ, một tầng, không
-ban công** (con số này đang hiện ngay dưới khung 360 trên trang). Phải tả đúng
-quy mô đó, nếu không AI trả về nhà hát lớn nghìn chỗ, nhìn là thấy vênh với
-con số.
+Bốn cảnh phải ra **cùng một toà nhà**. Tấm khán phòng đã có đặt ra bộ đặc điểm
+mà ba tấm sau phải bám theo: tường ốp gỗ nan dọc, đèn tường vàng ấm, ghế nhung
+đỏ sẫm, thảm đỏ, trần giật cấp có hắt sáng, một tầng không ban công.
 
-Giữ mấy chữ `small`, `modest`, `single level`, `no balcony` trong cả bốn prompt
-để bốn cảnh ra cùng một toà nhà. Tránh `grand`, `opera house`, `chandelier`.
+Ba câu đầu của prompt là phần ép ra ảnh 360 thật — **giữ nguyên ở cả bốn cảnh**,
+đừng rút gọn. Thiếu chúng là công cụ hay trả về nửa vòng lật ngược.
 
 **Khán phòng**
 
 ```
-equirectangular 360 panorama, interior of a small theatre
-auditorium, about 160 seats, single level, no balcony,
-rows of dark red velvet seats, modest wooden stage with red
-curtain, wood panelled walls, warm amber lighting, empty hall,
-photorealistic
+full 360 degree equirectangular panorama, 2:1 aspect ratio,
+seamless horizontal wrap, complete surround view showing all walls,
+photorealistic, interior of a modest Vietnamese theatre auditorium,
+single level, no balcony, rows of dark red velvet seats on red
+carpet, warm wood panelled walls with vertical slats, amber wall
+sconces, coffered ceiling with concealed cove lighting, wooden
+stage with red curtain on one side, technical control booth window
+on the opposite wall, empty hall, no people, evening lighting
 ```
 
-**Sân khấu** (đứng trên sân khấu nhìn ra)
+**Sân khấu** — đứng trên sân khấu nhìn quanh
 
 ```
-equirectangular 360 panorama, standing on a small theatre stage
-looking out, red stage curtains on both sides, painted scenic
-backdrop, overhead lighting rig, about 160 empty red seats in
-the distance, single level, no balcony, warm golden light,
-photorealistic
+full 360 degree equirectangular panorama, 2:1 aspect ratio,
+seamless horizontal wrap, complete surround view showing all walls,
+photorealistic, standing on the stage of a modest Vietnamese
+theatre looking around, red stage curtains and side wings, painted
+scenic backdrop behind, overhead lighting rig and speakers, wooden
+stage floor, rows of empty dark red velvet seats out front, warm
+wood panelled walls, amber wall sconces, no people, warm golden
+light
 ```
 
 **Tiền sảnh**
 
 ```
-equirectangular 360 panorama, small theatre lobby foyer, cream
-walls with framed performance photographs, tall glass doors with
-daylight coming in, polished stone floor, potted plants, warm
-ceiling lights, modest scale, photorealistic
+full 360 degree equirectangular panorama, 2:1 aspect ratio,
+seamless horizontal wrap, complete surround view showing all walls,
+photorealistic, lobby foyer of a modest Vietnamese theatre, warm
+wood panelled walls matching the auditorium, framed performance
+photographs on the walls, tall glass entrance doors with daylight
+coming in, polished stone floor, a small ticket counter, potted
+plants, warm ceiling lights, no people
 ```
 
 **Hậu trường**
 
 ```
-equirectangular 360 panorama, backstage of a small theatre,
-costume racks with traditional opera costumes, makeup mirrors
-with warm bulbs, ropes and rigging, dim blue and amber light,
-wooden floor, photorealistic
+full 360 degree equirectangular panorama, 2:1 aspect ratio,
+seamless horizontal wrap, complete surround view showing all walls,
+photorealistic, backstage wing and corridor of a modest Vietnamese
+theatre, racks of traditional cheo opera costumes, makeup mirrors
+with warm bulbs, prop tables, rigging ropes and counterweights,
+grey walls and concrete floor, dim blue and amber work light,
+no people
 ```
 
-**Negative prompt:** `people, faces, text, watermark, logo, tripod, fisheye`
+**Negative prompt** (cả bốn cảnh)
 
-**Đừng để AI vẽ người.** Tấm khán phòng hiện tại có ba diễn viên trên sân khấu
-và mặt cả ba đều méo — xem toàn màn hình là thấy ngay. Mặt người trong ảnh 360
-gần như luôn hỏng vì lúc sinh mỗi khuôn mặt chỉ chiếm vài chục điểm ảnh. Mà cũng
-không nên bịa ra diễn viên của Nhà hát. Sinh lại tấm nào có người thì để
-`people, faces` trong negative prompt, hoặc thêm `empty stage` vào prompt.
+```
+people, faces, hands, crowd, text, watermark, logo, tripod,
+fisheye, mirrored, symmetrical, duplicated, split image
+```
+
+`mirrored, symmetrical, duplicated` là để chống đúng lỗi ảnh gập đôi. `people,
+faces, hands` vì AI vẽ mặt người trong ảnh 360 gần như luôn hỏng — tấm khán
+phòng đang dùng có ba diễn viên trên sân khấu và mặt cả ba đều méo.
+
+**Lấy bản to nhất công cụ cho.** Nếu có ô chọn độ phân giải thì kéo hết cỡ; cần
+tối thiểu 4.400px ngang, 6.200px thì đủ cho màn 1920.
+
 
 ### Phóng to
 
