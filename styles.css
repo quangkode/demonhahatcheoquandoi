@@ -853,15 +853,33 @@ kbd {
      cả khi ảnh đứng cạnh (hàng ngang) lẫn khi ảnh nằm trên (xếp dọc) */
   flex: 1 1 0; min-width: 0;
 }
+/* ---- Ảnh tư liệu làm nền chặng ----
+   Ảnh nằm SAU chữ chứ không đứng cạnh: phủ nửa phải thẻ rồi tan dần về bốn
+   phía, nên không có mép cứng nào cắt ngang nền thẻ. Vì ảnh ra khỏi dòng flex
+   nên khối chữ tự giãn hết bề ngang thẻ.
+
+   Chữ vẫn đọc được: ảnh chỉ còn hơn ba phần mười độ đậm, và chỗ ảnh rõ nhất
+   nằm bên phải mép chữ (khối chữ dừng ở max-width 780px). Bỏ luôn nút phóng to
+   — nút nằm sau chữ thì bấm rất hụt, mà vuốt ngang cũng dễ thành cú bấm nhầm. */
 .chuong__anh {
-  flex: 0 0 clamp(220px, 32%, 340px);
-  align-self: start; margin-top: 4px;
-  aspect-ratio: 3 / 2; overflow: hidden;
-  border: 1px solid rgba(250, 246, 238, .2);
-  background: rgba(0, 0, 0, .28);
+  position: absolute; z-index: 0;
+  right: 0; top: 0; bottom: 0; width: 62%;
+  pointer-events: none;
+  /* hai lớp mặt nạ giao nhau: một lớp tan sang trái và sang phải, một lớp tan
+     lên trên và xuống dưới */
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0, rgba(0, 0, 0, .5) 40%, #000 70%, #000 88%, transparent 100%),
+    linear-gradient(180deg, transparent 0, #000 15%, #000 85%, transparent 100%);
+  mask-image:
+    linear-gradient(90deg, transparent 0, rgba(0, 0, 0, .5) 40%, #000 70%, #000 88%, transparent 100%),
+    linear-gradient(180deg, transparent 0, #000 15%, #000 85%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
-.chuong__anh .archive__zoom { border-radius: 0; }
-.chuong__anh img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.chuong__anh img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  opacity: .34; filter: saturate(.75) contrast(1.06);
+}
 .chuong__chu { flex: 1; display: flex; flex-direction: column; }
 .chuong__ky {
   display: flex; align-items: baseline; gap: 9px; margin: 0 0 10px;
@@ -907,7 +925,6 @@ kbd {
   font-family: var(--serif); font-size: 17px; color: rgba(250, 246, 238, .6);
 }
 .dttg__dem b { font-size: 24px; color: var(--gold-light); }
-.dttg__goi { margin: 0 0 0 auto; font-size: 12.5px; color: rgba(250, 246, 238, .5); }
 
 /* --- phần động, chỉ bật khi script.js đã gắn .san-sang --- */
 .dttg.san-sang .chuong {
@@ -1006,7 +1023,21 @@ kbd {
   .dttg__ray { padding: 22px 6% 26px; }
   .chuong { padding: 8px 2% 0; flex-direction: column; gap: 18px; }
   /* xếp dọc thì cho ảnh lên trước: nhìn thấy ảnh rồi mới đọc chữ */
-  .chuong__anh { order: -1; flex: none; width: 100%; max-width: 420px; }
+  /* màn hẹp thì chữ trải hết bề ngang, ảnh không còn chỗ nào trống mà nấp —
+     cho phủ trọn thẻ nhưng mờ hẳn đi, chỉ còn là chút không khí phía sau */
+  .chuong__anh {
+    width: 100%; max-width: none;
+    /* vẫn giao hai lớp như ở màn rộng, chỉ đổi lớp ngang thành tan đều về cả
+       hai mép — phủ trọn bề ngang mà để mép cứng thì lộ ngay một vệt sáng
+       hình chữ nhật chạy dọc thẻ */
+    -webkit-mask-image:
+      linear-gradient(90deg, transparent 0, #000 20%, #000 80%, transparent 100%),
+      linear-gradient(180deg, transparent 0, #000 20%, #000 82%, transparent 100%);
+    mask-image:
+      linear-gradient(90deg, transparent 0, #000 20%, #000 80%, transparent 100%),
+      linear-gradient(180deg, transparent 0, #000 20%, #000 82%, transparent 100%);
+  }
+  .chuong__anh img { opacity: .18; }
   .chuong__bong { top: -20px; font-size: clamp(96px, 26vw, 170px); }
 }
 
@@ -1018,7 +1049,6 @@ kbd {
   .dttg__thanh { padding: 18px 16px 0; }
   .dttg__ray { padding: 20px 6% 22px; }
   .dttg__dieu { padding: 0 16px 20px; }
-  .dttg__goi { display: none; }
   .nam { padding: 7px 12px; }
   .nam b { font-size: 18px; }
 }
