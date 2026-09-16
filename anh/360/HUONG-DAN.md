@@ -89,119 +89,56 @@ sinh thẳng ra ảnh cầu khép vòng sẵn, đúng tỉ lệ 2:1.
 Đừng sinh rời từng mảnh rồi ghép: mỗi lần sinh là AI bịa lại ánh sáng, màu
 tường, độ cao trần, bốn mảnh ghép vào thành bốn căn phòng khác nhau.
 
-### Prompt
+### Prompt cho Skybox AI
 
-Bốn cảnh phải ra **cùng một toà nhà**. Tấm khán phòng đã có đặt ra bộ đặc điểm
-mà ba tấm sau phải bám theo: tường ốp gỗ nan dọc, đèn tường vàng ấm, ghế nhung
-đỏ sẫm, thảm đỏ, trần giật cấp có hắt sáng, một tầng không ban công.
+**Đừng viết "360", "equirectangular", "2:1", "seamless wrap" vào prompt.**
+Skybox luôn xuất ảnh cầu, khai lại là phí chỗ trong giới hạn 600 ký tự, mà còn
+đẩy model sang vẽ *một tấm ảnh panorama* thay vì vẽ căn phòng. Prompt của chính
+Blockade trong gói mẫu bắt đầu thẳng bằng cảnh: `interior of a large…`,
+`wide open plaza in…`.
 
-Ba câu đầu của prompt là phần ép ra ảnh 360 thật — **giữ nguyên ở cả bốn cảnh**,
-đừng rút gọn. Thiếu chúng là công cụ hay trả về nửa vòng lật ngược.
+Chỗ tiết kiệm được để dành tả **trần** (`… above`) và **sàn** (`… below`) — ảnh
+cầu là nhìn lên nhìn xuống đều thấy, thiếu tả là AI bịa ra mảng mờ.
+
+Cũng nên nói rõ **máy đứng ở đâu, cao ngang đâu** (`standing in the centre aisle
+at eye level`). Ảnh cầu không có khung hình để cắt, vị trí máy quyết định tất cả.
+
+**Thiết lập:** model **M3 Cinematic Realism** (Blockade dùng chính model này cho
+ảnh Office Interior trong gói mẫu), chất lượng **Standard** hoặc **Enhanced** —
+đừng dùng Fast. Bật công tắc **Negative Text** rồi dán phần negative bên dưới.
 
 **Khán phòng**
 
 ```
-full 360 degree equirectangular panorama, 2:1 aspect ratio,
-seamless horizontal wrap, complete surround view showing all walls,
-photorealistic, interior of a modest Vietnamese theatre auditorium,
-single level, no balcony, rows of dark red velvet seats on red
-carpet, warm wood panelled walls with vertical slats, amber wall
-sconces, coffered ceiling with concealed cove lighting, wooden
-stage with red curtain on one side, technical control booth window
-on the opposite wall, empty hall, no people, evening lighting
+interior of a modest Vietnamese military theatre auditorium, single level, no balcony, standing in the centre aisle at eye level, rows of dark red velvet seats on both sides, wooden stage with red curtain ahead, painted traditional cheo opera scenery on the stage, warm wood panelled walls with vertical slats, amber wall sconces, coffered ceiling above with concealed cove lighting and recessed downlights, patterned red carpet floor with aisles below, technical control booth window on the rear wall, empty hall, no people, evening lighting
 ```
 
-**Sân khấu** — đứng trên sân khấu nhìn quanh
+**Sân khấu**
 
 ```
-full 360 degree equirectangular panorama, 2:1 aspect ratio,
-seamless horizontal wrap, complete surround view showing all walls,
-photorealistic, standing on the stage of a modest Vietnamese
-theatre looking around, red stage curtains and side wings, painted
-scenic backdrop behind, overhead lighting rig and speakers, wooden
-stage floor, rows of empty dark red velvet seats out front, warm
-wood panelled walls, amber wall sconces, no people, warm golden
-light
+standing in the middle of a modest Vietnamese theatre stage looking around, red stage curtains and side wings, painted traditional cheo opera scenery backdrop behind, polished wooden stage floor below, overhead lighting rig with spotlights and black speakers directly above, rows of empty dark red velvet seats out front, warm wood panelled walls with vertical slats, amber wall sconces, no people, warm golden stage light
 ```
 
 **Tiền sảnh**
 
 ```
-full 360 degree equirectangular panorama, 2:1 aspect ratio,
-seamless horizontal wrap, complete surround view showing all walls,
-photorealistic, lobby foyer of a modest Vietnamese theatre, warm
-wood panelled walls matching the auditorium, framed performance
-photographs on the walls, tall glass entrance doors with daylight
-coming in, polished stone floor, a small ticket counter, potted
-plants, warm ceiling lights, no people
+lobby foyer of a modest Vietnamese theatre, warm wood panelled walls, framed black and white performance photographs, tall glass entrance doors with daylight coming in, polished stone floor with patterned inlay below, flat ceiling above with recessed downlights and a small chandelier, a wooden ticket counter, potted plants, red runner carpet, no people, warm evening lighting
 ```
 
 **Hậu trường**
 
 ```
-full 360 degree equirectangular panorama, 2:1 aspect ratio,
-seamless horizontal wrap, complete surround view showing all walls,
-photorealistic, backstage wing and corridor of a modest Vietnamese
-theatre, racks of traditional cheo opera costumes, makeup mirrors
-with warm bulbs, prop tables, rigging ropes and counterweights,
-grey walls and concrete floor, dim blue and amber work light,
-no people
+backstage wing of a modest Vietnamese theatre, racks of traditional cheo opera costumes, makeup mirrors with warm bulbs along one wall, prop tables, ropes and counterweights, exposed steel rigging grid directly above, scuffed concrete floor below, grey painted walls, dim blue and amber work lights, no people
 ```
 
-**Negative prompt** (cả bốn cảnh)
+**Negative Text** (dùng chung cả bốn cảnh)
 
 ```
-people, faces, hands, crowd, text, watermark, logo, tripod,
-fisheye, mirrored, symmetrical, duplicated, split image
+people, faces, hands, crowd, text, watermark, logo, tripod, mirrored, symmetrical, duplicated
 ```
 
-`mirrored, symmetrical, duplicated` là để chống đúng lỗi ảnh gập đôi. `people,
-faces, hands` vì AI vẽ mặt người trong ảnh 360 gần như luôn hỏng — tấm khán
-phòng đang dùng có ba diễn viên trên sân khấu và mặt cả ba đều méo.
-
-**Lấy bản to nhất công cụ cho.** Nếu có ô chọn độ phân giải thì kéo hết cỡ; cần
-tối thiểu 4.400px ngang, 6.200px thì đủ cho màn 1920.
-
-
-### Cách đang dùng: dải 360° quanh tầm mắt
-
-Tấm khán phòng đang chạy **chưa phải ảnh cầu đầy đủ**. Nó là một **dải 360°
-quanh tầm mắt**: đủ trọn vòng ngang, nhưng theo chiều dọc mới có tường, ghế và
-một phần trần — chưa có trần thật lẫn sàn.
-
-Nối từ hai tệp, mỗi tệp là một nửa 180°:
-
-- `khán phòng mặt trước.png` — 180° có sân khấu ở giữa
-- `khán phòng mặt sau.png` — 180° có tường cuối phòng ở giữa
-
-Đặt cạnh nhau **đúng kích thước gốc**, không kéo cao, không chèn thêm gì. Ra
-3548 × 887, tỉ lệ **4:1**.
-
-**Mấu chốt: khai đúng tỉ lệ đó ở `data-ti-le` của nút điểm dừng.**
-
-```html
-<button ... data-scene-btn="khan-phong" data-yaw="90" data-ti-le="4">
-```
-
-`pano.js` mặc định coi ảnh là 2:1 (ảnh cầu đầy đủ). Ép dải 4:1 vào khuôn 2:1
-là kéo cao gấp đôi — tường méo, đèn tường dài ngoẵng, ghế tụt hết xuống mép
-dưới. Khai đúng 4 thì tường giữ nguyên hình như trong tệp nguồn.
-
-Hai chỗ nối rơi vào tường hai bên, vốn na ná nhau, nên không lộ vết.
-
-### Khi có thêm ảnh trần và sàn
-
-Ghép ảnh trần vào phía trên dải, ảnh sàn vào phía dưới, rồi **hạ `data-ti-le`
-xuống cho khớp bề cao mới**. Đủ trần và sàn thì tỉ lệ về đúng 2 và bỏ hẳn
-`data-ti-le` cũng được.
-
-### Sinh hai nửa như thế nào
-
-Dùng đúng bộ prompt ở trên, nhưng tả rõ hướng nhìn cho từng nửa: một tấm lấy
-sân khấu làm chính diện, một tấm lấy tường cuối phòng làm chính diện. Giữ
-nguyên mọi chi tiết vật liệu ở cả hai để ra cùng một phòng.
-
-Ba cảnh còn lại làm y hệt: mỗi cảnh sinh hai nửa rồi đưa cả hai vào thư mục này.
+`mirrored, symmetrical, duplicated` để chặn ảnh nửa vòng gập đôi.
+`people, faces, hands` vì AI vẽ mặt người trong ảnh cầu gần như luôn hỏng.
 
 ### Phóng to
 
