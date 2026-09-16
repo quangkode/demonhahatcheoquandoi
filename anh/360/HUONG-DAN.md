@@ -170,9 +170,15 @@ Tấm khán phòng đang chạy được nối từ hai tệp, **mỗi tệp là
 - `khán phòng mặt trước.png` — 180° có sân khấu ở chính giữa
 - `khán phòng mặt sau.png` — 180° có tường cuối phòng ở chính giữa
 
-Nối thẳng: nửa trước chiếm 0-180° của ảnh ra, nửa sau chiếm 180-360°. Kéo cao
-gấp đôi để ảnh ra đúng 2:1. **Không hoà mờ, không căn tâm gì cả** — hai chỗ nối
-rơi đúng vào tường hai bên, vốn na ná nhau, nên không lộ vết.
+Nối thẳng: nửa trước chiếm 0-180° của ảnh ra, nửa sau chiếm 180-360°. **Không
+hoà mờ, không căn tâm gì cả** — hai chỗ nối rơi đúng vào tường hai bên, vốn na
+ná nhau, nên không lộ vết.
+
+**ĐỪNG KÉO CAO CHO ĐẦY KHUNG.** Mỗi tệp nửa là 180° ngang × **90° dọc**, tỉ lệ
+2:1 của nó vốn đã đúng. Ảnh ra trải 360° ngang × 180° dọc, nên nửa đó chỉ chiếm
+**nửa bề ngang VÀ nửa chiều cao**, đặt giữa theo chiều dọc; phần trên dưới vá
+bằng cách kéo dài hàng điểm ảnh trên cùng và dưới cùng. Kéo cho đầy khung là
+cảnh cao vống lên gấp đôi: đèn tường dài ngoẵng, ghế tụt hết xuống mép dưới.
 
 Kết quả: 3548 × 1774, mối nối trái-phải 5,2/255, sân khấu ở **90°** (nên
 `data-yaw="90"`), tường cuối ở 270°.
