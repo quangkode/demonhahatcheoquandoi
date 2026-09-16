@@ -493,8 +493,6 @@
     var chuongs = Array.prototype.slice.call(ray.querySelectorAll('.chuong'));
     var namRay = document.getElementById('dttgNam');
     var namBtn = Array.prototype.slice.call(namRay.querySelectorAll('.nam'));
-    var dayTien = document.getElementById('dttgDay');
-    var soHien = document.getElementById('dttgSo');
     var nutTruoc = document.getElementById('dttgTruoc');
     var nutSau = document.getElementById('dttgSau');
     var con = document.getElementById('dttgCon');
@@ -578,8 +576,6 @@
         }
       }
 
-      dayTien.style.transform = 'translateX(' + (vt * 100) + '%)';
-
       var i = Math.round(vt);
       if (i === mocHien) return;
       var truoc = mocHien;
@@ -592,7 +588,6 @@
         if (u === i) namBtn[u].setAttribute('aria-current', 'true');
         else namBtn[u].removeAttribute('aria-current');
       }
-      soHien.textContent = i + 1;
       nutTruoc.disabled = i === 0;
       nutSau.disabled = i === chuongs.length - 1;
 

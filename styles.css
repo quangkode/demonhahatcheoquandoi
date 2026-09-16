@@ -784,7 +784,7 @@ kbd {
 }
 
 /* --- thanh mốc năm, kiêm luôn thanh tiến độ --- */
-.dttg__thanh { padding: 22px 26px 0; }
+.dttg__thanh { padding: 22px 26px 10px; }
 .dttg__nam {
   display: flex; gap: 6px;
   overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
@@ -804,15 +804,6 @@ kbd {
 .nam:hover { color: var(--cream); background: rgba(250, 246, 238, .07); }
 .nam.hoat { color: var(--gold-light); background: rgba(255, 205, 0, .12); }
 .nam:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-
-.dttg__vach {
-  position: relative; margin-top: 14px; height: 2px;
-  border-radius: 2px; background: rgba(250, 246, 238, .14); overflow: hidden;
-}
-.dttg__day {
-  position: absolute; left: 0; top: 0; bottom: 0; width: 20%; border-radius: 2px;
-  background: linear-gradient(90deg, var(--gold), var(--gold-light));
-}
 
 /* --- ray trượt ---
    Lề hai bên 7% tính theo bề NGOÀI của ray, còn flex-basis của thẻ tính theo bề
@@ -863,24 +854,37 @@ kbd {
    — nút nằm sau chữ thì bấm rất hụt, mà vuốt ngang cũng dễ thành cú bấm nhầm. */
 .chuong__anh {
   position: absolute; z-index: 0;
-  right: 0; top: 0; bottom: 0; width: 62%;
+  left: 0; right: 0; top: 0; bottom: 0; width: auto;
   pointer-events: none;
-  /* hai lớp mặt nạ giao nhau: một lớp tan sang trái và sang phải, một lớp tan
-     lên trên và xuống dưới */
+  /* Hai lớp mặt nạ giao nhau, chỉ để làm mềm bốn mép thẻ. Ảnh phủ trọn bề
+     ngang, nhưng vẫn phải tan ở hai mép trái phải: thẻ nào cũng nằm sát thẻ
+     bên cạnh, để mép cứng là lộ ngay một vạch dọc lúc vuốt qua. */
   -webkit-mask-image:
-    linear-gradient(90deg, transparent 0, rgba(0, 0, 0, .5) 40%, #000 70%, #000 88%, transparent 100%),
-    linear-gradient(180deg, transparent 0, #000 15%, #000 85%, transparent 100%);
+    linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%),
+    linear-gradient(180deg, transparent 0, #000 11%, #000 89%, transparent 100%);
   mask-image:
-    linear-gradient(90deg, transparent 0, rgba(0, 0, 0, .5) 40%, #000 70%, #000 88%, transparent 100%),
-    linear-gradient(180deg, transparent 0, #000 15%, #000 85%, transparent 100%);
+    linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%),
+    linear-gradient(180deg, transparent 0, #000 11%, #000 89%, transparent 100%);
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
 .chuong__anh img {
   width: 100%; height: 100%; object-fit: cover; display: block;
-  opacity: .34; filter: saturate(.75) contrast(1.06);
+  opacity: .8; filter: saturate(.8) contrast(1.04);
+}
+/* Màn che tối dần về bên trái, nơi đặt khối chữ. Nhờ nó ảnh mới dám để đậm
+   tới 0.8 mà chữ vẫn nổi: nửa phải thấy gần như trọn ảnh, nửa trái chỉ còn
+   là bóng mờ sau chữ. Nằm trong .chuong__anh nên cũng chịu chung mặt nạ,
+   không thò ra khỏi vùng ảnh. */
+.chuong__anh::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg,
+    rgba(10, 17, 14, .9) 0%, rgba(10, 17, 14, .86) 34%,
+    rgba(10, 17, 14, .68) 60%, rgba(10, 17, 14, .34) 79%,
+    rgba(10, 17, 14, .08) 91%, transparent 98%);
 }
 .chuong__chu { flex: 1; display: flex; flex-direction: column; }
+.chuong__trong { text-shadow: 0 1px 3px rgba(6, 12, 10, .72); }
 .chuong__ky {
   display: flex; align-items: baseline; gap: 9px; margin: 0 0 10px;
   font-family: var(--serif); font-size: 17px; letter-spacing: .04em;
@@ -920,12 +924,6 @@ kbd {
 .dttg__nut:hover:not(:disabled) { background: var(--gold); border-color: var(--gold); color: var(--ink); }
 .dttg__nut:disabled { opacity: .26; cursor: default; }
 .dttg__nut:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-.dttg__dem {
-  margin: 0; display: flex; align-items: baseline; gap: 6px;
-  font-family: var(--serif); font-size: 17px; color: rgba(250, 246, 238, .6);
-}
-.dttg__dem b { font-size: 24px; color: var(--gold-light); }
-
 /* --- phần động, chỉ bật khi script.js đã gắn .san-sang --- */
 .dttg.san-sang .chuong {
   opacity: .26; transform: scale(.955);
@@ -1025,19 +1023,21 @@ kbd {
   /* xếp dọc thì cho ảnh lên trước: nhìn thấy ảnh rồi mới đọc chữ */
   /* màn hẹp thì chữ trải hết bề ngang, ảnh không còn chỗ nào trống mà nấp —
      cho phủ trọn thẻ nhưng mờ hẳn đi, chỉ còn là chút không khí phía sau */
+  /* màn hẹp thì chữ nằm đè hết lên ảnh, không còn nửa phải nào để ảnh hiện rõ
+     — màn che đổi thành phủ đều, ảnh hạ xuống làm nền cho dễ đọc */
   .chuong__anh {
-    width: 100%; max-width: none;
-    /* vẫn giao hai lớp như ở màn rộng, chỉ đổi lớp ngang thành tan đều về cả
-       hai mép — phủ trọn bề ngang mà để mép cứng thì lộ ngay một vệt sáng
-       hình chữ nhật chạy dọc thẻ */
     -webkit-mask-image:
-      linear-gradient(90deg, transparent 0, #000 20%, #000 80%, transparent 100%),
-      linear-gradient(180deg, transparent 0, #000 20%, #000 82%, transparent 100%);
+      linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent 100%),
+      linear-gradient(180deg, transparent 0, #000 14%, #000 88%, transparent 100%);
     mask-image:
-      linear-gradient(90deg, transparent 0, #000 20%, #000 80%, transparent 100%),
-      linear-gradient(180deg, transparent 0, #000 20%, #000 82%, transparent 100%);
+      linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent 100%),
+      linear-gradient(180deg, transparent 0, #000 14%, #000 88%, transparent 100%);
   }
-  .chuong__anh img { opacity: .18; }
+  .chuong__anh img { opacity: .5; }
+  .chuong__anh::after {
+    background: linear-gradient(180deg,
+      rgba(10, 17, 14, .82) 0%, rgba(10, 17, 14, .76) 55%, rgba(10, 17, 14, .84) 100%);
+  }
   .chuong__bong { top: -20px; font-size: clamp(96px, 26vw, 170px); }
 }
 
@@ -1046,7 +1046,7 @@ kbd {
   .awards { grid-template-columns: 1fr; }
   .award--top { flex-direction: column; align-items: flex-start; gap: 10px; }
   .decree { padding: 22px 20px; }
-  .dttg__thanh { padding: 18px 16px 0; }
+  .dttg__thanh { padding: 18px 16px 8px; }
   .dttg__ray { padding: 20px 6% 22px; }
   .dttg__dieu { padding: 0 16px 20px; }
   .nam { padding: 7px 12px; }
