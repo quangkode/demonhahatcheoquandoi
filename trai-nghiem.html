@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Serif:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=72" />
+<link rel="stylesheet" href="./styles.css?v=73" />
 <link rel="icon" type="image/png" href="./anh/logo.png" />
 </head>
 <body>
@@ -110,146 +110,20 @@
       <p class="pagehero__desc">Bước vào không gian Nhà hát Chèo Quân đội ngay trên màn hình: bấm vào ảnh để đi một vòng khán phòng bằng ảnh 360°, rồi mở cánh cửa ở góc trái để sang những không gian khác.</p>
     </div>
   </div>
-</section>
 
-<!-- ============ 1. KHÔNG GIAN 360 ============ -->
-<section class="section" id="khong-gian">
-  <div class="container">
-    <!-- ĐIỂM DỪNG THAM QUAN — nguồn khai báo DUY NHẤT.
-         Trên trang thì hàng này ẩn (.scenes{display:none} trong styles.css);
-         pano.js nhân bản nguyên hàng vào sau cánh cửa của chế độ toàn màn hình.
+  <!-- ĐIỂM DỪNG THAM QUAN — nguồn khai báo DUY NHẤT.
+       Hàng này luôn ẩn (.scenes { display: none } trong styles.css). Nó ở đây
+       chỉ để pano.js nhân bản vào bảng sau cánh cửa của chế độ toàn màn hình —
+       đó mới là chỗ người xem bấm để đổi không gian.
 
-         Thêm khu vực mới: thêm một nút ở đây với data-scene-btn="<mã>", rồi khai
-         .pano[data-scene="<mã>"] { --pano: url(...) } trong styles.css. Thêm ở
-         đây là có luôn trong bảng sau cánh cửa, không phải sửa chỗ nào khác. -->
-    <div class="scenes" role="tablist" aria-label="Chọn khu vực tham quan">
-      <button type="button" class="scene is-active" data-scene-btn="khan-phong" data-yaw="180" role="tab" aria-selected="true">Khán phòng</button>
-      <button type="button" class="scene" data-scene-btn="san-khau" role="tab" aria-selected="false">Sân khấu</button>
-      <button type="button" class="scene" data-scene-btn="tien-sanh" role="tab" aria-selected="false">Tiền sảnh</button>
-      <button type="button" class="scene" data-scene-btn="hau-truong" role="tab" aria-selected="false">Hậu trường</button>
-    </div>
-
-    <p class="pano__note">
-      <strong>Khán phòng là ảnh 360° chụp thật tại Nhà hát.</strong>
-      Ba khu vực còn lại hiện vẫn là hình mô phỏng, sẽ được thay bằng ảnh 360°
-      chụp thực tế khi Nhà hát có ảnh.
-    </p>
-
-    <div class="expfacts">
-      <div class="expfact"><strong>4</strong><span>Điểm dừng tham quan</span></div>
-      <div class="expfact"><strong>160</strong><span>Chỗ ngồi khán phòng</span></div>
-      <div class="expfact"><strong>1954</strong><span>Năm thành lập Nhà hát</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 2. NHẠC CỤ ============ -->
-<section class="section section--alt" id="nhac-cu">
-  <div class="container">
-    <div class="section__head">
-      <div>
-        <p class="section__eyebrow">Dàn nhạc</p>
-        <h2 class="section__title">Nhạc cụ dân tộc</h2>
-      </div>
-    </div>
-    <p class="section__intro">Dàn nhạc chèo truyền thống là linh hồn của mỗi vở diễn. Mỗi nhạc cụ dưới đây sẽ có phần giới thiệu riêng kèm âm thanh mẫu và mô hình xem được nhiều góc.</p>
-
-    <!-- KHUNG SẴN — điền nội dung thật vào từng thẻ sau -->
-    <div class="expgrid">
-      <article class="expcard" data-inst="nhi">
-        <div class="expcard__art" aria-hidden="true"></div>
-        <div class="expcard__body">
-          <h3>Đàn nhị</h3>
-          <p>Cây đàn hai dây kéo bằng vĩ, giữ vai trò dẫn giai điệu và nâng giọng hát trong chiếu chèo.</p>
-          <span class="expcard__soon">Sắp có</span>
-        </div>
-      </article>
-      <article class="expcard" data-inst="trong-de">
-        <div class="expcard__art" aria-hidden="true"></div>
-        <div class="expcard__body">
-          <h3>Trống đế</h3>
-          <p>Nhạc cụ giữ nhịp và điểm xuyết, tiếng trống đế mở màn báo hiệu chiếu chèo bắt đầu.</p>
-          <span class="expcard__soon">Sắp có</span>
-        </div>
-      </article>
-      <article class="expcard" data-inst="nguyet">
-        <div class="expcard__art" aria-hidden="true"></div>
-        <div class="expcard__body">
-          <h3>Đàn nguyệt</h3>
-          <p>Đàn thùng tròn hai dây, âm sắc ấm và vang, thường đi cùng những làn điệu trữ tình.</p>
-          <span class="expcard__soon">Sắp có</span>
-        </div>
-      </article>
-      <article class="expcard" data-inst="sao">
-        <div class="expcard__art" aria-hidden="true"></div>
-        <div class="expcard__body">
-          <h3>Sáo trúc</h3>
-          <p>Tiếng sáo trong trẻo gợi không gian làng quê Bắc Bộ, nền cảnh quen thuộc của nghệ thuật chèo.</p>
-          <span class="expcard__soon">Sắp có</span>
-        </div>
-      </article>
-      <article class="expcard" data-inst="phach">
-        <div class="expcard__art" aria-hidden="true"></div>
-        <div class="expcard__body">
-          <h3>Phách &amp; mõ</h3>
-          <p>Bộ gõ nhỏ giữ tiết tấu cho người hát, gắn liền với lối hát nói đặc trưng của chèo.</p>
-          <span class="expcard__soon">Sắp có</span>
-        </div>
-      </article>
-      <article class="expcard" data-inst="thanh-la">
-        <div class="expcard__art" aria-hidden="true"></div>
-        <div class="expcard__body">
-          <h3>Thanh la &amp; chũm chọe</h3>
-          <p>Bộ gõ kim loại tạo điểm nhấn mạnh trong các lớp diễn cao trào và cảnh hội hè.</p>
-          <span class="expcard__soon">Sắp có</span>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 3. TÁC PHẨM ============ -->
-<section class="section" id="tac-pham">
-  <div class="container">
-    <div class="section__head">
-      <div>
-        <p class="section__eyebrow">Kho tác phẩm</p>
-        <h2 class="section__title">Tác phẩm tiêu biểu</h2>
-      </div>
-      <a href="./vo-dien.html" class="link-more">Toàn bộ kho tác phẩm →</a>
-    </div>
-    <p class="section__intro">Những vở diễn đã đi cùng Nhà hát qua nhiều thế hệ khán giả. Xem <a href="./vo-dien.html">danh mục đầy đủ</a> chia theo chèo cổ, đề tài người lính và danh nhân. Mỗi tác phẩm sẽ có trang riêng với trích đoạn, hình ảnh tư liệu và lời bình của nghệ sĩ.</p>
-
-    <!-- KHUNG SẴN — điền nội dung thật vào từng thẻ sau -->
-    <div class="expgrid expgrid--wide">
-      <article class="expcard expcard--work" data-work="quan-am">
-        <div class="expcard__art expcard__art--anh"><img src="./anh/vo-dien/quan-am.jpg" alt="Cảnh trong vở Quan Âm Thị Kính" loading="lazy" width="400" height="277" /></div>
-        <div class="expcard__body">
-          <p class="expcard__kind">Chèo cổ</p>
-          <h3>Quan Âm Thị Kính</h3>
-          <p>Một trong bảy vở chèo cổ kinh điển, kể chuyện nàng Thị Kính chịu oan khuất và tấm lòng từ bi.</p>
-          <span class="expcard__soon">Sắp có</span>
-        </div>
-      </article>
-      <article class="expcard expcard--work" data-work="luu-binh">
-        <div class="expcard__art expcard__art--anh"><img src="./anh/vo-dien/luu-binh.jpg" alt="Các nghệ sĩ trong vở Lưu Bình - Dương Lễ" loading="lazy" width="418" height="261" /></div>
-        <div class="expcard__body">
-          <p class="expcard__kind">Chèo cổ</p>
-          <h3>Lưu Bình - Dương Lễ</h3>
-          <p>Câu chuyện về tình bạn và nghĩa vợ chồng, một trong những vở chèo được yêu thích bậc nhất.</p>
-          <span class="expcard__soon">Sắp có</span>
-        </div>
-      </article>
-      <article class="expcard expcard--work" data-work="dat-lien-bien-ca">
-        <div class="expcard__art expcard__art--anh"><img src="./anh/vo-dien/dat-lien-bien-ca.jpg" alt="Cảnh diễn của các chiến sĩ Hải quân trong vở Đất liền và biển cả" loading="lazy" width="288" height="180" /></div>
-        <div class="expcard__body">
-          <p class="expcard__kind">Chèo hiện đại</p>
-          <h3>Đất liền và biển cả</h3>
-          <p>Hình ảnh người lính Hải quân bảo vệ chủ quyền biển đảo hiện nay.</p>
-          <span class="expcard__soon">Sắp có</span>
-        </div>
-      </article>
-    </div>
+       Thêm khu vực mới: thêm một nút ở đây với data-scene-btn="<mã>", rồi khai
+       .pano[data-scene="<mã>"] { --pano: url(...) } trong styles.css. Thêm ở
+       đây là có luôn trong bảng sau cánh cửa, không phải sửa chỗ nào khác. -->
+  <div class="scenes" role="tablist" aria-label="Chọn khu vực tham quan">
+    <button type="button" class="scene is-active" data-scene-btn="khan-phong" data-yaw="180" role="tab" aria-selected="true">Khán phòng</button>
+    <button type="button" class="scene" data-scene-btn="san-khau" role="tab" aria-selected="false">Sân khấu</button>
+    <button type="button" class="scene" data-scene-btn="tien-sanh" role="tab" aria-selected="false">Tiền sảnh</button>
+    <button type="button" class="scene" data-scene-btn="hau-truong" role="tab" aria-selected="false">Hậu trường</button>
   </div>
 </section>
 
@@ -329,7 +203,7 @@
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
 <script src="./script.js?v=18"></script>
-<script src="./pano.js?v=17"></script>
+<script src="./pano.js?v=18"></script>
 <script>
   window.Pano.mount(document.getElementById('pano'));
 </script>

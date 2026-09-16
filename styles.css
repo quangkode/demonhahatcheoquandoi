@@ -1708,12 +1708,6 @@ kbd {
 }
 .pano__hop-vong svg { width: 20px; height: 20px; }
 
-.pano__note {
-  margin: 16px 0 0; padding: 12px 16px;
-  background: #fff8dd; border: 1px solid #ffe89a; border-left: 4px solid var(--gold);
-  border-radius: var(--r); font-size: 14px; color: #7a6200;
-}
-
 /* ---------- Ảnh toàn cảnh mô phỏng ----------
    Mỗi cảnh là một chồng gradient được cắt trải đều quanh hình trụ.
 
@@ -1782,17 +1776,6 @@ kbd {
 }
 
 /* ---------- Số liệu nhanh ---------- */
-.expfacts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-top: 24px; }
-.expfact {
-  background: var(--white); border: 1px solid var(--line);
-  border-radius: var(--r); padding: 18px 20px; text-align: center;
-}
-.expfact strong {
-  display: block; font-family: var(--serif);
-  font-size: 30px; color: var(--red); line-height: 1; margin-bottom: 4px;
-}
-.expfact span { font-size: 13.5px; color: var(--ink-soft); }
-
 /* ---------- Thẻ nhạc cụ / tác phẩm ---------- */
 .expgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); gap: 22px; }
 .expgrid--wide { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
