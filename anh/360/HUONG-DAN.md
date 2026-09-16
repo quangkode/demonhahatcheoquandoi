@@ -140,6 +140,55 @@ people, faces, hands, crowd, text, watermark, logo, tripod, mirrored, symmetrica
 `mirrored, symmetrical, duplicated` để chặn ảnh nửa vòng gập đôi.
 `people, faces, hands` vì AI vẽ mặt người trong ảnh cầu gần như luôn hỏng.
 
+### Prompt cho AI tạo ảnh thường (không phải Skybox)
+
+ChatGPT, Gemini, Midjourney… **không tự biết xuất ảnh cầu**. Với chúng phải làm
+NGƯỢC LẠI bộ Skybox ở trên: nêu rõ `equirectangular`, `2:1`, và nhất là **tả
+luôn cái méo** — trần bị kéo dẹt ngang mép trên, sàn kéo dẹt ngang mép dưới.
+Không tả thì nó vẽ một tấm ảnh rộng bình thường, lắp vào khung 360 là sai hình.
+
+Câu **`Going all the way around: … then … then … then …`** là chỗ quan trọng
+nhất: bắt nó vẽ bốn phía khác nhau. Thiếu câu đó là ra ảnh nửa vòng gập đôi,
+đúng lỗi đã gặp — sân khấu hiện hai lần, không bao giờ thấy tường cuối.
+
+Midjourney thì thêm `--ar 2:1`. ChatGPT/Gemini thì bảo thẳng "khổ ngang 2:1".
+
+**Khán phòng**
+
+```
+A 360 degree equirectangular VR photosphere of a modest Vietnamese military theatre auditorium, shot on an Insta360 camera from the centre aisle at 1.6m height. 2:1 aspect ratio. The horizon runs exactly through the vertical middle of the image. The coffered ceiling is stretched and curved across the entire top edge; the patterned red carpet floor is stretched across the entire bottom edge. Going all the way around the room: first the wooden stage with a red curtain and painted traditional cheo opera scenery, then a warm wood panelled side wall with vertical slats and amber sconces, then the rear wall with double doors and a technical control booth window, then the opposite side wall. Rows of dark red velvet seats fill the floor all around. Empty hall, no people, evening lighting. The left and right edges must match seamlessly so the image wraps. Do not mirror or duplicate any part of the room.
+```
+
+**Sân khấu**
+
+```
+A 360 degree equirectangular VR photosphere taken standing in the middle of a modest Vietnamese theatre stage, shot on an Insta360 camera at 1.6m height. 2:1 aspect ratio. The horizon runs exactly through the vertical middle of the image. The overhead lighting rig with spotlights and black speakers is stretched across the entire top edge; the polished wooden stage floor is stretched across the entire bottom edge. Going all the way around: first the painted traditional cheo opera scenery backdrop, then red curtains and a stage wing with ropes, then out past the front of the stage to rows of empty dark red velvet seats and wood panelled walls with amber sconces, then the opposite wing. No people, warm golden stage light. The left and right edges must match seamlessly so the image wraps. Do not mirror or duplicate any part of the room.
+```
+
+**Tiền sảnh**
+
+```
+A 360 degree equirectangular VR photosphere of the lobby foyer of a modest Vietnamese theatre, shot on an Insta360 camera at 1.6m height. 2:1 aspect ratio. The horizon runs exactly through the vertical middle of the image. The flat ceiling with recessed downlights and a small chandelier is stretched across the entire top edge; the polished stone floor with patterned inlay and a red runner carpet is stretched across the entire bottom edge. Going all the way around: first tall glass entrance doors with daylight coming in, then a wooden ticket counter, then a warm wood panelled wall hung with framed black and white performance photographs, then the doors into the auditorium with potted plants beside them. No people, warm evening lighting. The left and right edges must match seamlessly so the image wraps. Do not mirror or duplicate any part of the room.
+```
+
+**Hậu trường**
+
+```
+A 360 degree equirectangular VR photosphere of the backstage wing of a modest Vietnamese theatre, shot on an Insta360 camera at 1.6m height. 2:1 aspect ratio. The horizon runs exactly through the vertical middle of the image. The exposed steel rigging grid with hanging cables is stretched across the entire top edge; the scuffed concrete floor with taped marks is stretched across the entire bottom edge. Going all the way around: first racks of traditional cheo opera costumes, then makeup mirrors with warm bulbs along a wall, then rope lines and counterweights behind the back of the scenery flats, then prop tables against a grey painted wall. No people, dim blue and amber work lights. The left and right edges must match seamlessly so the image wraps. Do not mirror or duplicate any part of the room.
+```
+
+**Negative prompt** (model nào có ô đó)
+
+```
+mirrored, symmetrical, duplicated, split image, collage, frame, border, people, faces, hands, text, watermark, logo, fisheye, tiny planet
+```
+
+`tiny planet` phải chặn vì nhiều model hay trả về ảnh tròn kiểu hành tinh nhỏ
+thay vì ảnh cầu trải phẳng.
+
+**Đừng kỳ vọng ăn ngay.** Ảnh cầu thật là thứ mấy model này làm kém nhất; gen
+vài lần rồi đưa tôi chọn. Tôi quét đủ 360 trục, tấm nào gập đôi tôi báo ngay.
+
 ### Phóng to
 
 Bản miễn phí thường chỉ cho khoảng 2048 × 1024 — chưa đủ. Phóng ×4 bằng
