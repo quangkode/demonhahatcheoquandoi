@@ -1,0 +1,144 @@
+# Ảnh 360° cho trang Trải nghiệm
+
+Bốn ảnh toàn cảnh của khung xem 360° ở `trai-nghiem.html` nằm trong thư mục này.
+
+Chừng nào chưa có ảnh thật thì `styles.css` vẫn vẽ bốn cảnh bằng gradient mô
+phỏng — trang không vỡ, chỉ là chưa có ảnh.
+
+---
+
+## Tên tệp
+
+Tên phải khớp với `data-scene` của từng điểm dừng trong `trai-nghiem.html`:
+
+| Điểm dừng | Tệp |
+|---|---|
+| Khán phòng | `khan-phong.webp` |
+| Sân khấu | `san-khau.webp` |
+| Tiền sảnh | `tien-sanh.webp` |
+| Hậu trường | `hau-truong.webp` |
+
+## Yêu cầu kỹ thuật
+
+| | |
+|---|---|
+| Kiểu ảnh | Equirectangular (ảnh cầu), mép trái khớp mép phải |
+| Tỉ lệ | **Đúng 2:1**. `pano.js` tính `cao = rộng ÷ 2`, sai tỉ lệ là méo ngay |
+| Đường chân trời | Nằm đúng **50% chiều cao** ảnh |
+| Kích thước | Nên **8192 × 4096**, tối thiểu 6000 × 3000 |
+| Định dạng | `.webp` chất lượng 80 |
+| Dung lượng | Dưới 3 MB mỗi tấm |
+
+Vì sao phải to thế: khung nhìn mặc định rộng 78° trên tổng 360°, tức ảnh phải
+rộng gấp **4,6 lần** bề ngang màn hình. Màn 1920px xem toàn màn hình đã cần
+8.862px. Ảnh 2048 hay 4096 bung ra là nhoè hẳn.
+
+## Lắp vào trang
+
+Sửa `styles.css`, thay cả khối gradient mô phỏng của từng cảnh bằng một dòng:
+
+```css
+.pano[data-scene="khan-phong"] { --pano: url("./anh/360/khan-phong.webp"); }
+```
+
+Không phải đụng gì vào `pano.js`. Xong nhớ:
+
+1. Tăng số `?v=` của `styles.css` ở **tất cả** các trang HTML.
+2. Sửa hoặc xoá dòng cảnh báo vàng `.pano__note` dưới khung — xem mục cuối.
+
+Thêm điểm dừng mới thì thêm một nút `data-scene-btn` trong `trai-nghiem.html`
+và một dòng `--pano` như trên. `pano.js` tự nhân bản hàng nút đó vào khung toàn
+màn hình, không phải khai báo hai lần.
+
+---
+
+## Dựng ảnh bằng AI
+
+Chưa có ảnh chụp thật thì dùng **Skybox AI** (skybox.blockadelabs.com) — công cụ
+sinh thẳng ra ảnh cầu khép vòng sẵn, đúng tỉ lệ 2:1.
+
+Đừng sinh rời từng mảnh rồi ghép: mỗi lần sinh là AI bịa lại ánh sáng, màu
+tường, độ cao trần, bốn mảnh ghép vào thành bốn căn phòng khác nhau.
+
+### Prompt
+
+Nhà hát Chèo Quân đội là đơn vị quân đội, khán phòng **160 chỗ, một tầng, không
+ban công** (con số này đang hiện ngay dưới khung 360 trên trang). Phải tả đúng
+quy mô đó, nếu không AI trả về nhà hát lớn nghìn chỗ, nhìn là thấy vênh với
+con số.
+
+Giữ mấy chữ `small`, `modest`, `single level`, `no balcony` trong cả bốn prompt
+để bốn cảnh ra cùng một toà nhà. Tránh `grand`, `opera house`, `chandelier`.
+
+**Khán phòng**
+
+```
+equirectangular 360 panorama, interior of a small theatre
+auditorium, about 160 seats, single level, no balcony,
+rows of dark red velvet seats, modest wooden stage with red
+curtain, wood panelled walls, warm amber lighting, empty hall,
+photorealistic
+```
+
+**Sân khấu** (đứng trên sân khấu nhìn ra)
+
+```
+equirectangular 360 panorama, standing on a small theatre stage
+looking out, red stage curtains on both sides, painted scenic
+backdrop, overhead lighting rig, about 160 empty red seats in
+the distance, single level, no balcony, warm golden light,
+photorealistic
+```
+
+**Tiền sảnh**
+
+```
+equirectangular 360 panorama, small theatre lobby foyer, cream
+walls with framed performance photographs, tall glass doors with
+daylight coming in, polished stone floor, potted plants, warm
+ceiling lights, modest scale, photorealistic
+```
+
+**Hậu trường**
+
+```
+equirectangular 360 panorama, backstage of a small theatre,
+costume racks with traditional opera costumes, makeup mirrors
+with warm bulbs, ropes and rigging, dim blue and amber light,
+wooden floor, photorealistic
+```
+
+**Negative prompt:** `people, faces, text, watermark, logo, tripod, fisheye`
+
+Đừng bảo AI vẽ người: mặt người trong ảnh 360 luôn méo, mà cũng không nên bịa
+ra diễn viên của Nhà hát.
+
+### Phóng to
+
+Bản miễn phí thường chỉ cho khoảng 2048 × 1024 — chưa đủ. Phóng ×4 bằng
+**Upscayl** (miễn phí, có bản Windows) hoặc Topaz Gigapixel, chọn mô hình dành
+cho ảnh thật.
+
+**Phóng cả tấm một lần.** Cắt ra từng mảnh rồi phóng riêng là gãy mối nối vòng
+tròn, quay một vòng sẽ thấy vạch.
+
+### Kiểm trước khi lắp
+
+1. **Tỉ lệ** đúng 2:1 chưa.
+2. **Mép trái có khớp mép phải không** — ghép mép phải sang cạnh mép trái rồi
+   soi chỗ nối. Đây là lỗi hay gặp nhất và mắt thường khó thấy.
+3. **Đường chân trời** có nằm đúng giữa ảnh không.
+
+---
+
+## Hai điều phải nhớ
+
+**Ảnh AI không phải Nhà hát thật.** Dòng cảnh báo vàng `.pano__note` dưới khung
+360 phải giữ, và phải ghi rõ là ảnh dựng bằng AI chứ không phải ảnh chụp tại
+Nhà hát. Bỏ dòng đó đi là người xem tưởng thật, đến nơi thấy khác hẳn. Chỉ khi
+nào thay bằng ảnh chụp thật mới được xoá.
+
+**Khung xem hiện chỉ trượt ảnh phẳng, không nắn phối cảnh.** Đường thẳng — mép
+sân khấu, khung cửa — sẽ hơi cong, nhìn lên trần hoặc xuống sàn càng rõ. Muốn
+thẳng thật thì phải đổi sang bộ xem WebGL (Pannellum, ~25 KB, nạp từ CDN, không
+cần build). Lắp ảnh thật vào xem cong tới mức nào rồi quyết.

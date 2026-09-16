@@ -133,6 +133,10 @@ Phần thưởng của bản thân Nhà hát (huân chương, danh hiệu Anh h�
 - Ảnh nghệ sĩ có hai bản: bản đầy đủ ở `anh/nghe-si/` cho lưới chân dung bên trang
   Giới thiệu, và bản cắt vuông quanh mặt ở `anh/nghe-si/tron/` cho khung tròn ở trang
   chủ. Đừng dùng lẫn: thả ảnh đầy đủ vào khung tròn là mặt bé tí và lệch khỏi tâm.
+- Ảnh toàn cảnh 360° của trang Trải nghiệm để ở `anh/360/`, hiện **chưa có tấm nào**
+  — `styles.css` vẫn vẽ bốn cảnh bằng gradient mô phỏng. Yêu cầu kỹ thuật (ảnh cầu
+  2:1, tối thiểu 6000px ngang), cách lắp vào CSS và prompt dựng ảnh bằng AI nằm ở
+  `anh/360/HUONG-DAN.md`.
 
 ## Nội dung: cái nào thật, cái nào còn là dữ liệu mẫu
 
