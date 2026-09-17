@@ -14,9 +14,17 @@ Tên phải khớp với `data-scene` của từng điểm dừng trong `trai-ng
 | Điểm dừng | Tệp | Tình trạng |
 |---|---|---|
 | Khán phòng | `khan-phong.webp` | **đã có** — ảnh chụp thật, 1024 × 512, đủ 360°, còn nhỏ |
-| Sân khấu | `san-khau.webp` | chưa có |
-| Tiền sảnh | `tien-sanh.webp` | chưa có |
-| Hậu trường | `hau-truong.webp` | chưa có |
+| Sân khấu | `san-khau.webp` | **đã có** — ảnh AI, 5120 × 2560 · *đầy robot* |
+| Tiền sảnh | `tien-sanh.webp` | **đã có** — ảnh AI, 5120 × 2560 · *đầy robot* |
+| Hậu trường | `hau-truong.webp` | **đã có** — ảnh AI, 2912 × 1456 · *đầy robot* |
+
+> **Ba tấm AI đang có robot người máy đứng trong ảnh.** Khán giả trong tấm sân
+> khấu là hàng trăm người máy giống hệt nhau kín cả tầng dưới lẫn ban công; tiền
+> sảnh và hậu trường mỗi chỗ chừng chục con, cộng một con robot phục vụ to đùng
+> giữa lối đi. Chữ trên biển cũng sai: "ARMY CHEO THEAYRE", "ENTRANCE TO
+> AUDITODIOM". Gen lại thì thêm vào phần cấm: `robot, android, humanoid robot,
+> mannequin, cyborg, mechanical figure` — và bỏ hẳn `people` khỏi phần cấm nếu
+> muốn có người thật, vì cấm người là AI hay đắp người máy vào thay.
 
 ## Yêu cầu kỹ thuật
 

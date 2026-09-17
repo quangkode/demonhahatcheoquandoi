@@ -1765,40 +1765,23 @@ kbd {
    Đổi ?v= là đổi đường dẫn, trình duyệt coi như tệp khác và tải mới. Đây là lý
    do tấm 360 gập đôi đầu tiên còn bám lại sau khi đã thay ảnh. */
 .pano[data-scene="khan-phong"] { --pano: url("./anh/360/khan-phong.webp?v=9"); }
-.pano[data-scene="san-khau"] {
-  --pano:
-    radial-gradient(30% 20% at 50% 46%, rgba(255, 224, 94, .55), transparent 70%),
-    radial-gradient(12% 10% at 22% 44%, rgba(255, 235, 190, .35), transparent 70%),
-    radial-gradient(12% 10% at 78% 44%, rgba(255, 235, 190, .35), transparent 70%),
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, .34) 0 .6%, rgba(255, 255, 255, .06) .6% 1.25%),
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, .30) 0, transparent 1.5625%, rgba(0, 0, 0, .30) 3.125%),
-    linear-gradient(180deg,
-      #08080a 0%, #14100e 30%, #3a2412 44%, #a68500 51%, #4a2c12 60%, #16100c 78%, #0a0808 100%);
-}
-.pano[data-scene="tien-sanh"] {
-  --pano:
-    radial-gradient(24% 18% at 30% 45%, rgba(255, 255, 255, .42), transparent 72%),
-    radial-gradient(20% 15% at 72% 46%, rgba(255, 248, 230, .34), transparent 72%),
-    repeating-linear-gradient(90deg,
-      rgba(34, 55, 47, .26) 0 .5%, rgba(250, 246, 238, .14) .5% 1%, rgba(0, 0, 0, .12) 1% 1.25%),
-    repeating-linear-gradient(90deg,
-      rgba(20, 26, 21, .22) 0, transparent 1.5625%, rgba(20, 26, 21, .22) 3.125%),
-    linear-gradient(180deg,
-      #141a15 0%, #223026 26%, #5c6b52 44%, #cbbfa4 51%, #8a8168 58%, #3a3a2e 74%, #14150f 100%);
-}
-.pano[data-scene="hau-truong"] {
-  --pano:
-    radial-gradient(16% 13% at 74% 44%, rgba(255, 205, 0, .34), transparent 72%),
-    radial-gradient(14% 11% at 30% 46%, rgba(180, 200, 220, .20), transparent 72%),
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, .40) 0 .4%, rgba(255, 255, 255, .06) .4% .8%, rgba(0, 0, 0, .20) .8% 1.25%),
-    repeating-linear-gradient(90deg,
-      rgba(0, 0, 0, .32) 0, transparent 1.5625%, rgba(0, 0, 0, .32) 3.125%),
-    linear-gradient(180deg,
-      #070809 0%, #12171d 28%, #27313c 45%, #46545f 51%, #2b333a 62%, #12161a 80%, #08090b 100%);
-}
+/* Ba cảnh còn lại. Ảnh do người dùng DỰNG BẰNG AI, không phải ảnh chụp.
+
+   Kiểm cùng lối với khán phòng — mối nối trái-phải, quét đủ 360 trục soi gương,
+   rồi mở vùng sau lưng và đối chiếu hai nửa mới dám kết luận:
+
+     sân khấu   5120×2560 · nối 7,4 (nền 10,1) · gương thấp nhất 16,7 (nền 43,9)
+     tiền sảnh  5120×2560 · nối 5,6 (nền  9,4) · gương thấp nhất 29,1 (nền 45,2)
+     hậu trường 2912×1456 · nối 6,3 (nền  9,3) · gương thấp nhất 28,2 (nền 43,3)
+
+   Sân khấu chấm 16,7 nên máy báo ngờ gập đôi, nhưng đặt nửa trái cạnh nửa phải
+   lật ngược thì khác nhau rõ: phông vẽ khác, trống khác, diễn viên khác. Thấp là
+   vì khán phòng vốn đối xứng qua trục sân khấu, y như tấm khán phòng.
+
+   PHẢI TĂNG ?v= MỖI LẦN THAY ẢNH — lý do ghi dài ở khối khán phòng bên trên. */
+.pano[data-scene="san-khau"]   { --pano: url("./anh/360/san-khau.webp?v=1"); }
+.pano[data-scene="tien-sanh"]  { --pano: url("./anh/360/tien-sanh.webp?v=1"); }
+.pano[data-scene="hau-truong"] { --pano: url("./anh/360/hau-truong.webp?v=1"); }
 
 /* ---------- Số liệu nhanh ---------- */
 /* ---------- Thẻ nhạc cụ / tác phẩm ---------- */
