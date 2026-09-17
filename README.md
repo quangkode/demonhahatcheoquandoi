@@ -141,9 +141,14 @@ Phần thưởng của bản thân Nhà hát (huân chương, danh hiệu Anh h�
 - `anh/nhac-cu/` đựng **ảnh từng nhạc cụ nền trong suốt** — thứ sẽ bay ra lơ lửng khi
   bấm cái hộp giữa đáy màn lúc xem 360 toàn màn hình. Hộp đã dựng, bấm chưa làm gì.
   Yêu cầu ảnh ở `anh/nhac-cu/HUONG-DAN.md`. Hiện **chưa có tấm nào**.
-- `mo-hinh/` đựng **mô hình 3D `.glb`** của chính mấy nhạc cụ đó, xem xoay được nhiều
-  góc. Khung xem 3D **chưa dựng**, đây mới là chỗ để sẵn tệp. Yêu cầu ở
-  `mo-hinh/HUONG-DAN.md`. Hiện **chưa có tệp nào**.
+- `mo-hinh/` đựng **mô hình 3D `.glb`** của nhạc cụ — **đã có sáu tệp và đã chạy**:
+  bấm cái hộp giữa đáy màn lúc xem 360 toàn màn hình thì chúng bung ra, trôi lơ
+  lửng, kéo được từng cây, thả tay ra là bay theo đà rồi dạt về chỗ cũ. Dựng bằng
+  `nhac-cu.js` (three.js nạp động từ CDN — **thư viện ngoài duy nhất của cả trang**,
+  chỉ tải khi thật sự vào toàn màn hình). Yêu cầu tệp ở `mo-hinh/HUONG-DAN.md`.
+- `am/nhac-cu/` đựng **tiếng nhạc cụ**: chạm vào mô hình đang trôi là kêu. Đường dẫn
+  đã nối sẵn, thả `.mp3` đúng tên là tự chạy. Hiện **chưa có tệp nào** nên chạm vào
+  vẫn kéo được, chỉ là im. Yêu cầu ở `am/nhac-cu/HUONG-DAN.md`.
 
 ## Nội dung: cái nào thật, cái nào còn là dữ liệu mẫu
 

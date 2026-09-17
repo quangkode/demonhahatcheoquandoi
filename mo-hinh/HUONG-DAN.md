@@ -3,27 +3,54 @@
 Thư mục này đựng **mô hình 3D của nhạc cụ** — thứ xem xoay được nhiều góc, khác
 với ảnh phẳng nền trong suốt ở `anh/nhac-cu/`.
 
-**Khung xem 3D chưa dựng.** Đây mới là chỗ để sẵn tệp. Thả mô hình vào rồi bảo
-tôi thì tôi lắp khung xem.
+**Đã chạy.** Bấm cái hộp giữa đáy màn lúc đang xem 360 toàn màn hình thì nhạc cụ
+bung ra, trôi lơ lửng quanh người xem; kéo được từng cây, thả tay ra là bay theo
+đà rồi dạt về chỗ cũ; chạm vào thì kêu. Dựng ở `nhac-cu.js`.
 
 ---
 
 ## Tên tệp
 
-Cùng mã với ảnh phẳng, chỉ khác đuôi:
+Sáu tệp hiện có, đã lắp vào khung 360:
 
-| Nhạc cụ | Tệp |
+| Tệp | Hiện tên là | Cỡ | Tam giác |
+|---|---|---|---|
+| `dan-nhi.glb` | Đàn nhị | 208 KB | 5.484 |
+| `ruan.glb` | Đàn nguyệt | 420 KB | 12.576 |
+| `sao-tre.glb` | Sáo trúc | 249 KB | 5.136 |
+| `trong-com.glb` | Trống cơm | 757 KB | 28.700 |
+| `mo-go.glb` | Mõ | 475 KB | 18.116 |
+| `cong-chieng.glb` | Cồng chiêng | 739 KB | 26.724 |
+
+**`ruan.glb` cần soát lại.** Ruan (阮, nguyễn cầm) là nhạc cụ Trung Quốc. Dựng
+lên nhìn thì đúng dáng thùng tròn dẹt cần dài của đàn nguyệt Việt Nam, nên tạm
+để tên "Đàn nguyệt", nhưng đàn nguyệt chỉ có **hai dây**, ruan có **bốn**. Đây là
+trang của một nhà hát chèo, ai biết nghề nhìn là ra. Tìm được mô hình đàn nguyệt
+đúng thì thay, đổi cả `ma` trong bảng `NHAC_CU` của `nhac-cu.js`.
+
+Thêm nhạc cụ mới: thả `.glb` vào đây rồi thêm một dòng vào bảng `NHAC_CU`
+trong `nhac-cu.js`. Mỗi dòng khai:
+
+| Cột | Nghĩa |
 |---|---|
-| Đàn nhị | `dan-nhi.glb` |
-| Trống đế | `trong-de.glb` |
-| Đàn nguyệt | `dan-nguyet.glb` |
-| Sáo trúc | `sao-truc.glb` |
-| Phách & mõ | `phach-mo.glb` |
-| Thanh la & chũm chọe | `thanh-la.glb` |
+| `ma` | tên tệp, không đuôi. Cũng là tên tệp tiếng bên `am/nhac-cu/` |
+| `ten` | tên tiếng Việt |
+| `goc` / `cao` | chỗ đứng, tính bằng độ so với hướng đang nhìn lúc mở hộp |
+| `xa` | cách người xem bao nhiêu; lệch nhau chút cho có chiều sâu |
+| `nga` | ngả trước sau (độ) — cây nằm ngang thì chếch lên cho rõ hình |
+| `quay` | chỉnh quanh trục đứng, để mặt đẹp quay về phía người xem |
+
+Chọn `quay` bằng cách dựng thử mô hình ở vài góc rồi ngắm. **Đừng để nó quay
+CẠNH về phía người xem**: đo thật, cây sáo nhìn từ đầu chỉ còn 28×11 điểm ảnh
+trên màn 1366, coi như biến mất.
 
 ---
 
 ## Yêu cầu kỹ thuật
+
+Sáu tệp hiện có đều đã soát và đạt hết: glTF 2.0 hợp lệ, không dùng Draco hay
+KTX2, ảnh bề mặt nhúng sẵn trong tệp, không kèm hoạt hình hay camera thừa. Tổng
+2,8 MB — chỉ tải khi người xem bước vào toàn màn hình.
 
 **Định dạng: `.glb`, không phải gì khác.**
 
@@ -38,9 +65,12 @@ Binary (.glb)**.
 **Dưới 3 MB mỗi mô hình.** 5 MB là ngưỡng phải nén lại. Trang này không có bước
 build, tệp nặng là người xem phải tải nguyên vẹn từng byte.
 
-**Trục Y hướng lên, vật đặt giữa gốc toạ độ.** Đây là quy ước của glTF. Mô hình
-lệch khỏi gốc thì lúc xoay nó quay quanh một điểm ở ngoài không trung chứ không
-quay quanh chính nó.
+**Trục Y hướng lên.** Quy ước của glTF.
+
+Vật đặt giữa gốc toạ độ thì tốt, nhưng **không bắt buộc**: cả sáu tệp hiện có
+đều dựng nhạc cụ ĐỨNG TRÊN MẶT ĐẤT nên tâm nằm lơ lửng phía trên gốc, và
+`nhac-cu.js` tự đo hộp bao rồi dời tâm về đúng chỗ trước khi cho bay. Thiếu
+bước đó thì lúc xoay nó văng vòng tròn quanh một điểm ngoài không khí.
 
 **Kích thước thật, tính bằng mét.** Đàn nguyệt dài khoảng 1,08m thì trong tệp
 cũng phải là 1,08 đơn vị.
@@ -98,5 +128,6 @@ riêng nào nữa.
 Nếu tệp trên 5 MB thì nói trước để tôi nén lại chứ đừng đẩy thẳng — đẩy rồi mà
 sau muốn thay bằng bản nhẹ hơn thì bản nặng vẫn nằm lại mãi trong lịch sử git.
 
-Xem thêm: `anh/nhac-cu/HUONG-DAN.md` (ảnh phẳng nền trong suốt của chính mấy
-nhạc cụ này), `anh/360/HUONG-DAN.md` (ảnh toàn cảnh).
+Xem thêm: `am/nhac-cu/HUONG-DAN.md` (tiếng nhạc cụ — chạm vào mô hình là kêu),
+`anh/nhac-cu/HUONG-DAN.md` (ảnh phẳng nền trong suốt),
+`anh/360/HUONG-DAN.md` (ảnh toàn cảnh).

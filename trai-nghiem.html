@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Serif:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=73" />
+<link rel="stylesheet" href="./styles.css?v=74" />
 <link rel="icon" type="image/png" href="./anh/logo.png" />
 </head>
 <body>
@@ -202,10 +202,31 @@
 
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
+<!-- three.js — thư viện ngoài DUY NHẤT của cả trang web, chỉ dùng để dựng mấy
+     mô hình nhạc cụ 3D trong khung 360. Ghim cứng đúng một phiên bản; đừng đổi
+     sang "latest", three.js đổi API giữa các bản khá thường.
+
+     Bản đồ này mới chỉ khai CHỖ LẤY, chưa tải gì cả. nhac-cu.js dùng import
+     động nên 715 KB kia chỉ tải khi người xem thật sự bước vào toàn màn hình —
+     ai chỉ lướt qua trang thì không phải trả một byte nào.
+
+     Trình duyệt cũ không hiểu importmap thì import động thất bại, nhac-cu.js
+     bắt lấy rồi thôi: bấm hộp nhạc cụ không ra gì, còn lại chạy nguyên vẹn. -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+  }
+}
+</script>
 <script src="./script.js?v=18"></script>
-<script src="./pano.js?v=18"></script>
+<script src="./pano.js?v=19"></script>
 <script>
   window.Pano.mount(document.getElementById('pano'));
 </script>
+<!-- Chạy sau pano.js: kịch bản kiểu module luôn được hoãn tới khi tài liệu
+     dựng xong, nên lúc nó chạy thì khung 360 đã gắn sẵn. -->
+<script type="module" src="./nhac-cu.js?v=1"></script>
 </body>
 </html>

@@ -174,19 +174,62 @@
     this.cua.setAttribute('aria-expanded', 'false');
     this.cua.setAttribute('aria-controls', 'panoBang');
 
-    /* ---------- Hộp nhạc cụ ----------
-       Mới dựng cái hộp theo yêu cầu, bấm chưa làm gì. Phần nhạc cụ bay lơ
-       lửng sẽ gắn vào hàm rỗng này sau. */
-    nut(this.root, 'pano__hop',
+    /* ---------- Hộp nhạc cụ ---------- */
+    this.hopMo = false;
+    this.hop = nut(this.root, 'pano__hop',
       '<span class="pano__hop-vong" aria-hidden="true">'
       + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" '
       + 'stroke-linecap="round" stroke-linejoin="round">'
       + '<path d="M3 9.4 5.3 5a2 2 0 0 1 1.8-1.1h9.8A2 2 0 0 1 18.7 5L21 9.4"/>'
       + '<rect x="3" y="9.4" width="18" height="10.7" rx="2"/>'
       + '<path d="M3 13.6h18"/><path d="M10.4 13.6h3.2v3h-3.2z"/></svg></span>'
-      + '<span>Hộp nhạc cụ</span>',
-      'Hộp nhạc cụ',
-      function () { /* chưa gắn gì */ });
+      + '<span class="pano__hop-chu">Hộp nhạc cụ</span>',
+      'Mở hộp nhạc cụ',
+      function () { self.moHop(!self.hopMo); });
+    this.hop.setAttribute('aria-pressed', 'false');
+  };
+
+  /* Mở hoặc đóng hộp nhạc cụ.
+
+     pano.js KHÔNG tự vẽ nhạc cụ — nó chỉ bắn ra một sự kiện, nhac-cu.js nghe
+     rồi dựng cảnh 3D. Tách rời như vậy để mạng chặn CDN three.js hay tệp mô
+     hình hỏng thì khung 360 vẫn chạy nguyên vẹn, chỉ là bấm hộp không ra gì. */
+  Pano.prototype.moHop = function (on) {
+    this.hopMo = !!on;
+    if (this.hop) {
+      this.hop.setAttribute('aria-pressed', String(this.hopMo));
+      var nhan = this.hopMo ? 'Đóng hộp nhạc cụ' : 'Mở hộp nhạc cụ';
+      this.hop.setAttribute('aria-label', nhan);
+      this.hop.title = nhan;
+    }
+    this.root.classList.toggle('co-nhac-cu', this.hopMo);
+    /* Mở hộp là dừng tự xoay. Nhạc cụ neo theo CĂN PHÒNG chứ không dán vào màn
+       hình, nên cảnh cứ xoay đều thì chúng lừ lừ trôi khỏi khung, mở hộp ra
+       một lúc là trống trơn. */
+    if (this.hopMo) this.setAuto(false);
+    this.bao('pano:hop', { mo: this.hopMo });
+  };
+
+  Pano.prototype.bao = function (ten, chi) {
+    try {
+      this.root.dispatchEvent(new CustomEvent(ten, { detail: chi }));
+    } catch (e) {}
+  };
+
+  /* Hướng nhìn hiện tại quy ra GÓC THẬT, để nhac-cu.js gắn camera 3D trùng
+     khít với khung 360. Nhờ vậy nhạc cụ đứng yên trong phòng khi người xem kéo
+     nhìn quanh, chứ không dán cứng vào màn hình như một lớp dán đè lên.
+
+     yaw    : độ, hướng nằm CHÍNH GIỮA khung (mép trái khung mới là this.yaw)
+     pitch  : độ, dương là đang ngước lên
+     fovDoc : góc mở theo CHIỀU DỌC — three.js dùng fov dọc, this.fov là ngang */
+  Pano.prototype.huongNhin = function () {
+    var h = this.root.clientHeight;
+    return {
+      yaw: this.yaw + this.fov / 2,
+      pitch: 90 - 180 * (this.pitchFrac * this.maxY + h / 2) / this.imgH,
+      fovDoc: 180 * h / this.imgH
+    };
   };
 
   /* Mở hoặc đóng bảng sau cánh cửa. */
@@ -325,7 +368,10 @@
     this.root.classList.toggle('is-immersive', on);
     // khối chữ nổi trên ảnh tắt đi: vào trong rồi thì chỉ còn cảnh
     if (this.hero) this.hero.classList.toggle('is-full', on);
-    if (!on) this.moCua(false);
+    if (!on) { this.moCua(false); this.moHop(false); }
+    /* Báo ra ngay lúc vừa vào: nhac-cu.js nhân lúc này tải trước mấy tệp .glb
+       để khi người xem bấm hộp là bung ra liền, không phải đợi. */
+    this.bao('pano:full', { on: on });
     // dòng gợi ý "Kéo để nhìn quanh" chỉ hiện trong này, cho nó một lượt nữa
     if (on) this.root.classList.remove('has-moved');
 
@@ -464,7 +510,10 @@
   global.Pano = {
     mount: function (el) {
       if (!el || !el.querySelector('.pano__view')) return null;
-      return new Pano(el);
+      var p = new Pano(el);
+      // nhac-cu.js cần hỏi hướng nhìn mỗi khung hình nên phải với tới được
+      el.__pano = p;
+      return p;
     }
   };
 })(window);

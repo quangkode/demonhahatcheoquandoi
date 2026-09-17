@@ -1707,6 +1707,31 @@ kbd {
   background: var(--gold); color: #3a2a00;
 }
 .pano__hop-vong svg { width: 20px; height: 20px; }
+/* hộp đang mở: đổi màu cho biết bấm lần nữa là đóng */
+.pano__hop[aria-pressed="true"] {
+  background: rgba(224, 180, 0, .92); border-color: var(--gold); color: #2e2100;
+}
+.pano__hop[aria-pressed="true"] .pano__hop-vong {
+  background: #2e2100; color: var(--gold-light);
+}
+
+/* ---------- Nhạc cụ 3D ----------
+   Canvas nằm trên ảnh 360 nhưng dưới hàng nút (z-index 3, nút là 4-6).
+
+   Đóng hộp thì pointer-events:none, cú kéo xuyên thẳng xuống .pano để nhìn
+   quanh như thường. Mở hộp mới bật nhận chuột, và lúc đó nhac-cu.js tự phân
+   xử từng cú bấm: trúng nhạc cụ thì giữ lại mà kéo, trượt ra ngoài thì không
+   chặn, để sự kiện nổi lên .pano — vẫn xoay cảnh được bình thường. */
+.pano__3d {
+  position: absolute; inset: 0; z-index: 3;
+  pointer-events: none; touch-action: none;
+  opacity: 0; transition: opacity .35s ease;
+}
+/* .is-hien do nhac-cu.js bật/tắt, KHÔNG dùng .co-nhac-cu: lớp kia mất ngay lúc
+   bấm đóng, mà nhạc cụ còn phải bay về hộp thêm hơn nửa giây nữa mới xong */
+.pano__3d.is-hien { opacity: 1; pointer-events: auto; }
+.pano__3d.tren-vat { cursor: grab; }
+.pano__3d.dang-keo { cursor: grabbing; }
 
 /* ---------- Ảnh toàn cảnh mô phỏng ----------
    Mỗi cảnh là một chồng gradient được cắt trải đều quanh hình trụ.
