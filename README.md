@@ -138,17 +138,19 @@ Phần thưởng của bản thân Nhà hát (huân chương, danh hiệu Anh h�
   `styles.css` vẫn vẽ bằng gradient mô phỏng. Yêu cầu kỹ thuật (ảnh cầu 2:1), cách
   lắp vào CSS, cách kiểm ảnh có đủ 360° thật không, và prompt dựng ảnh bằng AI nằm ở
   `anh/360/HUONG-DAN.md`.
-- `anh/nhac-cu/` đựng **ảnh từng nhạc cụ nền trong suốt** — thứ sẽ bay ra lơ lửng khi
-  bấm cái hộp giữa đáy màn lúc xem 360 toàn màn hình. Hộp đã dựng, bấm chưa làm gì.
-  Yêu cầu ảnh ở `anh/nhac-cu/HUONG-DAN.md`. Hiện **chưa có tấm nào**.
+- `anh/nhac-cu/` đựng **tấm phông sân khấu** `nen-san-khau.webp` — rèm nhung đỏ và
+  sàn gỗ, kéo lên che kín cảnh 360 khi mở hộp nhạc cụ. Ảnh dựng bằng AI. Yêu cầu
+  ảnh thay thế ở `anh/nhac-cu/HUONG-DAN.md`.
 - `mo-hinh/` đựng **mô hình 3D `.glb`** của nhạc cụ — **đã có sáu tệp và đã chạy**:
-  bấm cái hộp giữa đáy màn lúc xem 360 toàn màn hình thì chúng bung ra, trôi lơ
-  lửng, kéo được từng cây, thả tay ra là bay theo đà rồi dạt về chỗ cũ. Dựng bằng
+  bấm cái hộp giữa đáy màn lúc xem 360 toàn màn hình thì phông sân khấu kéo lên,
+  sáu nhạc cụ lần lượt mọc khỏi mặt sàn, xếp hàng và xoay tròn chầm chậm; chạm vào
+  cây nào thì cây đó bay lơ lửng lên dưới một luồng đèn rọi, cả sân khấu còn lại
+  tối đi; kéo đi được, thả tay ra là bay theo đà rồi dạt về chỗ cũ. Dựng bằng
   `nhac-cu.js` (three.js nạp động từ CDN — **thư viện ngoài duy nhất của cả trang**,
   chỉ tải khi thật sự vào toàn màn hình). Yêu cầu tệp ở `mo-hinh/HUONG-DAN.md`.
-- `am/nhac-cu/` đựng **tiếng nhạc cụ**: chạm vào mô hình đang trôi là kêu. Đường dẫn
+- `am/nhac-cu/` đựng **tiếng nhạc cụ**: chạm vào cây nào thì cây đó kêu. Đường dẫn
   đã nối sẵn, thả `.mp3` đúng tên là tự chạy. Hiện **chưa có tệp nào** nên chạm vào
-  vẫn kéo được, chỉ là im. Yêu cầu ở `am/nhac-cu/HUONG-DAN.md`.
+  vẫn bay lên vẫn sáng đèn, chỉ là im. Yêu cầu ở `am/nhac-cu/HUONG-DAN.md`.
 
 ## Nội dung: cái nào thật, cái nào còn là dữ liệu mẫu
 

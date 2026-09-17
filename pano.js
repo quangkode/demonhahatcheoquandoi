@@ -192,8 +192,9 @@
   /* Mở hoặc đóng hộp nhạc cụ.
 
      pano.js KHÔNG tự vẽ nhạc cụ — nó chỉ bắn ra một sự kiện, nhac-cu.js nghe
-     rồi dựng cảnh 3D. Tách rời như vậy để mạng chặn CDN three.js hay tệp mô
-     hình hỏng thì khung 360 vẫn chạy nguyên vẹn, chỉ là bấm hộp không ra gì. */
+     rồi dựng cả sân khấu 3D đè lên cảnh 360. Tách rời như vậy để mạng chặn CDN
+     three.js hay tệp mô hình hỏng thì khung 360 vẫn chạy nguyên vẹn, chỉ là
+     bấm hộp không ra gì. */
   Pano.prototype.moHop = function (on) {
     this.hopMo = !!on;
     if (this.hop) {
@@ -203,10 +204,10 @@
       this.hop.title = nhan;
     }
     this.root.classList.toggle('co-nhac-cu', this.hopMo);
-    /* Mở hộp là dừng tự xoay. Nhạc cụ neo theo CĂN PHÒNG chứ không dán vào màn
-       hình, nên cảnh cứ xoay đều thì chúng lừ lừ trôi khỏi khung, mở hộp ra
-       một lúc là trống trơn. */
-    if (this.hopMo) this.setAuto(false);
+    /* Mở hộp là dừng tự xoay và khép cửa lại. Sân khấu che kín cảnh 360, nên
+       để nó xoay tiếp thì chỉ tổ ngốn pin mà chẳng ai thấy, còn bảng chọn
+       không gian thì lúc này đổi cảnh nào cũng như nhau. */
+    if (this.hopMo) { this.setAuto(false); this.moCua(false); }
     this.bao('pano:hop', { mo: this.hopMo });
   };
 
@@ -214,22 +215,6 @@
     try {
       this.root.dispatchEvent(new CustomEvent(ten, { detail: chi }));
     } catch (e) {}
-  };
-
-  /* Hướng nhìn hiện tại quy ra GÓC THẬT, để nhac-cu.js gắn camera 3D trùng
-     khít với khung 360. Nhờ vậy nhạc cụ đứng yên trong phòng khi người xem kéo
-     nhìn quanh, chứ không dán cứng vào màn hình như một lớp dán đè lên.
-
-     yaw    : độ, hướng nằm CHÍNH GIỮA khung (mép trái khung mới là this.yaw)
-     pitch  : độ, dương là đang ngước lên
-     fovDoc : góc mở theo CHIỀU DỌC — three.js dùng fov dọc, this.fov là ngang */
-  Pano.prototype.huongNhin = function () {
-    var h = this.root.clientHeight;
-    return {
-      yaw: this.yaw + this.fov / 2,
-      pitch: 90 - 180 * (this.pitchFrac * this.maxY + h / 2) / this.imgH,
-      fovDoc: 180 * h / this.imgH
-    };
   };
 
   /* Mở hoặc đóng bảng sau cánh cửa. */

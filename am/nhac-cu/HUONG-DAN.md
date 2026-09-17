@@ -1,7 +1,8 @@
 # Tiếng nhạc cụ
 
-Thư mục này đựng **tiếng của từng nhạc cụ**. Người xem chạm vào mô hình 3D đang
-trôi lơ lửng trong khung 360 thì nghe thấy tiếng nhạc cụ đó.
+Thư mục này đựng **tiếng của từng nhạc cụ**. Người xem chạm vào một cây trên
+sân khấu nhạc cụ — cây đó bay lơ lửng lên, đèn rọi vào — thì nghe thấy tiếng
+của chính nó.
 
 Đường dẫn đã nối sẵn trong `nhac-cu.js`. **Thả tệp vào đúng tên là tự kêu**,
 không phải sửa dòng mã nào.
@@ -21,9 +22,9 @@ Mã phải trùng với tệp mô hình bên `mo-hinh/`:
 | Mõ | `mo-go.mp3` | `mo-hinh/mo-go.glb` |
 | Cồng chiêng | `cong-chieng.mp3` | `mo-hinh/cong-chieng.glb` |
 
-Chưa có tệp nào thì chạm vào nhạc cụ vẫn kéo được, chỉ là không ra tiếng. Không
-lỗi gì cả — `nhac-cu.js` thử phát, bị từ chối thì thôi và ghi nhớ để khỏi thử
-lại mỗi lần chạm.
+Chưa có tệp nào thì chạm vào nhạc cụ vẫn bay lên, vẫn sáng đèn, vẫn kéo đi
+được, chỉ là im. Không lỗi gì cả — `nhac-cu.js` thử phát, bị từ chối thì thôi
+và ghi nhớ để khỏi thử lại mỗi lần chạm.
 
 ---
 

@@ -3,9 +3,12 @@
 Thư mục này đựng **mô hình 3D của nhạc cụ** — thứ xem xoay được nhiều góc, khác
 với ảnh phẳng nền trong suốt ở `anh/nhac-cu/`.
 
-**Đã chạy.** Bấm cái hộp giữa đáy màn lúc đang xem 360 toàn màn hình thì nhạc cụ
-bung ra, trôi lơ lửng quanh người xem; kéo được từng cây, thả tay ra là bay theo
-đà rồi dạt về chỗ cũ; chạm vào thì kêu. Dựng ở `nhac-cu.js`.
+**Đã chạy.** Bấm cái hộp giữa đáy màn lúc đang xem 360 toàn màn hình thì một
+tấm phông sân khấu kéo lên che kín cảnh, rồi sáu nhạc cụ lần lượt mọc lên khỏi
+mặt sàn, xếp thành hàng và xoay tròn chầm chậm. Chạm vào cây nào thì cây đó bay
+lơ lửng lên, một luồng đèn rọi xuống đúng nó, cả sân khấu còn lại tối đi, và nó
+kêu lên tiếng của chính mình. Đang lơ lửng thì kéo đi được, thả tay ra là bay
+theo đà rồi dạt về chỗ cũ. Dựng ở `nhac-cu.js`.
 
 ---
 
@@ -35,14 +38,29 @@ trong `nhac-cu.js`. Mỗi dòng khai:
 |---|---|
 | `ma` | tên tệp, không đuôi. Cũng là tên tệp tiếng bên `am/nhac-cu/` |
 | `ten` | tên tiếng Việt |
-| `goc` / `cao` | chỗ đứng, tính bằng độ so với hướng đang nhìn lúc mở hộp |
-| `xa` | cách người xem bao nhiêu; lệch nhau chút cho có chiều sâu |
-| `nga` | ngả trước sau (độ) — cây nằm ngang thì chếch lên cho rõ hình |
-| `quay` | chỉnh quanh trục đứng, để mặt đẹp quay về phía người xem |
+| `quay` | chỉnh quanh trục đứng (độ), để mặt đẹp quay về phía người xem |
+| `nghieng` | nhấc một đầu lên (độ, quanh trục Z) cho cây nằm ngang ra hình |
+| `co` | chỉnh riêng cỡ, để 1 là theo công thức chung |
 
-Chọn `quay` bằng cách dựng thử mô hình ở vài góc rồi ngắm. **Đừng để nó quay
-CẠNH về phía người xem**: đo thật, cây sáo nhìn từ đầu chỉ còn 28×11 điểm ảnh
-trên màn 1366, coi như biến mất.
+**Chỗ đứng thì không phải khai.** `nhac-cu.js` tự rải sáu cây theo bề ngang
+khung: màn rộng thì một hàng, màn hẹp thì zích zắc thành hai ba hàng lùi dần về
+sau, cây to chiếm nhiều chỗ hơn cây nhỏ.
+
+**Cỡ cũng không phải khai.** Nó đo hộp bao rồi cào bằng theo CĂN BẬC HAI cỡ
+thật: giữ đúng thứ tự to nhỏ mà nén khoảng cách lại, nên giàn cồng chiêng 1,46m
+không nuốt chửng cây sáo 0,67m mà cũng không to bằng nhau như đồ chơi. Chỉ động
+tới cột `co` khi tệp có kèm đồ lặt vặt nằm rải ra làm hộp bao phình to mà thân
+chính thì bé tí — mõ có hai dùi, cồng chiêng có một chiếc rời, cả hai đang phải
+nhân thêm.
+
+`nghieng` là thứ hay phải chỉnh nhất: **sáu tệp hiện có thì ba tệp dựng NẰM
+NGANG** (sáo 0,67 × 0,03 × 0,14 — gần như một cái que dẹt), để nguyên thì đứng
+trên sân khấu chỉ còn một vệt. Nhấc một đầu lên là ra hình.
+
+Chọn `quay` bằng cách dựng thử mô hình ở vài góc rồi ngắm. Cây vẫn xoay tròn
+chầm chậm nên con số này chỉ là chỗ bắt đầu, nhưng **đừng để nó quay CẠNH về
+phía người xem ngay lúc vừa hiện ra**: đo thật, cây sáo nhìn từ đầu chỉ còn
+28×11 điểm ảnh trên màn 1366, coi như biến mất.
 
 ---
 
@@ -50,7 +68,7 @@ trên màn 1366, coi như biến mất.
 
 Sáu tệp hiện có đều đã soát và đạt hết: glTF 2.0 hợp lệ, không dùng Draco hay
 KTX2, ảnh bề mặt nhúng sẵn trong tệp, không kèm hoạt hình hay camera thừa. Tổng
-2,8 MB — chỉ tải khi người xem bước vào toàn màn hình.
+2,8 MB, cộng 155 KB ảnh phông — chỉ tải khi người xem bước vào toàn màn hình.
 
 **Định dạng: `.glb`, không phải gì khác.**
 
@@ -67,10 +85,10 @@ build, tệp nặng là người xem phải tải nguyên vẹn từng byte.
 
 **Trục Y hướng lên.** Quy ước của glTF.
 
-Vật đặt giữa gốc toạ độ thì tốt, nhưng **không bắt buộc**: cả sáu tệp hiện có
-đều dựng nhạc cụ ĐỨNG TRÊN MẶT ĐẤT nên tâm nằm lơ lửng phía trên gốc, và
-`nhac-cu.js` tự đo hộp bao rồi dời tâm về đúng chỗ trước khi cho bay. Thiếu
-bước đó thì lúc xoay nó văng vòng tròn quanh một điểm ngoài không khí.
+Vật đặt giữa gốc toạ độ thì tốt, nhưng **không bắt buộc**: `nhac-cu.js` tự đo
+hộp bao rồi kéo ĐÁY hộp về đúng mặt sàn sân khấu, lấy chính giữa chân làm trục
+xoay. Thiếu bước đó thì lúc xoay tròn nó văng vòng quanh một điểm ngoài không
+khí, mà lúc mọc lên khỏi sàn thì chui lên từ lưng chừng trời.
 
 **Kích thước thật, tính bằng mét.** Đàn nguyệt dài khoảng 1,08m thì trong tệp
 cũng phải là 1,08 đơn vị.
@@ -129,5 +147,5 @@ Nếu tệp trên 5 MB thì nói trước để tôi nén lại chứ đừng đ
 sau muốn thay bằng bản nhẹ hơn thì bản nặng vẫn nằm lại mãi trong lịch sử git.
 
 Xem thêm: `am/nhac-cu/HUONG-DAN.md` (tiếng nhạc cụ — chạm vào mô hình là kêu),
-`anh/nhac-cu/HUONG-DAN.md` (ảnh phẳng nền trong suốt),
+`anh/nhac-cu/HUONG-DAN.md` (tấm phông sân khấu),
 `anh/360/HUONG-DAN.md` (ảnh toàn cảnh).

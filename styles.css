@@ -1684,7 +1684,8 @@ kbd {
 }
 
 /* ---------- Hộp nhạc cụ ----------
-   Mới dựng cái hộp. Bấm chưa làm gì — phần nhạc cụ bay lơ lửng gắn sau. */
+   Bấm là kéo nguyên một sân khấu 3D lên che kín cảnh 360; bấm lần nữa là hạ
+   xuống. Phần dựng cảnh nằm ở nhac-cu.js. */
 .pano__hop {
   position: absolute; z-index: 6; display: none;
   left: 50%; transform: translateX(-50%);
@@ -1715,13 +1716,28 @@ kbd {
   background: #2e2100; color: var(--gold-light);
 }
 
-/* ---------- Nhạc cụ 3D ----------
-   Canvas nằm trên ảnh 360 nhưng dưới hàng nút (z-index 3, nút là 4-6).
+/* Lên sân khấu rồi thì cất hết mấy thứ chỉ có nghĩa với ảnh 360: cánh cửa
+   sang không gian khác, hàng nút xoay/phóng, dòng nhắc kéo để nhìn quanh.
+   Tấm phông che kín cảnh nên bấm chúng chẳng thấy gì đổi, chỉ tổ rối mắt.
+   Còn đúng hai nút: cái hộp để rời sân khấu, dấu × để thoát hẳn. */
+.pano.co-nhac-cu .pano__cua,
+.pano.co-nhac-cu .pano__bang,
+.pano.co-nhac-cu .pano__bang.is-mo,
+.pano.co-nhac-cu .pano__hud,
+.pano.co-nhac-cu .pano__hint { display: none; }
 
-   Đóng hộp thì pointer-events:none, cú kéo xuyên thẳng xuống .pano để nhìn
-   quanh như thường. Mở hộp mới bật nhận chuột, và lúc đó nhac-cu.js tự phân
-   xử từng cú bấm: trúng nhạc cụ thì giữ lại mà kéo, trượt ra ngoài thì không
-   chặn, để sự kiện nổi lên .pano — vẫn xoay cảnh được bình thường. */
+/* ---------- Sân khấu nhạc cụ 3D ----------
+   Canvas nằm trên ảnh 360 nhưng dưới hàng nút (z-index 3, nút là 4-6). Cả tấm
+   phông sân khấu lẫn nhạc cụ đều vẽ vào đây, không có lớp ảnh HTML nào riêng —
+   nhờ vậy chân nhạc cụ neo đúng mặt sàn trong ảnh, không lệch khi đổi cỡ màn.
+
+   Đóng sân khấu thì pointer-events:none, cú kéo xuyên thẳng xuống .pano để
+   nhìn quanh như thường. Mở ra mới bật nhận chuột, và lúc đó nhac-cu.js NUỐT
+   mọi cú chạm: sân khấu che kín cảnh 360 rồi, để lọt xuống thì người xem tưởng
+   đang vuốt sân khấu mà thật ra đang xoay tấm ảnh nằm khuất phía sau.
+
+   Mờ dần 0,35 giây — nhac-cu.js đợi đúng ngần ấy rồi mới cho nhạc cụ mọc lên,
+   để mắt kịp thấy cái sân khấu trước đã. Sửa số này thì sửa cả bên đó. */
 .pano__3d {
   position: absolute; inset: 0; z-index: 3;
   pointer-events: none; touch-action: none;

@@ -1,92 +1,65 @@
-# Ảnh nhạc cụ — cho cái hộp trong không gian 360
+# Phông sân khấu nhạc cụ
 
-Thư mục này đựng **ảnh từng nhạc cụ, nền trong suốt**. Chúng sẽ bay ra lơ lửng
-khi người xem bấm cái hộp ở giữa đáy màn, lúc đang xem toàn màn hình 360.
+Thư mục này đựng **tấm phông sân khấu** — thứ kéo lên che kín cảnh 360 khi
+người xem bấm cái hộp giữa đáy màn, để sáu nhạc cụ 3D đứng lên đó.
 
-Hộp đã dựng xong ở `pano.js` (`.pano__hop`), nhưng **bấm chưa làm gì** — phần
-nhạc cụ bay ra sẽ gắn sau. Cứ thả ảnh vào đây trước.
-
----
-
-## Tên tệp
-
-Sáu nhạc cụ của dàn nhạc chèo, đặt đúng tên này:
-
-| Nhạc cụ | Tệp | Mô tả (dùng làm chú thích khi hiện ra) |
+| Tệp | Cỡ | Nặng |
 |---|---|---|
-| Đàn nhị | `dan-nhi.webp` | Cây đàn hai dây kéo bằng vĩ, giữ vai trò dẫn giai điệu và nâng giọng hát trong chiếu chèo. |
-| Trống đế | `trong-de.webp` | Nhạc cụ giữ nhịp và điểm xuyết, tiếng trống đế mở màn báo hiệu chiếu chèo bắt đầu. |
-| Đàn nguyệt | `dan-nguyet.webp` | Đàn thùng tròn hai dây, âm sắc ấm và vang, thường đi cùng những làn điệu trữ tình. |
-| Sáo trúc | `sao-truc.webp` | Tiếng sáo trong trẻo gợi không gian làng quê Bắc Bộ, nền cảnh quen thuộc của nghệ thuật chèo. |
-| Phách & mõ | `phach-mo.webp` | Bộ gõ nhỏ giữ tiết tấu cho người hát, gắn liền với lối hát nói đặc trưng của chèo. |
-| Thanh la & chũm chọe | `thanh-la.webp` | Bộ gõ kim loại tạo điểm nhấn mạnh trong các lớp diễn cao trào và cảnh hội hè. |
+| `nen-san-khau.webp` | 1536 × 1024 | 155 KB |
 
-Không nhất thiết phải đủ sáu mới lắp được. Có mấy cái thì hộp bay ra mấy cái.
+Ảnh hiện dùng là **ảnh dựng bằng AI**: rèm nhung đỏ thêu hoa văn mây, sàn gỗ
+đánh bóng, mấy vũng đèn hắt sẵn trên sàn. Không có người, không có chữ.
 
----
-
-## Yêu cầu kỹ thuật
-
-**Nền phải TRONG SUỐT.** Đây là điều kiện sống còn: mấy tấm này nổi trên ảnh 360
-tối màu, có nền trắng là thành sáu miếng giấy dán lên màn hình. Nền trắng, nền
-xám, hay viền trắng còn sót quanh mép đều hỏng như nhau.
-
-**Khung vuông, vật nằm giữa.** Chừa lề khoảng 6% mỗi bên. Vuông thì lúc xoay
-nhẹ trong không gian mới không bị lệch tâm.
-
-**Cạnh 1024px là đủ.** Mỗi nhạc cụ bay ra chỉ chiếm chừng 15–25% bề cao màn,
-nên to hơn cũng không thấy rõ hơn, chỉ nặng thêm.
-
-**Đừng nướng sẵn bóng đổ vào ảnh.** Bóng để CSS làm. Nướng sẵn thì đặt lên nền
-sáng hay nền tối cũng lệch, và xoay là bóng xoay theo, nhìn sai ngay.
-
-**Đặt đúng hướng đứng tự nhiên** — đàn nhị và đàn nguyệt dựng dọc, sáo trúc nằm
-ngang, trống đế nhìn chếch thấy cả mặt trống lẫn tang trống.
-
-**Ánh sáng đều, không cháy sáng.** Mặt gỗ cháy trắng là mất hết vân, nhìn như
-đồ nhựa.
-
-**Không chữ, không logo, không bàn tay người.**
-
-**Mỗi tệp dưới 120 KB** sau khi nén. Sáu cái khoảng 700 KB — chỉ tải khi người
-xem mở hộp, không tải sẵn lúc vào trang.
+Bản gốc `.png` nằm cùng thư mục nhưng **không đẩy lên git** (`.gitignore` bỏ qua
+`anh/nhac-cu/*.png`) — chỉ bản `.webp` đã nén mới lên web.
 
 ---
 
-## Cách làm ảnh
+## Thay ảnh khác
 
-**Cách tốt nhất: chụp nhạc cụ thật của Nhà hát** trên nền trơn một màu (vải đen
-hoặc phông trắng), ánh sáng tản đều hai bên, rồi tách nền. Đây là nhạc cụ của
-Nhà hát nên ảnh thật vừa đúng vừa không phải giải thích gì.
+Thả tệp mới vào đây rồi bảo tôi nén và lắp. Ba điều bắt buộc:
 
-Tách nền: **remove.bg** (miễn phí, tự động, đủ dùng cho vật thể rõ nét) hoặc
-Photoshop nếu cần tỉa kỹ phần dây đàn mảnh — chỗ dây đàn là chỗ máy tự động hay
-ăn mất nhất, tách xong phải phóng to soi lại.
+**Tỉ lệ 3:2 nằm ngang.** `nhac-cu.js` ghim cứng con số này (`TI_LE_NEN`) để tính
+chỗ cắt. Đưa ảnh tỉ lệ khác thì phải sửa cả hằng số đó.
 
-**Nếu chưa chụp được thì dựng bằng AI.** Prompt mẫu cho đàn nhị, mấy cái khác
-đổi tên nhạc cụ và phần mô tả hình dáng:
+**Vạch chân sàn phải nằm quanh 77% bề cao ảnh.** Đây là chỗ nhạc cụ đứng.
+`nhac-cu.js` đặt chân chúng ở `V_SAN = 0.17` — đo từ ĐÁY ảnh lên, tức 83% từ
+trên xuống — rồi mấy hàng lùi lại thì nhích lên dần. Ảnh nào có mặt sàn nằm cao
+hơn hay thấp hơn nhiều thì nhạc cụ đứng hẫng giữa không trung hoặc thụt xuống
+dưới mép sân khấu; sửa `V_SAN` cho khớp.
+
+**Mặt sàn phải chiếm chừng một phần tư dưới cùng.** Sàn hẹp hơn thì trên điện
+thoại dựng đứng không đủ chỗ xếp ba hàng nhạc cụ.
+
+Nên có, không bắt buộc: **vài vũng đèn hắt sẵn trên sàn**, trải đều theo bề
+ngang. Chúng làm nền cho mấy cây nhạc cụ đứng, và ăn khớp với luồng đèn 3D rọi
+xuống cây đang được chọn.
+
+**Đừng vẽ sẵn nhạc cụ vào phông.** Nhạc cụ là mô hình 3D dựng đè lên, vẽ thêm
+vào ảnh là thành hai bộ chồng nhau.
+
+Cỡ 1536 × 1024 là đủ: màn 1366 chỉ dùng tới 1400 điểm ảnh bề ngang. To hơn thì
+nét hơn trên màn 4K nhưng tệp nặng thêm, mà tệp này tải cùng lúc với 2,8 MB mô
+hình rồi.
+
+Prompt đã dùng, đại ý:
 
 ```
-A traditional Vietnamese dan nhi two-string bowed fiddle, studio product photograph,
-isolated on a plain pure white background, full instrument visible standing upright,
-soft even diffused lighting from both sides, sharp focus, rich natural wood grain,
-python skin soundbox, no shadow on the background, no hands, no people, no text.
+Empty traditional Vietnamese theatre stage, deep red velvet stage curtain with
+subtle embroidered cloud motifs, polished warm wooden stage floor in the lower
+third, soft warm spotlight pools on the floor, cinematic theatre lighting,
+3:2 aspect ratio, no people, no instruments, no text, no signage.
 ```
-
-Gen ra rồi vẫn phải tách nền — AI trả về nền trắng chứ không trả về nền trong
-suốt. Và nhớ **nói rõ trong trang là ảnh dựng bằng AI** nếu dùng cách này, y
-như đã từng làm với ảnh 360.
 
 ---
 
-## Đưa vào kho
+## Ảnh từng nhạc cụ nền trong suốt — KHÔNG CẦN NỮA
 
-Thả tệp `.png` nền trong suốt vào thẳng thư mục này. Tôi sẽ nén sang `.webp`
-(webp giữ được nền trong suốt, nhẹ hơn png chừng một nửa) rồi lắp vào.
+Trước có dự tính cắt rời từng nhạc cụ thành ảnh phẳng nền trong suốt cho chúng
+bay ra. **Bỏ rồi**: nay dùng thẳng mô hình 3D ở `mo-hinh/`, xoay được nhiều
+góc, đèn rọi vào có mặt sáng mặt tối, hơn hẳn ảnh phẳng. Đừng mất công làm bộ
+ảnh đó nữa.
 
-**Lưu ý:** `.gitignore` đang bỏ qua `anh/nhac-cu/*.png` — bản `.png` gốc nằm lại
-trên máy bạn, chỉ bản `.webp` đã nén mới được đẩy lên web. Giống hệt cách làm
-với `anh/360/`. Nghĩa là thả png vào rồi mà chưa ai nén thì trên web chưa có gì.
-
-Xem thêm: `anh/360/HUONG-DAN.md` (ảnh toàn cảnh), `mo-hinh/HUONG-DAN.md` (mô
-hình 3D của chính mấy nhạc cụ này).
+Xem thêm: `mo-hinh/HUONG-DAN.md` (mô hình 3D của nhạc cụ),
+`am/nhac-cu/HUONG-DAN.md` (tiếng nhạc cụ),
+`anh/360/HUONG-DAN.md` (ảnh toàn cảnh 360 của khung nền).
