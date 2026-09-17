@@ -5,10 +5,16 @@ với ảnh phẳng nền trong suốt ở `anh/nhac-cu/`.
 
 **Đã chạy.** Bấm cái hộp giữa đáy màn lúc đang xem 360 toàn màn hình thì một
 tấm phông sân khấu kéo lên che kín cảnh, rồi sáu nhạc cụ lần lượt mọc lên khỏi
-mặt sàn, xếp thành hàng và xoay tròn chầm chậm. Chạm vào cây nào thì cây đó bay
-lơ lửng lên, một luồng đèn rọi xuống đúng nó, cả sân khấu còn lại tối đi, và nó
-kêu lên tiếng của chính mình. Đang lơ lửng thì kéo đi được, thả tay ra là bay
-theo đà rồi dạt về chỗ cũ. Dựng ở `nhac-cu.js`.
+mặt sàn, xếp thành hàng và xoay tròn chầm chậm.
+
+Chạm vào cây nào thì cây đó rời chỗ, bay ra giữa khung hình, một luồng đèn rọi
+xuống đúng nó, cả sân khấu còn lại tối đi, và nó kêu lên tiếng của chính mình.
+Chạm được nhiều cây một lúc — cả đám cùng ra giữa, tự dàn thành hàng rồi lùi
+lại vừa đủ cho khỏi chen nhau. Chạm lại cây đang lơ lửng thì nó kêu tiếp chứ
+không rơi xuống; muốn cất hết thì chạm vào khoảng trống trên sân khấu. Đang lơ
+lửng vẫn kéo đi được, thả tay ra là bay theo đà rồi dạt về chỗ cũ.
+
+Dựng ở `nhac-cu.js`.
 
 ---
 
@@ -44,7 +50,8 @@ trong `nhac-cu.js`. Mỗi dòng khai:
 
 **Chỗ đứng thì không phải khai.** `nhac-cu.js` tự rải sáu cây theo bề ngang
 khung: màn rộng thì một hàng, màn hẹp thì zích zắc thành hai ba hàng lùi dần về
-sau, cây to chiếm nhiều chỗ hơn cây nhỏ.
+sau, cây to chiếm nhiều chỗ hơn cây nhỏ. Chỗ lơ lửng giữa khung cũng tự tính,
+theo số cây đang được nhấc lên.
 
 **Cỡ cũng không phải khai.** Nó đo hộp bao rồi cào bằng theo CĂN BẬC HAI cỡ
 thật: giữ đúng thứ tự to nhỏ mà nén khoảng cách lại, nên giàn cồng chiêng 1,46m
