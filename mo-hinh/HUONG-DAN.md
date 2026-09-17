@@ -7,12 +7,13 @@ với ảnh phẳng nền trong suốt ở `anh/nhac-cu/`.
 tấm phông sân khấu kéo lên che kín cảnh, rồi sáu nhạc cụ lần lượt mọc lên khỏi
 mặt sàn, xếp thành hàng và xoay tròn chầm chậm.
 
-Chạm vào cây nào thì cây đó rời chỗ, bay ra giữa khung hình, một luồng đèn rọi
-xuống đúng nó, cả sân khấu còn lại tối đi, và nó kêu lên tiếng của chính mình.
-Chạm được nhiều cây một lúc — cả đám cùng ra giữa, tự dàn thành hàng rồi lùi
-lại vừa đủ cho khỏi chen nhau. Chạm lại cây đang lơ lửng thì nó kêu tiếp chứ
-không rơi xuống; muốn cất hết thì chạm vào khoảng trống trên sân khấu. Đang lơ
-lửng vẫn kéo đi được, thả tay ra là bay theo đà rồi dạt về chỗ cũ.
+Chạm vào cây nào thì cây đó bay thẳng lên theo trục đứng, ngay trên chỗ nó nằm,
+tới ngang giữa khung hình thì lơ lửng; một luồng đèn rọi xuống đúng nó, cả sân
+khấu còn lại tối đi, và nó kêu lên tiếng của chính mình. Chạm được nhiều cây một
+lúc, cây nào cũng bay lên tại cột của nó. Chạm lại cây đang lơ lửng thì nó kêu
+tiếp chứ không rơi xuống; muốn cất hết thì chạm vào khoảng trống trên sân khấu.
+Nắm cây đang lơ lửng kéo lên kéo xuống được, thả tay ra là nảy về độ cao cũ —
+chỉ lên xuống, không trôi ngang.
 
 Dựng ở `nhac-cu.js`.
 
@@ -50,8 +51,8 @@ trong `nhac-cu.js`. Mỗi dòng khai:
 
 **Chỗ đứng thì không phải khai.** `nhac-cu.js` tự rải sáu cây theo bề ngang
 khung: màn rộng thì một hàng, màn hẹp thì zích zắc thành hai ba hàng lùi dần về
-sau, cây to chiếm nhiều chỗ hơn cây nhỏ. Chỗ lơ lửng giữa khung cũng tự tính,
-theo số cây đang được nhấc lên.
+sau, cây to chiếm nhiều chỗ hơn cây nhỏ. Độ cao lúc lơ lửng cũng tự tính: thân
+cây nằm ngang giữa khung hình.
 
 **Cỡ cũng không phải khai.** Nó đo hộp bao rồi cào bằng theo CĂN BẬC HAI cỡ
 thật: giữ đúng thứ tự to nhỏ mà nén khoảng cách lại, nên giàn cồng chiêng 1,46m

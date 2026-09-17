@@ -1,7 +1,7 @@
 # Tiếng nhạc cụ
 
 Thư mục này đựng **tiếng của từng nhạc cụ**. Người xem chạm vào một cây trên
-sân khấu nhạc cụ — cây đó bay ra giữa khung, đèn rọi vào — thì nghe thấy tiếng
+sân khấu nhạc cụ — cây đó bay thẳng lên, đèn rọi vào — thì nghe thấy tiếng
 của chính nó. Chạm lại lần nữa là kêu tiếp, nên tệp tiếng phải chịu được bấm
 liên tục: cứ mỗi cú chạm là tua về đầu rồi phát lại.
 
@@ -23,8 +23,7 @@ Mã phải trùng với tệp mô hình bên `mo-hinh/`:
 | Mõ | `mo-go.mp3` | `mo-hinh/mo-go.glb` |
 | Cồng chiêng | `cong-chieng.mp3` | `mo-hinh/cong-chieng.glb` |
 
-Chưa có tệp nào thì chạm vào nhạc cụ vẫn bay ra giữa, vẫn sáng đèn, vẫn kéo đi
-được, chỉ là im. Không lỗi gì cả — `nhac-cu.js` thử phát, bị từ chối thì thôi
+Chưa có tệp nào thì chạm vào nhạc cụ vẫn bay lên, vẫn sáng đèn, chỉ là im. Không lỗi gì cả — `nhac-cu.js` thử phát, bị từ chối thì thôi
 và ghi nhớ để khỏi thử lại mỗi lần chạm.
 
 ---

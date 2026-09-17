@@ -5,16 +5,17 @@
    kéo lên che kín cảnh, rồi sáu nhạc cụ lần lượt mọc lên khỏi mặt sàn, xếp
    thành hàng và xoay tròn chầm chậm như bày trong tủ kính.
 
-   Chạm vào một cây: nó rời chỗ, bay ra GIỮA KHUNG HÌNH, một luồng đèn rọi
-   xuống đúng mình nó, cả sân khấu còn lại tối đi, và nó kêu lên tiếng của
-   chính nó.
+   Chạm vào một cây: nó bay THẲNG LÊN theo trục đứng, ngay trên chỗ nó nằm,
+   tới ngang giữa khung hình thì lơ lửng ở đó. Một luồng đèn rọi xuống đúng
+   mình nó, cả sân khấu còn lại tối đi, và nó kêu lên tiếng của chính nó.
 
    Chạm được NHIỀU CÂY MỘT LÚC — mấy ngón tay một lúc cũng được: cây nào được
-   chạm cũng bay ra giữa, cả đám tự dàn thành hàng ngang rồi lùi lại vừa đủ cho
-   khỏi chen nhau. Chạm lại cây đang lơ lửng thì nó kêu tiếp chứ KHÔNG rơi
-   xuống; muốn cất hết thì chạm vào khoảng trống trên sân khấu.
+   chạm cũng bay thẳng lên tại cột của nó. Chạm lại cây đang lơ lửng thì nó kêu
+   tiếp chứ KHÔNG rơi xuống; muốn cất hết thì chạm vào khoảng trống trên sân
+   khấu.
 
-   Đang lơ lửng thì kéo đi được; thả tay ra nó bay theo đà rồi dạt về chỗ cũ.
+   Nắm cây đang lơ lửng kéo lên kéo xuống được, thả tay ra nó nảy về độ cao
+   cũ. Chỉ lên xuống thôi, không bao giờ trôi ngang hay trôi sâu.
 
    ----------------------------------------------------------
    VÌ SAO TÁCH KHỎI pano.js
@@ -111,17 +112,11 @@ const Z_LUI = 0.32;    // và đứng xa thêm chừng này lần
 const RONG  = 0.88;    // hàng nhạc cụ trải bao nhiêu phần bề ngang khung
 const CAO   = 0.30;    // cạnh chuẩn của nhạc cụ, tính theo bề cao thấy được
 
-/* Chỗ bay lên: giữa khung hình, chiếm RONG_BAY bề ngang. Độ sâu tự chọn theo
-   số cây đang lơ lửng — một cây thì ra sát tận Z_BAY_MIN nên nhìn to rõ, cả
-   sáu cây thì lùi lại tới tận hàng cũ cho vừa khung. */
-const RONG_BAY  = 0.80;
-const Z_BAY_MIN = 3.6;
-
 const CAO_DEN = 5.2;   // luồng sáng dài chừng này, chân đặt trên mặt sàn
 const TIA_R   = 2.2;   // và loe ra gấp chừng này bán kính nhạc cụ
 
-/* Lò xo kéo nhạc cụ tới chỗ của nó. Cố tình để thiếu giảm chấn: tới nơi rồi nó
-   còn lượn qua lượn lại vài nhịp mới yên — đó chính là cái "bay bay". */
+/* Lò xo kéo nhạc cụ tới độ cao của nó. Cố tình để thiếu giảm chấn: tới nơi rồi
+   nó còn nhún lên nhún xuống vài nhịp mới yên — đó chính là cái "bay bay". */
 const K_LO_XO = 6.0;
 const D_GIAM  = 2.9;
 const TOC_XOAY = 0.30;   // rad/giây, chừng 21 giây một vòng
@@ -140,7 +135,7 @@ function khoiDong(khung) {
   let mo = false, dangVe = false, veLuc = 0;
   let dangChay = false, lanTruoc = 0;
   let manh = 0;                       // 0..1, mức hạ đèn nền xuống lúc có cây được rọi
-  const keoDs = new Map();            // pointerId -> { than, xa, truoc, lucTruoc }
+  const keoDs = new Map();            // pointerId -> { than, yTruoc, lucTruoc }
   let tam3 = null;                    // véc-tơ nháp, khỏi cấp phát lại mỗi khung hình
   let coW = 0, coH = 0;
   let ur = 1, vr = 1, offU = 0;       // phần ảnh phông đang thấy
@@ -188,7 +183,7 @@ function khoiDong(khung) {
       /* Chỗ ngó vào cảnh 3D từ bảng điều khiển trình duyệt, để chỉnh chỗ đứng
          và đo khoảng cách mà không phải chèn thêm mã. Giống el.__pano bên
          pano.js. Không có mã nào của trang đọc biến này. */
-      khung.__nhacCu = { vat, cam, scene, xepHang, xepBay, THREE };
+      khung.__nhacCu = { vat, cam, scene, xepHang, THREE };
       daTai = true;
       chu('Hộp nhạc cụ');
     } catch (err) {
@@ -414,7 +409,7 @@ function khoiDong(khung) {
       co1, tam1, dayY: h1.min.y,          // số đo lúc chưa thu cỡ
       kt1: Math.max(co1.x, co1.y, co1.z, 1e-4),
       nha: new THREE.Vector3(),           // chỗ đứng trên sàn, tính lại mỗi lần xếp
-      bay: new THREE.Vector3(),           // chỗ lơ lửng giữa khung, tính lại mỗi lần chạm
+      bay: new THREE.Vector3(),           // chỗ lơ lửng: thẳng trên chỗ nằm, ngang giữa khung
       cao: 0, ban: 0,                     // cỡ sau khi thu, tính lại mỗi lần xếp
       v: new THREE.Vector3(),             // vận tốc
       sang: false,                        // đang được nhấc lên và rọi đèn
@@ -511,90 +506,29 @@ function khoiDong(khung) {
       const z = zCua(b);
       b.nha.set((2 * u - 1) * z * tan * ti, yAnh(vCua(b), z), -z);
       b.bong.position.set(b.nha.x, b.nha.y + 0.006, b.nha.z);
-    });
-    xepBay();
-  }
-
-  /* ---------- Chỗ lơ lửng giữa khung hình ----------
-     Cây nào được chạm thì rời chỗ trên sàn, bay ra giữa khung. Tính lại mỗi
-     lần danh sách đổi: nhấc thêm một cây là cả đám dàn lại cho đều. */
-  function xepBay() {
-    const ds = vat.filter((b) => b.sang);
-    if (!ds.length) return;
-    const ti = coW / coH;
-    const tan = Math.tan(FOV * Math.PI / 360);
-
-    /* Mấy hàng — cùng lối chia như hàng dưới sàn. Màn ngang thì cả đám dàn
-       thành một hàng ngang; màn dọc điện thoại hẹp quá, phải xếp chồng lên
-       nhau mấy tầng, không thì hai cây to đứng cạnh nhau là thò ra ngoài. */
-    const cot = Math.max(1, Math.min(ds.length, Math.round(ti * 3.4)));
-    const soH = Math.ceil(ds.length / cot);
-
-    // chia kiểu rắn bò theo bề ngang cho các hàng cân nhau
-    const hang = [];
-    for (let k = 0; k < soH; k++) hang.push([]);
-    const theoBan = ds.map((b, k) => ({ b, k })).sort((a, c) => c.b.ban - a.b.ban);
-    let h = 0, buoc = 1;
-    for (const x of theoBan) {
-      hang[h].push(x);
-      if (soH > 1) {
-        h += buoc;
-        if (h >= soH) { h = soH - 1; buoc = -1; }
-        else if (h < 0) { h = 0; buoc = 1; }
-      }
-    }
-    hang.forEach((r) => r.sort((a, c) => a.k - c.k));
-
-    /* Độ sâu ghim theo hàng rộng nhất, chứ không thu nhỏ nhạc cụ. Thu nhỏ thì
-       nhấc một cây với nhấc cả sáu cây trông cùng cỡ, mất hẳn cái cảm giác cây
-       được chọn bước ra phía trước. */
-    let rongNhat = 0;
-    hang.forEach((r) => {
-      let t = 0; r.forEach((x) => { t += x.b.ban; });
-      rongNhat = Math.max(rongNhat, t);
-    });
-    const z = Math.max(Z_BAY_MIN, Math.min(Z_VAT, rongNhat / (RONG_BAY * tan * ti)));
-    const be = 2 * z * tan * ti;
-    const rong = be * RONG_BAY;
-    const caoThay = 2 * z * tan;
-    /* Nhích lên trên tâm khung một chút: đáy màn còn cái nút rời sân khấu, mà
-       mấy cây còn nằm dưới sàn cũng dồn ở nửa dưới — treo đúng tâm thì cây lơ
-       lửng che mất chúng nhiều hơn cần thiết. */
-    const nhich = caoThay * 0.06;
-    const buocDoc = caoThay * 0.70 / soH;
-
-    hang.forEach((r, hg) => {
-      let tong = 0; r.forEach((x) => { tong += x.b.ban * 2; });
-      const khe = Math.max(0, rong - tong) / (r.length + 1);
-      const yGiua = nhich + ((soH - 1) / 2 - hg) * buocDoc;
-      let x = -rong / 2 + khe;
-      r.forEach(({ b }) => {
-        // chặn đúng mép: hàng chật quá thì cho chồng lấn, nhưng đừng thò ra ngoài
-        const px = Math.max(-be / 2 + b.ban, Math.min(be / 2 - b.ban, x + b.ban));
-        // gốc toạ độ nằm ở CHÂN, nên trừ nửa bề cao thì thân cây mới ra giữa
-        b.bay.set(px, yGiua - b.cao / 2, -z);
-        x += b.ban * 2 + khe;
-        datLuong(b, z);
-      });
+      /* Chỗ lơ lửng: CÙNG x, CÙNG z với chỗ nằm, chỉ khác độ cao — bay thẳng
+         lên theo trục đứng, tới khi THÂN cây nằm ngang giữa khung hình. Camera
+         nhìn thẳng không ngẩng không cúi nên giữa khung là y = 0 ở mọi độ sâu;
+         gốc toạ độ của cây ở chân nên trừ nửa bề cao. Cây nào cao quá mà giữa
+         khung lại sát sàn thì vẫn nhấc tối thiểu một đoạn, không thì chạm vào
+         chẳng thấy nó nhúc nhích. */
+      b.bay.set(b.nha.x, Math.max(b.nha.y + 0.35, -b.cao / 2), b.nha.z);
+      datLuong(b);
     });
   }
 
-  /* Dựng lại cái phễu sáng cho vừa cây và vừa độ sâu nó đang lơ lửng. Chân phễu
-     đặt trên MẶT SÀN ngay dưới chỗ nó bay, nên luồng sáng xuyên qua nhạc cụ rồi
-     đọng thành một vũng trên sàn, giống đèn sân khấu thật. */
-  function datLuong(b, z) {
-    const day = yAnh(V_SAN, z);
+  /* Dựng lại cái phễu sáng cho vừa cây. Chân phễu đặt trên MẶT SÀN ngay chỗ nó
+     nằm, nên luồng sáng rọi xuyên qua nhạc cụ đang lơ lửng rồi đọng thành một
+     vũng dưới sàn, giống đèn sân khấu thật. */
+  function datLuong(b) {
     const r = b.ban * TIA_R;
     b.luong.geometry.dispose();
     b.luong.geometry = new THREE.CylinderGeometry(r * 0.06, r, CAO_DEN, 30, 1, true);
-    b.luong.position.set(b.bay.x, day + CAO_DEN / 2, -z);
-    b.vung.position.set(b.bay.x, day + 0.012, -z);
-    b.vung.scale.setScalar(1);
+    b.luong.position.set(b.nha.x, b.nha.y + CAO_DEN / 2, b.nha.z);
+    b.vung.position.set(b.nha.x, b.nha.y + 0.012, b.nha.z);
   }
 
-  function nhac(b) {                       // nhấc một cây lên giữa khung
-    if (!b.sang) { b.sang = true; xepBay(); }
-  }
+  function nhac(b) { b.sang = true; }      // nhấc một cây bay thẳng lên
 
   function haHet() {                       // cất hết xuống, sân khấu sáng lại
     let doi = false;
@@ -656,7 +590,7 @@ function khoiDong(khung) {
     cam.updateProjectionMatrix();
     cam.updateMatrixWorld();
     catNen();
-    xepHang();                          // xepHang gọi luôn xepBay ở cuối
+    xepHang();
     // đổi cỡ giữa chừng thì kéo mọi thứ về đúng chỗ mới, khỏi trôi lơ lửng sai
     vat.forEach((b) => { if (!b.tay) b.v.set(0, 0, 0); });
   }
@@ -695,9 +629,9 @@ function khoiDong(khung) {
     /* Nhấc CÀNG NHIỀU cây thì càng phải nhẹ tay với ánh sáng.
 
        Một cây thì đúng là cảnh rọi đèn: hạ hẳn đèn nền, một luồng sáng gắt.
-       Năm cây thì năm luồng chồng lên nhau, năm vũng sáng dồn lại thành một
-       mảng trắng xoá — đo trên màn dọc 390px, cả sân khấu cháy hết. Nên hạ đèn
-       nền ít đi, và chia nhỏ độ đậm từng luồng theo số cây. */
+       Năm sáu cây thì luồng nào cũng loe ra chạm luồng bên cạnh, trên màn dọc
+       điện thoại xếp zích zắc còn chồng hẳn lên nhau, cả sân khấu cháy trắng.
+       Nên hạ đèn nền ít đi, và chia nhỏ độ đậm từng luồng theo số cây. */
     let soSang = 0; vat.forEach((b) => { if (b.sang) soSang++; });
     const dichManh = soSang ? Math.max(0.45, 1 - (soSang - 1) * 0.11) : 0;
     manh += (dichManh - manh) * Math.min(dt * 5.5, 1);
@@ -735,23 +669,28 @@ function khoiDong(khung) {
       if (b.tay) {
         con = true;                       // đang trong tay người dùng, vật lý nghỉ
       } else {
-        // đích: giữa khung nếu đang được nhấc, còn không thì chỗ cũ trên sàn
+        // đích: độ cao giữa khung nếu đang được nhấc, còn không thì mặt sàn
         tam3.copy(b.sang ? b.bay : b.nha);
         if (b.sang && !itDong) tam3.y += Math.sin(t * 0.9 + b.pha) * 0.06;
         // gia tốc = lò xo kéo về - lực cản; thiếu giảm chấn nên nó lượn vài nhịp
         b.v.addScaledVector(tam3.sub(b.boc.position), K_LO_XO * dt);
         b.v.addScaledVector(b.v, -D_GIAM * dt);
         b.boc.position.addScaledVector(b.v, dt);
+        /* Không cho lún qua mặt sàn. Lò xo thiếu giảm chấn nên lúc hạ xuống nó
+           vọt quá đích — đo được cây lún xuống dưới sàn gần 0,1 đơn vị. Chạm sàn
+           thì dội ngược lên một chút, như vật rơi nảy nhẹ. */
+        if (b.boc.position.y < b.nha.y) {
+          b.boc.position.y = b.nha.y;
+          if (b.v.y < 0) b.v.y *= -0.25;
+        }
         if (b.v.lengthSq() > 0.0002) con = true;
       }
 
-      // bóng dưới chân nhạt dần rồi tắt hẳn khi cây rời chỗ bay ra giữa
-      b.bong.material.opacity = b.hien * Math.max(0, 1 - b.len * 1.6);
-      b.bong.scale.setScalar(b.hien);
+      // bóng dưới chân nhạt và loe ra khi cây bay lên cao
+      b.bong.material.opacity = b.hien * (1 - b.len * 0.55);
+      b.bong.scale.setScalar(b.hien * (1 + b.len * 0.3));
 
-      /* Đèn rọi bám theo cây — kéo nó đi thì luồng sáng đi theo, chứ không
-         đứng lại chỗ cũ. Chỉ bám bề NGANG: cho bám cả chiều sâu thì lúc kéo đi
-         xa, vũng sáng nhích lên nhích xuống, trượt khỏi sàn rồi dán lên rèm. */
+      // đèn rọi ngắm theo độ cao hiện tại của cây, kéo lên kéo xuống cũng bám theo
       const p = b.boc.position;
       b.denRoi.intensity = b.len * sucDen;
       b.denRoi.position.set(p.x, p.y + CAO_DEN * 0.85, p.z + CAO_DEN * 0.28);
@@ -759,10 +698,8 @@ function khoiDong(khung) {
       b.denRoi.target.updateMatrixWorld();
       b.luong.visible = b.len > 0.01;
       b.luong.material.opacity = b.len * moLuong;
-      b.luong.position.x = p.x;
       b.vung.visible = b.len > 0.01;
       b.vung.material.opacity = b.len * moVung;
-      b.vung.position.x = p.x;
       if (b.len > 0.002 && b.len < 0.998) con = true;
     }
 
@@ -822,16 +759,11 @@ function khoiDong(khung) {
        trống trên sân khấu, cả đám cùng hạ.
 
        Mỗi ngón tay một mục trong keoDs, nên đặt mấy ngón xuống mấy cây cùng
-       lúc là cả mấy cây cùng bay lên, cùng kêu, và cùng kéo đi được. */
+       lúc là cả mấy cây cùng bay lên, cùng kêu. */
     nhac(b);
     b.nhan = 1; b.tay = true; b.v.set(0, 0, 0);
     keu(b);
-    keoDs.set(e.pointerId, {
-      than: b,
-      xa: b.boc.position.length(),         // giữ nguyên khoảng cách, kéo trên mặt cầu
-      truoc: b.boc.position.clone(),
-      lucTruoc: performance.now(),
-    });
+    keoDs.set(e.pointerId, { than: b, yTruoc: b.boc.position.y, lucTruoc: performance.now() });
     canvas.classList.add('dang-keo');
     batVong();
   }
@@ -845,15 +777,22 @@ function khoiDong(khung) {
     }
     e.stopPropagation();
     const b = k.than;
+    /* Kéo CHỈ THEO TRỤC ĐỨNG: cắt tia chuột với mặt phẳng đứng đi qua cây rồi
+       lấy mỗi độ cao, x và z giữ nguyên. Chặn dưới ở mặt sàn, chặn trên ở mép
+       trên khung. */
     tiaDo.setFromCamera(ndc(e), cam);
-    const moi2 = tiaDo.ray.direction.clone().normalize().multiplyScalar(k.xa);
+    const o = tiaDo.ray.origin, d = tiaDo.ray.direction;
+    if (Math.abs(d.z) < 1e-6) return;
+    const z = b.nha.z;
+    const tran = -z * Math.tan(FOV * Math.PI / 360) - b.cao;
+    const y = Math.max(b.nha.y, Math.min(tran, o.y + d.y * (z - o.z) / d.z - b.cao / 2));
 
     const nay = performance.now();
     const dt = Math.max((nay - k.lucTruoc) / 1000, 0.008);
-    // vận tốc lúc thả lấy từ đoạn vừa kéo, nên hất mạnh là nó bay xa
-    b.v.copy(moi2).sub(k.truoc).divideScalar(dt).clampLength(0, 14);
-    b.boc.position.copy(moi2);
-    k.truoc.copy(moi2);
+    // vận tốc lúc thả lấy từ đoạn vừa kéo, nên hất mạnh là nó nảy cao
+    b.v.set(0, Math.max(-14, Math.min(14, (y - k.yTruoc) / dt)), 0);
+    b.boc.position.set(b.nha.x, y, b.nha.z);
+    k.yTruoc = y;
     k.lucTruoc = nay;
   }
 

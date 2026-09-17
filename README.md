@@ -144,9 +144,8 @@ Phần thưởng của bản thân Nhà hát (huân chương, danh hiệu Anh h�
 - `mo-hinh/` đựng **mô hình 3D `.glb`** của nhạc cụ — **đã có sáu tệp và đã chạy**:
   bấm cái hộp giữa đáy màn lúc xem 360 toàn màn hình thì phông sân khấu kéo lên,
   sáu nhạc cụ lần lượt mọc khỏi mặt sàn, xếp hàng và xoay tròn chầm chậm; chạm vào
-  cây nào thì cây đó bay ra giữa khung hình dưới một luồng đèn rọi, cả sân khấu còn
-  lại tối đi. Chạm được nhiều cây một lúc, cả đám cùng ra giữa. Kéo đi được, thả
-  tay ra là bay theo đà rồi dạt về chỗ cũ. Dựng bằng
+  cây nào thì cây đó bay thẳng lên tại chỗ tới ngang giữa khung hình, dưới một luồng
+  đèn rọi, cả sân khấu còn lại tối đi. Chạm được nhiều cây một lúc. Dựng bằng
   `nhac-cu.js` (three.js nạp động từ CDN — **thư viện ngoài duy nhất của cả trang**,
   chỉ tải khi thật sự vào toàn màn hình). Yêu cầu tệp ở `mo-hinh/HUONG-DAN.md`.
 - `am/nhac-cu/` đựng **tiếng nhạc cụ**: chạm vào cây nào thì cây đó kêu. Đường dẫn
