@@ -1740,6 +1740,12 @@ kbd {
    để mắt kịp thấy cái sân khấu trước đã. Sửa số này thì sửa cả bên đó. */
 .pano__3d {
   position: absolute; inset: 0; z-index: 3;
+  /* PHẢI có width/height. Canvas là phần tử thay thế: inset:0 không kéo giãn
+     được nó, nó cứ lấy cỡ theo bộ đệm vẽ = bề ngang × tỉ lệ điểm ảnh của màn.
+     Màn scale 100% thì hai số trùng nhau nên không lộ; màn Windows 125% thì
+     canvas phình ra 1920×912 trong khung 1536×730, cả sân khấu phóng to từ
+     góc trên-trái, dạt sang phải, và bấm vào nhạc cụ nào cũng trượt. */
+  display: block; width: 100%; height: 100%;
   pointer-events: none; touch-action: none;
   opacity: 0; transition: opacity .35s ease;
 }

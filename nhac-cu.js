@@ -578,7 +578,7 @@ function khoiDong(khung) {
 
   /* Đặt lại cỡ bộ đệm vẽ khi khung đổi kích thước. Phải tự nhớ cỡ cũ: gọi
      setSize(w, h, FALSE) là cố ý không cho three.js đụng vào style của canvas
-     (CSS đã trải nó bằng inset:0), nên hỏi lại clientWidth thì lúc nào cũng
+     (CSS đã trải nó bằng width/height 100%), nên hỏi lại clientWidth thì lúc nào cũng
      thấy vừa khít, chẳng bao giờ biết là bộ đệm còn đang sai cỡ. */
   function coLai(ep) {
     const w = khung.clientWidth, h = khung.clientHeight;
