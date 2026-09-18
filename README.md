@@ -172,8 +172,13 @@ Phần thưởng của bản thân Nhà hát (huân chương, danh hiệu Anh h�
   đủ ảnh thì chuyển nốt. Ảnh nghệ sĩ nằm ở `anh/nghe-si/`, khác ảnh lãnh đạo ở
   chỗ là ảnh sân khấu khung ngang, không có dải chú thích in sẵn — tấm nào nhân
   vật đứng lệch tâm thì thêm `.leader--fit-right` cho khỏi bị cắt mất mặt.
-- Sáu bài trong mục Tin tức, ảnh tải về `anh/tin-tuc/`, có ghi nguồn bài và
-  nguồn ảnh
+- Tin tức nay **lấy hết từ CMS**, không còn bài nào viết cứng trong HTML. Trang chủ
+  và trang Tin tức đều để trống rồi `noi-cms.js` đổ xuống, nên thêm bài bên CMS là
+  hiện ngay ở cả hai chỗ. Đổi lại: mất mạng thì khối tin trống, và máy tìm kiếm
+  không đọc được tin.
+- **Không liên kết nào dẫn ra báo ngoài.** Bấm vào bài là mở `tin-bai.html` của
+  Nhà hát; tên báo vẫn ghi đủ nhưng để chữ thường, và `tin-bai.js` gỡ luôn mọi
+  thẻ `<a>` lẫn trong thân bài chép về.
 
 **Vẫn là dữ liệu mẫu, phải thay trước khi dùng thật:**
 

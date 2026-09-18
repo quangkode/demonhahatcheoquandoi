@@ -2,8 +2,10 @@
    Trang đọc một bài viết: tin-bai.html?id=<mã bài>
 
    Đọc bài từ Firestore (qua kho.js) rồi dựng ra màn hình. Cuối bài luôn
-   có khối "Nguồn: <tên báo>" kèm liên kết về bài gốc — bài lấy từ báo về
-   thì phải dẫn nguồn, không có ngoại lệ.
+   có khối "Nguồn: <tên báo>" — bài lấy từ báo về thì phải dẫn nguồn, không
+   có ngoại lệ. Nhưng chỉ GHI TÊN, không gắn liên kết, và mọi liên kết nằm
+   trong thân bài cũng bị gỡ: cả trang nay không còn chỗ nào bấm vào là
+   nhảy sang báo khác.
 
    Nội dung bài đã được CMS lọc theo danh sách thẻ cho phép trước khi lưu
    (xem js/doc-bai.js bên kho CMS), nên tới đây chỉ còn p, h2-h4, ul, ol,
@@ -59,9 +61,13 @@
         if (!giu) { el.removeAttribute(a); continue; }
         if (a !== 'alt' && !/^https?:\/\//i.test(v)) el.removeAttribute(a);
       }
-      if (el.tagName === 'A' && el.getAttribute('href')) {
-        el.setAttribute('target', '_blank');
-        el.setAttribute('rel', 'noopener');
+      /* Gỡ vỏ thẻ <a>, giữ nguyên chữ bên trong. Thân bài chép từ báo về
+         thường dày đặc liên kết chéo sang bài khác của chính báo đó; để
+         nguyên thì người đọc bấm nhầm một cái là rời khỏi trang Nhà hát. */
+      if (el.tagName === 'A') {
+        while (el.firstChild) el.parentNode.insertBefore(el.firstChild, el);
+        el.parentNode.removeChild(el);
+        continue;
       }
       if (el.tagName === 'IMG') {
         el.setAttribute('loading', 'lazy');
@@ -113,19 +119,14 @@
     if (r.noiDung) {
       h += '<div class="baiviet__than">' + quet(r.noiDung) + '</div>';
     } else {
-      /* Bài cũ chỉ có tóm tắt, chưa lấy toàn văn. Đừng để trang trống
-         trơn — đưa người đọc sang bài gốc. */
-      h += '<p class="baiviet__thieu">Bài này hiện chỉ có phần tóm tắt. '
-        + (r.nguonUrl ? 'Mời bạn đọc toàn văn tại bài gốc bên dưới.' : '') + '</p>';
+      // Bài cũ chỉ có tóm tắt, chưa lấy toàn văn
+      h += '<p class="baiviet__thieu">Bài này hiện chỉ có phần tóm tắt.</p>';
     }
 
-    if (r.nguonTen || r.nguonUrl) {
+    if (r.nguonTen) {
       h += '<aside class="baiviet__nguon">'
         + '<span class="baiviet__nguon-nhan">Nguồn</span>'
-        + (r.nguonUrl
-            ? '<a href="' + esc(r.nguonUrl) + '" target="_blank" rel="noopener">'
-              + esc(r.nguonTen || r.nguonUrl) + '</a>'
-            : '<strong>' + esc(r.nguonTen) + '</strong>')
+        + '<strong>' + esc(r.nguonTen) + '</strong>'
         + '<p>Bài viết thuộc bản quyền của cơ quan báo chí nêu trên. '
         + 'Nhà hát Chèo Quân đội đăng lại để lưu giữ tư liệu về hoạt động của đơn vị.</p>'
         + '</aside>';

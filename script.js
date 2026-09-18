@@ -322,20 +322,26 @@
     Array.prototype.forEach.call(counters, runCounter);
   }
 
-  /* ---------- Trang tin tức: lọc chủ đề + xem thêm ---------- */
+  /* ---------- Trang tin tức: lọc chủ đề + xem thêm ----------
+     Danh sách tin do noi-cms.js đổ vào SAU khi Firestore trả lời, tức là muộn
+     hơn đoạn này. Nên phải hỏi lại DOM mỗi lần vẽ chứ không giữ mảng thẻ lấy
+     một lần lúc tải trang — giữ mảng cũ thì lọc chủ đề chỉ thao tác trên mấy
+     thẻ đã bị thay mất, bấm chip không thấy gì đổi. window.LocTin là cửa để
+     noi-cms.js gọi lại sau khi đổ tin xong.                                  */
   var newsGrid = document.getElementById('newsGrid');
   if (newsGrid) {
     var newsMore = document.getElementById('newsMore');
     var newsEmpty = document.getElementById('newsEmpty');
     var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
-    var cards = Array.prototype.slice.call(newsGrid.querySelectorAll('.newscard'));
-    // bài nổi bật nằm ngoài lưới nhưng vẫn phải theo bộ lọc
-    var feature = document.querySelector('.feature');
     var VISIBLE = 4;              // số tin hiện sẵn trước khi bấm "Xem thêm"
     var filter = 'all';
     var expanded = false;
 
     var renderNews = function () {
+      var cards = Array.prototype.slice.call(newsGrid.querySelectorAll('.newscard'));
+      // bài nổi bật nằm ngoài lưới nhưng vẫn phải theo bộ lọc
+      var feature = document.querySelector('.feature');
+
       var matches = cards.filter(function (c) {
         return filter === 'all' || c.getAttribute('data-cat') === filter;
       });
@@ -354,7 +360,8 @@
       newsMore.hidden = matches.length <= VISIBLE;
       newsMore.textContent = newsMore.getAttribute(expanded ? 'data-less' : 'data-more');
       newsMore.setAttribute('aria-expanded', String(expanded));
-      newsEmpty.hidden = matches.length > 0 || featureShown;
+      // lúc chưa có tin nào thì đã có dòng "Đang tải tin…" lo, đừng chồng thêm
+      newsEmpty.hidden = matches.length > 0 || featureShown || !cards.length;
     };
 
     chips.forEach(function (chip) {
@@ -374,6 +381,7 @@
       if (!expanded) newsGrid.scrollIntoView({ block: 'nearest' });
     });
 
+    window.LocTin = { lamMoi: function () { expanded = false; renderNews(); } };
     renderNews();
   }
 

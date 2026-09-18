@@ -119,90 +119,18 @@
       <button type="button" class="chip" data-filter="su-kien">Sự kiện</button>
     </div>
 
-    <!-- Bài nổi bật: luôn hiện, không nằm trong bộ lọc -->
-    <article class="feature" data-cat="hoat-dong">
-      <div class="feature__art">
-        <img src="./anh/tin-tuc/nha-may-x46.jpg" alt="Nghệ sĩ Nhà hát Chèo Quân đội biểu diễn tại Hội trường Nhà máy X46" width="1280" height="773" />
-        <span class="feature__tag">Tin nổi bật</span>
-        <span class="art__credit">Ảnh: Báo Hải quân Việt Nam</span>
-      </div>
-      <div class="feature__body">
-        <p class="news__meta">15/04/2026 · Hoạt động</p>
-        <h3><a href="https://baohaiquanvietnam.vn/tin-tuc/nha-hat-cheo-quan-doi-bieu-dien-tai-nha-may-x46" target="_blank" rel="noopener">Nhà hát Chèo Quân đội biểu diễn tại Nhà máy X46</a></h3>
-        <p>Nhà hát trình diễn các tiết mục đặc sắc như “Những người mẹ” và “Đất liền và biển cả” tại Hội trường Nhà máy X46, phục vụ cán bộ, chiến sĩ và nhân dân địa phương. Các vở diễn tôn vinh hình ảnh những người mẹ Việt Nam và mối gắn bó giữa đất liền với biển đảo quê hương, góp phần nâng cao đời sống văn hóa tinh thần cho cộng đồng.</p>
-        <p class="news__source">Nguồn: <a href="https://baohaiquanvietnam.vn/tin-tuc/nha-hat-cheo-quan-doi-bieu-dien-tai-nha-may-x46" target="_blank" rel="noopener">Báo Hải quân Việt Nam</a></p>
-      </div>
-    </article>
-
-    <!-- DANH SÁCH TIN — thêm bài mới thì chép một <article class="newscard">
-         và đặt data-cat trùng một trong các mã ở bộ lọc phía trên -->
-    <div class="newsgrid" id="newsGrid">
-      <article class="newscard" data-cat="hoat-dong">
-        <div class="newscard__art">
-          <img src="./anh/tin-tuc/dieu-binh-quan-khu-2.jpg" alt="Chương trình nghệ thuật phục vụ các khối diễu binh, diễu hành" loading="lazy" width="1200" height="743" />
-          <span class="art__credit">Ảnh: Báo Quân khu 2</span>
-        </div>
-        <div class="newscard__body">
-          <p class="news__meta">05/07/2025 · Hoạt động</p>
-          <h3><a href="https://baoquankhu2.com.vn/nha-hat-cheo-quan-doi-bieu-dien-phuc-vu-cac-luc-luong-dieu-binh-dieu-hanh/" target="_blank" rel="noopener">Biểu diễn phục vụ các lực lượng diễu binh, diễu hành</a></h3>
-          <p>Tối 4/7 tại Trường Sĩ quan Chính trị, Nhà hát biểu diễn ca nhạc và trích đoạn phục vụ hơn 900 cán bộ, chiến sĩ trong 4 khối diễu binh, diễu hành của Quân khu. Chương trình gồm hát văn, dân ca Quan họ Bắc Ninh, múa và trích đoạn chèo.</p>
-          <p class="news__source">Nguồn: <a href="https://baoquankhu2.com.vn/nha-hat-cheo-quan-doi-bieu-dien-phuc-vu-cac-luc-luong-dieu-binh-dieu-hanh/" target="_blank" rel="noopener">Báo Quân khu 2</a></p>
-        </div>
-      </article>
-      <article class="newscard" data-cat="su-kien">
-        <div class="newscard__art">
-          <img src="./anh/tin-tuc/tu-long-giam-doc.jpg" alt="Đại tá, NSND Tự Long" loading="lazy" width="1608" height="1081" />
-          <span class="art__credit">Ảnh: Báo Thanh Niên</span>
-        </div>
-        <div class="newscard__body">
-          <p class="news__meta">30/12/2024 · Sự kiện</p>
-          <h3><a href="https://thanhnien.vn/nsnd-tu-long-giu-chuc-giam-doc-nha-hat-cheo-quan-doi-18524123101142834.htm" target="_blank" rel="noopener">NSND Tự Long giữ chức Giám đốc Nhà hát Chèo Quân đội</a></h3>
-          <p>Đại tá, NSND Tự Long được bổ nhiệm giữ chức Giám đốc Nhà hát Chèo Quân đội, thay Đại tá, NSND Nguyễn Quốc Trượng nghỉ hưu theo chế độ. Trước đó ông giữ cương vị Phó Giám đốc Nhà hát.</p>
-          <p class="news__source">Nguồn: <a href="https://thanhnien.vn/nsnd-tu-long-giu-chuc-giam-doc-nha-hat-cheo-quan-doi-18524123101142834.htm" target="_blank" rel="noopener">Báo Thanh Niên</a></p>
-        </div>
-      </article>
-      <article class="newscard" data-cat="hoat-dong">
-        <div class="newscard__art">
-          <img src="./anh/tin-tuc/nghe-si-chien-si.png" alt="Nhà hát Chèo Quân đội trên mặt trận văn hóa" loading="lazy" width="500" height="355" />
-          <span class="art__credit">Ảnh: Tạp chí Quốc phòng toàn dân</span>
-        </div>
-        <div class="newscard__body">
-          <p class="news__meta">01/10/2024 · Hoạt động</p>
-          <h3><a href="https://tapchiqptd.vn/vi/bao-ve-to-quoc/nha-hat-cheo-quan-doi-phat-huy-vai-tro-nguoi-nghe-si-chien-si-tren-mat-tran-van-hoa/22768.html" target="_blank" rel="noopener">Phát huy vai trò người “nghệ sĩ - chiến sĩ” trên mặt trận văn hóa</a></h3>
-          <p>Bài viết nhìn lại 70 năm phát triển của Nhà hát qua bốn nội dung: xây dựng tổ chức đảng vững mạnh, học tập tư tưởng Hồ Chí Minh, nâng cao chất lượng sáng tác - biểu diễn và thực hiện công tác dân vận.</p>
-          <p class="news__source">Nguồn: <a href="https://tapchiqptd.vn/vi/bao-ve-to-quoc/nha-hat-cheo-quan-doi-phat-huy-vai-tro-nguoi-nghe-si-chien-si-tren-mat-tran-van-hoa/22768.html" target="_blank" rel="noopener">Tạp chí Quốc phòng toàn dân</a></p>
-        </div>
-      </article>
-      <article class="newscard" data-cat="hoat-dong">
-        <div class="newscard__art">
-          <img src="./anh/tin-tuc/nghe-an.jpg" alt="Biểu diễn phục vụ cán bộ, chiến sĩ và nhân dân Nghệ An" loading="lazy" width="1000" height="657" />
-          <span class="art__credit">Ảnh: Truyền hình Nghệ An</span>
-        </div>
-        <div class="newscard__body">
-          <p class="news__meta">07/04/2024 · Hoạt động</p>
-          <h3><a href="https://truyenhinhnghean.vn/van-hoa-giai-tri/202404/nha-hat-cheo-quan-doi-bieu-dien-phuc-vu-can-bo-chien-si-va-nhan-dan-nghe-an-9b515d8/" target="_blank" rel="noopener">Biểu diễn phục vụ cán bộ, chiến sĩ và nhân dân Nghệ An</a></h3>
-          <p>Nhà hát biểu diễn tại Trung đoàn 764, Bộ Chỉ huy Quân sự tỉnh Nghệ An. Vở “Đất liền và biển cả” ca ngợi tinh thần chiến đấu và sự hy sinh của các chiến sĩ Hải quân nhân dân Việt Nam trong bảo vệ chủ quyền biển đảo.</p>
-          <p class="news__source">Nguồn: <a href="https://truyenhinhnghean.vn/van-hoa-giai-tri/202404/nha-hat-cheo-quan-doi-bieu-dien-phuc-vu-can-bo-chien-si-va-nhan-dan-nghe-an-9b515d8/" target="_blank" rel="noopener">Truyền hình Nghệ An</a></p>
-        </div>
-      </article>
-      <article class="newscard" data-cat="hoat-dong">
-        <div class="newscard__art">
-          <img src="./anh/tin-tuc/canh-sat-bien-hai-phong.jpg" alt="Đoàn diễn 1 biểu diễn phục vụ các đơn vị Cảnh sát biển tại Hải Phòng" loading="lazy" width="900" height="552" />
-          <span class="art__credit">Ảnh: Báo An ninh Hải Phòng</span>
-        </div>
-        <div class="newscard__body">
-          <p class="news__meta">05/04/2024 · Hoạt động</p>
-          <h3><a href="https://www.anhp.vn/nha-hat-cheo-quan-doi-bieu-dien-phuc-vu-can-bo-chien-si-cac-don-vi-canh-sat-bien-va-nhan-dan-hai-phong-d59243.html" target="_blank" rel="noopener">Biểu diễn phục vụ các đơn vị Cảnh sát biển và nhân dân Hải Phòng</a></h3>
-          <p>Tối 4/4 tại Hải Phòng, Đoàn diễn 1 biểu diễn chương trình kết hợp ca khúc cách mạng với các làn điệu chèo, quan họ và trích đoạn chèo cổ. Đây là hoạt động hướng tới kỷ niệm 70 năm Chiến thắng lịch sử Điện Biên Phủ.</p>
-          <p class="news__source">Nguồn: <a href="https://www.anhp.vn/nha-hat-cheo-quan-doi-bieu-dien-phuc-vu-can-bo-chien-si-cac-don-vi-canh-sat-bien-va-nhan-dan-hai-phong-d59243.html" target="_blank" rel="noopener">Báo An ninh Hải Phòng</a></p>
-        </div>
-      </article>
-    </div>
+    <!-- Bài nổi bật và cả danh sách tin đều do noi-cms.js đổ vào từ CMS.
+         KHÔNG viết cứng bài nào ở đây nữa: tin viết cứng thì sửa trong CMS
+         chẳng ăn thua, mà mỗi lần thêm tin lại phải sửa tay cả trang này lẫn
+         trang chủ. Thêm tin bên CMS là hiện ở cả hai chỗ. -->
+    <div id="tinNoiBat"></div>
+    <div class="newsgrid" id="newsGrid"></div>
 
     <p class="newsgrid__more">
       <button type="button" class="btn btn--ghost" id="newsMore" data-more="Xem thêm tin" data-less="Thu gọn">Xem thêm tin</button>
     </p>
     <p class="newsgrid__empty" id="newsEmpty" hidden>Chưa có tin nào thuộc chủ đề này.</p>
+    <p class="newsgrid__empty" id="newsTai">Đang tải tin…</p>
   </div>
 </section>
 
@@ -392,6 +320,8 @@
 
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
-<script src="./script.js?v=18"></script>
+<script src="./kho.js?v=1"></script>
+<script src="./noi-cms.js?v=2"></script>
+<script src="./script.js?v=19"></script>
 </body>
 </html>

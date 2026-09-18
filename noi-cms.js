@@ -12,10 +12,16 @@
    đã vẽ xong — máy tìm kiếm không thấy gì, người dùng thấy khoảng trống
    nhấp nháy. Đánh đổi đó chỉ đáng với nội dung thay đổi hằng tuần.
 
-   NGUYÊN TẮC HỎNG THÌ GIỮ NGUYÊN: mọi khối trên trang đều đã có sẵn
-   HTML viết tay. Chỉ khi Firestore trả về danh sách KHÔNG RỖNG mới thay
-   nội dung đó đi. Mất mạng, sai luật, Firestore rỗng — trang vẫn y như
-   trước, không bao giờ trắng khối.
+   LỊCH DIỄN theo NGUYÊN TẮC HỎNG THÌ GIỮ NGUYÊN: khối đó vẫn có sẵn HTML
+   viết tay, chỉ khi Firestore trả về danh sách KHÔNG RỖNG mới thay đi. Mất
+   mạng, sai luật, Firestore rỗng — trang vẫn y như trước.
+
+   TIN TỨC thì KHÔNG còn bản viết tay nào nữa. Trước đây trang chủ và trang
+   Tin tức đều chép cứng sáu bài, mỗi bài bấm vào là nhảy thẳng sang báo
+   gốc; sửa trong CMS chẳng ăn thua vì trang Tin tức còn không đọc CMS.
+   Nay cả hai trang đều để trống rồi đổ từ CMS xuống, nên hỏng mạng là mất
+   khối tin — đổi lại thêm tin bên CMS là hiện ngay ở cả hai chỗ, và không
+   bài nào hất người đọc sang trang khác nữa.
    ========================================================== */
 (function (global) {
   'use strict';
@@ -169,59 +175,131 @@
     return (r.anh && r.anh.url) ? r.anh.url : '';
   }
 
-  /* Bài đã có toàn văn thì mở ngay trên trang Nhà hát, người đọc không
-     phải nhảy sang báo khác. Bài cũ chỉ có tóm tắt thì vẫn dẫn thẳng về
-     bài gốc như trước — thà sang báo còn hơn mở ra một trang trống. */
+  /* Tiêu đề bài LUÔN dẫn về trang của Nhà hát, không bao giờ nhảy thẳng
+     sang báo. Bản trước: bài nào chưa có toàn văn thì dẫn thẳng sang bài
+     gốc — bấm một cái là rời hẳn khỏi trang Nhà hát sang một trang lạ.
+     Nay bài nào cũng mở tại chỗ; bài chưa có toàn văn thì tin-bai.html
+     hiện phần tóm tắt. */
   function tieuDeCoLink(r, the) {
     var t = esc(r.tieuDe);
-    var trong = t;
-
-    if (r.noiDung && r.id) {
-      trong = '<a href="./tin-bai.html?id=' + encodeURIComponent(r.id) + '">' + t + '</a>';
-    } else if (r.nguonUrl) {
-      trong = '<a href="' + esc(r.nguonUrl) + '" target="_blank" rel="noopener">' + t + '</a>';
-    }
+    var trong = r.id
+      ? '<a href="./tin-bai.html?id=' + encodeURIComponent(r.id) + '">' + t + '</a>'
+      : t;
     return '<' + the + '>' + trong + '</' + the + '>';
+  }
+
+  /* Tên báo để nguyên chữ, KHÔNG bọc liên kết: vẫn ghi công đầy đủ mà không
+     hất người đọc sang trang khác. */
+  function dongNguon(r) {
+    return r.nguonTen
+      ? '<p class="news__source">Nguồn: ' + esc(r.nguonTen) + '</p>'
+      : '';
+  }
+
+  function anhCo(r, lop) {
+    var a = anhCua(r);
+    if (!a) return '';
+    return '<div class="' + lop + '"><img src="' + esc(a) + '" alt="' + esc(r.tieuDe || '')
+      + '" loading="lazy" />'
+      + (r.anhNguon ? '<span class="art__credit">' + esc(r.anhNguon) + '</span>' : '')
+      + '</div>';
+  }
+
+  function dongNgay(r) {
+    var d = ngayCua(r.ngay);
+    return '<p class="news__meta">' + (d ? ngayVN(d) : '') + ' · '
+      + esc(CHU_DE[r.chuDe] || r.chuDe || '') + '</p>';
   }
 
   function veTinTrangChu(ds) {
     var khung = doc.querySelector('.news');
-    if (!khung || !ds.length) return;
+    if (!khung) return;
+    if (!ds.length) {
+      thay(khung, '<p class="news__tai">Chưa có tin nào.</p>');
+      return;
+    }
 
     var dau = ds[0];
-    var d0 = ngayCua(dau.ngay);
-    var anh0 = anhCua(dau);
-
     var lead = '<article class="news__lead">'
-      + (anh0 ? '<div class="news__img"><img src="' + esc(anh0) + '" alt="' + esc(dau.tieuDe)
-          + '" loading="lazy" />'
-          + (dau.anhNguon ? '<span class="art__credit">' + esc(dau.anhNguon) + '</span>' : '')
-          + '</div>' : '')
+      + anhCo(dau, 'news__img')
       + '<div class="news__body">'
-      + '<p class="news__meta">' + (d0 ? ngayVN(d0) : '') + ' · '
-      + esc(CHU_DE[dau.chuDe] || dau.chuDe || '') + '</p>'
+      + dongNgay(dau)
       + tieuDeCoLink(dau, 'h3')
       + '<p>' + esc(dau.tomTat || '') + '</p>'
-      + (dau.nguonTen && dau.nguonUrl
-          ? '<p class="news__source">Nguồn: <a href="' + esc(dau.nguonUrl)
-            + '" target="_blank" rel="noopener">' + esc(dau.nguonTen) + '</a></p>'
-          : '')
+      + dongNguon(dau)
       + '</div></article>';
 
     var list = ds.slice(1, SO_TIN_TRANG_CHU).map(function (r) {
-      var d = ngayCua(r.ngay);
       var a = anhCua(r);
       return '<article class="news__item">'
         + '<div class="news__thumb">'
         + (a ? '<img src="' + esc(a) + '" alt="" loading="lazy" />' : '')
         + '</div><div>'
-        + '<p class="news__meta">' + (d ? ngayVN(d) : '') + ' · '
-        + esc(CHU_DE[r.chuDe] || r.chuDe || '') + '</p>'
+        + dongNgay(r)
         + tieuDeCoLink(r, 'h4')
         + '</div></article>';
     }).join('');
 
     thay(khung, lead + '<div class="news__list">' + list + '</div>');
+  }
+
+  /* ----------------------------------------------------------
+     TRANG TIN TỨC
+
+     Bài mới nhất lên ô nổi bật, còn lại xuống lưới. Vẽ xong phải gọi
+     LocTin.lamMoi(): bộ lọc chủ đề bên script.js chạy lúc trang vừa tải,
+     sớm hơn lúc Firestore trả lời, nên nó cần được bảo là có thẻ mới.
+     ---------------------------------------------------------- */
+
+  function theTin(r) {
+    return '<article class="newscard" data-cat="' + esc(r.chuDe || '') + '">'
+      + anhCo(r, 'newscard__art')
+      + '<div class="newscard__body">'
+      + dongNgay(r)
+      + tieuDeCoLink(r, 'h3')
+      + '<p>' + esc(r.tomTat || '') + '</p>'
+      + dongNguon(r)
+      + '</div></article>';
+  }
+
+  function veTinTrangTin(ds) {
+    var oNoiBat = doc.getElementById('tinNoiBat');
+    var luoi = doc.getElementById('newsGrid');
+    if (!oNoiBat || !luoi) return;
+
+    var oTai = doc.getElementById('newsTai');
+    if (oTai) oTai.hidden = ds.length > 0;
+    if (oTai && !ds.length) oTai.textContent = 'Chưa có tin nào.';
+    if (!ds.length) { thay(oNoiBat, ''); thay(luoi, ''); return; }
+
+    var dau = ds[0];
+    thay(oNoiBat, '<article class="feature" data-cat="' + esc(dau.chuDe || '') + '">'
+      + (anhCua(dau)
+          ? '<div class="feature__art"><img src="' + esc(anhCua(dau)) + '" alt="'
+            + esc(dau.tieuDe || '') + '" />'
+            + '<span class="feature__tag">Tin nổi bật</span>'
+            + (dau.anhNguon ? '<span class="art__credit">' + esc(dau.anhNguon) + '</span>' : '')
+            + '</div>'
+          : '')
+      + '<div class="feature__body">'
+      + dongNgay(dau)
+      + tieuDeCoLink(dau, 'h3')
+      + '<p>' + esc(dau.tomTat || '') + '</p>'
+      + dongNguon(dau)
+      + '</div></article>');
+
+    thay(luoi, ds.slice(1).map(theTin).join(''));
+    if (global.LocTin) global.LocTin.lamMoi();
+  }
+
+  function baoHongTin(loi) {
+    var oTai = doc.getElementById('newsTai');
+    if (oTai) { oTai.hidden = false; oTai.textContent = 'Chưa tải được tin tức.'; }
+    var khung = doc.querySelector('.news');
+    if (khung && !khung.querySelector('.news__lead')) {
+      thay(khung, '<p class="news__tai">Chưa tải được tin tức.</p>');
+    }
+    if (global.console) global.console.warn('Không đọc được tin tức từ CMS:', loi);
   }
 
   function napTin() {
@@ -233,10 +311,11 @@
         var x = ngayCua(a.ngay), y = ngayCua(b.ngay);
         return (y ? y.getTime() : 0) - (x ? x.getTime() : 0);
       });
-      if (tin.length) veTinTrangChu(tin);
+      veTinTrangChu(tin);
+      veTinTrangTin(tin);
       return tin;
     })['catch'](function (e) {
-      if (global.console) global.console.warn('Không đọc được tin tức từ CMS:', e);
+      baoHongTin(e);
       return null;
     });
   }
@@ -247,7 +326,7 @@
 
   var xongLich = napLich();
 
-  if (doc.querySelector('.news')) napTin();
+  if (doc.querySelector('.news') || doc.getElementById('newsGrid')) napTin();
 
   global.NoiCms = {
     // dat-cho.html phải chờ cái này rồi mới dựng luồng đặt chỗ, không thì
