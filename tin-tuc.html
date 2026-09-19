@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Serif:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=77" />
+<link rel="stylesheet" href="./styles.css?v=78" />
 <link rel="icon" type="image/png" href="./anh/logo.png" />
 </head>
 <body>
@@ -164,7 +164,12 @@
     </div>
     <p class="section__intro">Hình ảnh về Nhà hát và các hoạt động biểu diễn. Bấm vào từng ảnh để xem bản đầy đủ.</p>
 
-    <div class="gallery">
+    <!-- Khối này do noi-cms.js đổ lại từ CMS. HTML dưới đây là bản dự phòng:
+         mất mạng hay Firestore trục trặc thì trang vẫn hiện đủ, và máy tìm
+         kiếm vẫn đọc được. noi-cms.js chỉ thay khi bản từ CMS KHÔNG ÍT THẺ
+         VÀ ÍT ẢNH HƠN bản này — thiếu thì giữ nguyên, không bao giờ để CMS
+         làm trang nghèo đi. -->
+    <div class="gallery" data-cms="thu-vien-anh">
       <figure class="shot shot--tall">
         <button type="button" class="shot__zoom" data-cap="Đại tá, NSND Tự Long, Giám đốc Nhà hát" data-credit="Ảnh: Báo Thanh Niên" aria-label="Phóng to ảnh: Đại tá, NSND Tự Long, Giám đốc Nhà hát">
           <img src="./anh/tin-tuc/tu-long-giam-doc.jpg" alt="Đại tá, NSND Tự Long" loading="lazy" />
@@ -321,7 +326,7 @@
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
 <script src="./kho.js?v=1"></script>
-<script src="./noi-cms.js?v=2"></script>
-<script src="./script.js?v=19"></script>
+<script src="./noi-cms.js?v=3"></script>
+<script src="./script.js?v=20"></script>
 </body>
 </html>

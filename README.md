@@ -171,11 +171,31 @@ Phần thưởng của bản thân Nhà hát (huân chương, danh hiệu Anh h�
   `.leaders` với mục Lãnh đạo; 26 NSƯT mới có 7 ảnh nên vẫn để danh sách chữ,
   đủ ảnh thì chuyển nốt. Ảnh nghệ sĩ nằm ở `anh/nghe-si/`, khác ảnh lãnh đạo ở
   chỗ là ảnh sân khấu khung ngang, không có dải chú thích in sẵn — tấm nào nhân
-  vật đứng lệch tâm thì thêm `.leader--fit-right` cho khỏi bị cắt mất mặt.
+  vật đứng lệch tâm thì căn lại bằng `object-position`. Trước dùng lớp
+  `.leader--fit-right` đặt tay trong HTML; nay thẻ do CMS dựng nên bám theo tên
+  tệp ảnh (`.leader__img img[src*="ngoc-vien"]`) — CMS không có ô "căn ảnh lệch
+  bao nhiêu", và cũng không nên có: đó là chuyện trình bày của riêng tấm ảnh.
 - Tin tức nay **lấy hết từ CMS**, không còn bài nào viết cứng trong HTML. Trang chủ
   và trang Tin tức đều để trống rồi `noi-cms.js` đổ xuống, nên thêm bài bên CMS là
   hiện ngay ở cả hai chỗ. Đổi lại: mất mạng thì khối tin trống, và máy tìm kiếm
   không đọc được tin.
+- **Cả sáu mục của CMS nay đều đổ ra web.** Trước chỉ có Lịch diễn và Tin tức;
+  Vở diễn, Nghệ sĩ, Lãnh đạo, Thư viện ảnh nằm trong CMS mà không trang nào đọc
+  tới, sửa xong mở web vẫn thấy y nguyên. Khối nào nhận dữ liệu CMS thì mang
+  `data-cms="…"` (hoặc `data-cms-vo="…"`) trong HTML.
+
+  Khác tin tức ở chỗ **bốn mục này vẫn giữ nguyên HTML viết tay làm bản dự phòng**,
+  nên Google vẫn đọc được và mất mạng trang vẫn đủ. `thayNeuDu()` chỉ thay khi bản
+  từ CMS *không ít thẻ và ít ảnh hơn* bản đang hiện — bản ghi bỏ trống ô ảnh vì thế
+  không thể làm biến mất cả hàng ảnh chân dung; nó chỉ ghi một dòng cảnh báo ra
+  Console kèm cách khắc phục.
+
+  Hai mục cuối trang Vở diễn — *Theo giai đoạn phát triển* và *Vở diễn đoạt giải* —
+  vẫn viết tay: mỗi giải cần tách riêng loại huy chương, tên hội diễn và năm, mà
+  lược đồ CMS mới có một ô "Giải thưởng" dạng chữ tự do.
+- Bên CMS, `nap-du-lieu.html` có thêm khối **Đối chiếu với bản gốc**: so từng trường
+  với bản rút từ trang web rồi chỉ điền vào chỗ trống. Dùng khi lược đồ thêm trường
+  mới, hoặc khi ô ảnh trong CMS còn trống mà trang web đã có ảnh trong kho mã.
 - **Không liên kết nào dẫn ra báo ngoài.** Bấm vào bài là mở `tin-bai.html` của
   Nhà hát; tên báo vẫn ghi đủ nhưng để chữ thường, và `tin-bai.js` gỡ luôn mọi
   thẻ `<a>` lẫn trong thân bài chép về.

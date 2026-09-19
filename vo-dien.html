@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Serif:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=77" />
+<link rel="stylesheet" href="./styles.css?v=78" />
 <link rel="icon" type="image/png" href="./anh/logo.png" />
 </head>
 <body>
@@ -113,6 +113,11 @@
     </div>
     <p class="section__intro">Những tác phẩm mẫu mực của chèo cổ mà Nhà hát kế thừa và phát triển. Đây là vốn liếng nghề nghiệp làm nền cho toàn bộ mảng đề tài người lính về sau.</p>
 
+    <!-- Khối này do noi-cms.js đổ lại từ mục Vở diễn bên CMS. HTML dưới đây là
+         bản dự phòng: mất mạng hay Firestore trục trặc thì trang vẫn đủ, và máy
+         tìm kiếm vẫn đọc được. noi-cms.js chỉ thay khi bản từ CMS không ít vở và
+         ít ảnh hơn bản này. -->
+    <div data-cms-vo="cheo-co">
     <div class="expgrid expgrid--wide">
       <article class="expcard expcard--work" data-work="quan-am">
         <div class="expcard__art expcard__art--anh"><img src="./anh/vo-dien/quan-am.jpg" alt="Cảnh trong vở Quan Âm Thị Kính" loading="lazy" width="400" height="277" /></div>
@@ -170,6 +175,7 @@
         <div class="work__body"><h4>Súy Vân giả dại <span class="work__tag">Trích đoạn</span></h4></div>
       </div>
     </div>
+    </div>
   </div>
 </section>
 
@@ -185,6 +191,11 @@
     </div>
     <p class="section__intro section__intro--wide">Mảng nội dung phản ánh rõ nét nhất phong cách Chèo Quân đội, trải từ người lính thời phong kiến, qua hai cuộc kháng chiến, tới người lính thời bình hôm nay.</p>
 
+    <!-- Khối này do noi-cms.js đổ lại từ mục Vở diễn bên CMS. HTML dưới đây là
+         bản dự phòng: mất mạng hay Firestore trục trặc thì trang vẫn đủ, và máy
+         tìm kiếm vẫn đọc được. noi-cms.js chỉ thay khi bản từ CMS không ít vở và
+         ít ảnh hơn bản này. -->
+    <div data-cms-vo="nguoi-linh">
     <div class="expgrid expgrid--wide">
       <article class="expcard expcard--work" data-work="bai-ca-giu-nuoc">
         <div class="expcard__art expcard__art--anh"><img src="./anh/vo-dien/bai-ca-giu-nuoc.jpg" alt="Bìa đĩa VCD vở Lý Thánh Tông tuyển hiền do Đoàn Chèo Tổng cục Hậu cần biểu diễn" loading="lazy" width="422" height="264" /></div>
@@ -384,6 +395,7 @@
         <div class="work__body"><h4>Người lính thời bình</h4></div>
       </div>
     </div>
+    </div>
   </div>
 </section>
 
@@ -399,6 +411,11 @@
     </div>
     <p class="section__intro">Những vở diễn dựng chân dung các danh nhân văn hóa và lãnh đạo Đảng, Nhà nước.</p>
 
+    <!-- Khối này do noi-cms.js đổ lại từ mục Vở diễn bên CMS. HTML dưới đây là
+         bản dự phòng: mất mạng hay Firestore trục trặc thì trang vẫn đủ, và máy
+         tìm kiếm vẫn đọc được. noi-cms.js chỉ thay khi bản từ CMS không ít vở và
+         ít ảnh hơn bản này. -->
+    <div data-cms-vo="danh-nhan">
     <div class="expgrid expgrid--wide">
       <article class="expcard expcard--work" data-work="tuoi-tre-chi-lon">
         <div class="expcard__art expcard__art--anh"><img src="./anh/vo-dien/tuoi-tre-chi-lon.jpg" alt="Các nghệ sĩ trong vở Tuổi trẻ chí lớn" loading="lazy" width="370" height="231" /></div>
@@ -431,6 +448,7 @@
           <h3>Huyền nữ Phạm Thị Thành</h3>
         </div>
       </article>
+    </div>
     </div>
   </div>
 </section>
@@ -783,6 +801,8 @@
 
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
-<script src="./script.js?v=19"></script>
+<script src="./kho.js?v=1"></script>
+<script src="./noi-cms.js?v=3"></script>
+<script src="./script.js?v=20"></script>
 </body>
 </html>

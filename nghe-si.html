@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Serif:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=77" />
+<link rel="stylesheet" href="./styles.css?v=78" />
 <link rel="icon" type="image/png" href="./anh/logo.png" />
 </head>
 <body>
@@ -119,6 +119,12 @@
     </div>
     <p class="section__intro section__intro--wide">Những người chủ trì đơn vị từ ngày thành lập năm 1954, khi còn là Đội Văn công Tổng cục Cung cấp, cho tới Nhà hát Chèo Quân đội hôm nay. Chỗ nào chưa có tư liệu thì để trống chờ bổ sung.</p>
 
+    <!-- Khối này do noi-cms.js đổ lại từ CMS. HTML dưới đây là bản dự phòng:
+         mất mạng hay Firestore trục trặc thì trang vẫn hiện đủ, và máy tìm
+         kiếm vẫn đọc được. noi-cms.js chỉ thay khi bản từ CMS KHÔNG ÍT THẺ
+         VÀ ÍT ẢNH HƠN bản này — thiếu thì giữ nguyên, không bao giờ để CMS
+         làm trang nghèo đi. -->
+    <div data-cms="lanh-dao">
     <h3 class="works__sub">Đoàn trưởng · Giám đốc</h3>
     <div class="leaders">
       <figure class="leader">
@@ -214,6 +220,7 @@
         <figcaption><h4>Đại tá, NSƯT Vũ Duy Từ</h4><p>Phó Giám đốc · 9/2014 - 4/2023</p></figcaption>
       </figure>
     </div>
+    </div>
 
   </div>
 </section>
@@ -229,7 +236,12 @@
     </div>
     <p class="section__intro section__intro--wide">Tám nghệ sĩ của Nhà hát đã được Nhà nước phong tặng danh hiệu Nghệ sĩ Nhân dân — năm người năm 2015 và ba người năm 2023. Dòng dưới mỗi tên ghi cả năm được phong Nghệ sĩ Ưu tú trước đó.</p>
 
-    <div class="leaders">
+    <!-- Khối này do noi-cms.js đổ lại từ CMS. HTML dưới đây là bản dự phòng:
+         mất mạng hay Firestore trục trặc thì trang vẫn hiện đủ, và máy tìm
+         kiếm vẫn đọc được. noi-cms.js chỉ thay khi bản từ CMS KHÔNG ÍT THẺ
+         VÀ ÍT ẢNH HƠN bản này — thiếu thì giữ nguyên, không bao giờ để CMS
+         làm trang nghèo đi. -->
+    <div class="leaders" data-cms="nghe-si-nsnd">
       <figure class="leader">
         <div class="leader__img"><img src="./anh/lanh-dao/dao-van-le.jpg" alt="NSND Đào Lê" loading="lazy" /></div>
         <figcaption>
@@ -301,7 +313,12 @@
     </div>
     <p class="section__intro section__intro--wide">Hai mươi sáu nghệ sĩ được phong tặng danh hiệu Nghệ sĩ Ưu tú, xếp theo năm phong tặng. Người sau đó được phong Nghệ sĩ Nhân dân có tên ở cả mục trên.</p>
 
-    <div class="works">
+    <!-- Khối này do noi-cms.js đổ lại từ CMS. HTML dưới đây là bản dự phòng:
+         mất mạng hay Firestore trục trặc thì trang vẫn hiện đủ, và máy tìm
+         kiếm vẫn đọc được. noi-cms.js chỉ thay khi bản từ CMS KHÔNG ÍT THẺ
+         VÀ ÍT ẢNH HƠN bản này — thiếu thì giữ nguyên, không bao giờ để CMS
+         làm trang nghèo đi. -->
+    <div class="works" data-cms="nghe-si-nsut">
       <div class="work">
         <span class="work__year">1993</span>
         <div class="work__body">
@@ -566,6 +583,8 @@
 
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
-<script src="./script.js?v=19"></script>
+<script src="./kho.js?v=1"></script>
+<script src="./noi-cms.js?v=3"></script>
+<script src="./script.js?v=20"></script>
 </body>
 </html>

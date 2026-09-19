@@ -267,27 +267,37 @@
     syncSubnav();
   }
 
-  /* ---------- Hiệu ứng xuất hiện khi cuộn ---------- */
-  var targets = document.querySelectorAll(
-    '.sched, .artist, .news__lead, .news__item, .about__media, .about__text, .quickinfo__item,' +
+  /* ---------- Hiệu ứng xuất hiện khi cuộn ----------
+     Tách thành hàm và treo ra window.HieuUngHien: mấy khối do noi-cms.js đổ
+     vào từ CMS chỉ có mặt SAU khi Firestore trả lời, muộn hơn đoạn này.
+     Không quét lại thì thẻ mới không có .reveal nên hiện luôn, mất hiệu ứng
+     mà phần trên trang thì vẫn có — nhìn cọc cạch. */
+  var CHON_HIEN = '.sched, .artist, .news__lead, .news__item, .about__media, .about__text, .quickinfo__item,' +
     '.mission, .value, .capa, .award, .factbox, .honorbox, .decree,' +
-    '.milestone, .leader, .work, .archive__item, .martyr, .laurel, .bangvang'
-  );
-  Array.prototype.forEach.call(targets, function (el) { el.classList.add('reveal'); });
+    '.milestone, .leader, .work, .archive__item, .martyr, .laurel, .bangvang';
 
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry, i) {
-        if (!entry.isIntersecting) return;
-        var el = entry.target;
-        setTimeout(function () { el.classList.add('is-in'); }, Math.min(i, 8) * 70);
-        io.unobserve(el);
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-    Array.prototype.forEach.call(targets, function (el) { io.observe(el); });
-  } else {
-    Array.prototype.forEach.call(targets, function (el) { el.classList.add('is-in'); });
+  var ioHien = 'IntersectionObserver' in window
+    ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry, i) {
+          if (!entry.isIntersecting) return;
+          var el = entry.target;
+          setTimeout(function () { el.classList.add('is-in'); }, Math.min(i, 8) * 70);
+          ioHien.unobserve(el);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' })
+    : null;
+
+  function quetHien(goc) {
+    var ds = (goc || document).querySelectorAll(CHON_HIEN);
+    Array.prototype.forEach.call(ds, function (el) {
+      if (el.classList.contains('reveal')) return;   // đã quét rồi thì thôi
+      el.classList.add('reveal');
+      if (ioHien) ioHien.observe(el); else el.classList.add('is-in');
+    });
   }
+
+  quetHien(document);
+  window.HieuUngHien = { quet: quetHien };
 
   /* ---------- Đếm số liệu ---------- */
   var counters = document.querySelectorAll('[data-count]');

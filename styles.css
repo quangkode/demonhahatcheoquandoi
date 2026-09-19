@@ -1849,8 +1849,8 @@ kbd {
 [data-inst="sao"]      .expcard__art { --c1: #2b3a45; --c2: #9fbfa8; }
 [data-inst="phach"]    .expcard__art { --c1: #3f3216; --c2: #c3a45e; }
 [data-inst="thanh-la"] .expcard__art { --c1: #23343f; --c2: #cbb27a; }
-[data-work="quan-am"]  .expcard__art { --c1: #6a2030; --c2: #d99a86; }
-[data-work="luu-binh"] .expcard__art { --c1: #3a4a2c; --c2: #c3b26a; }
+[data-work^="quan-am"]  .expcard__art { --c1: #6a2030; --c2: #d99a86; }
+[data-work^="luu-binh"] .expcard__art { --c1: #3a4a2c; --c2: #c3b26a; }
 
 @media (hover: hover) and (pointer: fine) {
   .scene:hover { border-color: var(--red); color: var(--red); }
@@ -2311,14 +2311,16 @@ kbd {
 /* nền mục đã là kem đậm thì khối ghi chú phải sáng hơn mới tách khỏi nền */
 .section--alt .notebox { background: var(--white); border: 1px solid var(--line); border-left: 3px solid var(--gold); }
 
-[data-work="kim-nham"] .expcard__art         { --c1: #4a2033; --c2: #c39a86; }
-[data-work="dem-trang"] .expcard__art        { --c1: #141a2a; --c2: #9aa8c4; }
-[data-work="bai-ca-giu-nuoc"] .expcard__art  { --c1: #5a1a14; --c2: #ffcd00; }
-[data-work="dat-lien-bien-ca"] .expcard__art { --c1: #12303a; --c2: #7fb3c0; }
-[data-work="tuoi-tre-chi-lon"] .expcard__art { --c1: #3a1a1e; --c2: #c08a5e; }
-[data-work="nguyen-chi-thanh"] .expcard__art { --c1: #22331f; --c2: #a8b26a; }
-[data-work="chu-van-an"] .expcard__art       { --c1: #2b2416; --c2: #bfa76a; }
-[data-work="huyen-nu"] .expcard__art         { --c1: #4a2440; --c2: #c093ae; }
+[data-work^="kim-nham"] .expcard__art         { --c1: #4a2033; --c2: #c39a86; }
+[data-work^="dem-trang"] .expcard__art        { --c1: #141a2a; --c2: #9aa8c4; }
+[data-work^="bai-ca-giu-nuoc"] .expcard__art  { --c1: #5a1a14; --c2: #ffcd00; }
+[data-work^="dat-lien-bien-ca"] .expcard__art { --c1: #12303a; --c2: #7fb3c0; }
+/* noi-cms.js sinh slug đủ chữ "và" nên không trùng tiền tố với dòng trên */
+[data-work^="dat-lien-va-bien-ca"] .expcard__art { --c1: #12303a; --c2: #7fb3c0; }
+[data-work^="tuoi-tre-chi-lon"] .expcard__art { --c1: #3a1a1e; --c2: #c08a5e; }
+[data-work^="nguyen-chi-thanh"] .expcard__art { --c1: #22331f; --c2: #a8b26a; }
+[data-work^="chu-van-an"] .expcard__art       { --c1: #2b2416; --c2: #bfa76a; }
+[data-work^="huyen-nu"] .expcard__art         { --c1: #4a2440; --c2: #c093ae; }
 
 @media (hover: hover) and (pointer: fine) {
   .laurel:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: var(--shadow-lg); }
@@ -2450,6 +2452,10 @@ kbd {
    Ảnh nghệ sĩ lại là ảnh sân khấu khung ngang: khung 5/6 cắt hai bên chứ không cắt đáy,
    nên tấm nào nhân vật đứng lệch khỏi tâm phải kéo khung cắt về đúng mặt. */
 .leader--fit-right .leader__img img { object-position: 58% top; }
+/* Bám theo tên tệp ảnh chứ không theo lớp: thẻ nghệ sĩ nay do noi-cms.js
+   dựng từ dữ liệu CMS, mà CMS không có ô "căn ảnh lệch bao nhiêu" — đó là
+   chuyện trình bày của riêng tấm ảnh này, thuộc về CSS. */
+.leader__img img[src*="ngoc-vien"] { object-position: 58% top; }
 .leader h4 { margin: 12px 0 3px; font-size: 14.5px; line-height: 1.35; }
 .leader p { margin: 0; font-size: 12.5px; color: var(--ink-soft); line-height: 1.45; }
 /* người đang giữ chức */
