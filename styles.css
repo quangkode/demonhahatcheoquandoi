@@ -2902,3 +2902,41 @@ kbd {
   .baiviet__than { font-size: 16.5px; line-height: 1.78; }
   .baiviet__tomtat { font-size: 16.5px; }
 }
+
+
+/* ==========================================================
+   CỠ CHỮ / PHÔNG / MÀU DO NGƯỜI SOẠN ĐẶT TRONG CMS
+
+   Bài viết lưu trong Firestore mang sẵn mấy lớp dưới đây; tin-bai.js chỉ
+   cho đúng chúng đi qua bộ lọc (xem LOP_CHO_PHEP trong tệp đó).
+
+   BẢN GỐC là js/kieu-chu.js bên kho CMS — khối này chép ra từ hàm
+   cssKieu() của nó. Trang công khai nạp bằng <script> thường nên không
+   import tệp module của CMS được. Sửa bên đó thì chép lại khối này.
+
+   Cỡ chữ tính bằng pt đúng như trong Word: 8pt đến 14pt. Thân bài mặc
+   định 17.5px ≈ 13pt, nên 13 là cỡ chữ thường, 8-10 chỉ hợp cho chú
+   thích nhỏ. pt là đơn vị tuyệt đối nên chọn 12pt trong CMS thì ngoài
+   trang cũng đúng 12pt, xem thử thế nào đăng ra thế ấy.
+   ========================================================== */
+.baiviet__than .co-8{font-size:8pt}
+.baiviet__than .co-9{font-size:9pt}
+.baiviet__than .co-10{font-size:10pt}
+.baiviet__than .co-11{font-size:11pt}
+.baiviet__than .co-12{font-size:12pt}
+.baiviet__than .co-13{font-size:13pt}
+.baiviet__than .co-14{font-size:14pt}
+.baiviet__than .phong-thuong{font-family:"Montserrat",system-ui,-apple-system,'Segoe UI',sans-serif}
+.baiviet__than .phong-tieude{font-family:"Playfair Display",Georgia,'Times New Roman',serif}
+.baiviet__than .phong-cochan{font-family:"Noto Serif",Georgia,'Times New Roman',serif}
+.baiviet__than .mau-do{color:#cc4752}
+.baiviet__than .mau-vang{color:#8a6f00}
+.baiviet__than .mau-xanh{color:#22372f}
+.baiviet__than .mau-xam{color:#514c45}
+.baiviet__than .nen-vang{background:#fff3c4;padding:.1em .22em;border-radius:3px}
+.baiviet__than .nen-do{background:#fbe1e3;padding:.1em .22em;border-radius:3px}
+.baiviet__than .nen-xanh{background:#e2efe0;padding:.1em .22em;border-radius:3px}
+.baiviet__than .nen-xam{background:#eae5db;padding:.1em .22em;border-radius:3px}
+.baiviet__than .can-giua{text-align:center}
+.baiviet__than .can-phai{text-align:right}
+.baiviet__than .can-deu{text-align:justify}

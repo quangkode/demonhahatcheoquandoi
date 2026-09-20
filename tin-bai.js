@@ -21,8 +21,32 @@
   var THE_CHO_PHEP = {
     P:1, BR:1, H2:1, H3:1, H4:1, UL:1, OL:1, LI:1, BLOCKQUOTE:1,
     STRONG:1, B:1, EM:1, I:1, FIGURE:1, FIGCAPTION:1, IMG:1, A:1,
-    TABLE:1, THEAD:1, TBODY:1, TR:1, TH:1, TD:1
+    TABLE:1, THEAD:1, TBODY:1, TR:1, TH:1, TD:1, SPAN:1
   };
+
+  /* Cỡ chữ, phông, màu, căn lề do người soạn đặt trong CMS đi sang đây
+     bằng LỚP CSS, không phải style="" — bộ quét này vứt sạch style, mà
+     cho style tự do qua thì là mở cửa cho CSS lạ nhét vào trang.
+
+     BẢN GỐC CỦA DANH SÁCH NÀY nằm ở js/kieu-chu.js bên kho CMS. Hai kho
+     riêng, trang này lại nạp bằng <script> thường nên không import được.
+     Thêm lớp mới bên đó thì phải thêm cả ở đây, nếu không lớp ấy qua
+     được CMS mà rụng ngay khi bài lên trang.
+
+     Quy tắc hiển thị tương ứng nằm trong styles.css, tìm "co-8". */
+  var LOP_CHO_PHEP = {
+    'co-8':1, 'co-9':1, 'co-10':1, 'co-11':1, 'co-12':1, 'co-13':1, 'co-14':1,
+    'phong-thuong':1, 'phong-tieude':1, 'phong-cochan':1,
+    'mau-do':1, 'mau-vang':1, 'mau-xanh':1, 'mau-xam':1,
+    'nen-vang':1, 'nen-do':1, 'nen-xanh':1, 'nen-xam':1,
+    'can-giua':1, 'can-phai':1, 'can-deu':1
+  };
+
+  function locLop(gia) {
+    var ra = [], ds = String(gia || '').split(/\s+/);
+    for (var i = 0; i < ds.length; i++) if (LOP_CHO_PHEP[ds[i]]) ra.push(ds[i]);
+    return ra.join(' ');
+  }
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -56,10 +80,23 @@
       for (var j = el.attributes.length - 1; j >= 0; j--) {
         var a = el.attributes[j].name;
         var v = el.getAttribute(a);
+        if (a === 'class') {
+          var sach = locLop(v);
+          if (sach) el.setAttribute('class', sach); else el.removeAttribute('class');
+          continue;
+        }
         var giu = (el.tagName === 'A' && a === 'href') ||
                   (el.tagName === 'IMG' && (a === 'src' || a === 'alt'));
         if (!giu) { el.removeAttribute(a); continue; }
         if (a !== 'alt' && !/^https?:\/\//i.test(v)) el.removeAttribute(a);
+      }
+      /* Span trơ, không còn lớp nào mình dùng, thì bóc vỏ giữ chữ. Bài
+         chép từ báo về có hàng trăm cái như vậy; để nguyên chỉ tổ làm
+         trang nặng thêm mà chẳng hiện ra cái gì. */
+      if (el.tagName === 'SPAN' && !el.getAttribute('class')) {
+        while (el.firstChild) el.parentNode.insertBefore(el.firstChild, el);
+        el.parentNode.removeChild(el);
+        continue;
       }
       /* Gỡ vỏ thẻ <a>, giữ nguyên chữ bên trong. Thân bài chép từ báo về
          thường dày đặc liên kết chéo sang bài khác của chính báo đó; để

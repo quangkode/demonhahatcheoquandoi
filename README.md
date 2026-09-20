@@ -196,6 +196,12 @@ Phần thưởng của bản thân Nhà hát (huân chương, danh hiệu Anh h�
 - Bên CMS, `nap-du-lieu.html` có thêm khối **Đối chiếu với bản gốc**: so từng trường
   với bản rút từ trang web rồi chỉ điền vào chỗ trống. Dùng khi lược đồ thêm trường
   mới, hoặc khi ô ảnh trong CMS còn trống mà trang web đã có ảnh trong kho mã.
+- **Bài viết mang được cỡ chữ, phông và màu** do người soạn đặt trong CMS. Chúng đi
+  bằng lớp CSS cố định (`co-8`…`co-14` tính bằng pt, `phong-*`, `mau-*`, `nen-*`,
+  `can-*`) chứ không phải `style=""` — `tin-bai.js` chỉ cho đúng mấy lớp trong
+  `LOP_CHO_PHEP` đi qua, lớp lạ và mọi `style` đều rụng. Quy tắc hiển thị nằm cuối
+  `styles.css`; **bản gốc là `js/kieu-chu.js` bên kho CMS**, thêm lớp bên đó thì
+  phải chép sang cả hai chỗ này.
 - **Không liên kết nào dẫn ra báo ngoài.** Bấm vào bài là mở `tin-bai.html` của
   Nhà hát; tên báo vẫn ghi đủ nhưng để chữ thường, và `tin-bai.js` gỡ luôn mọi
   thẻ `<a>` lẫn trong thân bài chép về.
