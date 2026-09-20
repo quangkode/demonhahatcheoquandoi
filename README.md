@@ -97,7 +97,7 @@ trên nền tối. Đừng gộp lại thành một.
 
 ## Trang Vở diễn
 
-`vo-dien.html` là kho tác phẩm, chia bốn mảng có mục lục dính:
+`vo-dien.html` là kho tác phẩm, chia năm mảng có mục lục dính:
 
 1. **Chèo cổ & truyền thống** — nền tảng nghề nghiệp Nhà hát kế thừa
 2. **Đề tài người lính** — trọng tâm, ba nhóm con: thời phong kiến/lịch sử,
@@ -105,6 +105,14 @@ trên nền tối. Đừng gộp lại thành một.
 3. **Danh nhân & lãnh đạo**
 4. **Theo giai đoạn phát triển**
 5. **Vở diễn đoạt giải** — bảng vàng huy chương và giải thưởng
+
+Trên đầu trang có hàng nút lọc thể loại (`#locVo`, mượn `.chips/.chip` của
+trang Tin tức). Chọn một thể loại là ba mục đầu chỉ còn lại mục đó, và **hai
+mục cuối cũng ẩn** — chúng xếp theo giai đoạn và theo giải thưởng nên một vở
+nằm được ở cả hai, bày ra thì màn hình lẫn cả vở không thuộc thể loại vừa chọn.
+Mục lục dính bỏ luôn dòng của mục đang ẩn, và `syncSubnav()` bỏ qua mục ẩn:
+thẻ ẩn trả về toạ độ 0 nên cứ tính vào là nó luôn thắng, nhãn trên nút sẽ chỉ
+sang một mục không còn thấy.
 
 Mỗi mảng mở đầu bằng vài thẻ nổi bật (`.expcard--work`, ảnh là gradient giả lập
 khai báo qua `[data-work="..."] .expcard__art`), phần còn lại xếp thành danh sách

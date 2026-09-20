@@ -621,6 +621,9 @@ kbd {
   display: flex; align-items: center; min-height: 46px;
 }
 .subnav a + a { border-top: 1px solid var(--line); }
+/* bộ lọc giấu bớt mục nào thì mục lục bỏ luôn dòng đó — [hidden] một mình
+   không thắng nổi display:flex ở trên, phải nói rõ */
+.subnav a[hidden] { display: none; }
 .subnav a.is-active { color: var(--red); font-weight: 600; border-left-color: var(--red); background: #fdf6f7; }
 
 @media (hover: hover) and (pointer: fine) {
@@ -2146,6 +2149,11 @@ kbd {
    TRANG VỞ DIỄN (vo-dien.html)
    ========================================================== */
 .pagehero--works { background: linear-gradient(120deg, #2a1020 0%, #9f3740 50%, #e0b400 100%); }
+
+/* ---------- Hàng nút lọc thể loại ----------
+   Mượn nguyên .chips/.chip của trang Tin tức cho hai trang giống nhau. */
+.locvo { padding-top: 30px; }
+.locvo .chips { margin-bottom: 0; }
 
 /* ---------- Nhãn nhóm nhỏ trong một mảng ----------
    Nét kẻ chạy hết phần còn lại của dòng để tách nhóm mà không phải thêm một

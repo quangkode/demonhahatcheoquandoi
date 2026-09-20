@@ -254,17 +254,59 @@
       // mới tính là "đang xem", nên tên mục trên nút hay chạy sau mắt người đọc
       // gần một màn hình. Lấy thêm khoảng 28% chiều cao khung nhìn cho khớp hơn.
       var offset = subnav.getBoundingClientRect().bottom + Math.min(240, window.innerHeight * 0.28);
-      var activeIndex = 0;
+      // Mục đang bị bộ lọc giấu phải bỏ qua: thẻ ẩn trả về toạ độ 0, tính
+      // vào là nó luôn thắng và tên trên nút chỉ sang một mục không còn thấy.
+      var activeIndex = -1;
       sections.forEach(function (sec, i) {
+        if (sec.hidden || !sec.offsetParent) return;
+        if (activeIndex < 0) activeIndex = i;   // mục hiện đầu tiên là mặc định
         if (sec.getBoundingClientRect().top <= offset) activeIndex = i;
       });
+      if (activeIndex < 0) activeIndex = 0;
       subLinks.forEach(function (a, i) { a.classList.toggle('is-active', i === activeIndex); });
       // mục lục đã thu gọn nên tên mục đang xem hiện ngay trên nút bấm
       if (subCurrent) subCurrent.textContent = subLinks[activeIndex].textContent;
     };
 
     window.addEventListener('scroll', syncSubnav, { passive: true });
+    // cửa cho bộ lọc vở diễn gọi lại sau khi giấu/hiện bớt mục
+    window.MucLuc = { lamMoi: syncSubnav };
     syncSubnav();
+  }
+
+  /* ---------- Lọc vở diễn theo thể loại (trang Vở diễn) ----------
+     Ba mục đầu của trang chính là ba thể loại, nên lọc = giữ lại đúng một
+     mục. Hai mục cuối xếp theo giai đoạn và theo giải thưởng, cùng một vở
+     nằm được ở cả hai, nên khi đang lọc riêng một thể loại thì giấu chúng
+     đi — bày ra thì trên màn hình lẫn cả những vở không thuộc thể loại vừa
+     chọn. Mục lục dính cũng bỏ bớt dòng của mục đang giấu. */
+  var locVo = document.getElementById('locVo');
+  if (locVo) {
+    var MUC_LOC = ['cheo-co', 'nguoi-linh', 'danh-nhan', 'giai-doan', 'giai-thuong'];
+    var nutLoc = Array.prototype.slice.call(locVo.querySelectorAll('[data-loc-vo]'));
+
+    var apDungLoc = function (ma, cuon) {
+      MUC_LOC.forEach(function (id) {
+        var sec = document.getElementById(id);
+        if (!sec) return;
+        sec.hidden = !(ma === 'all' || id === ma);
+        var a = document.querySelector('.subnav__inner a[href="#' + id + '"]');
+        if (a) a.hidden = sec.hidden;
+      });
+      nutLoc.forEach(function (b) {
+        var bat = b.getAttribute('data-loc-vo') === ma;
+        b.classList.toggle('is-active', bat);
+        b.setAttribute('aria-pressed', String(bat));
+      });
+      if (window.MucLuc) window.MucLuc.lamMoi();
+      // lọc xong mà đang đứng giữa trang thì phần còn lại co lên, dễ rơi vào
+      // khoảng trắng cuối trang — kéo về hàng nút cho thấy ngay kết quả
+      if (cuon && locVo.getBoundingClientRect().top < 0) locVo.scrollIntoView({ block: 'start' });
+    };
+
+    nutLoc.forEach(function (b) {
+      b.addEventListener('click', function () { apDungLoc(b.getAttribute('data-loc-vo'), true); });
+    });
   }
 
   /* ---------- Hiệu ứng xuất hiện khi cuộn ----------
