@@ -266,11 +266,10 @@
       if (!self.dragging || !self.last) return;
       var dx = e.clientX - self.last.x;
       var dy = e.clientY - self.last.y;
-      /* Chỉ khi đã thật sự kéo mới tắt tự xoay và ẩn dòng gợi ý. Đặt ở
-         pointerdown như trước thì một cú chạm để bước vào cũng giết luôn
-         tự xoay, vào tới nơi là cảnh đứng im. */
+      /* Chỉ khi đã thật sự kéo mới tắt tự xoay. Đặt ở pointerdown như
+         trước thì một cú chạm để bước vào cũng giết luôn tự xoay, vào tới
+         nơi là cảnh đứng im. */
       if (self.auto) self.setAuto(false);
-      r.classList.add('has-moved');
       // kéo ngang bao nhiêu điểm ảnh thì cảnh trôi đúng bấy nhiêu — bám tay
       self.yaw -= dx / self.imgW * 360;
       if (self.maxY > 0) self.pitchFrac = clamp(self.pitchFrac - dy / self.maxY, 0, 1);
@@ -323,7 +322,6 @@
       else return;
       e.preventDefault();
       self.setAuto(false);
-      r.classList.add('has-moved');
       self.apply();
     });
   };
@@ -357,8 +355,6 @@
     /* Báo ra ngay lúc vừa vào: nhac-cu.js nhân lúc này tải trước mấy tệp .glb
        để khi người xem bấm hộp là bung ra liền, không phải đợi. */
     this.bao('pano:full', { on: on });
-    // dòng gợi ý "Kéo để nhìn quanh" chỉ hiện trong này, cho nó một lượt nữa
-    if (on) this.root.classList.remove('has-moved');
 
     var lock = global.ScrollLock;
     if (lock) { on ? lock.on() : lock.off(); }
@@ -436,7 +432,6 @@
           self.yaw = self.gocDau(self.root.getAttribute('data-scene'));
           self.pitchFrac = 0.5; self.layout();
         }
-        if (act !== 'auto') self.root.classList.add('has-moved');
       });
       // giữ nút không bị kéo theo khi người dùng rê chuột trên khung
       btn.addEventListener('pointerdown', function (e) { e.stopPropagation(); });

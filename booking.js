@@ -176,9 +176,6 @@
     var wrap = this.root.querySelector('.seatmap-wrap');
     if (!outer || !wrap) return;
     var max = wrap.scrollWidth - wrap.clientWidth;
-    // câu "vuốt ngang" chỉ hiện khi sơ đồ thật sự rộng hơn khung — trên tablet
-    // và desktop sơ đồ lọt trọn thì nhắc vuốt là thừa và gây hiểu nhầm
-    outer.classList.toggle('is-scrollable', max > 4);
     outer.classList.toggle('can-scroll-left', wrap.scrollLeft > 4);
     outer.classList.toggle('can-scroll-right', wrap.scrollLeft < max - 4);
   };
@@ -346,7 +343,6 @@
               '</div>' +
             '</div>' +
           '</div>' +
-          '<p class="seatmap-hint">Vuốt ngang để xem toàn bộ sơ đồ ghế</p>' +
           '<div class="legend">' +
             '<span><i class="legend__box"></i> Còn trống</span>' +
             '<span><i class="legend__box legend__box--picked"></i> Bạn đang chọn</span>' +

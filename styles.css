@@ -1184,11 +1184,6 @@ kbd {
 }
 .seat-aisle { width: var(--seat-aisle); flex: none; }
 
-/* chỉ hiện khi booking.js xác nhận sơ đồ thực sự rộng hơn khung nhìn */
-.seatmap-hint { display: none; margin: 10px 0 0; text-align: center; font-size: 13px; color: var(--ink-soft); }
-.seatmap-outer.is-scrollable ~ .seatmap-hint { display: block; }
-.seatmap-hint::before { content: "↔ "; color: var(--gold-ink); font-weight: 700; }
-
 .seat {
   width: var(--seat-w); height: var(--seat-h); flex: none; padding: 0; cursor: pointer;
   border: 1.5px solid #cfc7ba; border-radius: 7px 7px 4px 4px;
@@ -1560,17 +1555,6 @@ kbd {
   background: rgba(12, 10, 9, .6); backdrop-filter: blur(6px);
   color: #fff; font-size: 12.5px; font-weight: 600; letter-spacing: .4px;
 }
-/* Ngoài trang thì lời mời đã nói rõ phải làm gì, dòng này chỉ tổ chồng lên
-   khối chữ — để dành cho lúc đã vào trong. */
-.pano__hint {
-  position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
-  z-index: 3; display: none; margin: 0; padding: 9px 18px; border-radius: 999px;
-  background: rgba(12, 10, 9, .58); backdrop-filter: blur(6px);
-  color: #fff; font-size: 13px; white-space: nowrap;
-  transition: opacity .4s ease;
-}
-.pano.has-moved .pano__hint { opacity: 0; }
-
 .pano__hud { position: absolute; right: 12px; bottom: 12px; z-index: 4; display: flex; gap: 8px; }
 .pano__hud button {
   width: 44px; height: 44px; flex: none; display: grid; place-items: center;
@@ -1593,7 +1577,6 @@ kbd {
 .pano.is-immersive .pano__hud { right: calc(12px + var(--safe-r)); bottom: calc(78px + var(--safe-b)); }
 /* dịch sang phải nhường góc trái cho cánh cửa */
 .pano.is-immersive .pano__badge { left: calc(68px + var(--safe-l)); top: calc(14px + env(safe-area-inset-top, 0px)); }
-.pano.is-immersive .pano__hint { display: block; bottom: calc(134px + var(--safe-b)); }
 
 /* ---------- Lời mời bước vào ----------
    Khung trên trang chỉ là ô ngó trước. Bấm nút này thì cảnh chiếm trọn màn
@@ -1723,8 +1706,7 @@ kbd {
 .pano.co-nhac-cu .pano__cua,
 .pano.co-nhac-cu .pano__bang,
 .pano.co-nhac-cu .pano__bang.is-mo,
-.pano.co-nhac-cu .pano__hud,
-.pano.co-nhac-cu .pano__hint { display: none; }
+.pano.co-nhac-cu .pano__hud { display: none; }
 
 /* ---------- Sân khấu nhạc cụ 3D ----------
    Canvas nằm trên ảnh 360 nhưng dưới hàng nút (z-index 3, nút là 4-6). Cả tấm
@@ -2681,15 +2663,12 @@ kbd {
   .pano { height: clamp(300px, 52vh, 440px); }
   .pano__hud { right: 10px; bottom: 10px; gap: 6px; }
   .pano.is-immersive .pano__hud { bottom: calc(66px + var(--safe-b)); }
-  /* màn hẹp thì hàng nút trải hết bề ngang, gợi ý phải nhảy lên trên nó */
-  .pano.is-immersive .pano__hint { bottom: calc(122px + var(--safe-b)); }
   /* màn hẹp thì bốn điểm dừng không đứng vừa một hàng, cho trượt từ trái */
   .pano.is-immersive .scenes--trong { justify-content: flex-start; }
   .pano.is-immersive .scenes--trong .scene { padding: 9px 16px; font-size: 13.5px; }
   .pano__moi { font-size: 14px; padding: 9px 18px 9px 9px; gap: 9px; }
   .pano__moi-vong { width: 30px; height: 30px; }
   .pano__hud button { width: 42px; height: 42px; font-size: 19px; }
-  .pano__hint { font-size: 12.5px; bottom: 14px; }
   /* các điểm dừng trượt ngang thay vì xuống dòng, tràn hết bề ngang cho dễ vuốt */
   .scenes {
     flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
