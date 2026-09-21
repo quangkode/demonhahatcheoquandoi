@@ -86,6 +86,21 @@ Hoa sen trên đầu mục là SVG vẽ bằng nét, đặt thẳng trong HTML (
 ảnh) để ăn theo `currentColor` — đổi màu chỉ cần đổi `color` của `.sen`.
 Đang để `--gold-ink`. Dùng lại ở chỗ khác thì chép cả khối `<span class="sen">`.
 
+### Hoa sen làm nền mờ
+
+Cùng bông đó còn xuất hiện làm **lớp nền mờ** ở bốn chỗ, có mặt trên mọi trang:
+dải *Thông tin nhanh* của trang chủ, dải đầu trang `.pagehero` của các trang
+trong, dải CTA đỏ và chân trang.
+
+Vẽ bằng **mask**, không phải `background-image`: tệp `anh/hoa-sen.svg` chỉ đóng
+vai hình cắt còn màu lấy từ `currentColor`, nên một tệp chạy được cả trên nền đỏ,
+nền gradient lẫn nền xanh quân đội, khỏi xuất ba tệp ba màu. Cả khối nằm trong
+`@supports` — trình duyệt không hiểu mask mà vẫn nhận `background: currentColor`
+thì nó vẽ ra một khối chữ nhật đặc, thà không có bông sen còn hơn.
+
+Thêm chỗ mới: cho khối cha `position: relative; overflow: hidden`, cho con của nó
+`z-index: 1`, rồi chép một khối trong `@supports` và chỉnh cỡ/vị trí.
+
 Menu ngang có **bảy mục**. Quãng 861-1120px đã được bóp cỡ chữ và khoảng đệm cho
 vừa (xem comment trong `styles.css`); thêm mục thứ tám thì phải đo lại quãng này.
 

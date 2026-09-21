@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hoa sen vẽ bằng nét, dùng làm HÌNH CẮT (mask) cho lớp nền mờ trong
+     styles.css — không phải ảnh để hiện thẳng. Màu ở đây không có ý nghĩa:
+     CSS lấy currentColor của chỗ đặt tô vào phần nét này, nên cùng một tệp
+     chạy được cả trên dải đỏ lẫn chân trang xanh.
+     Bản nét mảnh hiện ngay trên đầu mục Liên hệ nằm thẳng trong index.html. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 150" fill="none"
+     stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M10 86 C 26 124 64 141 116 134 C 72 126 38 106 10 86 Z"/>
+  <path d="M230 86 C 214 124 176 141 124 134 C 168 126 202 106 230 86 Z"/>
+  <path d="M40 50 C 44 94 74 126 118 134 C 94 102 70 72 40 50 Z"/>
+  <path d="M200 50 C 196 94 166 126 122 134 C 146 102 170 72 200 50 Z"/>
+  <path d="M76 32 C 68 52 70 72 82 88 C 90 66 86 48 76 32 Z"/>
+  <path d="M164 32 C 172 52 170 72 158 88 C 150 66 154 48 164 32 Z"/>
+  <path d="M120 134 C 88 104 86 62 120 14 C 154 62 152 104 120 134 Z"/>
+  <path d="M6 128 C 34 116 66 121 100 137"/>
+  <path d="M234 128 C 206 116 174 121 140 137"/>
+</svg>
