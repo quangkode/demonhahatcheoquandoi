@@ -527,6 +527,7 @@
     var newsMore = document.getElementById('newsMore');
     var newsEmpty = document.getElementById('newsEmpty');
     var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+    var thanhChip = document.querySelector('.chips');
     var VISIBLE = 4;              // số tin hiện sẵn trước khi bấm "Xem thêm"
     var filter = 'all';
     var expanded = false;
@@ -549,6 +550,9 @@
         featureShown = filter === 'all' || feature.getAttribute('data-cat') === filter;
         feature.hidden = !featureShown;
       }
+
+      // chưa có tin nào thì thanh lọc chủ đề cũng chẳng lọc được gì
+      if (thanhChip) thanhChip.hidden = !cards.length && !feature;
 
       // nút chỉ có việc khi còn tin bị giấu; hết việc thì ẩn hẳn cho gọn
       newsMore.hidden = matches.length <= VISIBLE;
