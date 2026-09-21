@@ -110,15 +110,20 @@
     var timer = null;
     var DELAY = 6000;
 
-    var dots = slides.map(function (_, i) {
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.setAttribute('aria-label', 'Slide ' + (i + 1));
-      if (i === 0) b.classList.add('is-active');
-      b.addEventListener('click', function () { go(i); });
-      dotsWrap.appendChild(b);
-      return b;
-    });
+    var dots = [];
+    var taoDot = function () {
+      dotsWrap.innerHTML = '';
+      dots = slides.map(function (_, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', 'Slide ' + (i + 1));
+        if (i === 0) b.classList.add('is-active');
+        b.addEventListener('click', function () { go(i); });
+        dotsWrap.appendChild(b);
+        return b;
+      });
+    };
+    taoDot();
 
     var go = function (i) {
       current = (i + slides.length) % slides.length;
@@ -178,6 +183,18 @@
       if (document.hidden) clearInterval(timer);
       else restart();
     });
+
+    /* noi-cms.js thay sạch thẻ slide khi trang chủ có ảnh bìa trong CMS.
+       Mấy listener ở trên gắn vào #hero, document và hai nút ‹ › — đều là
+       thẻ không bị thay nên vẫn sống. Chỉ mảng slides và hàng chấm tròn là
+       phải dựng lại theo thẻ mới. */
+    window.HeroSlider = { dungLai: function () {
+      var moi = Array.prototype.slice.call(document.querySelectorAll('.hero__slide'));
+      if (!moi.length) return;
+      slides = moi;
+      taoDot();
+      go(0);
+    } };
 
     restart();
   }
@@ -274,25 +291,26 @@
     syncSubnav();
   }
 
-  /* ---------- Lọc vở diễn (trang Vở diễn) ----------
-     Sáu nút, tất cả đều chỉ lọc trong BA mục thể loại đầu trang. Bốn mươi
-     sáu vở ở đó là danh mục chính, nên số trên mỗi nút luôn là một phần của
-     46 và ba nút thể loại cộng lại đúng bằng nút Tất cả — nếu để "Đoạt giải"
-     quét cả mục Theo giai đoạn nữa thì nó ra số lớn hơn mấy nút kia mà không
-     ai hiểu vì sao.
+  /* ---------- Chọn mục ở trang Vở diễn ----------
+     KHÔNG có nút "Tất cả". Trang này 46 vở cộng thêm hai mục cuối, bày hết
+     ra một lượt là dài lê thê — lúc nào cũng đúng MỘT mục hiện trên màn
+     hình, mở trang ra là Chèo cổ.
 
-     Hai mục cuối (theo giai đoạn, đoạt giải) xếp theo trục khác, cùng một vở
-     nằm được ở cả hai, nên chỉ hiện khi đang xem Tất cả.
+     Ba nút đầu ứng với ba mục thể loại. "Theo giai đoạn" mở thẳng mục xếp
+     theo chặng đường. "Đoạt giải" lọc những vở có tên trong bảng vàng rồi
+     mở luôn cả bảng vàng ở cuối trang. "Trích đoạn" lọc theo nhãn trên thẻ.
 
-     "Đoạt giải" đối chiếu TÊN vở với bảng vàng ở cuối trang chứ không gắn
-     tay data-giai vào từng thẻ: thêm một vở vào bảng vàng là nút lọc tự
-     biết, và bản do CMS đổ lại cũng ăn theo. */
+     "Đoạt giải" đối chiếu TÊN vở với bảng vàng chứ không gắn tay data-giai
+     vào từng thẻ: thêm một vở vào bảng vàng là nút lọc tự biết, và bản do
+     CMS đổ lại cũng ăn theo.
+
+     Mục lục dính phía trên bấm cũng ra đúng mục đó — hai đường vào cùng một
+     việc, nên giữ đủ năm dòng chứ không giấu bớt. */
   var locVo = document.getElementById('locVo');
   if (locVo) {
     var MUC_VO = ['cheo-co', 'nguoi-linh', 'danh-nhan'];
-    var MUC_PHU = ['giai-doan', 'giai-thuong'];
     var nutLoc = Array.prototype.slice.call(locVo.querySelectorAll('[data-loc-vo]'));
-    var maDang = 'all';
+    var maDang = 'cheo-co';
     var bangVang = null;
 
     var chuanTen = function (s) { return String(s || '').replace(/\s+/g, ' ').trim().toLowerCase(); };
@@ -331,20 +349,30 @@
     var hienMuc = function (id, hien) {
       var sec = document.getElementById(id);
       if (sec) sec.hidden = !hien;
-      var a = document.querySelector('.subnav__inner a[href="#' + id + '"]');
-      if (a) a.hidden = !hien;
+    };
+
+    /* Mục lục dính ứng với nút nào. Hai mục cuối không phải thể loại nên
+       phải ánh xạ riêng: bấm "Vở diễn đoạt giải" trong mục lục = bấm nút
+       "Đoạt giải". */
+    var NUT_CUA_MUC = {
+      'cheo-co': 'cheo-co', 'nguoi-linh': 'nguoi-linh', 'danh-nhan': 'danh-nhan',
+      'giai-doan': 'giai-doan', 'giai-thuong': 'giai'
     };
 
     var apDungLoc = function (ma, cuon) {
       if (!bangVang) docBangVang();
       maDang = ma;
 
+      // "Theo giai đoạn" là một mục riêng, không phải phép lọc trong ba
+      // mục thể loại — lúc đó ba mục kia tắt hết.
+      var mucRieng = (ma === 'giai-doan');
+
       MUC_VO.forEach(function (id) {
         var sec = document.getElementById(id);
         if (!sec) return;
         var con = 0;
         theTrong(sec).forEach(function (the) {
-          var ok = khop(the, id, ma);
+          var ok = !mucRieng && khop(the, id, ma);
           the.hidden = !ok;
           if (ok) con++;
         });
@@ -359,7 +387,15 @@
         hienMuc(id, con > 0);
       });
 
-      MUC_PHU.forEach(function (id) { hienMuc(id, ma === 'all'); });
+      hienMuc('giai-doan', ma === 'giai-doan');
+      // bảng vàng là danh sách giải đầy đủ, đi kèm đúng nút "Đoạt giải"
+      hienMuc('giai-thuong', ma === 'giai');
+
+      // dòng mục lục ứng với mục đang mở thì tô sáng
+      Array.prototype.forEach.call(document.querySelectorAll('.subnav__inner a'), function (a) {
+        var id = (a.getAttribute('href') || '').slice(1);
+        a.classList.toggle('is-active', NUT_CUA_MUC[id] === ma);
+      });
 
       nutLoc.forEach(function (b) {
         var bat = b.getAttribute('data-loc-vo') === ma;
@@ -382,10 +418,15 @@
         var o = b.querySelector('.chip__so');
         if (!o) return;
         var n = 0;
-        MUC_VO.forEach(function (id) {
-          var sec = document.getElementById(id);
-          if (sec) theTrong(sec).forEach(function (the) { if (khop(the, id, ma)) n++; });
-        });
+        if (ma === 'giai-doan') {
+          var sec0 = document.getElementById('giai-doan');
+          n = sec0 ? theTrong(sec0).length : 0;
+        } else {
+          MUC_VO.forEach(function (id) {
+            var sec = document.getElementById(id);
+            if (sec) theTrong(sec).forEach(function (the) { if (khop(the, id, ma)) n++; });
+          });
+        }
         o.textContent = n;
         // nút không lọc ra vở nào thì mờ đi và không bấm được
         b.disabled = n === 0;
@@ -396,8 +437,18 @@
       b.addEventListener('click', function () { apDungLoc(b.getAttribute('data-loc-vo'), true); });
     });
 
+    /* Bấm một dòng trong mục lục dính = bấm nút tương ứng. Chạy trước khi
+       trình duyệt nhảy tới #mã, nên lúc nhảy thì mục đã hiện rồi. */
+    Array.prototype.forEach.call(document.querySelectorAll('.subnav__inner a'), function (a) {
+        var ma = NUT_CUA_MUC[(a.getAttribute('href') || '').slice(1)];
+        if (!ma) return;
+        a.addEventListener('click', function () { apDungLoc(ma, false); });
+      });
+
     window.LocVo = { lamMoi: function () { docBangVang(); demLai(); apDungLoc(maDang, false); } };
     demLai();
+    // mở trang là đã lọc sẵn về mục đầu, không bày cả trang ra rồi mới co lại
+    apDungLoc(maDang, false);
   }
 
   /* ---------- Hiệu ứng xuất hiện khi cuộn ----------

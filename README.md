@@ -124,6 +124,42 @@ quy định màu nền.
 `--gold-ink` (`#8a6f00`) cho chữ vàng trên nền sáng, `--gold-light` cho chữ vàng
 trên nền tối. Đừng gộp lại thành một.
 
+## CMS đổ nội dung vào đâu
+
+`kho.js` + `noi-cms.js` nạp trên **cả 9 trang**. Mỗi mục chỉ gọi Firestore khi
+trang thật sự có khối tương ứng.
+
+| Collection | Móc trong HTML | Ở trang |
+|---|---|---|
+| `tin-tuc` | `#newsGrid`, `.feature` | Chủ, Tin tức |
+| `lich-dien` | `.schedule`, `#bookingRoot` | Chủ, Đặt chỗ |
+| `thu-vien-anh` | `[data-cms="thu-vien-anh"]` | Tin tức |
+| `vo-dien` | `[data-cms-vo="…"]` | Vở diễn |
+| `nghe-si` | `[data-cms="nghe-si-nsnd|nsut"]` | Nghệ sĩ |
+| `lanh-dao` | `[data-cms="lanh-dao"]` | Nghệ sĩ |
+| `anh-bia` | `[data-cms="anh-bia"]` | Chủ |
+| `dau-moc` | `[data-cms="dau-moc"]` | Lịch sử |
+| `thong-tin` | `[data-tt]`, `[data-tt-tel]`, `[data-tt-mail]`, `[data-tt-link]` | mọi trang |
+
+### CMS là bản chính
+
+`thayNeuDu()` trước đây từ chối bản từ CMS mỗi khi nó có ít thẻ hoặc ít ảnh hơn
+HTML viết sẵn. Ý tốt, nhưng hoá ra chặn luôn việc sửa: 23 lãnh đạo trong CMS mới
+1 người có ảnh, nên **đổi ảnh trong CMS xong ngoài web không đổi gì**, và không
+có cách nào biết vì sao. Nay chỉ còn một điều kiện: bản từ CMS phải dựng ra được
+ít nhất một thẻ. Xoá một mục trong CMS giờ cũng mất thật ngoài web.
+
+Ảnh thì không thiếu nữa: `gomAnh()` gom ảnh đang có trong HTML viết sẵn, tra
+theo tên, rồi bản ghi nào CMS chưa có ảnh thì mượn lại đúng ảnh của người/vở
+cùng tên. Ảnh tải lên CMS vẫn thắng — chỉ lấp chỗ trống, không đè.
+
+### Ảnh bìa
+
+Ảnh đi vào qua biến CSS `--anh` chứ không phải `style=""` viết thẳng trong
+chuỗi HTML: đường dẫn Firebase Storage có dấu `&` và dấu nháy, nhét vào
+`style` là gãy. Dựng xong mới gán bằng JS. Slider đã chạy từ lúc tải trang nên
+`noi-cms.js` gọi `window.HeroSlider.dungLai()` sau khi thay thẻ.
+
 ## Trang Vở diễn
 
 `vo-dien.html` là kho tác phẩm, chia năm mảng có mục lục dính:
@@ -135,19 +171,19 @@ trên nền tối. Đừng gộp lại thành một.
 4. **Theo giai đoạn phát triển**
 5. **Vở diễn đoạt giải** — bảng vàng huy chương và giải thưởng
 
-Trên đầu trang có hàng nút lọc (`#locVo`, mượn `.chips/.chip` của trang Tin
-tức): **Tất cả · Chèo cổ · Đề tài người lính · Danh nhân · Đoạt giải · Trích
-đoạn**, mỗi nút kèm số vở.
+Trên đầu trang có hàng nút chọn mục (`#locVo`, mượn `.chips/.chip` của trang
+Tin tức): **Chèo cổ · Đề tài người lính · Danh nhân · Theo giai đoạn · Đoạt giải
+· Trích đoạn**, mỗi nút kèm số vở.
 
-Cả sáu nút chỉ lọc trong **ba mục thể loại đầu trang**. Bốn mươi sáu vở ở đó là
-danh mục chính, nên mọi con số đều là một phần của 46 và ba nút thể loại cộng
-lại đúng bằng nút Tất cả. Nếu để "Đoạt giải" quét cả mục *Theo giai đoạn* nữa
-thì nó ra số lớn hơn mấy nút kia mà không ai hiểu vì sao.
+**Không có nút "Tất cả".** Trang này 46 vở cộng thêm hai mục cuối, bày hết ra
+một lượt là dài lê thê — lúc nào cũng đúng MỘT mục hiện trên màn hình, mở trang
+ra là Chèo cổ. Ba nút đầu ứng với ba mục thể loại; *Theo giai đoạn* mở thẳng mục
+xếp theo chặng đường; *Đoạt giải* lọc vở có tên trong bảng vàng rồi mở luôn cả
+bảng vàng ở cuối; *Trích đoạn* lọc theo nhãn trên thẻ.
 
-**Hai mục cuối cũng ẩn** khi đang lọc — chúng xếp theo giai đoạn và theo giải
-thưởng nên một vở nằm được ở cả hai, bày ra thì màn hình lẫn cả vở không thuộc
-thể loại vừa chọn. Trong mỗi mục còn lại, lưới nào hết thẻ thì ẩn cùng với tiêu
-đề nhóm phụ đứng ngay trước nó, mục nào hết thẻ thì ẩn hẳn.
+Mục lục dính bấm cũng ra đúng mục đó — hai đường vào cùng một việc, nên giữ đủ
+năm dòng chứ không giấu bớt. Trong mục đang mở, lưới nào hết thẻ thì ẩn cùng với
+tiêu đề nhóm phụ đứng ngay trước nó.
 
 "Đoạt giải" **đối chiếu tên vở với bảng vàng ở cuối trang**, không gắn tay
 `data-giai` vào từng thẻ: thêm một vở vào bảng vàng là nút lọc tự biết. Số trên

@@ -332,7 +332,7 @@
 
   /* Thẻ nào cũng nằm trong một trong bốn lớp này, nên đếm được số thẻ của
      một khối mà không cần biết khối đó thuộc mục nào. */
-  var CHON_THE = '.leader, .work, .expcard, .shot';
+  var CHON_THE = '.leader, .work, .expcard, .shot, .hero__slide, .milestone';
 
   /* Cửa chắn duy nhất cho cả bốn mục: bản từ CMS phải không nghèo hơn bản
      HTML viết tay thì mới được thay vào.
@@ -343,22 +343,34 @@
      không có dấu hiệu gì. Đo cả số thẻ lẫn số ảnh thì trường hợp đó bị
      chặn lại, và người quản trị chỉ việc mở CMS bấm "Điền chỗ trống" là
      lần tải sau trang tự đổi sang bản CMS. */
+  /* CMS LÀ BẢN CHÍNH. Trước đây hàm này từ chối bản từ CMS mỗi khi nó có ít
+     thẻ hoặc ít ảnh hơn HTML viết sẵn. Ý tốt — không để một CMS trống làm
+     rỗng trang — nhưng hoá ra nó chặn luôn việc sửa: 23 lãnh đạo trong CMS
+     mới 1 người có ảnh, nên đổi ảnh trong CMS xong ngoài web không đổi gì,
+     và người dùng không có cách nào biết vì sao.
+
+     Nay chỉ còn một điều kiện: bản từ CMS phải dựng ra được ít nhất một
+     thẻ. Còn ảnh thì không thiếu nữa — gomAnh() bên dưới mượn lại ảnh của
+     người/vở cùng tên trong HTML viết sẵn cho những bản ghi CMS chưa có
+     ảnh. Xoá một mục trong CMS giờ cũng mất thật ngoài web, đúng như mong
+     đợi của người dùng. */
   function thayNeuDu(el, ten, html) {
-    var cuThe = el.querySelectorAll(CHON_THE).length;
-    var cuAnh = el.querySelectorAll('img').length;
     var tam = doc.createElement('div');
     tam.innerHTML = html;
     var moiThe = tam.querySelectorAll(CHON_THE).length;
-    var moiAnh = tam.querySelectorAll('img').length;
+    var cuThe = el.querySelectorAll(CHON_THE).length;
 
-    if (moiThe < cuThe || moiAnh < cuAnh) {
+    if (!moiThe) {
       if (global.console) {
-        global.console.warn('Giữ nguyên HTML viết sẵn cho "' + ten + '": bản từ CMS có '
-          + moiThe + ' thẻ / ' + moiAnh + ' ảnh, ít hơn bản đang hiện ('
-          + cuThe + ' thẻ / ' + cuAnh + ' ảnh). Vào CMS → Nạp dữ liệu → '
-          + '"Đối chiếu với bản gốc" → "Điền chỗ trống" để bổ sung.');
+        global.console.warn('Giữ nguyên HTML viết sẵn cho "' + ten
+          + '": bản từ CMS không dựng ra thẻ nào.');
       }
       return false;
+    }
+    if (moiThe < cuThe && global.console) {
+      global.console.info('"' + ten + '": CMS có ' + moiThe + ' mục, HTML viết sẵn có '
+        + cuThe + '. Trang lấy theo CMS. Thiếu mục nào thì vào CMS → Nạp dữ liệu → '
+        + '"Đối chiếu với bản gốc" → "Điền chỗ trống".');
     }
     el.innerHTML = html;
     // thẻ mới chưa qua tay script.js nên chưa có hiệu ứng hiện dần
@@ -367,6 +379,35 @@
   }
 
   function theoThuTu(a, b) { return (Number(a.thuTu) || 0) - (Number(b.thuTu) || 0); }
+
+  /* Gom ảnh đang có trong HTML viết sẵn, tra được theo tên.
+
+     Vì sao cần: CMS mới là nơi nhập nội dung, nhưng ảnh thì phần lớn bản
+     ghi còn trống (lãnh đạo 1/23, vở diễn 0/44) trong khi HTML viết sẵn có
+     đủ. Gọi hàm này TRƯỚC khi thay innerHTML, rồi bản ghi nào CMS chưa có
+     ảnh thì lấy lại đúng ảnh của người/vở cùng tên. Ảnh người dùng tải lên
+     CMS vẫn thắng — chỉ lấp chỗ trống, không đè. */
+  function gomAnh(el, chonThe, chonTen, khoaHoa) {
+    var bang = {};
+    if (!el) return bang;
+    var ds = el.querySelectorAll(chonThe);
+    for (var i = 0; i < ds.length; i++) {
+      var img = ds[i].querySelector('img');
+      var h = ds[i].querySelector(chonTen);
+      if (!img || !h) continue;
+      var src = img.getAttribute('src');
+      if (!src) continue;
+      var k = khoaHoa(h.textContent);
+      if (k && !bang[k]) bang[k] = src;
+    }
+    return bang;
+  }
+
+  /* Tên vở để đối chiếu: bỏ nhãn "Trích đoạn" đứng cùng dòng, gộp khoảng
+     trắng, bỏ phân biệt hoa thường. */
+  function khoaVo(ten) {
+    return String(ten || '').replace(/Trích đoạn/gi, '').replace(/\s+/g, ' ').trim().toLowerCase();
+  }
 
   /* ----------------------------------------------------------
      THƯ VIỆN ẢNH (trang Tin tức)
@@ -401,11 +442,13 @@
 
     var oNsnd = doc.querySelector('[data-cms="nghe-si-nsnd"]');
     if (oNsnd) {
+      var anhCuNs = gomAnh(oNsnd, '.leader', 'h4', khoaNguoi);
       thayNeuDu(oNsnd, 'Nghệ sĩ Nhân dân', ds.filter(function (r) {
         return r.danhHieu === 'NSND';
       }).map(function (r) {
         var ten = 'NSND ' + (r.hoTen || '');
-        var a = anhCua(r);
+        // CMS chưa có ảnh thì mượn ảnh của chính nghệ sĩ đó trong HTML viết sẵn
+        var a = anhCua(r) || anhCuNs[khoaNguoi(r.hoTen)] || '';
         var nam = [];
         if (r.namNSND) nam.push('NSND ' + r.namNSND);
         if (r.namNSUT) nam.push('NSƯT ' + r.namNSUT);
@@ -486,6 +529,7 @@
   function veLanhDao(ds) {
     var el = doc.querySelector('[data-cms="lanh-dao"]');
     if (!el) return;
+    var anhCu = gomAnh(el, '.leader', 'h4', khoaNguoi);
     ds = ds.slice().sort(theoThuTu);
 
     var theo = {}, thuTuKhoa = [];
@@ -528,6 +572,8 @@
             }, '');
             var anh = '';
             cv.forEach(function (r) { if (!anh) anh = anhCua(r); });
+            // CMS chưa có ảnh thì mượn đúng ảnh của người này trong HTML viết sẵn
+            if (!anh) anh = anhCu[k] || '';
             /* Nhiệm kỳ mở đầu bằng "từ" nghĩa là chưa kết thúc — tô đỏ.
                KHÔNG dùng ranh-giới-từ sau "từ": trong biểu thức chính quy nó
                chỉ tính [A-Za-z0-9_], mà "ừ" không thuộc nhóm đó, nên mẫu ấy
@@ -569,8 +615,9 @@
       .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   }
 
-  function theLon(r) {
-    var a = anhCua(r);
+  function theLon(r, anhCu) {
+    // CMS chưa có ảnh thì mượn ảnh của chính vở đó trong HTML viết sẵn
+    var a = anhCua(r) || (anhCu ? anhCu[khoaVo(r.ten)] : '') || '';
     var nhan = [r.nhanThe || '', r.nam || ''].filter(Boolean).join(' · ');
     return '<article class="expcard expcard--work" data-work="' + esc(boDau(r.ten)) + '">'
       + (a
@@ -601,11 +648,13 @@
     MUC_VO.forEach(function (nhom) {
       var el = doc.querySelector('[data-cms-vo="' + nhom + '"]');
       if (!el) return;
+      var anhCu = gomAnh(el, '.expcard--work, .work', 'h3, h4', khoaVo);
       var cua = ds.filter(function (r) { return r.nhom === nhom; });
       var h = '';
 
       var lon = cua.filter(function (r) { return r.noiBat; });
-      if (lon.length) h += '<div class="expgrid expgrid--wide">' + lon.map(theLon).join('') + '</div>';
+      if (lon.length) h += '<div class="expgrid expgrid--wide">'
+        + lon.map(function (r) { return theLon(r, anhCu); }).join('') + '</div>';
 
       // nhóm phụ giữ đúng thứ tự xuất hiện, không xếp lại theo bảng chữ cái
       var ten = [], theo = {};
@@ -629,9 +678,130 @@
     if (global.LocVo) global.LocVo.lamMoi();
   }
 
+
   /* ----------------------------------------------------------
-     Nạp bốn mục trên. Mỗi mục chỉ gọi Firestore khi trang thật sự có
-     khối tương ứng — trang chủ không việc gì phải tải 46 vở diễn.
+     ẢNH BÌA (đầu trang chủ)
+
+     Ảnh đi vào qua biến CSS --anh chứ không phải thuộc tính style viết
+     thẳng trong chuỗi HTML: đường dẫn Firebase Storage có dấu & và dấu
+     nháy, nhét vào style="" là gãy. Dựng xong mới gán bằng JS.
+     ---------------------------------------------------------- */
+
+  function veAnhBia(ds) {
+    var el = doc.querySelector('[data-cms="anh-bia"]');
+    if (!el) return;
+    ds = ds.slice().sort(theoThuTu);
+
+    var h = ds.map(function (r, i) {
+      var a = anhCua(r);
+      var nut = '';
+      if (r.nut1Chu) nut += '<a href="' + esc(r.nut1Link || '#') + '" class="btn btn--primary">' + esc(r.nut1Chu) + '</a>';
+      if (r.nut2Chu) nut += '<a href="' + esc(r.nut2Link || '#') + '" class="btn btn--ghost">' + esc(r.nut2Chu) + '</a>';
+      return '<article class="hero__slide' + (i === 0 ? ' is-active' : '') + '"'
+        + (a ? ' data-anh="' + esc(a) + '"' : '') + '>'
+        + '<div class="container hero__content">'
+        + (r.nhan ? '<p class="hero__eyebrow">' + esc(r.nhan) + '</p>' : '')
+        + '<h1 class="hero__title">' + esc(r.tieuDe || '')
+        + (r.tieuDeVang ? ' <span>' + esc(r.tieuDeVang) + '</span>' : '') + '</h1>'
+        + (r.moTa ? '<p class="hero__desc">' + esc(r.moTa) + '</p>' : '')
+        + (nut ? '<div class="hero__actions">' + nut + '</div>' : '')
+        + '</div></article>';
+    }).join('');
+
+    if (!thayNeuDu(el, 'Ảnh bìa trang chủ', h)) return;
+
+    var ss = el.querySelectorAll('[data-anh]');
+    for (var i = 0; i < ss.length; i++) {
+      ss[i].style.setProperty('--anh', 'url("' + ss[i].getAttribute('data-anh') + '")');
+    }
+    // slider đã chạy từ lúc tải trang, thẻ vừa bị thay hết nên phải dựng lại
+    if (global.HeroSlider) global.HeroSlider.dungLai();
+  }
+
+  /* ----------------------------------------------------------
+     DẤU MỐC (trang Lịch sử)
+     ---------------------------------------------------------- */
+
+  function veDauMoc(ds) {
+    var el = doc.querySelector('[data-cms="dau-moc"]');
+    if (!el) return;
+    var anhCu = gomAnh(el, '.milestone', 'h3', khoaVo);
+    ds = ds.slice().sort(theoThuTu);
+
+    var h = ds.map(function (r) {
+      var a = anhCua(r) || anhCu[khoaVo(r.tieuDe)] || '';
+      var mt = r.anhMoTa || r.tieuDe || '';
+      return '<article class="milestone">'
+        + (a
+            ? '<div class="milestone__art"><button type="button" class="archive__zoom" data-cap="'
+              + esc(mt) + '" aria-label="Phóng to ảnh"><img src="' + esc(a) + '" alt="'
+              + esc(mt) + '" loading="lazy" /></button></div>'
+            : '')
+        + '<p class="milestone__year">' + esc(r.moc || '') + '</p>'
+        + '<h3>' + esc(r.tieuDe || '') + '</h3>'
+        + (r.moTa ? '<p>' + esc(r.moTa) + '</p>' : '')
+        + '</article>';
+    }).join('');
+
+    thayNeuDu(el, 'Dấu mốc', h);
+  }
+
+  /* ----------------------------------------------------------
+     THÔNG TIN CHUNG (dải trên cùng, chân trang, mục Liên hệ)
+
+     Không thay cả khối như mấy mục kia — chỉ điền vào đúng những chỗ đã
+     đánh dấu sẵn trong HTML:
+       data-tt="<trường>"      → thay chữ
+       data-tt-tel             → đặt href="tel:…" theo số điện thoại
+       data-tt-mail="<trường>" → đặt href="mailto:…"
+       data-tt-link="<mạng>"   → đặt href cho biểu tượng mạng xã hội
+     Ô nào CMS bỏ trống thì giữ nguyên chữ viết sẵn, không xoá thành trống.
+     ---------------------------------------------------------- */
+
+  var TT_CHU = ['diaChi', 'dienThoai', 'email', 'emailTruyenThong',
+                'gioDonTiep', 'gioHanhChinh', 'gioiThieu'];
+  var TT_MANG = ['facebook', 'youtube', 'tiktok'];
+
+  function veThongTin(ds) {
+    if (!ds || !ds.length) return;
+    var t = ds[0];
+    var i, els;
+
+    for (var k = 0; k < TT_CHU.length; k++) {
+      var truong = TT_CHU[k];
+      var gia = t[truong];
+      if (!gia) continue;
+      els = doc.querySelectorAll('[data-tt="' + truong + '"]');
+      for (i = 0; i < els.length; i++) els[i].textContent = gia;
+    }
+
+    if (t.dienThoai) {
+      var so = String(t.dienThoai).replace(/[^0-9+]/g, '');
+      els = doc.querySelectorAll('[data-tt-tel]');
+      for (i = 0; i < els.length; i++) els[i].setAttribute('href', 'tel:' + so);
+    }
+
+    els = doc.querySelectorAll('[data-tt-mail]');
+    for (i = 0; i < els.length; i++) {
+      var tm = t[els[i].getAttribute('data-tt-mail')];
+      if (tm) els[i].setAttribute('href', 'mailto:' + tm);
+    }
+
+    for (var m = 0; m < TT_MANG.length; m++) {
+      var dc = t[TT_MANG[m]];
+      if (!dc) continue;
+      els = doc.querySelectorAll('[data-tt-link="' + TT_MANG[m] + '"]');
+      for (i = 0; i < els.length; i++) {
+        els[i].setAttribute('href', dc);
+        els[i].setAttribute('target', '_blank');
+        els[i].setAttribute('rel', 'noopener');
+      }
+    }
+  }
+
+  /* ----------------------------------------------------------
+     Mỗi mục chỉ gọi Firestore khi trang thật sự có khối tương ứng —
+     trang chủ không việc gì phải tải 46 vở diễn.
      ---------------------------------------------------------- */
 
   function napMuc(bang, chon, ve) {
@@ -640,12 +810,21 @@
       if (ds.length) ve(ds);
       return ds;
     })['catch'](function (e) {
-      if (global.console) global.console.warn('Không đọc được ' + bang + ' từ CMS:', e);
+      if (global.console) {
+        global.console.warn('Không đọc được "' + bang + '" từ CMS:', e,
+          '\n\nBa mục anh-bia, dau-moc, thong-tin là mục MỚI: Firestore trả 403 cho tới'
+          + ' khi đăng lại firestore.rules bên kho CMS (Firebase Console → Firestore'
+          + ' Database → tab Rules → dán đè → Publish). Trang vẫn chạy bằng HTML viết'
+          + ' sẵn, chỉ là chưa lấy được bản từ CMS.');
+      }
       return null;
     });
   }
 
   function napKhoiTinh() {
+    napMuc('anh-bia', '[data-cms="anh-bia"]', veAnhBia);
+    napMuc('dau-moc', '[data-cms="dau-moc"]', veDauMoc);
+    napMuc('thong-tin', '[data-tt]', veThongTin);
     napMuc('thu-vien-anh', '[data-cms="thu-vien-anh"]', veThuVien);
     napMuc('nghe-si', '[data-cms^="nghe-si-"]', veNgheSi);
     napMuc('lanh-dao', '[data-cms="lanh-dao"]', veLanhDao);
