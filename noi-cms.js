@@ -422,9 +422,15 @@
     ds = ds.filter(function (r) { return !r.khu || r.khu === 'thu-vien'; });
     var el = doc.querySelector('[data-cms="thu-vien-anh"]');
     if (!el) return;
-    var h = ds.slice().sort(theoThuTu).map(function (r) {
+    ds = ds.slice().sort(theoThuTu).filter(anhCua);   // ảnh là tất cả của mục này
+    var oTai = doc.getElementById('anhTai');
+    if (oTai) {
+      oTai.hidden = ds.length > 0;
+      if (!ds.length) oTai.textContent = 'Chưa có ảnh nào.';
+    }
+
+    var h = ds.map(function (r) {
       var a = anhCua(r);
-      if (!a) return '';               // ảnh là tất cả của mục này, không có thì bỏ
       var cap = r.chuThich || '';
       return '<figure class="shot' + (KHO_ANH[r.khoAnh] || '') + '">'
         + '<button type="button" class="shot__zoom"'
@@ -434,7 +440,10 @@
         + '<img src="' + esc(a) + '" alt="' + esc(cap) + '" loading="lazy" />'
         + '</button></figure>';
     }).join('');
-    thayNeuDu(el, 'Thư viện ảnh', h);
+    /* Không qua thayNeuDu: mục này KHÔNG còn bản viết tay để mà giữ lại.
+       CMS trống thì khung trống, đúng như mục Tin tức. */
+    thay(el, h);
+    if (global.HieuUngHien) global.HieuUngHien.quet(el);
   }
 
   /* ----------------------------------------------------------
@@ -992,10 +1001,13 @@
      trang chủ không việc gì phải tải 46 vở diễn.
      ---------------------------------------------------------- */
 
-  function napMuc(bang, chon, ve) {
+  function napMuc(bang, chon, ve, luonVe) {
     if (!doc.querySelector(chon)) return null;
     return global.Kho.danhSachHien(bang).then(function (ds) {
-      if (ds.length) ve(ds);
+      /* luonVe: mục rỗng cũng phải gọi bộ dựng, vì khối đó không còn bản
+         viết tay nào để mà giữ — không gọi thì dòng "Đang tải…" nằm lại
+         mãi. Mục nào còn HTML dự phòng thì cứ để nguyên nếp cũ. */
+      if (ds.length || luonVe) ve(ds);
       return ds;
     })['catch'](function (e) {
       if (global.console) {
@@ -1043,7 +1055,12 @@
     napMuc('anh-bia', '[data-cms="anh-bia"]', veAnhBia);
     napMuc('dau-moc', '[data-cms="dau-moc"]', veDauMoc);
     napMuc('thong-tin', '[data-tt]', veThongTin);
-    napMuc('thu-vien-anh', '[data-cms="thu-vien-anh"]', veThuVien);
+    var pAnh = napMuc('thu-vien-anh', '[data-cms="thu-vien-anh"]', veThuVien, true);
+    if (pAnh) pAnh.then(function (ds) {
+      if (ds !== null) return;
+      var oTai = doc.getElementById('anhTai');
+      if (oTai) { oTai.hidden = false; oTai.textContent = 'Chưa tải được ảnh.'; }
+    });
     napNhanSu();
     napMuc('vo-dien', '[data-cms-vo]', veVoDien);
   }
