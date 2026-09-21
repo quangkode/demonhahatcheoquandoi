@@ -625,6 +625,8 @@
 
       thayNeuDu(el, 'Vở diễn — ' + nhom, h);
     });
+    // thẻ vừa bị thay hết, bộ lọc bên script.js phải đếm lại và áp lại
+    if (global.LocVo) global.LocVo.lamMoi();
   }
 
   /* ----------------------------------------------------------

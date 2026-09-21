@@ -274,39 +274,130 @@
     syncSubnav();
   }
 
-  /* ---------- Lọc vở diễn theo thể loại (trang Vở diễn) ----------
-     Ba mục đầu của trang chính là ba thể loại, nên lọc = giữ lại đúng một
-     mục. Hai mục cuối xếp theo giai đoạn và theo giải thưởng, cùng một vở
-     nằm được ở cả hai, nên khi đang lọc riêng một thể loại thì giấu chúng
-     đi — bày ra thì trên màn hình lẫn cả những vở không thuộc thể loại vừa
-     chọn. Mục lục dính cũng bỏ bớt dòng của mục đang giấu. */
+  /* ---------- Lọc vở diễn (trang Vở diễn) ----------
+     Sáu nút, tất cả đều chỉ lọc trong BA mục thể loại đầu trang. Bốn mươi
+     sáu vở ở đó là danh mục chính, nên số trên mỗi nút luôn là một phần của
+     46 và ba nút thể loại cộng lại đúng bằng nút Tất cả — nếu để "Đoạt giải"
+     quét cả mục Theo giai đoạn nữa thì nó ra số lớn hơn mấy nút kia mà không
+     ai hiểu vì sao.
+
+     Hai mục cuối (theo giai đoạn, đoạt giải) xếp theo trục khác, cùng một vở
+     nằm được ở cả hai, nên chỉ hiện khi đang xem Tất cả.
+
+     "Đoạt giải" đối chiếu TÊN vở với bảng vàng ở cuối trang chứ không gắn
+     tay data-giai vào từng thẻ: thêm một vở vào bảng vàng là nút lọc tự
+     biết, và bản do CMS đổ lại cũng ăn theo. */
   var locVo = document.getElementById('locVo');
   if (locVo) {
-    var MUC_LOC = ['cheo-co', 'nguoi-linh', 'danh-nhan', 'giai-doan', 'giai-thuong'];
+    var MUC_VO = ['cheo-co', 'nguoi-linh', 'danh-nhan'];
+    var MUC_PHU = ['giai-doan', 'giai-thuong'];
     var nutLoc = Array.prototype.slice.call(locVo.querySelectorAll('[data-loc-vo]'));
+    var maDang = 'all';
+    var bangVang = null;
+
+    var chuanTen = function (s) { return String(s || '').replace(/\s+/g, ' ').trim().toLowerCase(); };
+
+    // tên vở không tính cái nhãn "Trích đoạn" đứng cùng dòng
+    var tenCuaThe = function (the) {
+      var h = the.querySelector('h3, h4');
+      if (!h) return '';
+      var ban = h.cloneNode(true);
+      var nhan = ban.querySelector('.work__tag');
+      if (nhan && nhan.parentNode) nhan.parentNode.removeChild(nhan);
+      return chuanTen(ban.textContent);
+    };
+
+    var docBangVang = function () {
+      bangVang = {};
+      Array.prototype.forEach.call(
+        document.querySelectorAll('#giai-thuong .laurel h3, #giai-thuong .laurel h4'),
+        function (h) { bangVang[chuanTen(h.textContent)] = 1; });
+    };
+
+    var theTrong = function (goc) {
+      return Array.prototype.slice.call(goc.querySelectorAll('.expcard--work, .work'));
+    };
+
+    var khop = function (the, idMuc, ma) {
+      if (ma === 'all') return true;
+      if (ma === 'giai') return !!bangVang[tenCuaThe(the)];
+      if (ma === 'trich') {
+        var nhan = the.querySelector('.work__tag');
+        return !!nhan && /trích đoạn/i.test(nhan.textContent);
+      }
+      return ma === idMuc;          // ba nút thể loại
+    };
+
+    var hienMuc = function (id, hien) {
+      var sec = document.getElementById(id);
+      if (sec) sec.hidden = !hien;
+      var a = document.querySelector('.subnav__inner a[href="#' + id + '"]');
+      if (a) a.hidden = !hien;
+    };
 
     var apDungLoc = function (ma, cuon) {
-      MUC_LOC.forEach(function (id) {
+      if (!bangVang) docBangVang();
+      maDang = ma;
+
+      MUC_VO.forEach(function (id) {
         var sec = document.getElementById(id);
         if (!sec) return;
-        sec.hidden = !(ma === 'all' || id === ma);
-        var a = document.querySelector('.subnav__inner a[href="#' + id + '"]');
-        if (a) a.hidden = sec.hidden;
+        var con = 0;
+        theTrong(sec).forEach(function (the) {
+          var ok = khop(the, id, ma);
+          the.hidden = !ok;
+          if (ok) con++;
+        });
+        // lưới/danh sách rỗng thì giấu luôn, và giấu cả tiêu đề nhóm phụ
+        // đứng ngay trước nó — bỏ lại một cái tiêu đề trơ thì rất khó hiểu
+        Array.prototype.forEach.call(sec.querySelectorAll('.works, .expgrid'), function (o) {
+          var conO = theTrong(o).some(function (e) { return !e.hidden; });
+          o.hidden = !conO;
+          var truoc = o.previousElementSibling;
+          if (truoc && truoc.classList.contains('works__sub')) truoc.hidden = !conO;
+        });
+        hienMuc(id, con > 0);
       });
+
+      MUC_PHU.forEach(function (id) { hienMuc(id, ma === 'all'); });
+
       nutLoc.forEach(function (b) {
         var bat = b.getAttribute('data-loc-vo') === ma;
         b.classList.toggle('is-active', bat);
         b.setAttribute('aria-pressed', String(bat));
       });
+
       if (window.MucLuc) window.MucLuc.lamMoi();
       // lọc xong mà đang đứng giữa trang thì phần còn lại co lên, dễ rơi vào
       // khoảng trắng cuối trang — kéo về hàng nút cho thấy ngay kết quả
       if (cuon && locVo.getBoundingClientRect().top < 0) locVo.scrollIntoView({ block: 'start' });
     };
 
+    // Đếm trên DOM thật chứ không viết số cứng vào HTML: thêm bớt một vở là
+    // số tự đúng, và bản do CMS đổ lại cũng đếm đúng sau khi gọi lamMoi().
+    var demLai = function () {
+      if (!bangVang) docBangVang();
+      nutLoc.forEach(function (b) {
+        var ma = b.getAttribute('data-loc-vo');
+        var o = b.querySelector('.chip__so');
+        if (!o) return;
+        var n = 0;
+        MUC_VO.forEach(function (id) {
+          var sec = document.getElementById(id);
+          if (sec) theTrong(sec).forEach(function (the) { if (khop(the, id, ma)) n++; });
+        });
+        o.textContent = n;
+        // nút không lọc ra vở nào thì mờ đi và không bấm được
+        b.disabled = n === 0;
+      });
+    };
+
     nutLoc.forEach(function (b) {
       b.addEventListener('click', function () { apDungLoc(b.getAttribute('data-loc-vo'), true); });
     });
+
+    window.LocVo = { lamMoi: function () { docBangVang(); demLai(); apDungLoc(maDang, false); } };
+    demLai();
   }
 
   /* ---------- Hiệu ứng xuất hiện khi cuộn ----------
@@ -316,7 +407,7 @@
      mà phần trên trang thì vẫn có — nhìn cọc cạch. */
   var CHON_HIEN = '.sched, .artist, .news__lead, .news__item, .about__media, .about__text, .quickinfo__item,' +
     '.mission, .value, .capa, .award, .factbox, .honorbox, .decree,' +
-    '.milestone, .leader, .work, .archive__item, .martyr, .laurel, .bangvang';
+    '.milestone, .leader, .work, .archive__item, .martyr, .laurel, .bangvang, .lhcard';
 
   var ioHien = 'IntersectionObserver' in window
     ? new IntersectionObserver(function (entries) {

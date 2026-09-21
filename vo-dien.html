@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Serif:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=81" />
+<link rel="stylesheet" href="./styles.css?v=82" />
 <link rel="icon" type="image/png" href="./anh/logo.png" />
 </head>
 <body>
@@ -102,17 +102,25 @@
   </div>
 </nav>
 
-<!-- ============ LỌC THEO THỂ LOẠI ============
-     Ba mục đầu của trang chính là ba thể loại, nên lọc ở đây = giữ lại đúng
-     một mục. Hai mục cuối xếp theo giai đoạn và theo giải thưởng, một vở nằm
-     được ở cả hai, nên chọn riêng một thể loại thì chúng cũng ẩn — để mọi thứ
-     còn trên màn hình đều thuộc thể loại đang xem. Dựng ở script.js. -->
+<!-- ============ LỌC VỞ DIỄN ============
+     Sáu nút, tất cả đều chỉ lọc trong BA mục thể loại đầu trang — 46 vở ở đó
+     là danh mục chính, nên số trên mỗi nút luôn là một phần của 46 và ba nút
+     thể loại cộng lại đúng bằng nút Tất cả.
+
+     Hai mục cuối (theo giai đoạn, đoạt giải) xếp theo trục khác, cùng một vở
+     nằm được ở cả hai, nên chỉ hiện khi đang xem Tất cả.
+
+     "Đoạt giải" đối chiếu TÊN với bảng vàng ở cuối trang chứ không gắn tay
+     vào từng thẻ: thêm một vở vào bảng vàng là nút lọc tự biết, và bản do
+     CMS đổ lại cũng ăn theo. Dựng ở script.js. -->
 <div class="container locvo">
-  <div class="chips" id="locVo" role="group" aria-label="Lọc vở diễn theo thể loại">
-    <button type="button" class="chip is-active" data-loc-vo="all" aria-pressed="true">Tất cả</button>
-    <button type="button" class="chip" data-loc-vo="cheo-co" aria-pressed="false">Chèo cổ</button>
-    <button type="button" class="chip" data-loc-vo="nguoi-linh" aria-pressed="false">Đề tài người lính</button>
-    <button type="button" class="chip" data-loc-vo="danh-nhan" aria-pressed="false">Danh nhân &amp; lãnh đạo</button>
+  <div class="chips" id="locVo" role="group" aria-label="Lọc vở diễn">
+    <button type="button" class="chip is-active" data-loc-vo="all" aria-pressed="true">Tất cả <span class="chip__so"></span></button>
+    <button type="button" class="chip" data-loc-vo="cheo-co" aria-pressed="false">Chèo cổ <span class="chip__so"></span></button>
+    <button type="button" class="chip" data-loc-vo="nguoi-linh" aria-pressed="false">Đề tài người lính <span class="chip__so"></span></button>
+    <button type="button" class="chip" data-loc-vo="danh-nhan" aria-pressed="false">Danh nhân &amp; lãnh đạo <span class="chip__so"></span></button>
+    <button type="button" class="chip" data-loc-vo="giai" aria-pressed="false">Đoạt giải <span class="chip__so"></span></button>
+    <button type="button" class="chip" data-loc-vo="trich" aria-pressed="false">Trích đoạn <span class="chip__so"></span></button>
   </div>
 </div>
 
@@ -816,7 +824,7 @@
 <button class="totop" id="toTop" aria-label="Lên đầu trang">↑</button>
 
 <script src="./kho.js?v=1"></script>
-<script src="./noi-cms.js?v=3"></script>
-<script src="./script.js?v=21"></script>
+<script src="./noi-cms.js?v=4"></script>
+<script src="./script.js?v=22"></script>
 </body>
 </html>

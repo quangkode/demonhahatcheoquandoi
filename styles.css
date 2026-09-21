@@ -78,6 +78,10 @@
 }
 
 * { box-sizing: border-box; }
+/* Nhiều thành phần ở dưới khai display: flex/grid, mà [hidden] mặc định chỉ
+   là display: none của trình duyệt nên thua. Bộ lọc vở diễn giấu thẻ bằng
+   .hidden = true, không có dòng này là giấu không nổi. */
+[hidden] { display: none !important; }
 
 html {
   scroll-behavior: smooth;
@@ -2145,6 +2149,53 @@ kbd {
   .videocard__play { width: 54px; height: 54px; }
 }
 
+/* ---------- Mục Liên hệ (trang chủ) ---------- */
+.lienhe__dau { text-align: center; margin-bottom: 34px; }
+.lienhe__dau .section__title { margin-inline: auto; }
+/* nét kẻ dưới tiêu đề nằm absolute left:0, mục này canh giữa nên phải kéo */
+.lienhe__dau .section__title::after { left: 50%; transform: translateX(-50%); }
+
+/* Hoa sen vẽ bằng nét, không tô — cùng kiểu với mấy biểu tượng khác trong
+   trang. Dùng currentColor nên đổi màu chỉ cần đổi color của .sen. */
+.sen { display: block; width: 96px; margin: 0 auto 14px; color: var(--gold-ink); }
+.sen svg { display: block; width: 100%; height: auto; }
+
+.lienhe__luoi {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;
+}
+.lhcard {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 24px 22px; background: var(--white);
+  border: 1px solid var(--line); border-left: 3px solid var(--red);
+  border-radius: var(--r); transition: var(--t);
+}
+.lhcard:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+.lhcard h3 { font-family: var(--serif); font-size: 19px; margin: 0; }
+.lhcard p { margin: 0; font-size: 14.5px; color: var(--ink-soft); }
+.lhcard__moi { margin-top: auto !important; padding-top: 6px; font-weight: 600; }
+.lhcard__moi a { color: var(--red); word-break: break-word; }
+.lhcard__moi a:hover { text-decoration: underline; }
+.lhcard__phu { font-size: 13px !important; }
+.lhcard .link-more { align-self: flex-start; }
+
+.lienhe__noi {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px;
+  margin-top: 26px; padding: 22px 26px;
+  background: var(--cream-2); border-radius: var(--r);
+}
+.lienhe__noi > div { flex: 1 1 320px; }
+.lienhe__nhan {
+  margin: 0 0 4px; font-size: 11.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.2px; color: var(--gold-ink);
+}
+.lienhe__diachi { margin: 0; font-family: var(--serif); font-size: 20px; }
+.lienhe__gio { margin: 4px 0 0; font-size: 14px; color: var(--ink-soft); }
+
+@media (max-width: 560px) {
+  .sen { width: 76px; }
+  .lienhe__diachi { font-size: 18px; }
+}
+
 /* ==========================================================
    TRANG VỞ DIỄN (vo-dien.html)
    ========================================================== */
@@ -2154,6 +2205,10 @@ kbd {
    Mượn nguyên .chips/.chip của trang Tin tức cho hai trang giống nhau. */
 .locvo { padding-top: 30px; }
 .locvo .chips { margin-bottom: 0; }
+/* số vở trên mỗi nút — nhạt hơn chữ để đọc tên trước, số sau */
+.chip__so { margin-left: 6px; font-weight: 500; opacity: .58; font-variant-numeric: tabular-nums; }
+.chip.is-active .chip__so { opacity: .82; }
+.chip__so:empty { display: none; }
 
 /* ---------- Nhãn nhóm nhỏ trong một mảng ----------
    Nét kẻ chạy hết phần còn lại của dòng để tách nhóm mà không phải thêm một

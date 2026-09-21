@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Serif:wght@400;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="./styles.css?v=81" />
+<link rel="stylesheet" href="./styles.css?v=82" />
 <link rel="icon" type="image/png" href="./anh/logo.png" />
 </head>
 <body>
@@ -279,7 +279,74 @@
   </div>
 </section>
 
-<!-- ============ CTA ĐẶT VÉ ============ -->
+<!-- ============ LIÊN HỆ ============
+     Trước đây #lien-he trỏ thẳng xuống chân trang, nên nút "Đăng ký học" ở
+     hero chỉ đưa người ta tới một dãy địa chỉ chung. Mục này chia theo VIỆC
+     cần liên hệ, mỗi việc một đầu mối. Số điện thoại, email và giờ giấc đều
+     lấy đúng những gì đã có ở chân trang và ở mục Liên hệ báo chí bên trang
+     Tin tức — không đặt thêm số máy lẻ hay hộp thư mới. -->
+<section class="section lienhe" id="lien-he">
+  <div class="container">
+    <div class="lienhe__dau">
+      <span class="sen" aria-hidden="true">
+        <svg viewBox="0 0 240 150" fill="none" stroke="currentColor" stroke-width="2.4"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 86 C 26 124 64 141 116 134 C 72 126 38 106 10 86 Z"/>
+          <path d="M230 86 C 214 124 176 141 124 134 C 168 126 202 106 230 86 Z"/>
+          <path d="M40 50 C 44 94 74 126 118 134 C 94 102 70 72 40 50 Z"/>
+          <path d="M200 50 C 196 94 166 126 122 134 C 146 102 170 72 200 50 Z"/>
+          <path d="M76 32 C 68 52 70 72 82 88 C 90 66 86 48 76 32 Z"/>
+          <path d="M164 32 C 172 52 170 72 158 88 C 150 66 154 48 164 32 Z"/>
+          <path d="M120 134 C 88 104 86 62 120 14 C 154 62 152 104 120 134 Z"/>
+          <path d="M6 128 C 34 116 66 121 100 137"/>
+          <path d="M234 128 C 206 116 174 121 140 137"/>
+        </svg>
+      </span>
+      <p class="section__eyebrow">Gặp Nhà hát</p>
+      <h2 class="section__title">Liên hệ</h2>
+    </div>
+
+    <div class="lienhe__luoi">
+      <article class="lhcard">
+        <h3>Giữ chỗ xem diễn</h3>
+        <p>Suất diễn nào cũng vào cửa miễn phí, chỉ cần giữ chỗ trước để Nhà hát bố trí đón tiếp.</p>
+        <p class="lhcard__moi"><a href="tel:02438457583">024 3845 7583</a></p>
+        <a href="./dat-cho.html" class="link-more">Đặt chỗ trực tuyến →</a>
+      </article>
+
+      <article class="lhcard">
+        <h3>Lớp truyền nghề</h3>
+        <p>Hát chèo và nhạc cụ dân tộc, miễn phí cho thanh thiếu niên, khai giảng mỗi quý tại Nhà hát.</p>
+        <p class="lhcard__moi"><a href="mailto:lienhe@nhahatcheoquandoi.vn">lienhe@nhahatcheoquandoi.vn</a></p>
+      </article>
+
+      <article class="lhcard">
+        <h3>Mời Nhà hát về diễn</h3>
+        <p>Đơn vị quân đội, nhà trường và địa phương muốn mời Nhà hát tới biểu diễn.</p>
+        <p class="lhcard__moi"><a href="tel:02438457583">024 3845 7583</a></p>
+        <p class="lhcard__phu">Giờ hành chính 8:00 - 17:00 các ngày trong tuần</p>
+      </article>
+
+      <article class="lhcard">
+        <h3>Báo chí &amp; truyền thông</h3>
+        <p>Quay phim, chụp ảnh hoặc phỏng vấn nghệ sĩ, đăng ký trước ít nhất 3 ngày làm việc.</p>
+        <p class="lhcard__moi"><a href="mailto:truyenthong@nhahatcheoquandoi.vn">truyenthong@nhahatcheoquandoi.vn</a></p>
+        <a href="./tin-tuc.html#lien-he-bao-chi" class="link-more">Đầu mối truyền thông →</a>
+      </article>
+    </div>
+
+    <div class="lienhe__noi">
+      <div>
+        <p class="lienhe__nhan">Đến xem tại</p>
+        <p class="lienhe__diachi">45 Ng. 126 Đ. Xuân Đỉnh, Xuân Đỉnh, Hà Nội</p>
+        <p class="lienhe__gio">Quầy đón tiếp mở 8:00 - 21:00 hằng ngày</p>
+      </div>
+      <a class="link-more" href="https://www.google.com/maps/search/?api=1&amp;query=Nh%C3%A0%20h%C3%A1t%20Ch%C3%A8o%20Qu%C3%A2n%20%C4%91%E1%BB%99i%2C%2045%20Ng%C3%B5%20126%20Xu%C3%A2n%20%C4%90%E1%BB%89nh%2C%20H%C3%A0%20N%E1%BB%99i" target="_blank" rel="noopener">Xem trên bản đồ →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ĐẶT CHỖ ============ -->
 <section class="cta">
   <div class="container cta__inner">
     <div>
@@ -294,7 +361,7 @@
 </section>
 
 <!-- ============ FOOTER ============ -->
-<footer class="footer" id="lien-he">
+<footer class="footer" id="chan-trang">
   <div class="container">
     <div class="footer__top">
       <div class="footer__brand">
@@ -356,7 +423,7 @@
 
 <script src="./kho.js?v=1"></script>
 <script src="./booking.js?v=12"></script>
-<script src="./noi-cms.js?v=3"></script>
-<script src="./script.js?v=21"></script>
+<script src="./noi-cms.js?v=4"></script>
+<script src="./script.js?v=22"></script>
 </body>
 </html>

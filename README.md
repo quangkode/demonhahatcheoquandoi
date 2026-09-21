@@ -70,7 +70,21 @@ Không cần cài gì thêm — Vercel phục vụ file tĩnh trực tiếp.
 Top bar → Header (Trang chủ · Trải nghiệm · Vở diễn · Giới thiệu · Lịch sử ·
 Tin tức · Đặt chỗ) → Slider hero (3 slide, tự chạy) → Thông tin nhanh →
 Lịch biểu diễn → Nghệ sĩ tiêu biểu → Giới thiệu + số liệu → Tin tức & Sự kiện →
-CTA đặt chỗ → Footer.
+**Liên hệ** → CTA đặt chỗ → Footer.
+
+Mục **Liên hệ** (`#lien-he`) chia theo VIỆC cần liên hệ — giữ chỗ, lớp truyền
+nghề, mời Nhà hát về diễn, báo chí — mỗi việc một đầu mối. Trước đây `#lien-he`
+là mã của chân trang, nên nút "Đăng ký học" ở hero chỉ đưa người ta tới một dãy
+địa chỉ chung; giờ chân trang mang mã `#chan-trang` (chỉ trên trang chủ, các
+trang khác chân trang vẫn là `#lien-he`).
+
+Số điện thoại, hộp thư và giờ giấc trong mục này **lấy đúng những gì đã có** ở
+chân trang và ở mục Liên hệ báo chí bên trang Tin tức — không đặt thêm số máy lẻ
+hay hộp thư mới. Bản đồ là một liên kết ra Google Maps, cố ý không nhúng iframe.
+
+Hoa sen trên đầu mục là SVG vẽ bằng nét, đặt thẳng trong HTML (không phải tệp
+ảnh) để ăn theo `currentColor` — đổi màu chỉ cần đổi `color` của `.sen`.
+Đang để `--gold-ink`. Dùng lại ở chỗ khác thì chép cả khối `<span class="sen">`.
 
 Menu ngang có **bảy mục**. Quãng 861-1120px đã được bóp cỡ chữ và khoảng đệm cho
 vừa (xem comment trong `styles.css`); thêm mục thứ tám thì phải đo lại quãng này.
@@ -106,13 +120,30 @@ trên nền tối. Đừng gộp lại thành một.
 4. **Theo giai đoạn phát triển**
 5. **Vở diễn đoạt giải** — bảng vàng huy chương và giải thưởng
 
-Trên đầu trang có hàng nút lọc thể loại (`#locVo`, mượn `.chips/.chip` của
-trang Tin tức). Chọn một thể loại là ba mục đầu chỉ còn lại mục đó, và **hai
-mục cuối cũng ẩn** — chúng xếp theo giai đoạn và theo giải thưởng nên một vở
-nằm được ở cả hai, bày ra thì màn hình lẫn cả vở không thuộc thể loại vừa chọn.
+Trên đầu trang có hàng nút lọc (`#locVo`, mượn `.chips/.chip` của trang Tin
+tức): **Tất cả · Chèo cổ · Đề tài người lính · Danh nhân · Đoạt giải · Trích
+đoạn**, mỗi nút kèm số vở.
+
+Cả sáu nút chỉ lọc trong **ba mục thể loại đầu trang**. Bốn mươi sáu vở ở đó là
+danh mục chính, nên mọi con số đều là một phần của 46 và ba nút thể loại cộng
+lại đúng bằng nút Tất cả. Nếu để "Đoạt giải" quét cả mục *Theo giai đoạn* nữa
+thì nó ra số lớn hơn mấy nút kia mà không ai hiểu vì sao.
+
+**Hai mục cuối cũng ẩn** khi đang lọc — chúng xếp theo giai đoạn và theo giải
+thưởng nên một vở nằm được ở cả hai, bày ra thì màn hình lẫn cả vở không thuộc
+thể loại vừa chọn. Trong mỗi mục còn lại, lưới nào hết thẻ thì ẩn cùng với tiêu
+đề nhóm phụ đứng ngay trước nó, mục nào hết thẻ thì ẩn hẳn.
+
+"Đoạt giải" **đối chiếu tên vở với bảng vàng ở cuối trang**, không gắn tay
+`data-giai` vào từng thẻ: thêm một vở vào bảng vàng là nút lọc tự biết. Số trên
+nút cũng đếm trên DOM thật, nên bản do CMS đổ lại chỉ cần gọi
+`window.LocVo.lamMoi()` (`noi-cms.js` đã gọi sẵn) là đúng hết.
+
 Mục lục dính bỏ luôn dòng của mục đang ẩn, và `syncSubnav()` bỏ qua mục ẩn:
 thẻ ẩn trả về toạ độ 0 nên cứ tính vào là nó luôn thắng, nhãn trên nút sẽ chỉ
-sang một mục không còn thấy.
+sang một mục không còn thấy. Trong `styles.css` có một dòng
+`[hidden] { display: none !important }` — `.work`/`.expcard`/`.works` đều khai
+`display: flex/grid` nên không có dòng đó là giấu thẻ không nổi.
 
 Mỗi mảng mở đầu bằng vài thẻ nổi bật (`.expcard--work`, ảnh là gradient giả lập
 khai báo qua `[data-work="..."] .expcard__art`), phần còn lại xếp thành danh sách
