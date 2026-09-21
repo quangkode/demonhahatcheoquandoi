@@ -208,13 +208,17 @@
       <a href="./nghe-si.html" class="link-more">Toàn bộ nghệ sĩ →</a>
     </div>
 
-    <p class="section__intro section__intro--wide">Tám nghệ sĩ của Nhà hát đã được Nhà nước phong tặng danh hiệu Nghệ sĩ Nhân dân — năm người năm 2015 và ba người năm 2023 — cùng 26 Nghệ sĩ Ưu tú qua các thế hệ. Dưới đây là bốn gương mặt, mỗi đợt phong tặng chọn hai người.</p>
+    <p class="section__intro section__intro--wide">Tám nghệ sĩ của Nhà hát đã được Nhà nước phong tặng danh hiệu Nghệ sĩ Nhân dân — năm người năm 2015 và ba người năm 2023 — cùng 26 Nghệ sĩ Ưu tú qua các thế hệ. Dưới đây là bốn gương mặt tiêu biểu.</p>
 
     <!-- Bốn trong tám Nghệ sĩ Nhân dân. Trước đây bày cả tám ở đây, nhưng danh
          sách đầy đủ đã có ở nghe-si.html nên trang chủ chỉ giới thiệu.
          Năm phong tặng nằm ở huy hiệu trên ảnh, không viết thành dòng chữ lặp
-         lại dưới từng tên. -->
-    <div class="artists">
+         lại dưới từng tên.
+
+         Khối này do noi-cms.js đổ lại từ mục Nghệ sĩ bên CMS — lấy bốn người
+         đầu trong số NSND, xếp theo Thứ tự. HTML dưới đây là bản dự phòng khi
+         chưa nối được Firestore. -->
+    <div class="artists" data-cms="nghe-si-noi-bat">
       <figure class="artist">
         <div class="artist__img"><img src="./anh/nghe-si/tron/vu-tu-long.jpg" alt="NSND Vũ Tự Long" loading="lazy" /><span class="artist__nam">2015</span></div>
         <figcaption><h4>NSND Vũ Tự Long</h4><p>Giám đốc Nhà hát</p></figcaption>
@@ -422,7 +426,7 @@
 
 <script src="./kho.js?v=1"></script>
 <script src="./booking.js?v=12"></script>
-<script src="./noi-cms.js?v=7"></script>
+<script src="./noi-cms.js?v=8"></script>
 <script src="./script.js?v=23"></script>
 </body>
 </html>

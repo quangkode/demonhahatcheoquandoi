@@ -332,7 +332,7 @@
 
   /* Thẻ nào cũng nằm trong một trong bốn lớp này, nên đếm được số thẻ của
      một khối mà không cần biết khối đó thuộc mục nào. */
-  var CHON_THE = '.leader, .work, .expcard, .shot, .hero__slide, .milestone';
+  var CHON_THE = '.leader, .work, .expcard, .shot, .hero__slide, .milestone, .artist';
 
   /* Cửa chắn duy nhất cho cả bốn mục: bản từ CMS phải không nghèo hơn bản
      HTML viết tay thì mới được thay vào.
@@ -458,6 +458,27 @@
           + '</div><figcaption><h4>' + esc(ten) + '</h4>'
           + (nam.length ? '<p>' + esc(nam.join(' · ')) + '</p>' : '')
           + '</figcaption></figure>';
+      }).join(''));
+    }
+
+    /* Trang chủ chỉ giới thiệu bốn gương mặt, danh sách đủ nằm ở nghe-si.html.
+       Lấy bốn người đầu trong số NSND theo Thứ tự bên CMS — đổi Thứ tự là đổi
+       được ai lên trang chủ, không phải sửa HTML. Dòng chức danh dưới tên
+       (kiểu "Giám đốc Nhà hát") bỏ đi: lược đồ Nghệ sĩ không có ô đó, để
+       nguyên chữ viết tay thì một hôm nào đó nó sai mà không ai biết. */
+    var oNoiBat = doc.querySelector('[data-cms="nghe-si-noi-bat"]');
+    if (oNoiBat) {
+      var anhCuNb = gomAnh(oNoiBat, '.artist', 'h4', khoaNguoi);
+      thayNeuDu(oNoiBat, 'Nghệ sĩ tiêu biểu', ds.filter(function (r) {
+        return r.danhHieu === 'NSND';
+      }).slice(0, 4).map(function (r) {
+        var ten = 'NSND ' + (r.hoTen || '');
+        var a = anhCua(r) || anhCuNb[khoaNguoi(r.hoTen)] || '';
+        return '<figure class="artist">'
+          + '<div class="artist__img">'
+          + (a ? '<img src="' + esc(a) + '" alt="' + esc(ten) + '" loading="lazy" />' : '')
+          + (r.namNSND ? '<span class="artist__nam">' + esc(r.namNSND) + '</span>' : '')
+          + '</div><figcaption><h4>' + esc(ten) + '</h4></figcaption></figure>';
       }).join(''));
     }
 
