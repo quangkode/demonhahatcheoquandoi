@@ -537,7 +537,33 @@
     return m ? Number(m[0]) : 9999;
   }
 
+  /* Ghép tên đầy đủ từ các ô rời của mục Nhân sự.
+     Mục cũ gói cả cụm vào ô họ tên ("Đại tá, Đạo diễn, NSND Vũ Tự Long");
+     mục mới tách ra từng ô, nên phải ghép lại ở chỗ hiển thị. */
+  function tenDayDu(r) {
+    var dau = [r.quanHam, r.ngheChinh, r.danhHieu].filter(Boolean).join(', ');
+    return (dau ? dau + ' ' : '') + (r.hoTen || '');
+  }
+
+  /* Đưa bản ghi Nhân sự về đúng hình dạng veLanhDao đang chờ. Đánh dấu
+     _gop để dongChuc biết đây là bản gộp: ở bản gộp, nhom + nhiemKy là
+     cương vị HIỆN TẠI còn chucDanh là các cương vị TRƯỚC ĐÓ, ngược hẳn
+     với mục cũ nơi chucDanh là bản kể chi tiết thay cho nhom. */
+  function nhanSuThanhLanhDao(ds) {
+    return ds.filter(function (r) { return r.laLanhDao; }).map(function (r) {
+      return {
+        hoTen: tenDayDu(r), nhom: r.nhom, nhiemKy: r.nhiemKy, chucDanh: r.chucDanh,
+        anh: r.anh, thuTu: r.thuTu, _gop: true
+      };
+    });
+  }
+
   function dongChuc(ds) {
+    if (ds.length === 1 && ds[0]._gop) {
+      var g = ds[0];
+      var s = (NHAN_NHOM[g.nhom] || '') + (g.nhiemKy ? ' · ' + g.nhiemKy : '');
+      return g.chucDanh ? s + ' · ' + g.chucDanh : s;
+    }
     if (ds.length === 1) {
       var r = ds[0];
       var c = r.chucDanh || NHAN_NHOM[r.nhom] || '';
@@ -983,6 +1009,34 @@
     });
   }
 
+  /* ----------------------------------------------------------
+     NHÂN SỰ — một danh sách cho cả nghệ sĩ lẫn lãnh đạo
+
+     CMS đã gộp hai mục nghe-si và lanh-dao làm một, vì chín người nằm ở
+     cả hai chỗ: sửa bên này thì bên kia giữ bản cũ.
+
+     Vẫn chừa đường lui về hai mục cũ. Trang web và CMS nằm ở hai kho,
+     deploy không cùng lúc; mà mục nhan-su còn đòi đăng lại firestore.rules
+     rồi mới bấm gộp. Trong quãng đó nhan-su hoặc rỗng hoặc trả 403 — cứ
+     chạy đường cũ, trang không việc gì phải trống.
+     ---------------------------------------------------------- */
+  function napNhanSu() {
+    if (!doc.querySelector('[data-cms^="nghe-si-"], [data-cms="lanh-dao"]')) return;
+
+    var cu = function () {
+      napMuc('nghe-si', '[data-cms^="nghe-si-"]', veNgheSi);
+      napMuc('lanh-dao', '[data-cms="lanh-dao"]', veLanhDao);
+    };
+
+    global.Kho.danhSachHien('nhan-su').then(function (ds) {
+      if (!ds || !ds.length) { cu(); return; }
+      var ns = ds.filter(function (r) { return r.laNgheSi; });
+      if (ns.length) veNgheSi(ns);
+      var ld = nhanSuThanhLanhDao(ds);
+      if (ld.length) veLanhDao(ld);
+    })['catch'](cu);
+  }
+
   function napKhoiTinh() {
     napMuc('khoi-trang', '[data-cms^="khoi-"], [data-cms-tn]', veKhoiTrang);
     napMuc('thu-vien-anh', '[data-cms="tu-lieu"]', veTuLieu);
@@ -990,8 +1044,7 @@
     napMuc('dau-moc', '[data-cms="dau-moc"]', veDauMoc);
     napMuc('thong-tin', '[data-tt]', veThongTin);
     napMuc('thu-vien-anh', '[data-cms="thu-vien-anh"]', veThuVien);
-    napMuc('nghe-si', '[data-cms^="nghe-si-"]', veNgheSi);
-    napMuc('lanh-dao', '[data-cms="lanh-dao"]', veLanhDao);
+    napNhanSu();
     napMuc('vo-dien', '[data-cms-vo]', veVoDien);
   }
 
