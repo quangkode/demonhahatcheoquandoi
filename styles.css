@@ -386,13 +386,6 @@ kbd {
 }
 .about__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 
-.about__badge {
-  position: absolute; right: -18px; bottom: 36px; z-index: 2;
-  background: var(--army); color: #fff; padding: 18px 26px; border-radius: var(--r);
-  text-align: center; box-shadow: var(--shadow-lg);
-}
-.about__badge strong { display: block; font-size: 30px; font-family: var(--serif); color: var(--gold-light); line-height: 1; }
-.about__badge span { font-size: 12.5px; letter-spacing: .5px; }
 .about__text p { color: var(--ink-soft); margin: 0 0 16px; }
 
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 34px; padding-top: 30px; border-top: 1px solid var(--line); }
@@ -2625,7 +2618,6 @@ kbd {
   /* đặt trên :root chứ không phải .container — khai báo trên .container sẽ
      thắng giá trị :root ở các breakpoint hẹp hơn và khoá lề ở 24px */
   :root { --gutter: 24px; }
-  .about__badge { right: 0; }
 }
 
 @media (max-width: 1024px) {
@@ -2773,8 +2765,6 @@ kbd {
   .bangvang__chu { margin-bottom: 26px; font-size: 12.5px; }
   .footer { padding-top: 42px; }
   .footer__top { padding-bottom: 24px; }
-  .about__badge { right: 10px; bottom: 10px; padding: 14px 18px; }
-  .about__badge strong { font-size: 24px; }
   .cta { padding: 26px 0; }
   .cta__inner { flex-direction: column; align-items: stretch; }
   .cta__actions .btn { flex: 1 1 auto; }
