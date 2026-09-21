@@ -332,7 +332,8 @@
 
   /* Thẻ nào cũng nằm trong một trong bốn lớp này, nên đếm được số thẻ của
      một khối mà không cần biết khối đó thuộc mục nào. */
-  var CHON_THE = '.leader, .work, .expcard, .shot, .hero__slide, .milestone, .artist';
+  var CHON_THE = '.leader, .work, .expcard, .shot, .hero__slide, .milestone, .artist,'
+    + ' .quickinfo__item, .mission, .value, .capa, .award, .martyr, .archive__item';
 
   /* Cửa chắn duy nhất cho cả bốn mục: bản từ CMS phải không nghèo hơn bản
      HTML viết tay thì mới được thay vào.
@@ -416,6 +417,9 @@
   var KHO_ANH = { thuong: '', cao: ' shot--tall', rong: ' shot--wide' };
 
   function veThuVien(ds) {
+    // mục này nay chứa cả ảnh tư liệu của trang Lịch sử, lọc lấy đúng phần
+    // thuộc trang Tin tức. Bản ghi cũ chưa có ô khu thì coi như thu-vien.
+    ds = ds.filter(function (r) { return !r.khu || r.khu === 'thu-vien'; });
     var el = doc.querySelector('[data-cms="thu-vien-anh"]');
     if (!el) return;
     var h = ds.slice().sort(theoThuTu).map(function (r) {
@@ -695,6 +699,29 @@
 
       thayNeuDu(el, 'Vở diễn — ' + nhom, h);
     });
+
+    /* Mục "Theo giai đoạn phát triển" xếp theo TRỤC KHÁC: cùng một vở có
+       thể vừa thuộc một thể loại vừa thuộc một chặng đường. Nên nó đọc ô
+       "Chặng đường" của chính mục Vở diễn chứ không cần mục riêng — vở nào
+       bỏ trống ô đó thì không xuất hiện ở đây. */
+    var oGd = doc.querySelector('[data-cms="giai-doan"]');
+    if (oGd) {
+      var ten = [], theo = {};
+      ds.forEach(function (r) {
+        var k = (r.giaiDoan || '').trim();
+        if (!k) return;
+        if (!theo[k]) { theo[k] = []; ten.push(k); }
+        theo[k].push(r);
+      });
+      if (ten.length) {
+        thayNeuDu(oGd, 'Theo giai đoạn phát triển', ten.map(function (k) {
+          var coNam = theo[k].some(function (r) { return r.nam; });
+          return '<h3 class="works__sub">' + esc(k) + '</h3>'
+            + '<div class="works' + (coNam ? '' : ' works--plain') + '">'
+            + theo[k].map(theNho).join('') + '</div>';
+        }).join(''));
+      }
+    }
     // thẻ vừa bị thay hết, bộ lọc bên script.js phải đếm lại và áp lại
     if (global.LocVo) global.LocVo.lamMoi();
   }
@@ -820,6 +847,120 @@
     }
   }
 
+
+  /* ----------------------------------------------------------
+     KHỐI NỘI DUNG (9 vùng rải trên các trang)
+
+     Chín vùng cùng một khuôn "dòng nhỏ + tiêu đề + mô tả", nên bên CMS gộp
+     vào một mục và phân biệt bằng ô Khu vực. Ở đây mỗi khu chỉ khác nhau ở
+     lớp CSS và thẻ bọc, nên dùng chung một bộ dựng.
+     ---------------------------------------------------------- */
+
+  var ICON = {
+    ve: '<path d="M3 8.5A2 2 0 0 0 5 6.5h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 3v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-3v-2z"/><path d="M14 6.5v11" stroke-dasharray="2 2.4"/>',
+    gio: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.2V12l3.2 2" stroke-linecap="round"/>',
+    xe: '<path d="M4 16V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9"/><path d="M3 16h18"/><circle cx="7.5" cy="18" r="1.6"/><circle cx="16.5" cy="18" r="1.6"/><path d="M4 10h16"/>',
+    hoc: '<path d="M12 4.5 21 9l-9 4.5L3 9l9-4.5z" stroke-linejoin="round"/><path d="M7 11v4.5c0 1.4 2.2 2.5 5 2.5s5-1.1 5-2.5V11"/>',
+    sao: '<path d="m12 4 2.3 5.1 5.7.6-4.2 3.8 1.2 5.5L12 16.3 7 19l1.2-5.5L4 9.7l5.7-.6z" stroke-linejoin="round"/>'
+  };
+
+  /* Mỗi khu: mã trong HTML, khuôn dựng một thẻ. */
+  var KHU = {
+    'nhanh': { chon: '[data-cms="khoi-nhanh"]', ten: 'Thông tin nhanh', ve: function (r) {
+      var i = ICON[r.bieuTuong] || ICON.sao;
+      return '<div class="quickinfo__item">'
+        + '<span class="quickinfo__ico" aria-hidden="true">'
+        + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">' + i + '</svg></span>'
+        + '<div><h4>' + esc(r.tieuDe || '') + '</h4><p>' + esc(r.moTa || '') + '</p></div></div>';
+    } },
+    'gioi-thieu-su-menh': { chon: '[data-cms="khoi-su-menh"]', ten: 'Bốn nhiệm vụ', ve: function (r, i) {
+      return '<article class="mission"><span class="mission__num">' + hai(i + 1) + '</span>'
+        + '<h3>' + esc(r.tieuDe || '') + '</h3><p>' + esc(r.moTa || '') + '</p></article>';
+    } },
+    'gioi-thieu-gia-tri': { chon: '[data-cms="khoi-gia-tri"]', ten: 'Ba thành tố', ve: function (r) {
+      return '<article class="value"><h3>' + esc(r.tieuDe || '') + '</h3>'
+        + '<p>' + esc(r.moTa || '') + '</p></article>';
+    } },
+    'gioi-thieu-chuc-nang': { chon: '[data-cms="khoi-chuc-nang"]', ten: 'Chức năng & Năng lực', ve: function (r) {
+      return '<article class="capa"><h3>' + esc(r.tieuDe || '') + '</h3>'
+        + '<p>' + esc(r.moTa || '') + '</p></article>';
+    } },
+    'huong-dan': { chon: '[data-cms="khoi-huong-dan"]', ten: 'Hướng dẫn đặt chỗ', ve: function (r) {
+      return '<article class="capa"><h3>' + esc(r.tieuDe || '') + '</h3>'
+        + '<p>' + esc(r.moTa || '') + '</p></article>';
+    } },
+    'phan-thuong': { chon: '[data-cms="khoi-phan-thuong"]', ten: 'Phần thưởng cao quý', ve: function (r) {
+      return '<article class="award' + (r.noiBat ? ' award--top' : '') + '">'
+        + '<p class="award__year">' + esc(r.nhan || '') + '</p>'
+        + '<h3>' + esc(r.tieuDe || '')
+        + (r.ghiChu ? '<br /><span class="award__sub">' + esc(r.ghiChu) + '</span>' : '')
+        + '</h3></article>';
+    } },
+    'liet-si': { chon: '[data-cms="khoi-liet-si"]', ten: 'Tưởng nhớ liệt sĩ', ve: function (r) {
+      return '<article class="martyr">'
+        + (r.nhan ? '<p class="martyr__role">' + esc(r.nhan) + '</p>' : '')
+        + '<h4>' + esc(r.tieuDe || '') + '</h4>'
+        + (r.ghiChu ? '<p class="martyr__note">' + esc(r.ghiChu) + '</p>' : '')
+        + '</article>';
+    } }
+  };
+
+  function veKhoiTrang(ds) {
+    ds = ds.slice().sort(theoThuTu);
+
+    Object.keys(KHU).forEach(function (ma) {
+      var k = KHU[ma];
+      var el = doc.querySelector(k.chon);
+      if (!el) return;
+      var cua = ds.filter(function (r) { return r.khu === ma; });
+      if (!cua.length) return;
+      thayNeuDu(el, k.ten, cua.map(k.ve).join(''));
+    });
+
+    /* Đôi nét: mấy đoạn văn xuôi, không phải thẻ, nên không đo bằng
+       thayNeuDu được — đoạn đầu in đậm hơn (.prose__lead). */
+    var oNet = doc.querySelector('[data-cms="khoi-doi-net"]');
+    if (oNet) {
+      var doan = ds.filter(function (r) { return r.khu === 'gioi-thieu-doi-net' && r.moTa; });
+      if (doan.length) {
+        oNet.innerHTML = doan.map(function (r, i) {
+          return '<p' + (i === 0 ? ' class="prose__lead"' : '') + '>' + esc(r.moTa) + '</p>';
+        }).join('');
+      }
+    }
+
+    /* Tầm nhìn: một bản ghi, chỉ thay chữ trong hai thẻ có sẵn. */
+    var tn = ds.filter(function (r) { return r.khu === 'gioi-thieu-tam-nhin'; })[0];
+    if (tn) {
+      var oTd = doc.querySelector('[data-cms-tn="tieuDe"]');
+      var oMt = doc.querySelector('[data-cms-tn="moTa"]');
+      if (oTd && tn.tieuDe) oTd.textContent = tn.tieuDe;
+      if (oMt && tn.moTa) oMt.textContent = tn.moTa;
+    }
+  }
+
+  /* ----------------------------------------------------------
+     TƯ LIỆU & HÌNH ẢNH (trang Lịch sử)
+     Dùng chung mục Thư viện ảnh bên CMS, lọc theo ô Khu vực.
+     ---------------------------------------------------------- */
+
+  function veTuLieu(ds) {
+    var el = doc.querySelector('[data-cms="tu-lieu"]');
+    if (!el) return;
+    var cua = ds.slice().sort(theoThuTu).filter(function (r) { return r.khu === 'tu-lieu'; });
+    if (!cua.length) return;
+
+    thayNeuDu(el, 'Tư liệu & hình ảnh', cua.map(function (r) {
+      var a = anhCua(r);
+      if (!a) return '';
+      var ct = r.chuThich || '';
+      return '<figure class="archive__item"><div class="archive__art">'
+        + '<button type="button" class="archive__zoom" aria-label="Phóng to ảnh">'
+        + '<img src="' + esc(a) + '" alt="' + esc(ct) + '" loading="lazy" /></button></div>'
+        + '<figcaption>' + esc(ct) + (r.nguon ? ' · ' + esc(r.nguon) : '') + '</figcaption></figure>';
+    }).join(''));
+  }
+
   /* ----------------------------------------------------------
      Mỗi mục chỉ gọi Firestore khi trang thật sự có khối tương ứng —
      trang chủ không việc gì phải tải 46 vở diễn.
@@ -843,6 +984,8 @@
   }
 
   function napKhoiTinh() {
+    napMuc('khoi-trang', '[data-cms^="khoi-"], [data-cms-tn]', veKhoiTrang);
+    napMuc('thu-vien-anh', '[data-cms="tu-lieu"]', veTuLieu);
     napMuc('anh-bia', '[data-cms="anh-bia"]', veAnhBia);
     napMuc('dau-moc', '[data-cms="dau-moc"]', veDauMoc);
     napMuc('thong-tin', '[data-tt]', veThongTin);
