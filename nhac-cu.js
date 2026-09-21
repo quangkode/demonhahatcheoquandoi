@@ -59,7 +59,8 @@
    THÊM NHẠC CỤ MỚI
    ----------------------------------------------------------
    Thả tệp .glb vào mo-hinh/ rồi thêm một dòng vào bảng NHAC_CU dưới đây.
-   Yêu cầu kỹ thuật của tệp ghi ở mo-hinh/HUONG-DAN.md.
+   Tệp phải là .glb (glTF 2.0 đóng gói một tệp), trục Y hướng lên, cỡ thật
+   tính bằng mét, dưới 3 MB và dưới 60 nghìn tam giác.
    ========================================================== */
 'use strict';
 

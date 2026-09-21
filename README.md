@@ -225,22 +225,23 @@ Phần thưởng của bản thân Nhà hát (huân chương, danh hiệu Anh h�
   chủ. Đừng dùng lẫn: thả ảnh đầy đủ vào khung tròn là mặt bé tí và lệch khỏi tâm.
 - Ảnh toàn cảnh 360° của trang Trải nghiệm để ở `anh/360/`. **Khán phòng đã có ảnh
   chụp thật** tại Nhà hát; ba cảnh còn lại (`san-khau`, `tien-sanh`, `hau-truong`)
-  `styles.css` vẫn vẽ bằng gradient mô phỏng. Yêu cầu kỹ thuật (ảnh cầu 2:1), cách
-  lắp vào CSS, cách kiểm ảnh có đủ 360° thật không, và prompt dựng ảnh bằng AI nằm ở
-  `anh/360/HUONG-DAN.md`.
+  `styles.css` vẫn vẽ bằng gradient mô phỏng. Ảnh phải là ảnh cầu đúng tỉ lệ 2:1,
+  nên 8192 × 4096, đường chân trời nằm giữa ảnh.
 - `anh/nhac-cu/` đựng **tấm phông sân khấu** `nen-san-khau.webp` — rèm nhung đỏ và
-  sàn gỗ, kéo lên che kín cảnh 360 khi mở hộp nhạc cụ. Ảnh dựng bằng AI. Yêu cầu
-  ảnh thay thế ở `anh/nhac-cu/HUONG-DAN.md`.
+  sàn gỗ, kéo lên che kín cảnh 360 khi mở hộp nhạc cụ. Ảnh dựng bằng AI. Thay ảnh khác
+  thì phải đúng tỉ lệ 3:2 và vạch chân sàn nằm quanh 77% bề cao ảnh.
 - `mo-hinh/` đựng **mô hình 3D `.glb`** của nhạc cụ — **đã có sáu tệp và đã chạy**:
   bấm cái hộp giữa đáy màn lúc xem 360 toàn màn hình thì phông sân khấu kéo lên,
   sáu nhạc cụ lần lượt mọc khỏi mặt sàn, xếp hàng và xoay tròn chầm chậm; chạm vào
   cây nào thì cây đó bay thẳng lên tại chỗ tới ngang giữa khung hình, dưới một luồng
   đèn rọi, cả sân khấu còn lại tối đi. Chạm được nhiều cây một lúc. Dựng bằng
   `nhac-cu.js` (three.js nạp động từ CDN — **thư viện ngoài duy nhất của cả trang**,
-  chỉ tải khi thật sự vào toàn màn hình). Yêu cầu tệp ở `mo-hinh/HUONG-DAN.md`.
+  chỉ tải khi thật sự vào toàn màn hình). Tệp phải là `.glb`, trục Y hướng lên,
+  cỡ thật tính bằng mét, dưới 3 MB và dưới 60 nghìn tam giác.
 - `am/nhac-cu/` đựng **tiếng nhạc cụ**: chạm vào cây nào thì cây đó kêu. Đường dẫn
   đã nối sẵn, thả `.mp3` đúng tên là tự chạy. Hiện **chưa có tệp nào** nên chạm vào
-  vẫn bay lên vẫn sáng đèn, chỉ là im. Yêu cầu ở `am/nhac-cu/HUONG-DAN.md`.
+  vẫn bay lên vẫn sáng đèn, chỉ là im. Mỗi tệp `.mp3` mono dài 1–3 giây,
+  cắt sạch khoảng lặng đầu tệp.
 
 ## Nội dung: cái nào thật, cái nào còn là dữ liệu mẫu
 
