@@ -107,9 +107,23 @@ const Z_VAT = 6;       // hàng nhạc cụ trước nhất đứng xa chừng n
    nở ra đủ chỗ xếp mấy hàng. Màn ngang cũng đẹp hơn: bớt rèm, thêm sàn. */
 const V_MAX = 0.78;
 
-const V_SAN = 0.17;    // vạch chân hàng TRƯỚC nhất, tính trên ảnh (0 là đáy ảnh)
-const V_LUI = 0.058;   // lùi một hàng thì vạch chân nhích lên chừng này
+const V_SAN = 0.17;    // vạch chân chỗ TRƯỚC nhất của vòng cung (0 là đáy ảnh)
+const V_LUI = 0.058;   // lùi một nấc thì vạch chân nhích lên chừng này
 const Z_LUI = 0.32;    // và đứng xa thêm chừng này lần
+
+/* Độ cong của vòng cung, tính bằng nấc lùi. Hai đầu cung đứng sát mép sàn,
+   mấy cây giữa lùi sâu nhất — kiểu dàn nhạc vây quanh chỗ người xem đứng,
+   chứ không phải một hàng thẳng đuột.
+
+   Màn dọc điện thoại cong sâu hơn: bề ngang chẳng có mấy, muốn giữ nhạc cụ
+   đủ to để bấm trúng thì phải lấy chỗ theo CHIỀU SÂU. */
+const SAU_CUNG = 1.60;
+const SAU_HEP  = 2.10;
+/* Và so le thêm từng cây một khi màn hẹp: giữa cung đường cong gần như nằm
+   ngang, hai cây kề nhau sâu bằng nhau, chồng mép là bấm trượt. */
+const ZIC_HEP  = 0.50;
+/* Bù cái teo do đứng xa: 0 là để nguyên phối cảnh, 1 là sáu cây to bằng nhau. */
+const BU_XA    = 0.55;
 const RONG  = 0.88;    // hàng nhạc cụ trải bao nhiêu phần bề ngang khung
 const CAO   = 0.30;    // cạnh chuẩn của nhạc cụ, tính theo bề cao thấy được
 
@@ -120,7 +134,15 @@ const TIA_R   = 2.2;   // và loe ra gấp chừng này bán kính nhạc cụ
    nó còn nhún lên nhún xuống vài nhịp mới yên — đó chính là cái "bay bay". */
 const K_LO_XO = 6.0;
 const D_GIAM  = 2.9;
-const TOC_XOAY = 0.30;   // rad/giây, chừng 21 giây một vòng
+/* Quét qua quét lại 180 độ thay vì xoay tròn một chiều.
+
+   Đi hết nửa vòng rồi quay ngược: người xem thấy đủ mặt trước lẫn mặt sau mà
+   không phải đợi hết vòng. Dùng (1 - cos)/2 nên nó CHẬM LẠI Ở HAI ĐẦU — đọng
+   lâu ở mặt trước và mặt sau, lướt nhanh qua lúc quay cạnh. Xoay tròn đều thì
+   ngược lại, cứ vài giây một lần cả cây sáo lẫn giàn cồng chiêng lại biến
+   thành một vệt mỏng. */
+const BIEN_QUET = Math.PI;   // đi hết 180 độ rồi vòng lại
+const TOC_XOAY = 0.30;   // rad/giây, chừng 21 giây một lượt đi-về
 
 const KHUNG = document.getElementById('pano');
 if (KHUNG) khoiDong(KHUNG);
@@ -419,6 +441,9 @@ function khoiDong(khung) {
       hien: 0,                            // 0..1, mức độ đã mọc lên khỏi sàn
       nhan: 0,                            // cú chạm vừa rồi, để nảy phồng một nhịp
       cho: 0,                             // giây còn phải nằm im dưới sàn
+      goc0: n.quay * Math.PI / 180,       // góc ban đầu: mặt đẹp hướng ra ngoài
+      quet: 0,                            // pha của cái quét 180 độ
+      tran: 0,                            // mép trên khung ở độ sâu của cây này
       pha: Math.random() * Math.PI * 2,
       am: null, amHong: false,
     });
@@ -453,19 +478,34 @@ function khoiDong(khung) {
        Cào phẳng hẳn về cùng một cạnh thì cái mõ to ngang cây đàn nguyệt, nhìn
        như đồ chơi. Căn bậc hai giữ đúng thứ tự to nhỏ mà nén khoảng cách lại:
        0,67 với 1,46 rốt cuộc chỉ còn chênh nhau 1,5 lần. */
-    const tyGoc = (b) => b.cai.co * CANH / Math.sqrt(b.kt1);
+    /* Bù lại một PHẦN cái teo do đứng xa.
 
-    /* Mấy hàng sâu, và cây nào đứng hàng nào.
+       Cây giữa cung lùi xa hơn cây ngoài đầu cung gần một phần ba, để nguyên
+       phối cảnh thì nó bé hơn hẳn — nhìn ra "mấy cây giữa bị teo" chứ không ra
+       vòng cung. Bù trọn thì lại mất hết cảm giác sâu, sáu cây to bằng nhau
+       dán trên một tấm phẳng. Bù non nửa là vừa: vẫn thấy xa gần mà cây nào
+       cũng đủ to để bấm. */
+    const tyGoc = (b) => b.cai.co * CANH * Math.pow(zCua(b) / Z_VAT, BU_XA) / Math.sqrt(b.kt1);
 
-       Xếp ZÍCH ZẮC: đi từ trái sang phải đúng thứ tự bảng, nhưng cứ mỗi cây
-       lại lùi thêm một nấc chiều sâu rồi quay về. Xếp thành lưới ngay ngắn thì
-       cả cột bên trái chồng lên nhau thành một đống — đo thật trên màn 390px,
-       đàn nguyệt và sáo rơi trúng cùng một điểm bấm. Zích zắc thì hai cây cạnh
-       nhau vừa lệch ngang vừa lệch sâu, tách ra rõ ràng. */
+    /* VÒNG CUNG: cây nào lùi bao nhiêu nấc.
+
+       Đi từ trái sang phải, độ lùi theo đường cong (1 - s²) — hai đầu cung sát
+       mép sàn, mấy cây giữa lùi sâu nhất. Lùi sâu thì vạch chân nhích lên cao
+       trên tấm phông và cây nhỏ đi theo phối cảnh, nên chân sáu cây vẽ thành
+       một đường cong chứ không phải một hàng thẳng.
+
+       Bẻ cong theo CHIỀU SÂU chứ không kéo lệch bề ngang: cong bằng bề ngang
+       thì hai đầu cung bị đẩy ra ngoài khung, mà khung này lúc dọc lúc ngang.
+
+       Thêm một nấc so le xen kẽ khi màn hẹp, vì lý do ở ZIC_HEP. */
     const n = vat.length;
-    const cot = Math.max(2, Math.min(n, Math.round(ti * 3.4)));
-    const soHang = Math.ceil(n / cot);
-    vat.forEach((b, i) => { b.hg = soHang > 1 ? i % soHang : 0; });
+    const hep = Math.max(0, Math.min(1, (1.45 - ti) / 0.85));
+    const sauCung = SAU_CUNG + (SAU_HEP - SAU_CUNG) * hep;
+    const zic = ZIC_HEP * hep;
+    vat.forEach((b, i) => {
+      const s = n > 1 ? (2 * i / (n - 1)) - 1 : 0;
+      b.hg = (1 - s * s) * sauCung + (i % 2) * zic;
+    });
 
     const zCua = (b) => Z_VAT * (1 + Z_LUI * b.hg);
     const vCua = (b) => V_SAN + V_LUI * b.hg;
@@ -479,7 +519,7 @@ function khoiDong(khung) {
        chồng mép lên nhau một chút vẫn đọc ra hai vật, mà giữ được cỡ đủ to để
        bấm trúng. Ép cho không chồng tí nào thì trên điện thoại mỗi cây còn
        chừng 60 điểm ảnh, bé như con tem. */
-    const cho = RONG * (1 + 0.30 * (soHang - 1));
+    const cho = RONG * (1 + 0.30 * (sauCung + zic));
     const thu = tong > cho ? cho / tong : 1;
     if (thu < 1) { vat.forEach((b) => datCo(b, tyGoc(b) * thu)); tong *= thu; }
 
@@ -502,7 +542,11 @@ function khoiDong(khung) {
          thì giàn cồng chiêng đè lên hàng xóm. Trộn đôi bên là vừa. */
       const theoBe = c1 > c0 ? (giua[i] - c0) / (c1 - c0) : 0.5;
       const deu = n > 1 ? i / (n - 1) : 0.5;
-      let u = a0 + (0.5 * theoBe + 0.5 * deu) * (a1 - a0);
+      /* Màn càng hẹp càng nghiêng về CHIA ĐỀU. Theo bề ngang thì cây sáo với
+         cây đàn nhị chiếm ít chỗ nên bị dồn sát hàng xóm, mà trên màn dọc thì
+         sát nhau vài chục điểm ảnh là bấm trượt. */
+      const troi = 0.5 - 0.2 * hep;
+      let u = a0 + (troi * theoBe + (1 - troi) * deu) * (a1 - a0);
       u = Math.max(le + w[i] / 2, Math.min(1 - le - w[i] / 2, u));
       const z = zCua(b);
       b.nha.set((2 * u - 1) * z * tan * ti, yAnh(vCua(b), z), -z);
@@ -514,6 +558,10 @@ function khoiDong(khung) {
          khung lại sát sàn thì vẫn nhấc tối thiểu một đoạn, không thì chạm vào
          chẳng thấy nó nhúc nhích. */
       b.bay.set(b.nha.x, Math.max(b.nha.y + 0.35, -b.cao / 2), b.nha.z);
+      /* Mép trên khung ở đúng độ sâu của cây. Dùng cho cả lúc kéo tay lẫn lúc
+         lò xo đưa cây về chỗ — không có nó thì một cú hất mạnh là cây bay
+         thẳng ra ngoài khung hình rồi mới chịu rơi xuống. */
+      b.tran = Math.max(b.nha.y + 0.05, z * tan - b.cao);
       datLuong(b);
     });
   }
@@ -550,6 +598,9 @@ function khoiDong(khung) {
     vat.forEach((b, i) => {
       b.sang = false; b.tay = false;
       b.len = 0; b.hien = 0; b.nhan = 0;
+      /* Pha quét bắt đầu từ 0 nên cây nào cũng hiện ra ĐÚNG MẶT ĐẸP. Lệch nhau
+         một chút theo thứ tự để sáu cây khỏi quét răm rắp như một. */
+      b.quet = i * 0.12;
       b.boc.position.copy(b.nha);
       b.boc.scale.setScalar(0);
       b.boc.visible = false; b.bong.visible = false;
@@ -662,8 +713,19 @@ function khoiDong(khung) {
       b.boc.scale.setScalar(nayHien * (1 + b.nhan * 0.12));
       if (b.hien < 0.999 || b.nhan > 0.01) con = true;
 
-      // xoay tròn chầm chậm như bàn xoay trưng bày, cả lúc nằm sàn lẫn lúc bay
-      if (!itDong) b.boc.rotation.y += TOC_XOAY * dt;
+      /* Quét qua quét lại 180 độ, cả lúc nằm sàn lẫn lúc bay. Đặt góc TUYỆT
+         ĐỐI theo pha chứ không cộng dồn vào rotation.y: cộng dồn thì sai số
+         mỗi khung hình tích lại, một lúc sau hai đầu cung lệch hẳn nhau. */
+      if (!itDong) {
+        /* Đếm bằng THỰC chứ không bằng dt. dt bị chặn trần 0,05 giây để lò xo
+           khỏi nhảy bước quá dài; máy vẽ được 10 khung hình một giây mà đem
+           trần đó ra đếm thì cái quét chạy chậm đi sáu bảy lần, đo thật trên
+           máy chậm: 23 giây mới nhích được 34 độ. Quét không phải vật lý, cứ
+           theo đồng hồ thật là đúng. */
+        b.quet += TOC_XOAY * thuc;
+        if (b.quet > Math.PI * 2) b.quet -= Math.PI * 2;
+        b.boc.rotation.y = b.goc0 + BIEN_QUET * (1 - Math.cos(b.quet)) / 2;
+      }
 
       b.len += ((b.sang ? 1 : 0) - b.len) * Math.min(dt * 4.5, 1);
 
@@ -683,6 +745,11 @@ function khoiDong(khung) {
         if (b.boc.position.y < b.nha.y) {
           b.boc.position.y = b.nha.y;
           if (b.v.y < 0) b.v.y *= -0.25;
+        }
+        // và không cho vọt qua mép trên khung, cũng dội lại một chút
+        if (b.boc.position.y > b.tran) {
+          b.boc.position.y = b.tran;
+          if (b.v.y > 0) b.v.y *= -0.25;
         }
         if (b.v.lengthSq() > 0.0002) con = true;
       }
@@ -746,6 +813,14 @@ function khoiDong(khung) {
     return vat.find((b) => b.cau === cham[0].object) || null;
   }
 
+  /* Độ cao mà tia chuột cắt mặt phẳng đứng đi qua cây, tính theo hệ thế giới. */
+  function yTia(e, b) {
+    tiaDo.setFromCamera(ndc(e), cam);
+    const o = tiaDo.ray.origin, d = tiaDo.ray.direction;
+    if (Math.abs(d.z) < 1e-6) return null;
+    return o.y + d.y * (b.nha.z - o.z) / d.z;
+  }
+
   function chamXuong(e) {
     if (!mo || dangVe) return;
     e.stopPropagation();
@@ -764,7 +839,22 @@ function khoiDong(khung) {
     nhac(b);
     b.nhan = 1; b.tay = true; b.v.set(0, 0, 0);
     keu(b);
-    keoDs.set(e.pointerId, { than: b, yTruoc: b.boc.position.y, lucTruoc: performance.now() });
+    /* Nhớ KHOẢNG LỆCH giữa chỗ bấm và chân cây, rồi kéo theo khoảng lệch đó.
+
+       Bản trước đặt thẳng chân cây xuống dưới điểm bấm đúng nửa bề cao, tức là
+       vừa chạm vào cái là cây nhảy một đoạn cho tâm nó trùng ngón tay. Chạm
+       lần hai — lúc cây đang lơ lửng và ngón tay rơi vào phần trên thân — là
+       nhảy lên gần nửa bề cao trong MỘT khung hình; đoạn nhảy đó chia cho
+       0,008 giây thành vận tốc kịch trần 14, buông tay ra là cây vọt quá mép
+       khung rồi mới chịu rơi xuống. Giữ nguyên khoảng lệch thì chạm là chạm,
+       không nhấc đi đâu cả. */
+    const yt = yTia(e, b);
+    keoDs.set(e.pointerId, {
+      than: b,
+      lech: yt === null ? 0 : b.boc.position.y - yt,
+      yTruoc: b.boc.position.y,
+      lucTruoc: performance.now(),
+    });
     canvas.classList.add('dang-keo');
     batVong();
   }
@@ -779,14 +869,12 @@ function khoiDong(khung) {
     e.stopPropagation();
     const b = k.than;
     /* Kéo CHỈ THEO TRỤC ĐỨNG: cắt tia chuột với mặt phẳng đứng đi qua cây rồi
-       lấy mỗi độ cao, x và z giữ nguyên. Chặn dưới ở mặt sàn, chặn trên ở mép
-       trên khung. */
-    tiaDo.setFromCamera(ndc(e), cam);
-    const o = tiaDo.ray.origin, d = tiaDo.ray.direction;
-    if (Math.abs(d.z) < 1e-6) return;
-    const z = b.nha.z;
-    const tran = -z * Math.tan(FOV * Math.PI / 360) - b.cao;
-    const y = Math.max(b.nha.y, Math.min(tran, o.y + d.y * (z - o.z) / d.z - b.cao / 2));
+       lấy mỗi độ cao, x và z giữ nguyên. Cộng lại khoảng lệch ghi lúc chạm
+       xuống nên cây đi theo ngón tay chứ không giật về dưới ngón tay. Chặn dưới
+       ở mặt sàn, chặn trên ở mép trên khung. */
+    const yt = yTia(e, b);
+    if (yt === null) return;
+    const y = Math.max(b.nha.y, Math.min(b.tran, yt + k.lech));
 
     const nay = performance.now();
     const dt = Math.max((nay - k.lucTruoc) / 1000, 0.008);
