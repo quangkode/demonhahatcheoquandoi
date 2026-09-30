@@ -2181,10 +2181,12 @@ kbd {
 .lienhe__luoi {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;
 }
+/* Không viền, không vạch đỏ bên trái. Bốn thẻ nằm cạnh nhau trên nền kem
+   thì riêng nền trắng đã đủ tách ra; thêm viền với vạch màu vào là bốn cái
+   khung đỏ đứng thành hàng, nặng hơn hẳn phần chữ bên trong. */
 .lhcard {
   display: flex; flex-direction: column; gap: 8px;
   padding: 24px 22px; background: var(--white);
-  border: 1px solid var(--line); border-left: 3px solid var(--red);
   border-radius: var(--r); transition: var(--t);
 }
 .lhcard:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
