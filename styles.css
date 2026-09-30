@@ -1827,8 +1827,7 @@ kbd {
    liền kề bất kỳ đã chênh trung bình 8,5, tức nối liền, không lộ vạch.
 
    CHỖ CHƯA ĐẠT: ảnh mới 1024px ngang, màn 1366 xem toàn màn hình cần 4391px
-   nên đang bị phóng 4,3 lần, nhìn hơi mềm. Có bản gốc to hơn thì thay ngay;
-   cách phóng ghi ở anh/360/HUONG-DAN.md.
+   nên đang bị phóng 4,3 lần, nhìn hơi mềm. Có bản gốc to hơn thì thay ngay.
 
    PHẢI CÓ ?v= VÀ PHẢI TĂNG MỖI LẦN THAY ẢNH.
    vercel.json gắn cho mọi tệp ảnh: Cache-Control: max-age=31536000. Thay tệp
@@ -1836,23 +1835,30 @@ kbd {
    Đổi ?v= là đổi đường dẫn, trình duyệt coi như tệp khác và tải mới. Đây là lý
    do tấm 360 gập đôi đầu tiên còn bám lại sau khi đã thay ảnh. */
 .pano[data-scene="khan-phong"] { --pano: url("./anh/360/khan-phong.webp?v=9"); }
-/* Ba cảnh còn lại. Ảnh do người dùng DỰNG BẰNG AI, không phải ảnh chụp.
+/* Ba cảnh còn lại. Ảnh do người dùng DỰNG BẰNG AI, không phải ảnh chụp —
+   bản thay ngày 30/9/2026, cả ba đều còn dấu sao bốn cánh của máy dựng nằm
+   dưới sàn, lệch khoảng 30 độ về bên trái mối nối.
 
-   Kiểm cùng lối với khán phòng — mối nối trái-phải, quét đủ 360 trục soi gương,
-   rồi mở vùng sau lưng và đối chiếu hai nửa mới dám kết luận:
+   Cả ba vào đây đều là 2880×1440, đúng 2:1, nên không cần data-ti-le. Riêng
+   tấm hậu trường gốc 2912×1440 (2,022): CO bề ngang về 2880 chứ không cắt —
+   cắt mất 32px là hụt mất 4 độ, vòng 360 không còn khép kín.
 
-     sân khấu   5120×2560 · nối 7,4 (nền 10,1) · gương thấp nhất 16,7 (nền 43,9)
-     tiền sảnh  5120×2560 · nối 5,6 (nền  9,4) · gương thấp nhất 29,1 (nền 45,2)
-     hậu trường 2912×1456 · nối 6,3 (nền  9,3) · gương thấp nhất 28,2 (nền 43,3)
+   Kiểm cùng lối với khán phòng — mối nối trái-phải, rồi bày riêng dải 500px
+   hai bên mép đặt liền nhau để nhìn tận mắt:
 
-   Sân khấu chấm 16,7 nên máy báo ngờ gập đôi, nhưng đặt nửa trái cạnh nửa phải
-   lật ngược thì khác nhau rõ: phông vẽ khác, trống khác, diễn viên khác. Thấp là
-   vì khán phòng vốn đối xứng qua trục sân khấu, y như tấm khán phòng.
+     sân khấu   2880×1440 · nối 11,6 (nền 5,2)
+     tiền sảnh  2880×1440 · nối  7,8 (nền 5,0)
+     hậu trường 2880×1440 · nối  8,3 (nền 6,3)
+
+   Con số nối cao hơn nền, nhưng nhìn dải ghép thì cả ba liền mạch không vạch:
+   chỗ khép vòng của ba tấm này rơi đúng vào vùng lắm chi tiết — phông vẽ làng
+   quê, giàn đèn, tủ hiện vật — nên hai cột sát nhau ở đó vốn đã chênh nhiều
+   hơn mức trung bình của cả ảnh. Đo mối nối phải xem kèm mắt là vì vậy.
 
    PHẢI TĂNG ?v= MỖI LẦN THAY ẢNH — lý do ghi dài ở khối khán phòng bên trên. */
-.pano[data-scene="san-khau"]   { --pano: url("./anh/360/san-khau.webp?v=1"); }
-.pano[data-scene="tien-sanh"]  { --pano: url("./anh/360/tien-sanh.webp?v=1"); }
-.pano[data-scene="hau-truong"] { --pano: url("./anh/360/hau-truong.webp?v=1"); }
+.pano[data-scene="san-khau"]   { --pano: url("./anh/360/san-khau.webp?v=2"); }
+.pano[data-scene="tien-sanh"]  { --pano: url("./anh/360/tien-sanh.webp?v=2"); }
+.pano[data-scene="hau-truong"] { --pano: url("./anh/360/hau-truong.webp?v=2"); }
 
 /* ---------- Số liệu nhanh ---------- */
 /* ---------- Thẻ nhạc cụ / tác phẩm ---------- */
