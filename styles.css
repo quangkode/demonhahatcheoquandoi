@@ -40,6 +40,14 @@
 
   --wrap: 1200px;
   --r: 10px;
+  /* Đường viền mảnh của mấy thẻ CÓ ẢNH — vẽ bằng box-shadow chứ không phải
+     border, nên nó nằm NGOÀI mép thẻ.
+
+     Dùng border thì ảnh bên trong bị overflow:hidden cắt theo mép TRONG của
+     viền, mà ở bốn góc bo tròn chỗ cắt ấy không khít: hiện ra một vệt kem
+     nhạt dày 2-3 điểm ảnh ôm lấy góc, trên nền ảnh tối nhìn như trang phía
+     sau lòi ra. Đẩy viền ra ngoài là ảnh chạy thẳng tới mép bo, hết vệt. */
+  --vien-the: 0 0 0 1px var(--line);
   --shadow: 0 6px 24px rgba(28, 26, 23, .08);
   --shadow-lg: 0 16px 48px rgba(28, 26, 23, .14);
   --t: .25s ease;
@@ -393,8 +401,8 @@ kbd {
 
 /* ---------- Tin tức ---------- */
 .news { display: grid; grid-template-columns: 1.15fr 1fr; gap: 30px; }
-.news__lead { background: var(--white); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; transition: var(--t); }
-.news__lead:hover { box-shadow: var(--shadow-lg); }
+.news__lead { background: var(--white); border-radius: var(--r); overflow: hidden; box-shadow: var(--vien-the); transition: var(--t); }
+.news__lead:hover { box-shadow: var(--vien-the), var(--shadow-lg); }
 .news__img { aspect-ratio: 16 / 9; }
 .news__body { padding: 26px; }
 .news__body h3 { font-size: 23px; font-family: var(--serif); margin: 0 0 10px; }
@@ -1812,7 +1820,7 @@ kbd {
 
 .expcard {
   display: flex; flex-direction: column; overflow: hidden;
-  background: var(--white); border: 1px solid var(--line);
+  background: var(--white); box-shadow: var(--vien-the);
   border-radius: var(--r); transition: var(--t);
 }
 .expcard__art {
@@ -1858,7 +1866,7 @@ kbd {
   .pano__hud button:hover,
   .pano__dong:hover { background: var(--red); border-color: var(--red); }
   .pano__moi:hover { background: rgba(12, 10, 9, .72); border-color: rgba(255, 255, 255, .45); }
-  .expcard:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .expcard:hover { transform: translateY(-4px); box-shadow: var(--vien-the), var(--shadow-lg); }
   .expcard:hover .expcard__art--anh img { transform: scale(1.05); }
 }
 
@@ -2007,7 +2015,7 @@ kbd {
 /* ---------- Bài nổi bật ---------- */
 .feature {
   display: grid; grid-template-columns: 1.05fr 1fr;
-  background: var(--white); border: 1px solid var(--line);
+  background: var(--white); box-shadow: var(--vien-the);
   border-radius: var(--r); overflow: hidden; margin-bottom: 30px;
 }
 .feature__art { min-height: 260px; }
@@ -2025,7 +2033,7 @@ kbd {
 .newsgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 22px; }
 .newscard {
   display: flex; flex-direction: column; overflow: hidden;
-  background: var(--white); border: 1px solid var(--line);
+  background: var(--white); box-shadow: var(--vien-the);
   border-radius: var(--r); transition: var(--t);
 }
 .newscard__art { aspect-ratio: 16 / 9; }
@@ -2138,7 +2146,8 @@ kbd {
 @media (hover: hover) and (pointer: fine) {
   .chip:hover { border-color: var(--red); color: var(--red); }
   .chip.is-active:hover { color: #fff; }
-  .feature:hover, .newscard:hover, .videocard:hover { box-shadow: var(--shadow-lg); }
+  .feature:hover, .newscard:hover { box-shadow: var(--vien-the), var(--shadow-lg); }
+  .videocard:hover { box-shadow: var(--shadow-lg); }
   .newscard:hover, .videocard:hover { transform: translateY(-4px); }
   .videocard:hover .videocard__play { transform: scale(1.08); }
   .presscard:hover { box-shadow: var(--shadow); }
