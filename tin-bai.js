@@ -153,12 +153,8 @@
         + '</figure>';
     }
 
-    if (r.noiDung) {
-      h += '<div class="baiviet__than">' + quet(r.noiDung) + '</div>';
-    } else {
-      // Bài cũ chỉ có tóm tắt, chưa lấy toàn văn
-      h += '<p class="baiviet__thieu">Bài này hiện chỉ có phần tóm tắt.</p>';
-    }
+    // chay() đã chặn bài rỗng từ trước, tới đây chắc chắn có nội dung
+    h += '<div class="baiviet__than">' + quet(r.noiDung) + '</div>';
 
     if (r.nguonTen) {
       h += '<aside class="baiviet__nguon">'
@@ -185,6 +181,12 @@
       for (var i = 0; i < ds.length; i++) if (ds[i].id === id) { r = ds[i]; break; }
       if (!r) return bao('Không tìm thấy bài viết', 'Bài này có thể đã bị gỡ.');
       if (r.hienThi === false) return bao('Bài viết đang ẩn', 'Bài này chưa được đăng công khai.');
+      /* Chưa nạp nội dung thì coi như chưa có bài. Trước đây vẫn mở ra rồi
+         ghi "bài này hiện chỉ có phần tóm tắt" — đọc xong chẳng được gì, mà
+         người ta đã mất một cú bấm. */
+      if (!String(r.noiDung || '').replace(/<[^>]*>/g, '').trim()) {
+        return bao('Không tìm thấy bài viết', 'Bài này chưa có nội dung, hoặc đã bị gỡ.');
+      }
       ve(r);
     })['catch'](function (e) {
       bao('Không tải được bài viết', e && e.message ? e.message : '');

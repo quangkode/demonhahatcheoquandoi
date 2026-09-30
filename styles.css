@@ -2928,11 +2928,6 @@ kbd {
 }
 .baiviet__than th { background: rgba(0, 0, 0, .03); font-weight: 600; }
 
-.baiviet__thieu {
-  padding: 16px 18px; border-radius: 10px;
-  background: rgba(255, 205, 0, .12); border: 1px solid rgba(255, 205, 0, .4);
-}
-
 /* Khối dẫn nguồn cuối bài. Bắt buộc có với mọi bài lấy từ báo về. */
 .baiviet__nguon {
   margin: 40px 0 0; padding: 20px 22px;

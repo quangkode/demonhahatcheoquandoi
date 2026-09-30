@@ -308,8 +308,19 @@
     if (global.console) global.console.warn('Không đọc được tin tức từ CMS:', loi);
   }
 
+  /* Bài đã nạp đủ nội dung chưa. Ô "Nội dung bài" bên CMS trống nghĩa là
+     bài mới có mỗi cái tóm tắt — bấm vào chỉ ra một trang cụt ghi "bài này
+     hiện chỉ có phần tóm tắt" rồi hết. Coi như chưa đăng. */
+  function duNoiDung(r) {
+    return !!String(r && r.noiDung || '').replace(/<[^>]*>/g, '').trim();
+  }
+
   function napTin() {
     return global.Kho.danhSachHien('tin-tuc').then(function (ds) {
+      /* Lọc NGAY từ đây nên cả trang chủ lẫn trang Tin tức đều theo một
+         luật: viết xong nội dung bên CMS là bài trôi thẳng ra cả hai chỗ,
+         chưa viết thì không chỗ nào thấy. */
+      ds = ds.filter(duNoiDung);
       var tin = boTrung(ds, function (r) {
         return (r.tieuDe || '') + '|' + String(r.ngay).slice(0, 10);
       });
