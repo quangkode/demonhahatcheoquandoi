@@ -816,13 +816,17 @@ kbd {
 .nam:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 /* --- ray trượt ---
-   Lề hai bên 7% tính theo bề NGOÀI của ray, còn flex-basis của thẻ tính theo bề
-   TRONG (đã trừ lề). Nên đặt thẻ đúng 100% thì bề rộng thẻ luôn bằng bề trong,
-   mà lề mỗi bên lại vừa đúng nửa phần thừa — thẻ đầu và thẻ cuối canh giữa
-   chuẩn như các thẻ giữa. Đổi 100% thành một số nhỏ hơn là hai đầu lệch ngay,
-   thanh tiến độ cũng không chạy hết được. --- */
+   KHÔNG có lề ngang ở đây, lề nằm trong .chuong. Trước kia ray chừa 7% mỗi
+   bên cho thẻ bên cạnh ló ra một dải làm gợi ý "còn chặng nữa" — nhưng vùng
+   đệm của một khung cuộn vẫn hiện nội dung, nên ở mép phải lúc nào cũng thấy
+   lưng chừng mấy dòng chữ của chặng sau, chữ nhỏ xíu cụt ngủn.
+
+   Nay thẻ rộng đúng bằng ray, chặng bên cạnh nằm hẳn ngoài khung. Vẫn biết
+   còn chặng nữa nhờ thanh mốc năm phía trên, hai nút mũi tên phía dưới, và
+   chính lúc kéo thì chặng sau trôi vào. Thẻ vẫn phải để đúng 100%: nhỏ hơn
+   là hai đầu lệch, thanh tiến độ không chạy hết được. --- */
 .dttg__ray {
-  display: block; padding: 26px 7% 30px;
+  display: block; padding: 26px 0 30px;
   overflow-x: auto; overflow-y: hidden;
   scroll-snap-type: x mandatory; scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch; scrollbar-width: none;
@@ -831,13 +835,17 @@ kbd {
 .dttg__ray::-webkit-scrollbar { display: none; }
 .dttg__ray:focus-visible { outline: 2px solid var(--gold); outline-offset: -4px; }
 
+/* Lề ngang gộp cả phần ray nhường lại (7%) lẫn lề vốn có của thẻ (4% của bề
+   ngang thẻ cũ, tức 3,4% bề ngang ray) — chữ đứng đúng chỗ cũ. */
 .chuong {
   flex: 0 0 100%; scroll-snap-align: center;
-  position: relative; min-width: 0; padding: 10px 4% 0;
+  position: relative; min-width: 0; padding: 10px 10.4% 0;
   display: flex; gap: 30px;
 }
 .chuong__bong {
-  position: absolute; right: 2%; top: -34px; z-index: 0;
+  /* 8,7% = 7% ray nhường lại + 1,7% lề cũ của thẻ, để con số to nằm nguyên
+     chỗ cũ so với mép khung. */
+  position: absolute; right: 8.7%; top: -34px; z-index: 0;
   font-family: var(--serif); font-weight: 900;
   font-size: clamp(120px, 17vw, 260px); line-height: .9;
   color: rgba(255, 205, 0, .07);
@@ -1028,8 +1036,8 @@ kbd {
      header, nội dung trang lộ ra giữa hai thanh dính. */
   .missions, .capabilities { grid-template-columns: 1fr; }
   .awards { grid-template-columns: repeat(2, 1fr); }
-  .dttg__ray { padding: 22px 6% 26px; }
-  .chuong { padding: 8px 2% 0; flex-direction: column; gap: 18px; }
+  .dttg__ray { padding: 22px 0 26px; }
+  .chuong { padding: 8px 7.8% 0; flex-direction: column; gap: 18px; }
   /* xếp dọc thì cho ảnh lên trước: nhìn thấy ảnh rồi mới đọc chữ */
   /* màn hẹp thì chữ trải hết bề ngang, ảnh không còn chỗ nào trống mà nấp —
      cho phủ trọn thẻ nhưng mờ hẳn đi, chỉ còn là chút không khí phía sau */
@@ -1057,7 +1065,7 @@ kbd {
   .award--top { flex-direction: column; align-items: flex-start; gap: 10px; }
   .decree { padding: 22px 20px; }
   .dttg__thanh { padding: 18px 16px 8px; }
-  .dttg__ray { padding: 20px 6% 22px; }
+  .dttg__ray { padding: 20px 0 22px; }
   .dttg__dieu { padding: 0 16px 20px; }
   .nam { padding: 7px 12px; }
   .nam b { font-size: 18px; }
