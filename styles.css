@@ -1315,8 +1315,9 @@ kbd {
 .bkdone__sub { margin: 0 0 28px; color: var(--ink-soft); }
 
 .ticket {
-  text-align: left; background: var(--white); border: 1px solid var(--line);
-  border-radius: var(--r); overflow: hidden; box-shadow: var(--shadow);
+  text-align: left; background: var(--white);
+  border-radius: var(--r); overflow: hidden;
+  box-shadow: var(--vien-the), var(--shadow);
 }
 .ticket__head {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
@@ -1893,8 +1894,9 @@ kbd {
 /* ---------- Dấu mốc ---------- */
 .milestones { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
 .milestone {
-  background: var(--white); border: 1px solid var(--line);
+  background: var(--white); border: 0;
   border-left: 3px solid var(--red); border-radius: var(--r);
+  box-shadow: var(--vien-the);
   padding: 22px 20px; transition: var(--t);
   overflow: hidden;
 }
@@ -1990,7 +1992,7 @@ kbd {
 .lightbox__close:hover { background: rgba(255, 255, 255, .26); }
 
 @media (hover: hover) and (pointer: fine) {
-  .milestone:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+  .milestone:hover { transform: translateY(-3px); box-shadow: var(--vien-the), var(--shadow); }
 }
 
 /* ==========================================================
@@ -2323,9 +2325,9 @@ kbd {
 }
 .laurel {
   position: relative; overflow: hidden;
-  background: var(--white); border: 1px solid var(--line);
+  background: var(--white); box-shadow: var(--vien-the);
   border-radius: var(--r); padding: 20px 22px 20px 26px;
-  transition: transform var(--t), box-shadow var(--t), border-color var(--t);
+  transition: transform var(--t), box-shadow var(--t);
 }
 /* dải đứng bên trái báo hạng giải cao nhất mà vở đạt được */
 .laurel::before {
@@ -2383,7 +2385,7 @@ kbd {
 [data-work^="huyen-nu"] .expcard__art         { --c1: #4a2440; --c2: #c093ae; }
 
 @media (hover: hover) and (pointer: fine) {
-  .laurel:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: var(--shadow-lg); }
+  .laurel:hover { transform: translateY(-3px); box-shadow: 0 0 0 1px var(--gold), var(--shadow-lg); }
   .shot__zoom:hover img { transform: scale(1.06); }
   .shot__zoom:hover::after { background-color: var(--red); }
 }
@@ -2505,7 +2507,7 @@ kbd {
 .leader__img {
   aspect-ratio: var(--leader-crop); overflow: hidden;
   border-radius: var(--r); background: var(--cream-2);
-  border: 1px solid var(--line); box-shadow: var(--shadow);
+  box-shadow: var(--vien-the), var(--shadow);
 }
 .leader__img img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
 /* Ảnh lãnh đạo là chân dung dọc, cắt "top" để bỏ dải chú thích in sẵn ở đáy ảnh.
@@ -2524,7 +2526,7 @@ kbd {
 /* ô chưa có tư liệu: gạch chéo mờ cho thấy rõ là chỗ trống chờ điền,
    dùng lại đúng ngôn ngữ của .soon ở trang Lịch sử */
 .leader--blank .leader__img {
-  border-style: dashed; border-color: var(--sand); box-shadow: none;
+  border: 1px dashed var(--sand); box-shadow: none;
   background:
     repeating-linear-gradient(135deg, rgba(208, 208, 157, .28) 0 8px, transparent 8px 16px),
     var(--cream-2);
@@ -2532,7 +2534,7 @@ kbd {
 .leader--blank h4 { color: var(--ink-soft); font-weight: 500; }
 
 @media (hover: hover) and (pointer: fine) {
-  .leader:not(.leader--blank):hover .leader__img { box-shadow: var(--shadow-lg); border-color: var(--gold); }
+  .leader:not(.leader--blank):hover .leader__img { box-shadow: 0 0 0 1px var(--gold), var(--shadow-lg); }
 }
 
 @media (max-width: 640px) {
