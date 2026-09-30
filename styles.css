@@ -281,11 +281,7 @@ kbd {
 .hero__dots button.is-active { background: var(--gold); width: 52px; }
 
 /* ---------- Quick info ---------- */
-.quickinfo {
-  background: var(--white); border-bottom: 1px solid var(--line);
-  position: relative; overflow: hidden;
-}
-.quickinfo > * { position: relative; z-index: 1; }
+.quickinfo { background: var(--white); border-bottom: 1px solid var(--line); }
 .quickinfo__grid { display: grid; grid-template-columns: repeat(4, 1fr); }
 .quickinfo__item {
   display: flex; align-items: center; gap: 14px; padding: 26px 22px;
@@ -450,8 +446,7 @@ kbd {
 .artist p { margin: 0; font-size: 13.5px; color: var(--ink-soft); }
 
 /* ---------- CTA ---------- */
-.cta { background: var(--red); color: #fff; padding: 34px 0; position: relative; overflow: hidden; }
-.cta > * { position: relative; z-index: 1; }
+.cta { background: var(--red); color: #fff; padding: 34px 0; }
 .cta__inner { display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
 .cta h2 { font-family: var(--serif); font-size: clamp(24px, 3vw, 34px); margin: 0 0 6px; }
 .cta p { margin: 0; color: rgba(255, 255, 255, .85); max-width: 560px; }
@@ -469,9 +464,9 @@ kbd {
    khối — thương hiệu ở trên, liên hệ bày NGANG thành một dải bốn đầu mối. */
 .footer {
   background: var(--army); color: #c2cfc6; padding-top: 56px; font-size: 14.5px;
-  position: relative; overflow: hidden;
+  /* vạch vàng ::before mép trên nằm absolute, nên khối này phải relative */
+  position: relative;
 }
-.footer > * { position: relative; z-index: 1; }
 /* vạch vàng mảnh vắt ngang mép trên, nối chân trang với dải CTA đỏ phía trên */
 .footer::before {
   content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px;
@@ -558,56 +553,6 @@ kbd {
     radial-gradient(circle at 82% 78%, rgba(0, 0, 0, .3) 0, transparent 48%);
 }
 .pagehero .container { position: relative; z-index: 2; }
-/* ---------- Hoa sen làm nền mờ ----------
-   Cùng một bông với hình nét ở đầu mục Liên hệ, nhưng đây là lớp nền. Vẽ
-   bằng MASK chứ không phải background-image: tệp anh/hoa-sen.svg chỉ đóng
-   vai hình cắt, màu lấy từ currentColor của chỗ đặt — nhờ vậy một tệp dùng
-   được cả trên dải đỏ, dải gradient đầu trang lẫn chân trang xanh, khỏi
-   phải xuất ba tệp ba màu.
-
-   Cả khối nằm trong @supports vì nếu trình duyệt không hiểu mask mà vẫn
-   nhận background: currentColor thì nó vẽ ra một khối chữ nhật đặc — thà
-   không có bông sen còn hơn có một vệt vuông giữa trang.
-
-   Mở rộng sang chỗ khác: thêm position:relative cho khối cha, cho con của
-   nó z-index:1, rồi chép một khối dưới đây và chỉnh cỡ/vị trí. */
-@supports ((-webkit-mask-image: url(a.svg)) or (mask-image: url(a.svg))) {
-  .pagehero::before,
-  .cta::before,
-  .footer::after,
-  .quickinfo::before {
-    content: ""; position: absolute; pointer-events: none;
-    aspect-ratio: 240 / 150; background: currentColor;
-    -webkit-mask: url(./anh/hoa-sen.svg) no-repeat center / contain;
-            mask: url(./anh/hoa-sen.svg) no-repeat center / contain;
-  }
-
-  /* đầu trang: nằm chếch góc phải dưới, tránh khối chữ bên trái.
-     z-index 1 để đè lên .pagehero::after (hai vầng sáng/tối), nếu để mặc
-     định thì ::after vẽ sau và phủ mất bông sen. */
-  .pagehero::before {
-    right: -30px; bottom: -46px; z-index: 1;
-    width: min(430px, 56vw); opacity: .13;
-  }
-  /* dải CTA đỏ: bông sen nhô lên từ mép dưới, canh giữa */
-  .cta::before {
-    left: 50%; transform: translateX(-50%); bottom: -34px; z-index: 0;
-    width: min(380px, 62vw); opacity: .12;
-  }
-  /* chân trang: bông lớn nhất, chìm hẳn xuống đáy */
-  .footer::after {
-    left: 50%; transform: translateX(-50%); bottom: -70px; z-index: 0;
-    width: min(620px, 82vw); opacity: .09;
-  }
-  /* Dải "Thông tin nhanh" ở trang chủ — trang chủ không có .pagehero. Nền
-     trắng, chữ màu mực nên currentColor ra xám đục; đặt riêng color thành
-     vàng đất. Đẩy hẳn ra mép phải để không nằm dưới chữ của ô cuối. */
-  .quickinfo::before {
-    right: -58px; bottom: -40px; z-index: 0;
-    width: min(300px, 46vw); opacity: .13;
-    color: var(--gold-ink);
-  }
-}
 
 .crumb { font-size: 13.5px; color: rgba(255, 255, 255, .75); margin-bottom: 18px; }
 .crumb a:hover { color: var(--gold-light); }
@@ -2213,10 +2158,6 @@ kbd {
 /* nét kẻ dưới tiêu đề nằm absolute left:0, mục này canh giữa nên phải kéo */
 .lienhe__dau .section__title::after { left: 50%; transform: translateX(-50%); }
 
-/* Hoa sen vẽ bằng nét, không tô — cùng kiểu với mấy biểu tượng khác trong
-   trang. Dùng currentColor nên đổi màu chỉ cần đổi color của .sen. */
-.sen { display: block; width: 96px; margin: 0 auto 14px; color: var(--gold-ink); }
-.sen svg { display: block; width: 100%; height: auto; }
 
 .lienhe__luoi {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;
@@ -2250,7 +2191,6 @@ kbd {
 .lienhe__gio { margin: 4px 0 0; font-size: 14px; color: var(--ink-soft); }
 
 @media (max-width: 560px) {
-  .sen { width: 76px; }
   .lienhe__diachi { font-size: 18px; }
 }
 
