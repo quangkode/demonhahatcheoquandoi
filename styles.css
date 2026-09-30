@@ -562,6 +562,42 @@ kbd {
 }
 .pagehero .container { position: relative; z-index: 2; }
 
+/* ---------- Bông sen mờ làm nền ----------
+   Vẽ bằng MASK chứ không phải background-image: tệp anh/hoa-sen.webp chỉ
+   đóng vai hình cắt, màu lấy từ currentColor của chỗ đặt. Nhờ vậy một tệp
+   chạy được cả trên nền kem lẫn nền xanh quân đội — dải Tầm nhìn nền tối,
+   bông sen đỏ đặt lên đó chìm nghỉm, phải đổi sang vàng.
+
+   Khối ::before trải kín cả dải (inset: 0) rồi để mask-size lo phần cỡ và
+   chỗ đứng: "no-repeat center / <bề ngang> auto" là bông sen luôn nằm
+   CHÍNH GIỮA dải và không bao giờ tràn ra ngoài, khỏi cần overflow:hidden
+   — đặt overflow:hidden vào đây là cắt mất bóng đổ của bìa sách.
+
+   Cả khối nằm trong @supports: trình duyệt không hiểu mask mà vẫn nhận
+   background: currentColor thì nó tô kín cả dải thành một mảng màu. */
+@supports ((-webkit-mask-image: url(a.webp)) or (mask-image: url(a.webp))) {
+  .co-sen { position: relative; }
+  /* chữ và ảnh phải nổi lên trên bông sen */
+  .co-sen > * { position: relative; z-index: 1; }
+  .co-sen::before {
+    content: ""; position: absolute; z-index: 0;
+    left: 50%; top: 50%; transform: translate(-50%, -50%);
+    /* Chặn theo CẢ HAI chiều rồi để mask-size: contain lo phần vừa khung.
+       Chặn mỗi bề ngang thì dải nào thấp — như Tầm nhìn — bị cắt mất cánh
+       trên với cánh dưới; đo thật: dải cao 416px mà bông sen 488px. */
+    width: min(560px, 62%); height: min(488px, 72%);
+    pointer-events: none; background: currentColor; opacity: .07;
+    -webkit-mask: url(./anh/hoa-sen.webp) no-repeat center / contain;
+            mask: url(./anh/hoa-sen.webp) no-repeat center / contain;
+  }
+  /* trang chủ · Về chúng tôi — nền kem, chữ màu mực nên phải đặt riêng màu đỏ */
+  .about::before { color: var(--red); }
+  /* Giới thiệu · Tầm nhìn — nền xanh quân đội, lấy vàng và đậm tay hơn một chút */
+  .vision::before { color: var(--gold-light); opacity: .1; }
+  /* Nghệ sĩ · Nghệ sĩ Ưu tú */
+  #nsut::before { color: var(--red); }
+}
+
 .crumb { font-size: 13.5px; color: rgba(255, 255, 255, .75); margin-bottom: 18px; }
 .crumb a:hover { color: var(--gold-light); }
 .crumb span { margin: 0 6px; }
